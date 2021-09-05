@@ -1897,6 +1897,41 @@ class SolutionHead {
     return sb.toString();
   }
 
+  /**
+   * 318. 最大单词长度乘积
+   *
+   * <p>给定一个字符串数组words，找到length(word[i]) * length(word[j])的最大值，
+   *
+   * <p>并且这两个单词不含有公共字母。
+   *
+   * <p>你可以认为每个单词只包含小写字母。如果不存在这样的两个单词，返回 0。
+   */
+  public int maxProduct(String[] words) {
+    Map<Integer, Integer> hashmap = new HashMap<>();
+    int length = words.length;
+    int[] bitMask = new int[length];
+    int bitmask = 0;
+    // 计算每个word的二进制掩码，重复的取最大的字符长长度
+    for (int i = 0; i < length; i++) {
+      char[] charArr = words[i].toCharArray();
+      bitmask = 0;
+      for (char ch : charArr) {
+        bitmask |= 1 << (ch - 'a');
+      }
+      bitMask[i] = bitmask;
+    }
+
+    int maxProd = 0;
+    for (int i = 0; i < length; i++) {
+      for (int j = i + 1; j < length; j++) {
+        if ((bitMask[i] & bitMask[j]) == 0) {
+          maxProd = Math.max(maxProd, words[i].length() * words[j].length());
+        }
+      }
+    }
+    return maxProd;
+  }
+
   public static void main(String[] args) {
     char[][] matrix =
         new char[][] {
