@@ -2029,6 +2029,34 @@ class SolutionHead {
     return ones;
   }
 
+  public static int[] intersect(int[] nums1, int[] nums2) {
+    Map<Integer, Integer> nums1Map = new HashMap<>();
+    for (int num : nums1) {
+      nums1Map.put(num, nums1Map.getOrDefault(num, 0) + 1);
+    }
+    for (int num : nums2) {
+      if (nums1Map.containsKey(num)) {
+        if ((nums1Map.get(num) - 1) == 0) {
+          nums1Map.remove(num);
+        } else {
+          nums1Map.put(num, nums1Map.get(num) - 1);
+        }
+      }
+    }
+    List<Integer> resultList = new ArrayList<>();
+    for (int key : nums1Map.keySet()) {
+      int count = nums1Map.get(key);
+      for (int i = 0; i < count; i++) {
+        resultList.add(key);
+      }
+    }
+    int[] result = new int[resultList.size()];
+    for (int i = 0; i < resultList.size(); i++) {
+      result[i] = resultList.get(i);
+    }
+    return result;
+  }
+
   public static void main(String[] args) {
     char[][] matrix =
         new char[][] {
