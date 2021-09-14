@@ -2077,6 +2077,44 @@ class SolutionHead {
     return memo[amount] == Integer.MAX_VALUE ? -1 : memo[amount];
   }
 
+  /**
+   * 324. 摆动排序 2
+   */
+  public  void wiggleSort(int[] nums) {
+    //桶排序,大的数在后面,小的数在前面,适用于数据集不大的问题
+    int[] bucket = new int[5001];
+    for (int num : nums) {
+        bucket[num]++;
+    }
+    int length = nums.length;
+    //插入大数和小数的上界
+    int small,big;
+    if(length%2==1){
+      small =length-1;
+      big = length-2;
+    }else {
+      small = length-2;
+      big = length-1;
+    }
+    int j=0;
+    //先插入较小的数
+    for (int i=0;i<=small;i+=2){
+      while (bucket[j]==0){
+        j++;
+      }
+      nums[i] = j;
+      bucket[j]--;
+    }
+    // 再把较大的数插入到数组中
+    for (int i = 1; i<=big; i+=2) {
+      while (bucket[j]==0){
+        j++;
+      }
+      nums[i] =j;
+      bucket[j]--;
+    }
+  }
+
   public static void main(String[] args) {
     char[][] matrix =
         new char[][] {
