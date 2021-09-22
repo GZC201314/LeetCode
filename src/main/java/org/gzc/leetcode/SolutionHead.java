@@ -2075,6 +2075,41 @@ class SolutionHead {
     return (x * x == num);
   }
 
+  public String findLongestWord(String s, List<String> dictionary) {
+      int length = s.length();
+      // dp[i][j] 表示字符串s从i位置开始往后,字符j 第一次出现的位置
+      int[][] dp = new int[length+1][26];
+      Arrays.fill(dp[length],length);
+    for (int i = length-1; i >=0 ; i--) {
+      for (int j = 0; j < 26; j++) {
+        if(s.charAt(i) == (char)('a'+j)){
+          dp[i][j] =i;
+        }else {
+          dp[i][j] = dp[i+1][j];
+        }
+      }
+    }
+    String res = "";
+    for (String t : dictionary) {
+        boolean match = true;
+        int tLength = t.length();
+        int j =0;
+        for(int i = 0; i < tLength; i++) {
+         if(dp[j][t.charAt(i)-'a'] == length){
+           match = false;
+           break;
+         }
+         j = dp[j][t.charAt(i)-'a']+1;
+        }
+        if(match){
+          if(t.length()>res.length() ||(t.length() == res.length() && t.compareTo(res)<0))
+            res = t;
+        }
+
+    }
+    return res;
+  }
+
   public static void main(String[] args) {
     char[][] matrix =
         new char[][] {
