@@ -2076,38 +2076,85 @@ class SolutionHead {
   }
 
   public String findLongestWord(String s, List<String> dictionary) {
-      int length = s.length();
-      // dp[i][j] 表示字符串s从i位置开始往后,字符j 第一次出现的位置
-      int[][] dp = new int[length+1][26];
-      Arrays.fill(dp[length],length);
-    for (int i = length-1; i >=0 ; i--) {
+    int length = s.length();
+    // dp[i][j] 表示字符串s从i位置开始往后,字符j 第一次出现的位置
+    int[][] dp = new int[length + 1][26];
+    Arrays.fill(dp[length], length);
+    for (int i = length - 1; i >= 0; i--) {
       for (int j = 0; j < 26; j++) {
-        if(s.charAt(i) == (char)('a'+j)){
-          dp[i][j] =i;
-        }else {
-          dp[i][j] = dp[i+1][j];
+        if (s.charAt(i) == (char) ('a' + j)) {
+          dp[i][j] = i;
+        } else {
+          dp[i][j] = dp[i + 1][j];
         }
       }
     }
     String res = "";
     for (String t : dictionary) {
-        boolean match = true;
-        int tLength = t.length();
-        int j =0;
-        for(int i = 0; i < tLength; i++) {
-         if(dp[j][t.charAt(i)-'a'] == length){
-           match = false;
-           break;
-         }
-         j = dp[j][t.charAt(i)-'a']+1;
+      boolean match = true;
+      int tLength = t.length();
+      int j = 0;
+      for (int i = 0; i < tLength; i++) {
+        if (dp[j][t.charAt(i) - 'a'] == length) {
+          match = false;
+          break;
         }
-        if(match){
-          if(t.length()>res.length() ||(t.length() == res.length() && t.compareTo(res)<0))
-            res = t;
-        }
-
+        j = dp[j][t.charAt(i) - 'a'] + 1;
+      }
+      if (match) {
+        if (t.length() > res.length() || (t.length() == res.length() && t.compareTo(res) < 0))
+          res = t;
+      }
     }
     return res;
+  }
+
+  public int[][] paths = {{-1, 0},{1, 0},{0, -1},{0, 1}};
+  public int rows,columns;
+  public int longestIncreasingPath(int[][] matrix) {
+    if (matrix == null || matrix.length ==0 || matrix[0].length==0){
+      return 0;
+    }
+    rows = matrix.length;
+    columns = matrix[0].length;
+    int[][] outDegrees = new int[rows][columns];
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        for (int[] path : paths) {
+            int newRow = i + path[0],newColumn = j+path[1];
+            if(newRow >=0 && newRow<rows && newColumn >=0 && newColumn <columns && matrix[newRow][newColumn]>matrix[i][j]){
+              ++outDegrees[i][j];
+            }
+        }
+      }
+    }
+    Queue<int[]> queue = new LinkedList<>();
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        if(outDegrees[i][j]==0){
+          queue.offer(new int[]{i,j});
+        }
+      }
+    }
+    int ans =0;
+    while (!queue.isEmpty()){
+      ++ans;
+      int size = queue.size();
+      for(int i = 0; i < size; i++) {
+       int[] cell = queue.poll();
+        int row = cell[0],column = cell[1];
+       for (int[] path : paths) {
+         int newRow = row + path[0],newColumn = column+path[1];
+         if(newRow >=0 && newRow<rows && newColumn >=0 && newColumn <columns && matrix[newRow][newColumn]>matrix[row][column]){
+           --outDegrees[newRow][newColumn];
+           if(outDegrees[newRow][newColumn] ==0){
+             queue.offer(new int[]{newRow,newColumn});
+           }
+         }
+       }
+      }
+    }
+    return ans;
   }
 
   public static void main(String[] args) {
