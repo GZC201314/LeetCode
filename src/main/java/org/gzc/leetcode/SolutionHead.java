@@ -2109,10 +2109,11 @@ class SolutionHead {
     return res;
   }
 
-  public int[][] paths = {{-1, 0},{1, 0},{0, -1},{0, 1}};
-  public int rows,columns;
+  public int[][] paths = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+  public int rows, columns;
+
   public int longestIncreasingPath(int[][] matrix) {
-    if (matrix == null || matrix.length ==0 || matrix[0].length==0){
+    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
       return 0;
     }
     rows = matrix.length;
@@ -2121,40 +2122,84 @@ class SolutionHead {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
         for (int[] path : paths) {
-            int newRow = i + path[0],newColumn = j+path[1];
-            if(newRow >=0 && newRow<rows && newColumn >=0 && newColumn <columns && matrix[newRow][newColumn]>matrix[i][j]){
-              ++outDegrees[i][j];
-            }
+          int newRow = i + path[0], newColumn = j + path[1];
+          if (newRow >= 0
+              && newRow < rows
+              && newColumn >= 0
+              && newColumn < columns
+              && matrix[newRow][newColumn] > matrix[i][j]) {
+            ++outDegrees[i][j];
+          }
         }
       }
     }
     Queue<int[]> queue = new LinkedList<>();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < columns; j++) {
-        if(outDegrees[i][j]==0){
-          queue.offer(new int[]{i,j});
+        if (outDegrees[i][j] == 0) {
+          queue.offer(new int[] {i, j});
         }
       }
     }
-    int ans =0;
-    while (!queue.isEmpty()){
+    int ans = 0;
+    while (!queue.isEmpty()) {
       ++ans;
       int size = queue.size();
-      for(int i = 0; i < size; i++) {
-       int[] cell = queue.poll();
-        int row = cell[0],column = cell[1];
-       for (int[] path : paths) {
-         int newRow = row + path[0],newColumn = column+path[1];
-         if(newRow >=0 && newRow<rows && newColumn >=0 && newColumn <columns && matrix[newRow][newColumn]>matrix[row][column]){
-           --outDegrees[newRow][newColumn];
-           if(outDegrees[newRow][newColumn] ==0){
-             queue.offer(new int[]{newRow,newColumn});
-           }
-         }
-       }
+      for (int i = 0; i < size; i++) {
+        int[] cell = queue.poll();
+        int row = cell[0], column = cell[1];
+        for (int[] path : paths) {
+          int newRow = row + path[0], newColumn = column + path[1];
+          if (newRow >= 0
+              && newRow < rows
+              && newColumn >= 0
+              && newColumn < columns
+              && matrix[newRow][newColumn] > matrix[row][column]) {
+            --outDegrees[newRow][newColumn];
+            if (outDegrees[newRow][newColumn] == 0) {
+              queue.offer(new int[] {newRow, newColumn});
+            }
+          }
+        }
       }
     }
     return ans;
+  }
+
+  /**
+   * 331. 验证二叉树的前序序列化
+   *
+   * 使用栈算法
+   */
+  public boolean isValidSerialization(String preorder) {
+    int n = preorder.length();
+    int i=0;
+    Deque<Integer> stack = new LinkedList<>();
+    stack.push(1);
+    while (i<n){
+      if(stack.isEmpty()){
+        return false;
+      }
+      if(preorder.charAt(i)==','){
+        i++;
+      }else if(preorder.charAt(i) == '#'){//如果是空节点,当前可用槽个数减1,如果为0则把当前结点弹出栈
+        int top = stack.pop()-1;
+        if(top>0){
+          stack.push(top);
+        }
+        i++;
+      }else{//如果当前结点是非空结点,则把当前对应的结点对应的槽点数减一,并把自己结点的槽点数入栈
+        while (i<n && preorder.charAt(i)!=','){
+          i++;
+        }
+        int top = stack.pop()-1;
+        if(top>0){
+          stack.push(top);
+        }
+        stack.push(2);
+      }
+    }
+    return stack.isEmpty();
   }
 
   public static void main(String[] args) {
