@@ -11,6 +11,45 @@ import java.util.*;
  * this.next = next; } }
  */
 class SolutionHead {
+  private static final int[][] DIRECTIONS = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
+  /**
+   * 216. 组合总和 III
+   *
+   * <p>找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
+   */
+  public static List<List<Integer>> result = new ArrayList<>();
+  public static List<Integer> listResult = new ArrayList<>();
+  /**
+   * 236. 二叉树的最近公共祖先
+   *
+   * <p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
+   */
+  public static TreeNode lowestCommonAncestorResult;
+  public static List<String> binaryTreePathsResult = new ArrayList<>();
+  private final Set<String> validExpressions = new HashSet<>();
+  public ArrayList<String> answer;
+  public String digits;
+  public long target;
+  public int[][] paths = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+  public int rows, columns;
+  /**
+   * 306. 累加数
+   *
+   * @param num
+   * @return
+   */
+  String s;
+  int n;
+  /**
+   * 301. 删除无效的括号
+   *
+   * <p>给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。
+   *
+   * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
+   */
+  private int len;
+  private char[] charArray;
+
   /**
    * 213. 打家劫舍 II
    *
@@ -70,23 +109,6 @@ class SolutionHead {
     int isequal = afterReverse.compareTo(s); // 若相等则输出0
     return isequal == 0;
   }
-
-  /**
-   * 215. 数组中的第K个最大元素
-   *
-   * <p>在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
-   */
-  public int findKthLargest(int[] nums, int k) {
-    Arrays.sort(nums);
-    return nums[nums.length - k];
-  }
-
-  /**
-   * 216. 组合总和 III
-   *
-   * <p>找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
-   */
-  public static List<List<Integer>> result = new ArrayList<>();
 
   public static List<List<Integer>> combinationSum3(int k, int n) {
     List<Integer> ans = new ArrayList<>();
@@ -305,40 +327,6 @@ class SolutionHead {
       return 0;
     }
     return 1 + countNodes(root.left) + countNodes(root.right);
-  }
-
-  public int countNodes1(TreeNode root) {
-    if (root == null) return 0;
-    int level = 0;
-    TreeNode node = root;
-    while (node.left != null) {
-      level++;
-      node = node.left;
-    }
-    int low = 1 << level, high = (1 << (level + 1)) - 1;
-    while (low < high) {
-      int mid = (high - low + 1) / 2 + low;
-      if (exists(root, level, mid)) {
-        low = mid;
-      } else {
-        high = mid - 1;
-      }
-    }
-    return low;
-  }
-
-  public boolean exists(TreeNode root, int level, int k) {
-    int bits = 1 << (level - 1);
-    TreeNode node = root;
-    while (node != null && bits > 0) {
-      if ((bits & k) == 0) {
-        node = node.left;
-      } else {
-        node = node.right;
-      }
-      bits >>= 1;
-    }
-    return node != null;
   }
 
   public static int computeArea(
@@ -564,8 +552,6 @@ class SolutionHead {
     return result;
   }
 
-  public static List<Integer> listResult = new ArrayList<>();
-
   /**
    * 230. 二叉搜索树中第K小的元素
    *
@@ -622,63 +608,6 @@ class SolutionHead {
     return countr;
   }
 
-  /**
-   * 234. 回文链表
-   *
-   * <p>请判断一个链表是否为回文链表。
-   *
-   * <p>进阶： 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
-   */
-  public boolean isPalindrome(ListNode head) {
-    if (head == null) {
-      return true;
-    }
-
-    // 找到前半部分链表的尾节点并反转后半部分链表
-    ListNode firstHalfEnd = endOfFirstHalf(head);
-    ListNode secondHalfStart = reverseList(firstHalfEnd.next);
-
-    // 判断是否回文
-    ListNode p1 = head;
-    ListNode p2 = secondHalfStart;
-    boolean result = true;
-    while (result && p2 != null) {
-      if (p1.val != p2.val) {
-        result = false;
-      }
-      p1 = p1.next;
-      p2 = p2.next;
-    }
-
-    // 还原链表并返回结果
-    firstHalfEnd.next = reverseList(secondHalfStart);
-    return result;
-  }
-
-  /** 转换列表 */
-  private ListNode reverseList(ListNode head) {
-    ListNode prev = null;
-    ListNode curr = head;
-    while (curr != null) {
-      ListNode nextTemp = curr.next;
-      curr.next = prev;
-      prev = curr;
-      curr = nextTemp;
-    }
-    return prev;
-  }
-
-  /** 寻找中间节点 */
-  private ListNode endOfFirstHalf(ListNode head) {
-    ListNode fast = head;
-    ListNode slow = head;
-    while (fast.next != null && fast.next.next != null) {
-      fast = fast.next.next;
-      slow = slow.next;
-    }
-    return slow;
-  }
-
   public static TreeNode lowestCommonAncestor1(TreeNode root, TreeNode p, TreeNode q) {
     TreeNode ancestor = root;
     while (true) {
@@ -692,13 +621,6 @@ class SolutionHead {
     }
     return ancestor;
   }
-
-  /**
-   * 236. 二叉树的最近公共祖先
-   *
-   * <p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
-   */
-  public static TreeNode lowestCommonAncestorResult;
 
   public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
     dfs_lowestCommonAncestor(root, p, q);
@@ -917,8 +839,6 @@ class SolutionHead {
     return true;
   }
 
-  public static List<String> binaryTreePathsResult = new ArrayList<>();
-
   /** 257. 二叉树的所有路径 */
   public static List<String> binaryTreePaths(TreeNode root) {
     dfs_binaryTreePaths(root, "");
@@ -967,35 +887,6 @@ class SolutionHead {
       result[index++] = num;
     }
     return result;
-  }
-
-  /**
-   * 260. 只出现一次的数字 III
-   *
-   * <p>给定一个整数数组 nums，其中恰好有两个元素只出现一次，其余所有元素均出现两次。
-   *
-   * <p>找出只出现一次的那两个元素。你可以按 任意顺序 返回答案。
-   */
-  public int[] singleNumber(int[] nums) {
-    int ret = 0;
-    for (int num : nums) {
-      ret ^= num;
-    }
-    int index = 1;
-    while ((ret & index) == 0) {
-      index <<= 1;
-    }
-    int a = 0;
-    int b = 0;
-    for (int num : nums) {
-      if ((num & index) == 0) {
-        a ^= num;
-      } else {
-        b ^= num;
-      }
-    }
-
-    return new int[] {a, b};
   }
 
   /**
@@ -1076,6 +967,421 @@ class SolutionHead {
       result ^= i ^ nums[i];
     }
     return result;
+  }
+
+  /** 274. H指数 */
+  public static int hIndex1(int[] citations) {
+    int n = citations.length;
+    int l = 0, r = n;
+    // 二分引用次数
+    while (l <= r) {
+      int mid = l + (r - l) / 2;
+      if (check(citations, mid)) {
+        l = mid + 1;
+      } else {
+        r = mid - 1;
+      }
+    }
+    return r;
+  }
+
+  public static boolean check(int[] citations, int mid) {
+    int count = 0;
+    for (int citation : citations) {
+      // 如果论文引用次数 >= 当前引用次数,符合要求的篇数+1
+      if (citation >= mid) {
+        count++;
+      }
+    }
+    // 如果符合要求篇数>=引用次数,则当前值可以为H指数
+    return count >= mid;
+  }
+
+  /** 275. H指数 2 */
+  public static int hIndex(int[] citations) {
+    int n = citations.length;
+    int l = 0, r = n - 1;
+    while (l < r) {
+      int mid = l + r >> 1;
+      if (citations[mid] >= n - mid) r = mid;
+      else l = mid + 1;
+    }
+    return citations[r] >= n - r ? n - r : 0;
+  }
+
+  /** 283. 移动零 */
+  public static void moveZeroes(int[] nums) {
+    if (nums.length == 1) {
+      return;
+    }
+    int start = 0, end = 1;
+    while (end < nums.length) {
+      if (nums[start] == 0 && nums[end] == 0) {
+        end++;
+        if (end >= nums.length) {
+          break;
+        }
+      }
+      if (nums[start] != 0 && nums[end] == 0) {
+        start++;
+        end++;
+        if (end >= nums.length) {
+          break;
+        }
+      }
+      if (nums[start] != 0 && nums[end] != 0) {
+        start++;
+        end++;
+        if (end >= nums.length) {
+          break;
+        }
+      }
+      if (nums[start] == 0 && nums[end] != 0) {
+        int tem = nums[start];
+        nums[start] = nums[end];
+        nums[end] = tem;
+        start++;
+        end++;
+        if (end >= nums.length) {
+          break;
+        }
+      }
+    }
+  }
+
+  /** 299. 猜数字游戏 */
+  public static String getHint(String secret, String guess) {
+    int[] array = new int[10];
+    int A = 0, B = 0;
+    for (int i = 0; i < secret.length(); i++) {
+      if (secret.charAt(i) == guess.charAt(i)) {
+        A++;
+      } else {
+        // 判断 guess 在 i 之前是否该数字
+        if (array[secret.charAt(i) - '0']++ < 0) {
+          B++;
+        }
+        // 判断 secret 在 i 之前是否该数字
+        if (array[guess.charAt(i) - '0']-- > 0) {
+          B++;
+        }
+      }
+    }
+    return String.valueOf(A) + 'A' + B + 'B';
+  }
+
+  /**
+   * 300. 最大递增子序列
+   *
+   * <p>动态规划算法
+   */
+  public static int lengthOfLIS(int[] nums) {
+    int length = nums.length;
+    int max = 1;
+    int[] dp = new int[length];
+    Arrays.fill(dp, 1);
+    for (int i = 1; i < length; i++) {
+      int numCount = 1;
+      for (int j = 0; j < i; j++) {
+        if (nums[j] < nums[i]) {
+          dp[i] = Math.max(dp[j] + 1, dp[i]);
+          if (max < dp[i]) {
+            max = dp[i];
+          }
+        }
+      }
+    }
+    return max;
+  }
+
+  public static String reverseVowels1(String s) {
+    int length = s.length();
+    if (length <= 1) {
+      return s;
+    }
+    char[] sArr = s.toCharArray();
+    int start = 0;
+    int end = length - 1;
+    while (start < end) {
+      while (start < length - 1 && !"AEIOUaeiou".contains(sArr[start] + "")) {
+        start++;
+      }
+      if (start >= end) {
+        break;
+      }
+      while (!"AEIOUaeiou".contains(sArr[end] + "")) {
+        end--;
+      }
+      if (start < end) {
+        char tem = sArr[start];
+        sArr[start] = sArr[end];
+        sArr[end] = tem;
+      }
+      start++;
+      end--;
+    }
+    return new String(sArr);
+  }
+
+  public static List<Integer> findMinHeightTrees(int n, int[][] edges) {
+    List<Integer> result = new ArrayList<>();
+    if (n == 1) {
+      result.add(0);
+      return result;
+    }
+    int[] du = new int[n];
+    List<List<Integer>> edgeList = new ArrayList<>();
+    for (int i = 0; i < n; i++) {
+      edgeList.add(new ArrayList<Integer>());
+    }
+    for (int[] edge : edges) {
+      du[edge[0]]++;
+      du[edge[1]]++;
+      edgeList.get(edge[0]).add(edge[1]);
+      edgeList.get(edge[1]).add(edge[0]);
+    }
+    Queue<Integer> queue = new LinkedList<>();
+    // 把叶子节点全部入队
+    for (int i = 0; i < n; i++) {
+      if (du[i] == 1) {
+        queue.offer(i);
+      }
+    }
+    while (!queue.isEmpty()) {
+      result = new ArrayList<>();
+      int size = queue.size();
+      for (int i = 0; i < size; i++) {
+        int leafNode = queue.poll();
+        result.add(leafNode);
+        List<Integer> neighbors = edgeList.get(leafNode);
+        for (Integer neighbor : neighbors) {
+          du[neighbor]--;
+          if (du[neighbor] == 1) {
+            queue.offer(neighbor);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  public static int nthSuperUglyNumber(int n, int[] primes) {
+    int[] dp = new int[n + 1];
+    dp[1] = 1;
+    int m = primes.length;
+    int[] pointers = new int[m];
+    Arrays.fill(pointers, 1);
+    for (int i = 2; i <= n; i++) {
+      int[] nums = new int[m];
+      int minNum = Integer.MAX_VALUE;
+      for (int j = 0; j < m; j++) {
+        nums[j] = dp[pointers[j]] * primes[j];
+        minNum = Math.min(minNum, nums[j]);
+      }
+      dp[i] = minNum;
+      for (int j = 0; j < m; j++) {
+        if (minNum == nums[j]) {
+          pointers[j]++;
+        }
+      }
+    }
+    return dp[n];
+  }
+
+  /**
+   * 316. 去除重复字母
+   *
+   * <p>给你一个字符串 s ，请你去除字符串中重复的字母，
+   *
+   * <p>使得每个字母只出现一次。需保证 返回结果的字典序最小（要求不能打乱其他字符的相对位置）。
+   */
+  public static String removeDuplicateLetters(String s) {
+    int len = s.length();
+    char[] charArr = s.toCharArray();
+    // 用于保存每个小写字母最后一次出现的索引值
+    int[] lastIndex = new int[26];
+    for (int i = 0; i < len; i++) {
+      lastIndex[charArr[i] - 'a'] = i;
+    }
+    // 创建栈用于过滤重复的字母以及保证最小的字典序
+    Deque<Character> stack = new ArrayDeque<>();
+    boolean[] visited = new boolean[26];
+    for (int i = 0; i < len; i++) {
+      // 当前的字母已经确定位置
+      if (visited[charArr[i] - 'a']) {
+        continue;
+      }
+      // 当前栈顶元素严格大于要入栈的元素，并且当前栈顶元素在未来还会再入栈
+      while (!stack.isEmpty()
+          && stack.peekLast() > charArr[i]
+          && lastIndex[stack.peekLast() - 'a'] > i) {
+        Character top = stack.removeLast();
+        visited[top - 'a'] = false;
+      }
+      stack.addLast(charArr[i]);
+      visited[charArr[i] - 'a'] = true;
+    }
+    StringBuilder sb = new StringBuilder();
+    while (!stack.isEmpty()) {
+      sb.append(stack.pollFirst());
+    }
+    return sb.toString();
+  }
+
+  public static int bulbSwitch(int n) {
+    return (int) (Math.ceil(Math.sqrt(n + 1)) - 1);
+  }
+
+  public static void main(String[] args) {
+    char[][] matrix =
+        new char[][] {
+          {'1', '1', '1', '1', '0'},
+          {'1', '1', '1', '1', '0'},
+          {'1', '1', '1', '1', '1'},
+          {'1', '1', '1', '1', '1'},
+          {'0', '0', '1', '1', '1'}
+        };
+    int[] arr = {7, 7, 7, 7, 7, 7, 7};
+    int[][] intArr = {
+      {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
+    };
+    //    moveZeroes(arr);
+    //    MedianFinder m = new MedianFinder();
+    //    m.addNum(1);
+    //    m.addNum(2);
+    //    NumMatrix nm = new NumMatrix(intArr);
+    System.out.println(removeDuplicateLetters("bcabc"));
+    //    System.out.println(());
+  }
+
+  /**
+   * 215. 数组中的第K个最大元素
+   *
+   * <p>在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+   */
+  public int findKthLargest(int[] nums, int k) {
+    Arrays.sort(nums);
+    return nums[nums.length - k];
+  }
+
+  public int countNodes1(TreeNode root) {
+    if (root == null) return 0;
+    int level = 0;
+    TreeNode node = root;
+    while (node.left != null) {
+      level++;
+      node = node.left;
+    }
+    int low = 1 << level, high = (1 << (level + 1)) - 1;
+    while (low < high) {
+      int mid = (high - low + 1) / 2 + low;
+      if (exists(root, level, mid)) {
+        low = mid;
+      } else {
+        high = mid - 1;
+      }
+    }
+    return low;
+  }
+
+  public boolean exists(TreeNode root, int level, int k) {
+    int bits = 1 << (level - 1);
+    TreeNode node = root;
+    while (node != null && bits > 0) {
+      if ((bits & k) == 0) {
+        node = node.left;
+      } else {
+        node = node.right;
+      }
+      bits >>= 1;
+    }
+    return node != null;
+  }
+
+  /**
+   * 234. 回文链表
+   *
+   * <p>请判断一个链表是否为回文链表。
+   *
+   * <p>进阶： 你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+   */
+  public boolean isPalindrome(ListNode head) {
+    if (head == null) {
+      return true;
+    }
+
+    // 找到前半部分链表的尾节点并反转后半部分链表
+    ListNode firstHalfEnd = endOfFirstHalf(head);
+    ListNode secondHalfStart = reverseList(firstHalfEnd.next);
+
+    // 判断是否回文
+    ListNode p1 = head;
+    ListNode p2 = secondHalfStart;
+    boolean result = true;
+    while (result && p2 != null) {
+      if (p1.val != p2.val) {
+        result = false;
+      }
+      p1 = p1.next;
+      p2 = p2.next;
+    }
+
+    // 还原链表并返回结果
+    firstHalfEnd.next = reverseList(secondHalfStart);
+    return result;
+  }
+
+  /** 转换列表 */
+  private ListNode reverseList(ListNode head) {
+    ListNode prev = null;
+    ListNode curr = head;
+    while (curr != null) {
+      ListNode nextTemp = curr.next;
+      curr.next = prev;
+      prev = curr;
+      curr = nextTemp;
+    }
+    return prev;
+  }
+
+  /** 寻找中间节点 */
+  private ListNode endOfFirstHalf(ListNode head) {
+    ListNode fast = head;
+    ListNode slow = head;
+    while (fast.next != null && fast.next.next != null) {
+      fast = fast.next.next;
+      slow = slow.next;
+    }
+    return slow;
+  }
+
+  /**
+   * 260. 只出现一次的数字 III
+   *
+   * <p>给定一个整数数组 nums，其中恰好有两个元素只出现一次，其余所有元素均出现两次。
+   *
+   * <p>找出只出现一次的那两个元素。你可以按 任意顺序 返回答案。
+   */
+  public int[] singleNumber(int[] nums) {
+    int ret = 0;
+    for (int num : nums) {
+      ret ^= num;
+    }
+    int index = 1;
+    while ((ret & index) == 0) {
+      index <<= 1;
+    }
+    int a = 0;
+    int b = 0;
+    for (int num : nums) {
+      if ((num & index) == 0) {
+        a ^= num;
+      } else {
+        b ^= num;
+      }
+    }
+
+    return new int[] {a, b};
   }
 
   /** 个位整数 数字到文字的转换 */
@@ -1203,46 +1509,6 @@ class SolutionHead {
     return result;
   }
 
-  /** 274. H指数 */
-  public static int hIndex1(int[] citations) {
-    int n = citations.length;
-    int l = 0, r = n;
-    // 二分引用次数
-    while (l <= r) {
-      int mid = l + (r - l) / 2;
-      if (check(citations, mid)) {
-        l = mid + 1;
-      } else {
-        r = mid - 1;
-      }
-    }
-    return r;
-  }
-
-  public static boolean check(int[] citations, int mid) {
-    int count = 0;
-    for (int citation : citations) {
-      // 如果论文引用次数 >= 当前引用次数,符合要求的篇数+1
-      if (citation >= mid) {
-        count++;
-      }
-    }
-    // 如果符合要求篇数>=引用次数,则当前值可以为H指数
-    return count >= mid;
-  }
-
-  /** 275. H指数 2 */
-  public static int hIndex(int[] citations) {
-    int n = citations.length;
-    int l = 0, r = n - 1;
-    while (l < r) {
-      int mid = l + r >> 1;
-      if (citations[mid] >= n - mid) r = mid;
-      else l = mid + 1;
-    }
-    return citations[r] >= n - r ? n - r : 0;
-  }
-
   /**
    * 279. 完全平均数
    *
@@ -1261,10 +1527,6 @@ class SolutionHead {
     }
     return f[n];
   }
-
-  public ArrayList<String> answer;
-  public String digits;
-  public long target;
 
   public void recurse(
       int index, long previousOperand, long currentOperand, long value, ArrayList<String> ops) {
@@ -1334,83 +1596,10 @@ class SolutionHead {
 
     this.target = target;
     this.digits = num;
-    this.answer = new ArrayList<String>();
+    this.answer = new ArrayList<>();
     this.recurse(0, 0, 0, 0, new ArrayList<String>());
     return this.answer;
   }
-
-  /** 283. 移动零 */
-  public static void moveZeroes(int[] nums) {
-    if (nums.length == 1) {
-      return;
-    }
-    int start = 0, end = 1;
-    while (end < nums.length) {
-      if (nums[start] == 0 && nums[end] == 0) {
-        end++;
-        if (end >= nums.length) {
-          break;
-        }
-      }
-      if (nums[start] != 0 && nums[end] == 0) {
-        start++;
-        end++;
-        if (end >= nums.length) {
-          break;
-        }
-      }
-      if (nums[start] != 0 && nums[end] != 0) {
-        start++;
-        end++;
-        if (end >= nums.length) {
-          break;
-        }
-      }
-      if (nums[start] == 0 && nums[end] != 0) {
-        int tem = nums[start];
-        nums[start] = nums[end];
-        nums[end] = tem;
-        start++;
-        end++;
-        if (end >= nums.length) {
-          break;
-        }
-      }
-    }
-  }
-
-  /** 299. 猜数字游戏 */
-  public static String getHint(String secret, String guess) {
-    int[] array = new int[10];
-    int A = 0, B = 0;
-    for (int i = 0; i < secret.length(); i++) {
-      if (secret.charAt(i) == guess.charAt(i)) {
-        A++;
-      } else {
-        // 判断 guess 在 i 之前是否该数字
-        if (array[secret.charAt(i) - '0']++ < 0) {
-          B++;
-        }
-        // 判断 secret 在 i 之前是否该数字
-        if (array[guess.charAt(i) - '0']-- > 0) {
-          B++;
-        }
-      }
-    }
-    return String.valueOf(A) + 'A' + B + 'B';
-  }
-
-  /**
-   * 301. 删除无效的括号
-   *
-   * <p>给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。
-   *
-   * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
-   */
-  private int len;
-
-  private char[] charArray;
-  private final Set<String> validExpressions = new HashSet<>();
 
   public List<String> removeInvalidParentheses(String s) {
     this.len = s.length();
@@ -1488,59 +1677,6 @@ class SolutionHead {
     path.deleteCharAt(path.length() - 1);
   }
 
-  /**
-   * 300. 最大递增子序列
-   *
-   * <p>动态规划算法
-   */
-  public static int lengthOfLIS(int[] nums) {
-    int length = nums.length;
-    int max = 1;
-    int[] dp = new int[length];
-    Arrays.fill(dp, 1);
-    for (int i = 1; i < length; i++) {
-      int numCount = 1;
-      for (int j = 0; j < i; j++) {
-        if (nums[j] < nums[i]) {
-          dp[i] = Math.max(dp[j] + 1, dp[i]);
-          if (max < dp[i]) {
-            max = dp[i];
-          }
-        }
-      }
-    }
-    return max;
-  }
-
-  public static String reverseVowels1(String s) {
-    int length = s.length();
-    if (length <= 1) {
-      return s;
-    }
-    char[] sArr = s.toCharArray();
-    int start = 0;
-    int end = length - 1;
-    while (start < end) {
-      while (start < length - 1 && !"AEIOUaeiou".contains(sArr[start] + "")) {
-        start++;
-      }
-      if (start >= end) {
-        break;
-      }
-      while (!"AEIOUaeiou".contains(sArr[end] + "")) {
-        end--;
-      }
-      if (start < end) {
-        char tem = sArr[start];
-        sArr[start] = sArr[end];
-        sArr[end] = tem;
-      }
-      start++;
-      end--;
-    }
-    return new String(sArr);
-  }
-
   private boolean isNotVowel(char ch) {
     return ch != 'a' && ch != 'e' && ch != 'i' && ch != 'o' && ch != 'u' && ch != 'A' && ch != 'E'
         && ch != 'I' && ch != 'O' && ch != 'U';
@@ -1567,8 +1703,6 @@ class SolutionHead {
     }
     return new String(sArr);
   }
-
-  private static final int[][] DIRECTIONS = {{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
   public List<Integer> numIslands2(int m, int n, int[][] positions) {
     UnionFind unionFind = new UnionFind(m * n);
@@ -1604,60 +1738,6 @@ class SolutionHead {
   public boolean inArea(int x, int y, int m, int n) {
     return 0 <= x && x < m && 0 <= y && y < n;
   }
-
-  private class UnionFind {
-
-    private int[] parent;
-    private int count;
-
-    public int getCount() {
-      return count;
-    }
-
-    public void addCount() {
-      count++;
-    }
-
-    public UnionFind(int n) {
-      this.parent = new int[n];
-      for (int i = 0; i < n; i++) {
-        parent[i] = i;
-      }
-      this.count = 0;
-    }
-
-    public boolean isConnected(int x, int y) {
-      return find(x) == find(y);
-    }
-
-    public int find(int x) {
-      if (parent[x] != x) {
-        parent[x] = find(parent[x]);
-      }
-      return parent[x];
-    }
-
-    public void union(int x, int y) {
-      int rootX = find(x);
-      int rootY = find(y);
-      if (rootX == rootY) {
-        return;
-      }
-
-      parent[rootX] = rootY;
-      count--;
-    }
-  }
-
-  /**
-   * 306. 累加数
-   *
-   * @param num
-   * @return
-   */
-  String s;
-
-  int n;
 
   public boolean isAdditiveNumber(String num) {
     this.s = num;
@@ -1713,71 +1793,6 @@ class SolutionHead {
       dp[i][2] = Math.max(dp[i - 1][2], dp[i - 1][1]);
     }
     return Math.max(dp[length - 1][1], dp[length - 1][2]);
-  }
-
-  public static List<Integer> findMinHeightTrees(int n, int[][] edges) {
-    List<Integer> result = new ArrayList<>();
-    if (n == 1) {
-      result.add(0);
-      return result;
-    }
-    int[] du = new int[n];
-    List<List<Integer>> edgeList = new ArrayList<>();
-    for (int i = 0; i < n; i++) {
-      edgeList.add(new ArrayList<Integer>());
-    }
-    for (int[] edge : edges) {
-      du[edge[0]]++;
-      du[edge[1]]++;
-      edgeList.get(edge[0]).add(edge[1]);
-      edgeList.get(edge[1]).add(edge[0]);
-    }
-    Queue<Integer> queue = new LinkedList<>();
-    // 把叶子节点全部入队
-    for (int i = 0; i < n; i++) {
-      if (du[i] == 1) {
-        queue.offer(i);
-      }
-    }
-    while (!queue.isEmpty()) {
-      result = new ArrayList<>();
-      int size = queue.size();
-      for (int i = 0; i < size; i++) {
-        int leafNode = queue.poll();
-        result.add(leafNode);
-        List<Integer> neighbors = edgeList.get(leafNode);
-        for (Integer neighbor : neighbors) {
-          du[neighbor]--;
-          if (du[neighbor] == 1) {
-            queue.offer(neighbor);
-          }
-        }
-      }
-    }
-    return result;
-  }
-
-  public static int nthSuperUglyNumber(int n, int[] primes) {
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    int m = primes.length;
-    int[] pointers = new int[m];
-    Arrays.fill(pointers, 1);
-    for (int i = 2; i <= n; i++) {
-      int[] nums = new int[m];
-      int minNum = Integer.MAX_VALUE;
-      for (int j = 0; j < m; j++) {
-        nums[j] = dp[pointers[j]] * primes[j];
-        minNum = Math.min(minNum, nums[j]);
-      }
-      dp[i] = minNum;
-      for (int j = 0; j < m; j++) {
-        if (minNum == nums[j]) {
-          pointers[j]++;
-        }
-      }
-    }
-    return dp[n];
   }
 
   public void reverseString(char[] s) {
@@ -1863,46 +1878,6 @@ class SolutionHead {
   }
 
   /**
-   * 316. 去除重复字母
-   *
-   * <p>给你一个字符串 s ，请你去除字符串中重复的字母，
-   *
-   * <p>使得每个字母只出现一次。需保证 返回结果的字典序最小（要求不能打乱其他字符的相对位置）。
-   */
-  public static String removeDuplicateLetters(String s) {
-    int len = s.length();
-    char[] charArr = s.toCharArray();
-    // 用于保存每个小写字母最后一次出现的索引值
-    int[] lastIndex = new int[26];
-    for (int i = 0; i < len; i++) {
-      lastIndex[charArr[i] - 'a'] = i;
-    }
-    // 创建栈用于过滤重复的字母以及保证最小的字典序
-    Deque<Character> stack = new ArrayDeque<>();
-    boolean[] visited = new boolean[26];
-    for (int i = 0; i < len; i++) {
-      // 当前的字母已经确定位置
-      if (visited[charArr[i] - 'a']) {
-        continue;
-      }
-      // 当前栈顶元素严格大于要入栈的元素，并且当前栈顶元素在未来还会再入栈
-      while (!stack.isEmpty()
-          && stack.peekLast() > charArr[i]
-          && lastIndex[stack.peekLast() - 'a'] > i) {
-        Character top = stack.removeLast();
-        visited[top - 'a'] = false;
-      }
-      stack.addLast(charArr[i]);
-      visited[charArr[i] - 'a'] = true;
-    }
-    StringBuilder sb = new StringBuilder();
-    while (!stack.isEmpty()) {
-      sb.append(stack.pollFirst());
-    }
-    return sb.toString();
-  }
-
-  /**
    * 318. 最大单词长度乘积
    *
    * <p>给定一个字符串数组words，找到length(word[i]) * length(word[j])的最大值，
@@ -1935,10 +1910,6 @@ class SolutionHead {
       }
     }
     return maxProd;
-  }
-
-  public static int bulbSwitch(int n) {
-    return (int) (Math.ceil(Math.sqrt(n + 1)) - 1);
   }
 
   public int[] maxNumber(int[] nums1, int[] nums2, int k) {
@@ -2109,9 +2080,6 @@ class SolutionHead {
     return res;
   }
 
-  public int[][] paths = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-  public int rows, columns;
-
   public int longestIncreasingPath(int[][] matrix) {
     if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
       return 0;
@@ -2169,31 +2137,31 @@ class SolutionHead {
   /**
    * 331. 验证二叉树的前序序列化
    *
-   * 使用栈算法
+   * <p>使用栈算法
    */
   public boolean isValidSerialization(String preorder) {
     int n = preorder.length();
-    int i=0;
+    int i = 0;
     Deque<Integer> stack = new LinkedList<>();
     stack.push(1);
-    while (i<n){
-      if(stack.isEmpty()){
+    while (i < n) {
+      if (stack.isEmpty()) {
         return false;
       }
-      if(preorder.charAt(i)==','){
+      if (preorder.charAt(i) == ',') {
         i++;
-      }else if(preorder.charAt(i) == '#'){//如果是空节点,当前可用槽个数减1,如果为0则把当前结点弹出栈
-        int top = stack.pop()-1;
-        if(top>0){
+      } else if (preorder.charAt(i) == '#') { // 如果是空节点,当前可用槽个数减1,如果为0则把当前结点弹出栈
+        int top = stack.pop() - 1;
+        if (top > 0) {
           stack.push(top);
         }
         i++;
-      }else{//如果当前结点是非空结点,则把当前对应的结点对应的槽点数减一,并把自己结点的槽点数入栈
-        while (i<n && preorder.charAt(i)!=','){
+      } else { // 如果当前结点是非空结点,则把当前对应的结点对应的槽点数减一,并把自己结点的槽点数入栈
+        while (i < n && preorder.charAt(i) != ',') {
           i++;
         }
-        int top = stack.pop()-1;
-        if(top>0){
+        int top = stack.pop() - 1;
+        if (top > 0) {
           stack.push(top);
         }
         stack.push(2);
@@ -2202,25 +2170,61 @@ class SolutionHead {
     return stack.isEmpty();
   }
 
-  public static void main(String[] args) {
-    char[][] matrix =
-        new char[][] {
-          {'1', '1', '1', '1', '0'},
-          {'1', '1', '1', '1', '0'},
-          {'1', '1', '1', '1', '1'},
-          {'1', '1', '1', '1', '1'},
-          {'0', '0', '1', '1', '1'}
-        };
-    int[] arr = {7, 7, 7, 7, 7, 7, 7};
-    int[][] intArr = {
-      {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
-    };
-    //    moveZeroes(arr);
-    //    MedianFinder m = new MedianFinder();
-    //    m.addNum(1);
-    //    m.addNum(2);
-    //    NumMatrix nm = new NumMatrix(intArr);
-    System.out.println(removeDuplicateLetters("bcabc"));
-    //    System.out.println(());
+  /**
+   * 371. 两整数之和
+   *
+   * <p>给你两个整数 a 和 b ，不使用 运算符 + 和 - ，计算并返回两整数之和。
+   */
+  public int getSum(int a, int b) {
+    while (b != 0) {
+      int carry = (a & b) << 1;
+      a ^= b;
+      b = carry;
+    }
+    return a;
+  }
+
+  private class UnionFind {
+
+    private final int[] parent;
+    private int count;
+
+    public UnionFind(int n) {
+      this.parent = new int[n];
+      for (int i = 0; i < n; i++) {
+        parent[i] = i;
+      }
+      this.count = 0;
+    }
+
+    public int getCount() {
+      return count;
+    }
+
+    public void addCount() {
+      count++;
+    }
+
+    public boolean isConnected(int x, int y) {
+      return find(x) == find(y);
+    }
+
+    public int find(int x) {
+      if (parent[x] != x) {
+        parent[x] = find(parent[x]);
+      }
+      return parent[x];
+    }
+
+    public void union(int x, int y) {
+      int rootX = find(x);
+      int rootY = find(y);
+      if (rootX == rootY) {
+        return;
+      }
+
+      parent[rootX] = rootY;
+      count--;
+    }
   }
 }
