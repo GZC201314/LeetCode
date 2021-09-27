@@ -18,6 +18,7 @@ class SolutionHead {
    * <p>找出所有相加之和为 n 的 k 个数的组合。组合中只允许含有 1 - 9 的正整数，并且每种组合中不存在重复的数字。
    */
   public static List<List<Integer>> result = new ArrayList<>();
+
   public static List<Integer> listResult = new ArrayList<>();
   /**
    * 236. 二叉树的最近公共祖先
@@ -25,6 +26,7 @@ class SolutionHead {
    * <p>给定一个二叉树, 找到该树中两个指定节点的最近公共祖先。
    */
   public static TreeNode lowestCommonAncestorResult;
+
   public static List<String> binaryTreePathsResult = new ArrayList<>();
   private final Set<String> validExpressions = new HashSet<>();
   public ArrayList<String> answer;
@@ -32,13 +34,9 @@ class SolutionHead {
   public long target;
   public int[][] paths = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
   public int rows, columns;
-  /**
-   * 306. 累加数
-   *
-   * @param num
-   * @return
-   */
+  /** 306. 累加数 */
   String s;
+
   int n;
   /**
    * 301. 删除无效的括号
@@ -48,6 +46,7 @@ class SolutionHead {
    * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
    */
   private int len;
+
   private char[] charArray;
 
   /**
@@ -188,7 +187,9 @@ class SolutionHead {
         heights.put(-arr[1], heights.getOrDefault(-arr[1], 0) + 1);
       } else {
         heights.put(arr[1], heights.get(arr[1]) - 1);
-        if (heights.get(arr[1]) == 0) heights.remove(arr[1]);
+        if (heights.get(arr[1]) == 0) {
+          heights.remove(arr[1]);
+        }
       }
       int maxHeight = heights.keySet().iterator().next();
       if (maxHeight != height) {
@@ -719,7 +720,9 @@ class SolutionHead {
     //      end++;
     //    }
     //    return result;
-    if (nums == null || nums.length < 2) return nums;
+    if (nums == null || nums.length < 2) {
+      return nums;
+    }
     // 双向队列 保存当前窗口最大值的数组位置 保证队列中数组位置的数值按从大到小排序
     LinkedList<Integer> queue = new LinkedList<Integer>();
     // 结果数组
@@ -810,6 +813,8 @@ class SolutionHead {
                 break;
               case '*':
                 result.add(value * integer);
+                break;
+              default:
                 break;
             }
           }
@@ -1003,8 +1008,11 @@ class SolutionHead {
     int l = 0, r = n - 1;
     while (l < r) {
       int mid = l + r >> 1;
-      if (citations[mid] >= n - mid) r = mid;
-      else l = mid + 1;
+      if (citations[mid] >= n - mid) {
+        r = mid;
+      } else {
+        l = mid + 1;
+      }
     }
     return citations[r] >= n - r ? n - r : 0;
   }
@@ -1265,7 +1273,9 @@ class SolutionHead {
   }
 
   public int countNodes1(TreeNode root) {
-    if (root == null) return 0;
+    if (root == null) {
+      return 0;
+    }
     int level = 0;
     TreeNode node = root;
     while (node.left != null) {
@@ -1405,6 +1415,8 @@ class SolutionHead {
         return "Eight";
       case 9:
         return "Nine";
+      default:
+        break;
     }
     return "";
   }
@@ -1432,6 +1444,8 @@ class SolutionHead {
         return "Eighteen";
       case 19:
         return "Nineteen";
+      default:
+        break;
     }
     return "";
   }
@@ -1461,14 +1475,20 @@ class SolutionHead {
 
   /** 两位数的数字到文字的转换 */
   public String two(int num) {
-    if (num == 0) return "";
-    else if (num < 10) return one(num);
-    else if (num < 20) return twoLessThan20(num);
-    else {
+    if (num == 0) {
+      return "";
+    } else if (num < 10) {
+      return one(num);
+    } else if (num < 20) {
+      return twoLessThan20(num);
+    } else {
       int tenner = num / 10;
       int rest = num - tenner * 10;
-      if (rest != 0) return ten(tenner) + " " + one(rest);
-      else return ten(tenner);
+      if (rest != 0) {
+        return ten(tenner) + " " + one(rest);
+      } else {
+        return ten(tenner);
+      }
     }
   }
 
@@ -1477,15 +1497,21 @@ class SolutionHead {
     int hundred = num / 100;
     int rest = num - hundred * 100;
     String res = "";
-    if (hundred * rest != 0) res = one(hundred) + " Hundred " + two(rest);
-    else if ((hundred == 0) && (rest != 0)) res = two(rest);
-    else if ((hundred != 0) && (rest == 0)) res = one(hundred) + " Hundred";
+    if (hundred * rest != 0) {
+      res = one(hundred) + " Hundred " + two(rest);
+    } else if ((hundred == 0) && (rest != 0)) {
+      res = two(rest);
+    } else if ((hundred != 0) && (rest == 0)) {
+      res = one(hundred) + " Hundred";
+    }
     return res;
   }
 
   /** 273. 整数转换英文表示 */
   public String numberToWords(int num) {
-    if (num == 0) return "Zero";
+    if (num == 0) {
+      return "Zero";
+    }
 
     int billion = num / 1000000000;
     int million = (num - billion * 1000000000) / 1000000;
@@ -1493,17 +1519,25 @@ class SolutionHead {
     int rest = num - billion * 1000000000 - million * 1000000 - thousand * 1000;
 
     String result = "";
-    if (billion != 0) result = three(billion) + " Billion";
+    if (billion != 0) {
+      result = three(billion) + " Billion";
+    }
     if (million != 0) {
-      if (!result.isEmpty()) result += " ";
+      if (!result.isEmpty()) {
+        result += " ";
+      }
       result += three(million) + " Million";
     }
     if (thousand != 0) {
-      if (!result.isEmpty()) result += " ";
+      if (!result.isEmpty()) {
+        result += " ";
+      }
       result += three(thousand) + " Thousand";
     }
     if (rest != 0) {
-      if (!result.isEmpty()) result += " ";
+      if (!result.isEmpty()) {
+        result += " ";
+      }
       result += three(rest);
     }
     return result;
@@ -1853,7 +1887,9 @@ class SolutionHead {
   /** [left, mid] 是排好序的，[mid + 1, right] 是排好序的 */
   private void mergeOfTwoSortedArrAndCountSmaller(
       int[] nums, int left, int mid, int right, int[] indexes, int[] temp, int[] res) {
-    if (right + 1 - left >= 0) System.arraycopy(indexes, left, temp, left, right + 1 - left);
+    if (right + 1 - left >= 0) {
+      System.arraycopy(indexes, left, temp, left, right + 1 - left);
+    }
 
     int i = left;
     int j = mid + 1;
@@ -1961,10 +1997,18 @@ class SolutionHead {
   }
 
   public boolean compare(int[] nums1, int p1, int[] nums2, int p2) {
-    if (p2 >= nums2.length) return true;
-    if (p1 >= nums1.length) return false;
-    if (nums1[p1] > nums2[p2]) return true;
-    if (nums1[p1] < nums2[p2]) return false;
+    if (p2 >= nums2.length) {
+      return true;
+    }
+    if (p1 >= nums1.length) {
+      return false;
+    }
+    if (nums1[p1] > nums2[p2]) {
+      return true;
+    }
+    if (nums1[p1] < nums2[p2]) {
+      return false;
+    }
     return compare(nums1, p1 + 1, nums2, p2 + 1);
   }
 
@@ -2073,8 +2117,9 @@ class SolutionHead {
         j = dp[j][t.charAt(i) - 'a'] + 1;
       }
       if (match) {
-        if (t.length() > res.length() || (t.length() == res.length() && t.compareTo(res) < 0))
+        if (t.length() > res.length() || (t.length() == res.length() && t.compareTo(res) < 0)) {
           res = t;
+        }
       }
     }
     return res;
@@ -2226,5 +2271,41 @@ class SolutionHead {
       parent[rootX] = rootY;
       count--;
     }
+
+    /**
+     * 1524. 和为奇数的子数组数目
+     *
+     * <p>给你一个整数数组 arr 。请你返回和为 奇数 的子数组数目。
+     *
+     * <p>由于答案可能会很大，请你将结果对 10^9 + 7 取余后返回。
+     *
+     * <p>解法
+     *
+     * <p>当下标 ii 的位置的前缀和是偶数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是奇数，则从下标 j+1j+1 到下标 ii
+     * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为奇数前缀和的数量 \textit{odd}odd；
+     *
+     * <p>当下标 ii 的位置的前缀和是奇数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是偶数，则从下标 j+1j+1 到下标 ii
+     * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为偶数前缀和的数量 \textit{even}even。
+     */
+    public int numOfSubarrays(int[] arr) {
+      int max = 1000000007;
+      // 当前缀和为0是前缀和为偶数的个数为1
+      int odd = 0, even = 1;
+      int subArrays = 0;
+      int sum = 0;
+      int length = arr.length;
+      for (int j : arr) {
+        sum += j;
+        subArrays = (subArrays + (sum % 2 == 0 ? odd : even)) % max;
+        if (sum % 2 == 0) {
+          even++;
+        } else {
+          odd++;
+        }
+      }
+      return subArrays;
+    }
+
+    public void main(String[] args) {}
   }
 }

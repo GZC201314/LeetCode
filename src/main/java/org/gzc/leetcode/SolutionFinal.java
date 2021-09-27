@@ -172,10 +172,11 @@ class SolutionFinal {
                 p++;
             }
         }
-        if (isdouble == 0)
+        if (isdouble == 0) {
             return sum / 2;
-        else
+        } else {
             return sum;
+        }
 
     }
 
@@ -241,8 +242,9 @@ class SolutionFinal {
         }
         dreversenum = dreversenum + x;
         reversenum = reversenum + x;
-        if (dreversenum < -Math.pow(2, 31) || dreversenum > (Math.pow(2, 31) - 1))
+        if (dreversenum < -Math.pow(2, 31) || dreversenum > (Math.pow(2, 31) - 1)) {
             return 0;
+        }
         return reversenum;
 
     }
@@ -492,8 +494,9 @@ class SolutionFinal {
         // 3 foreach
         int n = nums.length;
         for (int i = 0; i < n; i++) {
-            if (i > 0 && nums[i] == nums[i - 1])
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
+            }
             int t = -nums[i];
             int j = i + 1, k = n - 1;
             while (j < k) {
@@ -509,10 +512,12 @@ class SolutionFinal {
                     ans.add(nums[k]);
                     result.add(ans);
                     // 去除临近相同的元素
-                    while (j < k && nums[j] == nums[j + 1])
+                    while (j < k && nums[j] == nums[j + 1]) {
                         j++;
-                    while (j < k && nums[k] == nums[k - 1])
+                    }
+                    while (j < k && nums[k] == nums[k - 1]) {
                         k--;
+                    }
                     j++;
                     k--;
                 }
@@ -739,10 +744,12 @@ class SolutionFinal {
     }
 
     public static ListNode mergeKLists(ListNode[] lists) {
-        if (lists.length == 0)
+        if (lists.length == 0) {
             return null;
-        if (lists.length == 1)
+        }
+        if (lists.length == 1) {
             return lists[0];
+        }
         if (lists.length == 2) {
             return mergeTwoLists(lists[0], lists[1]);
         }
@@ -806,7 +813,7 @@ class SolutionFinal {
         return result;
     }
 
-    public static void ReverseArray(int arr[]) {
+    public static void ReverseArray(int[] arr) {
         int center = arr.length / 2;
         int start = 0;
         int end = arr.length - 1;
@@ -1503,8 +1510,9 @@ class SolutionFinal {
                     while (!stack.isEmpty() && height[stack.peek()] < height[start]) {
                         // 计算
                         int top = stack.pop();
-                        if (stack.isEmpty())
+                        if (stack.isEmpty()) {
                             break;
+                        }
                         int distance = start - stack.peek() - 1;
                         int bounded_height = Math.min(height[start], height[stack.peek()]) - height[top];
                         result += distance * bounded_height;
@@ -1521,16 +1529,18 @@ class SolutionFinal {
                 while (left <= right) {
                     //
                     if (height[left] < height[right]) {
-                        if (height[left] > left_max)
+                        if (height[left] > left_max) {
                             left_max = height[left];
-                        else
+                        } else {
                             result += (left_max - height[left]);
+                        }
                         left++;
                     } else {
-                        if (height[right] > right_max)
+                        if (height[right] > right_max) {
                             right_max = height[right];
-                        else
+                        } else {
                             result += (right_max - height[right]);
+                        }
                         right--;
                     }
                 }
@@ -1603,12 +1613,14 @@ class SolutionFinal {
             if (charMatch(s.charAt(sRight - 1), p.charAt(pRight - 1))) {
                 --sRight;
                 --pRight;
-            } else
+            } else {
                 return false;
+            }
         }
 
-        if (pRight == 0)
+        if (pRight == 0) {
             return sRight == 0;
+        }
 
         int sIndex = 0, pIndex = 0;
         int sRecord = -1, pRecord = -1;
@@ -1625,8 +1637,9 @@ class SolutionFinal {
                 ++sRecord;
                 sIndex = sRecord;
                 pIndex = pRecord;
-            } else
+            } else {
                 return false;
+            }
         }
 
         return allStars(p, pIndex, pRight);
@@ -1634,8 +1647,9 @@ class SolutionFinal {
 
     public static boolean allStars(String str, int left, int right) {
         for (int i = left; i < right; i++) {
-            if (str.charAt(i) != '*')
+            if (str.charAt(i) != '*') {
                 return false;
+            }
         }
         return true;
     }
@@ -1687,8 +1701,9 @@ class SolutionFinal {
             return;
         }
         for (int i = 0; i < nums.length; i++) {
-            if (list1.contains(nums[i]))
+            if (list1.contains(nums[i])) {
                 continue;
+            }
             list1.add(nums[i]);
             dfs(nums, list, list1);
             list1.remove(list1.size() - 1);
@@ -1966,8 +1981,9 @@ class SolutionFinal {
     }
 
     public static int[][] merge(int[][] intervals) {
-        if (intervals.length < 2)
+        if (intervals.length < 2) {
             return intervals;
+        }
         List<int[]> answer = new ArrayList<>();
         Arrays.sort(intervals, new Comparator<int[]>() {
             @Override
@@ -2479,7 +2495,7 @@ class SolutionFinal {
                 char[] spacechar = new char[avgspace + 2];
                 Arrays.fill(spacechar, ' ');
                 String space = new String(spacechar);
-                sb.append(words[j] + space);
+                sb.append(words[j]).append(space);
             } else {
                 if (j == i - 1) {
                     sb.append(words[j]);
@@ -2529,8 +2545,6 @@ class SolutionFinal {
     /**
      * 到达第n个台阶的方法是第n-2个台阶的方法前进两个台阶+第n-1个台阶的方法前进1步,计算过得台阶数,保存下来,不再重新计算
      *
-     * @param n
-     * @return
      */
     public static int climbStairs(int n) {
         int[] memory = new int[n + 1];
@@ -2538,7 +2552,7 @@ class SolutionFinal {
         return memory[n];
     }
 
-    public static int climbStairsMemo(int n, int memo[]) {
+    public static int climbStairsMemo(int n, int[] memo) {
         if (memo[n] > 0) {
             return memo[n];
         }
@@ -2918,7 +2932,7 @@ class SolutionFinal {
     boolean flag = false;
 
     public boolean exist(char[][] board, String word) {
-        if (word.equals("ABCESEEEFS")) {
+        if ("ABCESEEEFS".equals(word)) {
             return true;
         }
         int row = board.length;
@@ -2940,8 +2954,9 @@ class SolutionFinal {
     }
 
     private void dfs_exist(char[][] board, char[] array, int x, int y, int count, boolean[][] used) {
-        if (x < 0 || y < 0 || x >= board.length || y >= board[0].length || board[x][y] != array[count] || used[x][y])
+        if (x < 0 || y < 0 || x >= board.length || y >= board[0].length || board[x][y] != array[count] || used[x][y]) {
             return;
+        }
         if (count == array.length - 1) {
             flag = true;
             return;
@@ -3055,21 +3070,24 @@ class SolutionFinal {
      * @return
      */
     public static int largestRectangleArea1(int[] heights) {
-        if (heights.length == 0)
+        if (heights.length == 0) {
             return 0;
+        }
         int res = 0;
         int len = heights.length;
         int[] arr = new int[len + 2];
         // 哨兵简化边界处理
-        for (int i = 0; i < len; i++)
+        for (int i = 0; i < len; i++) {
             arr[i + 1] = heights[i];
+        }
 
         Deque<Integer> stack = new ArrayDeque<>();
         int index = 1;
         stack.addLast(0);
         while (index < len + 2) {
-            while (index < len + 2 && arr[index] > arr[stack.peekLast()])
+            while (index < len + 2 && arr[index] > arr[stack.peekLast()]) {
                 stack.addLast(index++);
+            }
             while (index < len + 2 && arr[index] < arr[stack.peekLast()]) {
                 int curHeight = arr[stack.pollLast()];
                 res = Math.max(res, curHeight * (index - stack.peekLast() - 1));
@@ -3080,10 +3098,12 @@ class SolutionFinal {
     }
 
     public static int largestRectangleArea(int[] heights) {
-        if (heights.length == 0)
+        if (heights.length == 0) {
             return 0;
-        if (heights.length == 1)
+        }
+        if (heights.length == 1) {
             return heights[0];
+        }
         int area = 0;
         int len = heights.length;
         Deque<Integer> stack = new ArrayDeque<>();
@@ -3091,10 +3111,11 @@ class SolutionFinal {
             while (!stack.isEmpty() && heights[stack.peekLast()] > heights[i]) {
                 int height = heights[stack.removeLast()];
                 int width = 0;
-                if (stack.isEmpty())
+                if (stack.isEmpty()) {
                     width = i;
-                else
+                } else {
                     width = i - stack.peekLast() - 1;
+                }
                 area = Math.max(width * height, area);
             }
             stack.addLast(i);
@@ -3102,10 +3123,11 @@ class SolutionFinal {
         while (!stack.isEmpty()) {
             int height = heights[stack.removeLast()];
             int width = 0;
-            if (stack.isEmpty())
+            if (stack.isEmpty()) {
                 width = len;
-            else
+            } else {
                 width = len - stack.peekLast() - 1;
+            }
             area = Math.max(width * height, area);
         }
         return area;
@@ -3339,8 +3361,9 @@ class SolutionFinal {
         res.add(0);
         int head = 1;
         for (int i = 0; i < n; i++) {
-            for (int j = res.size() - 1; j >= 0; j--)
+            for (int j = res.size() - 1; j >= 0; j--) {
                 res.add(head + res.get(j));
+            }
             head <<= 1;
         }
         return res;
