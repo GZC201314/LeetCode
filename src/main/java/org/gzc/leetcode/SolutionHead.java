@@ -2,6 +2,7 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ListNode;
 import org.gzc.leetcode.model.TreeNode;
+import org.gzc.leetcode.model.UnionFind;
 
 import java.util.*;
 
@@ -1240,27 +1241,6 @@ class SolutionHead {
     return (int) (Math.ceil(Math.sqrt(n + 1)) - 1);
   }
 
-  public static void main(String[] args) {
-    char[][] matrix =
-        new char[][] {
-          {'1', '1', '1', '1', '0'},
-          {'1', '1', '1', '1', '0'},
-          {'1', '1', '1', '1', '1'},
-          {'1', '1', '1', '1', '1'},
-          {'0', '0', '1', '1', '1'}
-        };
-    int[] arr = {7, 7, 7, 7, 7, 7, 7};
-    int[][] intArr = {
-      {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
-    };
-    //    moveZeroes(arr);
-    //    MedianFinder m = new MedianFinder();
-    //    m.addNum(1);
-    //    m.addNum(2);
-    //    NumMatrix nm = new NumMatrix(intArr);
-    System.out.println(removeDuplicateLetters("bcabc"));
-    //    System.out.println(());
-  }
 
   /**
    * 215. 数组中的第K个最大元素
@@ -2229,83 +2209,101 @@ class SolutionHead {
     return a;
   }
 
-  private class UnionFind {
 
-    private final int[] parent;
-    private int count;
 
-    public UnionFind(int n) {
-      this.parent = new int[n];
-      for (int i = 0; i < n; i++) {
-        parent[i] = i;
+  /**
+   * 1524. 和为奇数的子数组数目
+   *
+   * <p>给你一个整数数组 arr 。请你返回和为 奇数 的子数组数目。
+   *
+   * <p>由于答案可能会很大，请你将结果对 10^9 + 7 取余后返回。
+   *
+   * <p>解法
+   *
+   * <p>当下标 ii 的位置的前缀和是偶数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是奇数，则从下标 j+1j+1 到下标 ii
+   * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为奇数前缀和的数量 \textit{odd}odd；
+   *
+   * <p>当下标 ii 的位置的前缀和是奇数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是偶数，则从下标 j+1j+1 到下标 ii
+   * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为偶数前缀和的数量 \textit{even}even。
+   */
+  public int numOfSubarrays(int[] arr) {
+    int max = 1000000007;
+    // 当前缀和为0是前缀和为偶数的个数为1
+    int odd = 0, even = 1;
+    int subArrays = 0;
+    int sum = 0;
+    int length = arr.length;
+    for (int j : arr) {
+      sum += j;
+      subArrays = (subArrays + (sum % 2 == 0 ? odd : even)) % max;
+      if (sum % 2 == 0) {
+        even++;
+      } else {
+        odd++;
       }
-      this.count = 0;
     }
+    return subArrays;
+  }
 
-    public int getCount() {
-      return count;
+  /**
+   * 437. 路径总和 III
+   *
+   * <p>给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于
+   *
+   * <p>targetSum的路径的数目。
+   */
+  int pathSumAns = 0;
+  public int pathSum(TreeNode root, int targetSum) {
+    // 记录路径中某个前缀和出现的次数
+    Map<Integer, Integer> map = new HashMap<>();
+    //防止包含根节点的时候找不到
+    map.put(0,1);
+    dfs_pathSum(root,map,0,targetSum);
+    return pathSumAns;
+  }
+
+  private void dfs_pathSum(TreeNode node, Map<Integer, Integer> map, int currSum, int targetSum) {
+    //递归退出条件
+    if(node == null){
+      return;
     }
+    //判断是否存在符合条件的前缀和
 
-    public void addCount() {
-      count++;
-    }
+    currSum += node.val;
+    pathSumAns+=map.getOrDefault(currSum-targetSum,0);
 
-    public boolean isConnected(int x, int y) {
-      return find(x) == find(y);
-    }
+    //将当前前缀和记录下来
+    map.put(currSum,map.getOrDefault(currSum,0)+1);
 
-    public int find(int x) {
-      if (parent[x] != x) {
-        parent[x] = find(parent[x]);
-      }
-      return parent[x];
-    }
+    //继续往下递归
+    //左子树
+    dfs_pathSum(node.left,map,currSum,targetSum);
+    //右子树
+    dfs_pathSum(node.right,map,currSum,targetSum);
 
-    public void union(int x, int y) {
-      int rootX = find(x);
-      int rootY = find(y);
-      if (rootX == rootY) {
-        return;
-      }
+    //回溯,恢复状态
+    map.put(currSum,map.getOrDefault(currSum,0)-1);
+  }
 
-      parent[rootX] = rootY;
-      count--;
-    }
-
-    /**
-     * 1524. 和为奇数的子数组数目
-     *
-     * <p>给你一个整数数组 arr 。请你返回和为 奇数 的子数组数目。
-     *
-     * <p>由于答案可能会很大，请你将结果对 10^9 + 7 取余后返回。
-     *
-     * <p>解法
-     *
-     * <p>当下标 ii 的位置的前缀和是偶数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是奇数，则从下标 j+1j+1 到下标 ii
-     * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为奇数前缀和的数量 \textit{odd}odd；
-     *
-     * <p>当下标 ii 的位置的前缀和是奇数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是偶数，则从下标 j+1j+1 到下标 ii
-     * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为偶数前缀和的数量 \textit{even}even。
-     */
-    public int numOfSubarrays(int[] arr) {
-      int max = 1000000007;
-      // 当前缀和为0是前缀和为偶数的个数为1
-      int odd = 0, even = 1;
-      int subArrays = 0;
-      int sum = 0;
-      int length = arr.length;
-      for (int j : arr) {
-        sum += j;
-        subArrays = (subArrays + (sum % 2 == 0 ? odd : even)) % max;
-        if (sum % 2 == 0) {
-          even++;
-        } else {
-          odd++;
-        }
-      }
-      return subArrays;
-    }
-
-    public void main(String[] args) {}
+  public static void main(String[] args) {
+    char[][] matrix =
+            new char[][] {
+                    {'1', '1', '1', '1', '0'},
+                    {'1', '1', '1', '1', '0'},
+                    {'1', '1', '1', '1', '1'},
+                    {'1', '1', '1', '1', '1'},
+                    {'0', '0', '1', '1', '1'}
+            };
+    int[] arr = {7, 7, 7, 7, 7, 7, 7};
+    int[][] intArr = {
+            {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
+    };
+    //    moveZeroes(arr);
+    //    MedianFinder m = new MedianFinder();
+    //    m.addNum(1);
+    //    m.addNum(2);
+    //    NumMatrix nm = new NumMatrix(intArr);
+    System.out.println(removeDuplicateLetters("bcabc"));
+    //    System.out.println(());
   }
 }
