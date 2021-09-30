@@ -40,6 +40,15 @@ class SolutionHead {
 
   int n;
   /**
+   * 437. 路径总和 III
+   *
+   * <p>给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于
+   *
+   * <p>targetSum的路径的数目。
+   */
+  int pathSumAns = 0;
+
+  /**
    * 301. 删除无效的括号
    *
    * <p>给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。
@@ -47,7 +56,6 @@ class SolutionHead {
    * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
    */
   private int len;
-
   private char[] charArray;
 
   /**
@@ -1241,6 +1249,27 @@ class SolutionHead {
     return (int) (Math.ceil(Math.sqrt(n + 1)) - 1);
   }
 
+  public static void main(String[] args) {
+    char[][] matrix =
+        new char[][] {
+          {'1', '1', '1', '1', '0'},
+          {'1', '1', '1', '1', '0'},
+          {'1', '1', '1', '1', '1'},
+          {'1', '1', '1', '1', '1'},
+          {'0', '0', '1', '1', '1'}
+        };
+    int[] arr = {7, 7, 7, 7, 7, 7, 7};
+    int[][] intArr = {
+      {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
+    };
+    //    moveZeroes(arr);
+    //    MedianFinder m = new MedianFinder();
+    //    m.addNum(1);
+    //    m.addNum(2);
+    //    NumMatrix nm = new NumMatrix(intArr);
+    System.out.println(removeDuplicateLetters("bcabc"));
+    //    System.out.println(());
+  }
 
   /**
    * 215. 数组中的第K个最大元素
@@ -2209,8 +2238,6 @@ class SolutionHead {
     return a;
   }
 
-
-
   /**
    * 1524. 和为奇数的子数组数目
    *
@@ -2220,11 +2247,11 @@ class SolutionHead {
    *
    * <p>解法
    *
-   * <p>当下标 ii 的位置的前缀和是偶数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是奇数，则从下标 j+1j+1 到下标 ii
-   * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为奇数前缀和的数量 \textit{odd}odd；
+   * <p>当下标 ii 的位置的前缀和是偶数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是奇数，则从下标 j+1j+1 到下标 ii 的子数组的和是奇数，因此，以下标
+   * ii 结尾的子数组中，和为奇数的子数组的数量即为奇数前缀和的数量 \textit{odd}odd；
    *
-   * <p>当下标 ii 的位置的前缀和是奇数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是偶数，则从下标 j+1j+1 到下标 ii
-   * 的子数组的和是奇数，因此，以下标 ii 结尾的子数组中，和为奇数的子数组的数量即为偶数前缀和的数量 \textit{even}even。
+   * <p>当下标 ii 的位置的前缀和是奇数时，如果下标 jj 满足 j < ij<i 且下标 jj 的位置的前缀和是偶数，则从下标 j+1j+1 到下标 ii 的子数组的和是奇数，因此，以下标
+   * ii 结尾的子数组中，和为奇数的子数组的数量即为偶数前缀和的数量 \textit{even}even。
    */
   public int numOfSubarrays(int[] arr) {
     int max = 1000000007;
@@ -2245,65 +2272,65 @@ class SolutionHead {
     return subArrays;
   }
 
-  /**
-   * 437. 路径总和 III
-   *
-   * <p>给定一个二叉树的根节点 root ，和一个整数 targetSum ，求该二叉树里节点值之和等于
-   *
-   * <p>targetSum的路径的数目。
-   */
-  int pathSumAns = 0;
   public int pathSum(TreeNode root, int targetSum) {
     // 记录路径中某个前缀和出现的次数
     Map<Integer, Integer> map = new HashMap<>();
-    //防止包含根节点的时候找不到
-    map.put(0,1);
-    dfs_pathSum(root,map,0,targetSum);
+    // 防止包含根节点的时候找不到
+    map.put(0, 1);
+    dfs_pathSum(root, map, 0, targetSum);
     return pathSumAns;
   }
 
   private void dfs_pathSum(TreeNode node, Map<Integer, Integer> map, int currSum, int targetSum) {
-    //递归退出条件
-    if(node == null){
+    // 递归退出条件
+    if (node == null) {
       return;
     }
-    //判断是否存在符合条件的前缀和
+    // 判断是否存在符合条件的前缀和
 
     currSum += node.val;
-    pathSumAns+=map.getOrDefault(currSum-targetSum,0);
+    pathSumAns += map.getOrDefault(currSum - targetSum, 0);
 
-    //将当前前缀和记录下来
-    map.put(currSum,map.getOrDefault(currSum,0)+1);
+    // 将当前前缀和记录下来
+    map.put(currSum, map.getOrDefault(currSum, 0) + 1);
 
-    //继续往下递归
-    //左子树
-    dfs_pathSum(node.left,map,currSum,targetSum);
-    //右子树
-    dfs_pathSum(node.right,map,currSum,targetSum);
+    // 继续往下递归
+    // 左子树
+    dfs_pathSum(node.left, map, currSum, targetSum);
+    // 右子树
+    dfs_pathSum(node.right, map, currSum, targetSum);
 
-    //回溯,恢复状态
-    map.put(currSum,map.getOrDefault(currSum,0)-1);
+    // 回溯,恢复状态
+    map.put(currSum, map.getOrDefault(currSum, 0) - 1);
+  }
+  Map<String, PriorityQueue<String>> findItineraryMap = new HashMap<>();
+  List<String> findItineraryResult = new LinkedList<>();
+  /**
+   * 332. 重新安排行程
+   *
+   * <p>给你一份航线列表 tickets ，其中 tickets[i] = [fromi, toi] 表示飞机出发和降落的机场地点。请你对该行程进行重新规划排序。
+   *
+   * 欧拉通路 使用回溯算法,因为一定存在答案,所以
+   */
+  public List<String> findItinerary(List<List<String>> tickets) {
+    for (List<String> ticket : tickets) {
+      String src = ticket.get(0);
+      String dst = ticket.get(1);
+      if (!findItineraryMap.containsKey(src)) {
+        findItineraryMap.put(src, new PriorityQueue<String>());
+      }
+      findItineraryMap.get(src).offer(dst);
+    }
+    dfs_findItinerary("JFK");
+    Collections.reverse(findItineraryResult);
+    return findItineraryResult;
   }
 
-  public static void main(String[] args) {
-    char[][] matrix =
-            new char[][] {
-                    {'1', '1', '1', '1', '0'},
-                    {'1', '1', '1', '1', '0'},
-                    {'1', '1', '1', '1', '1'},
-                    {'1', '1', '1', '1', '1'},
-                    {'0', '0', '1', '1', '1'}
-            };
-    int[] arr = {7, 7, 7, 7, 7, 7, 7};
-    int[][] intArr = {
-            {3, 0, 1, 4, 2}, {5, 6, 3, 2, 1}, {1, 2, 0, 1, 5}, {4, 1, 0, 1, 7}, {1, 0, 3, 0, 5}
-    };
-    //    moveZeroes(arr);
-    //    MedianFinder m = new MedianFinder();
-    //    m.addNum(1);
-    //    m.addNum(2);
-    //    NumMatrix nm = new NumMatrix(intArr);
-    System.out.println(removeDuplicateLetters("bcabc"));
-    //    System.out.println(());
+  public void dfs_findItinerary(String curr) {
+    while (findItineraryMap.containsKey(curr) && findItineraryMap.get(curr).size() > 0) {
+      String tmp = findItineraryMap.get(curr).poll();
+      dfs_findItinerary(tmp);
+    }
+    findItineraryResult.add(curr);
   }
 }
