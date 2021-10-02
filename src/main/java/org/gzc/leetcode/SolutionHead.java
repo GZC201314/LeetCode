@@ -47,7 +47,8 @@ class SolutionHead {
    * <p>targetSum的路径的数目。
    */
   int pathSumAns = 0;
-
+  Map<String, PriorityQueue<String>> findItineraryMap = new HashMap<>();
+  List<String> findItineraryResult = new LinkedList<>();
   /**
    * 301. 删除无效的括号
    *
@@ -2303,14 +2304,13 @@ class SolutionHead {
     // 回溯,恢复状态
     map.put(currSum, map.getOrDefault(currSum, 0) - 1);
   }
-  Map<String, PriorityQueue<String>> findItineraryMap = new HashMap<>();
-  List<String> findItineraryResult = new LinkedList<>();
+
   /**
    * 332. 重新安排行程
    *
    * <p>给你一份航线列表 tickets ，其中 tickets[i] = [fromi, toi] 表示飞机出发和降落的机场地点。请你对该行程进行重新规划排序。
    *
-   * 欧拉通路 使用回溯算法,因为一定存在答案,所以
+   * <p>欧拉通路 使用回溯算法,因为一定存在答案,所以
    */
   public List<String> findItinerary(List<List<String>> tickets) {
     for (List<String> ticket : tickets) {
@@ -2332,5 +2332,40 @@ class SolutionHead {
       dfs_findItinerary(tmp);
     }
     findItineraryResult.add(curr);
+  }
+
+  /**
+   * 334. 递增的三元子序列
+   *
+   * <p>给你一个整数数组 nums ，判断这个数组中是否存在长度为 3 的递增子序列。
+   *
+   * <p>使用贪心所发
+   *
+   * <p>对于要寻找的三元组 (min, mid, max)(min,mid,max)，持续记录 minmin 和 midmid 的值并根据当前遍历到的值 ii 进行更新
+   *
+   * <p>当 ii 的值：
+   *
+   * <p>ii >> midmid： 已找到满足条件的三元组 ii <=<= minmin： 更新 minmin == ii 以便后面组成新的三元组。midmid 不做更改因为后面还有可能出现
+   * jj >> midmid 可以使 (min, mid, j)(min,mid,j) 满足条件，但是因为 midmid >> minmin，所以可以只保留 midmid 来做后面的比较 ii
+   * >> minmin and ii <=<= midmid： 更新 midmid == ii，如果后面有满足当前三元组条件的数字 jj，即 midmid << jj，那么 ii << jj
+   * 也必定满足，且比 ii 大的数比 midmid 的多，所以 ii 作为新的 midmid 值为更优解
+   *
+   */
+  public boolean increasingTriplet(int[] nums) {
+    if (nums.length < 3) {
+      return false;
+    }
+    int min = Integer.MAX_VALUE, mid = Integer.MAX_VALUE;
+    for (int i : nums) {
+      if (i > mid) {
+        return true;
+      }
+      if (i <= min) {
+        min = i;
+      } else {
+        mid = i;
+      }
+    }
+    return false;
   }
 }
