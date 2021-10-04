@@ -47,6 +47,7 @@ class SolutionHead {
    * <p>targetSum的路径的数目。
    */
   int pathSumAns = 0;
+
   Map<String, PriorityQueue<String>> findItineraryMap = new HashMap<>();
   List<String> findItineraryResult = new LinkedList<>();
   /**
@@ -57,6 +58,7 @@ class SolutionHead {
    * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
    */
   private int len;
+
   private char[] charArray;
 
   /**
@@ -1273,6 +1275,32 @@ class SolutionHead {
   }
 
   /**
+   * 482. 密钥格式化
+   *
+   * <p>有一个密钥字符串 S ，只包含字母，数字以及 '-'（破折号）。其中， N 个 '-' 将字符串分成了 N+1 组。
+   *
+   * <p>给你一个数字 K，请你重新格式化字符串，使每个分组恰好包含 K 个字符。特别地，第一个分组包含的字符个数必须小于等于 K，但至少要包含 1 个字符。两个分组之间需要用
+   * '-'（破折号）隔开，并且将所有的小写字母转换为大写字母。
+   */
+  public String licenseKeyFormatting(String s, int k) {
+    StringBuilder sb = new StringBuilder();
+    int count=0;
+    for (int i = s.length()-1;i>=0;i--){
+      if(s.charAt(i) != '-'){
+        count++;
+        sb.append(Character.toUpperCase(s.charAt(i)));
+        if(count%k == 0){
+          sb.append('-');
+        }
+      }
+    }
+    if(sb.length()>0 && sb.charAt(sb.length()-1) == '-'){
+      sb.deleteCharAt(sb.length()-1);
+    }
+    return sb.reverse().toString();
+  }
+
+  /**
    * 215. 数组中的第K个最大元素
    *
    * <p>在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
@@ -2349,7 +2377,6 @@ class SolutionHead {
    * jj >> midmid 可以使 (min, mid, j)(min,mid,j) 满足条件，但是因为 midmid >> minmin，所以可以只保留 midmid 来做后面的比较 ii
    * >> minmin and ii <=<= midmid： 更新 midmid == ii，如果后面有满足当前三元组条件的数字 jj，即 midmid << jj，那么 ii << jj
    * 也必定满足，且比 ii 大的数比 midmid 的多，所以 ii 作为新的 midmid 值为更优解
-   *
    */
   public boolean increasingTriplet(int[] nums) {
     if (nums.length < 3) {
@@ -2367,5 +2394,56 @@ class SolutionHead {
       }
     }
     return false;
+  }
+
+  /**
+   * 166. 分数到小数
+   *
+   * <p>给定两个整数，分别表示分数的分子 numerator 和分母 denominator，以 字符串形式返回小数 。
+   *
+   * <p>如果小数部分为循环小数，则将循环的部分括在括号内。
+   *
+   * <p>如果存在多个答案，只需返回 任意一个 。
+   *
+   * <p>对于所有给定的输入，保证 答案字符串的长度小于 104 。
+   */
+  public String fractionToDecimal(int numerator, int denominator) {
+    long numeratorLong = (long) numerator;
+    long denominatorLong = (long) denominator;
+    if (numeratorLong % denominatorLong == 0) {
+      return String.valueOf(numeratorLong / denominatorLong);
+    }
+    // 符号部分
+    StringBuilder sb = new StringBuilder();
+    if (numerator < 0 ^ denominatorLong < 0) {
+      sb.append('-');
+    }
+    // 整数部分
+    numeratorLong = Math.abs(numeratorLong);
+    denominatorLong = Math.abs(denominatorLong);
+    long integerPart = numeratorLong / denominatorLong;
+    sb.append(integerPart);
+    sb.append('.');
+
+    // 小数部分
+    StringBuilder xiaoshuPart = new StringBuilder();
+    Map<Long, Integer> remainderIndexMap = new HashMap<>();
+    long remainder = numeratorLong % denominatorLong;
+    int index = 0;
+    while (remainder != 0 && !remainderIndexMap.containsKey(remainder)) {
+      remainderIndexMap.put(remainder, index);
+      remainder *= 10;
+      xiaoshuPart.append(remainder / denominatorLong);
+      remainder %= denominatorLong;
+      index++;
+    }
+    // 存在循环节
+    if (remainder != 0) {
+      int insertIndex = remainderIndexMap.get(remainder);
+      xiaoshuPart.insert(insertIndex, '(');
+      xiaoshuPart.append(')');
+    }
+    sb.append(xiaoshuPart.toString());
+    return sb.toString();
   }
 }
