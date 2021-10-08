@@ -1252,6 +1252,32 @@ class SolutionHead {
     return (int) (Math.ceil(Math.sqrt(n + 1)) - 1);
   }
 
+  /**
+   * 383. 赎金信
+   *
+   * 给定一个赎金信 (ransom) 字符串和一个杂志(magazine)字符串，判断第一个字符串 ransom 能不能由第二个字符串 magazines 里面
+   * 的字符构成。如果可以构成，返回 true ；否则返回 false。
+   */
+  public boolean canConstruct(String ransomNote, String magazine) {
+    Map<Character,Integer> map = new HashMap<>();
+    for (int i = magazine.length()-1; i >=0 ; i--) {
+      Character character = magazine.charAt(i);
+      map.put(character,map.getOrDefault(character,0)+1);
+    }
+    for (int i = ransomNote.length()-1; i >=0; i--) {
+      Character ransomNoteCharacter = ransomNote.charAt(i);
+      if(map.containsKey(ransomNoteCharacter)){
+        map.put(ransomNoteCharacter,map.getOrDefault(ransomNoteCharacter,0)-1);
+        if(map.get(ransomNoteCharacter) == 0){
+          map.remove(ransomNoteCharacter);
+        }
+      }else {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public static void main(String[] args) {
     char[][] matrix =
         new char[][] {
