@@ -2633,4 +2633,28 @@ class SolutionHead {
         Math.max(f.getOrDefault(root.left, 0), g.getOrDefault(root.left, 0))
             + Math.max(f.getOrDefault(root.right, 0), g.getOrDefault(root.right, 0)));
   }
+
+  /**
+   *
+   * @param n
+   * @return
+   */
+  public List<String> fizzBuzz(int n) {
+    List<String> answer = new ArrayList<>();
+    for (int i = 1; i <= n; i++) {
+      StringBuffer sb = new StringBuffer();
+      if(i%3 == 0){
+        sb.append("Fizz");
+      }
+      if(i%5==0){
+        sb.append("Buzz");
+      }
+      if(sb.length() ==0){
+        answer.add(i+"");
+      }else {
+        answer.add(sb.toString());
+      }
+    }
+    return answer;
+  }
 }
