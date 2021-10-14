@@ -2657,4 +2657,25 @@ class SolutionHead {
     }
     return answer;
   }
+
+  /**
+   * 剑指offer 山峰数组的顶部
+   * @param arr
+   * @return
+   */
+  public int peakIndexInMountainArray(int[] arr) {
+    int left =0,right=arr.length-1;
+    int ans =0;
+    while (left<=right){
+      int mid =left+(right-left)/2;
+      if(arr[mid]>arr[mid+1]){
+          ans = mid;
+          right = mid-1;
+      }else{
+        left= mid+1;
+      }
+    }
+    return ans;
+  }
+
 }
