@@ -2660,8 +2660,6 @@ class SolutionHead {
 
   /**
    * 剑指offer 山峰数组的顶部
-   * @param arr
-   * @return
    */
   public int peakIndexInMountainArray(int[] arr) {
     int left =0,right=arr.length-1;
