@@ -75,6 +75,7 @@ class SolutionHead {
    * =max{f(l),g(l)}+max{f(r),g(r)}。
    */
   Map<TreeNode, Integer> f = new HashMap<>();
+
   Map<TreeNode, Integer> g = new HashMap<>();
   /**
    * 301. 删除无效的括号
@@ -84,6 +85,7 @@ class SolutionHead {
    * <p>返回所有可能的结果。答案可以按 任意顺序 返回。
    */
   private int len;
+
   private char[] charArray;
 
   /**
@@ -2635,7 +2637,6 @@ class SolutionHead {
   }
 
   /**
-   *
    * @param n
    * @return
    */
@@ -2643,37 +2644,47 @@ class SolutionHead {
     List<String> answer = new ArrayList<>();
     for (int i = 1; i <= n; i++) {
       StringBuffer sb = new StringBuffer();
-      if(i%3 == 0){
+      if (i % 3 == 0) {
         sb.append("Fizz");
       }
-      if(i%5==0){
+      if (i % 5 == 0) {
         sb.append("Buzz");
       }
-      if(sb.length() ==0){
-        answer.add(i+"");
-      }else {
+      if (sb.length() == 0) {
+        answer.add(i + "");
+      } else {
         answer.add(sb.toString());
       }
     }
     return answer;
   }
 
-  /**
-   * 剑指offer 山峰数组的顶部
-   */
+  /** 剑指offer 山峰数组的顶部 */
   public int peakIndexInMountainArray(int[] arr) {
-    int left =0,right=arr.length-1;
-    int ans =0;
-    while (left<=right){
-      int mid =left+(right-left)/2;
-      if(arr[mid]>arr[mid+1]){
-          ans = mid;
-          right = mid-1;
-      }else{
-        left= mid+1;
+    int left = 0, right = arr.length - 1;
+    int ans = 0;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (arr[mid] > arr[mid + 1]) {
+        ans = mid;
+        right = mid - 1;
+      } else {
+        left = mid + 1;
       }
     }
     return ans;
   }
-
+  /*
+   * 476. 数字的补数
+   * */
+  public int findComplement(int num) {
+    int result = 0;
+    int index = 0;
+    while (num > 0) {
+      int yushu = num % 2;
+      num = num / 2;
+      result += Math.pow(2, index++) * (1 - yushu);
+    }
+    return result;
+  }
 }
