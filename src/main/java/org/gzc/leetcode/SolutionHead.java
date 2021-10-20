@@ -2687,4 +2687,18 @@ class SolutionHead {
     }
     return result;
   }
+  /*
+   * 453. 最小操作次数使数组元素相等
+   * */
+  public int minMoves(int[] nums) {
+    int min =0;
+    if(Arrays.stream(nums).min().isPresent()){
+     min = Arrays.stream(nums).min().getAsInt();
+    }
+    int result = 0;
+    for (int num : nums) {
+      result += (num - min);
+    }
+    return result;
+  }
 }
