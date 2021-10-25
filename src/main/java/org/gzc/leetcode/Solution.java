@@ -11,6 +11,7 @@ import java.util.*;
  * ListNode(int val) { this.val = val; } ListNode(int val, ListNode next) { this.val = val;
  * this.next = next; } }
  */
+
 class Solution {
 
   public static List<List<Integer>> subsetsWithDup(int[] nums) {
@@ -227,7 +228,11 @@ class Solution {
     dp[0] = 1;
     dp[1] = 1;
 
-    for (int i = 2; i < n + 1; i++) for (int j = 1; j < i + 1; j++) dp[i] += dp[j - 1] * dp[i - j];
+    for (int i = 2; i < n + 1; i++) {
+      for (int j = 1; j < i + 1; j++) {
+        dp[i] += dp[j - 1] * dp[i - j];
+      }
+    }
 
     return dp[n];
   }
@@ -1651,8 +1656,12 @@ class Solution {
    * @return
    */
   public static boolean wordBreak2(String s, List<String> wordDict) {
-    if (s.length() == 0) return true;
-    if (s.length() >= 151) return false;
+    if (s.length() == 0) {
+      return true;
+    }
+    if (s.length() >= 151) {
+      return false;
+    }
     Set<String> wordDictSet = new HashSet<>(wordDict);
     return wordBreak(s, wordDictSet);
   }
@@ -1674,9 +1683,6 @@ class Solution {
    *
    * <p>给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，在字符串中增加空格来构建一个句子， 使得句子中所有的单词都在词典中。返回所有这些可能的句子。
    *
-   * @param s
-   * @param wordDict
-   * @return
    */
   public static List<String> wordBreak(String s, List<String> wordDict) {
     Map<Integer, List<List<String>>> map = new HashMap<>();
@@ -2032,8 +2038,11 @@ class Solution {
   }
 
   public static int gcd(int dy, int dx) {
-    if (dx == 0) return dy;
-    else return gcd(dx, dy % dx);
+    if (dx == 0) {
+      return dy;
+    } else {
+      return gcd(dx, dy % dx);
+    }
   }
 
   /**
@@ -2199,8 +2208,12 @@ class Solution {
       if (headB != null && !nodeSet.add(headB)) {
         return headB;
       }
-      if (headA != null) headA = headA.next;
-      if (headB != null) headB = headB.next;
+      if (headA != null) {
+        headA = headA.next;
+      }
+      if (headB != null) {
+        headB = headB.next;
+      }
     }
     return null;
   }
@@ -2215,10 +2228,16 @@ class Solution {
   public static ListNode getIntersectionNode(ListNode headA, ListNode headB) {
     ListNode nodea = headA, nodeb = headB;
     while (nodea != nodeb) {
-      if (nodea == null) nodea = headB;
-      else nodea = nodea.next;
-      if (nodeb == null) nodeb = headA;
-      else nodeb = nodeb.next;
+      if (nodea == null) {
+        nodea = headB;
+      } else {
+        nodea = nodea.next;
+      }
+      if (nodeb == null) {
+        nodeb = headA;
+      } else {
+        nodeb = nodeb.next;
+      }
     }
     return nodeb;
   }
