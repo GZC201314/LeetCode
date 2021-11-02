@@ -1,5 +1,9 @@
 package org.gzc.leetcode;
 
+/**
+ * @author GZC
+ * @description 十一月份的LeetCode练习代码
+ */
 public class Solution11 {
     /**
      * 343. 整数拆分
