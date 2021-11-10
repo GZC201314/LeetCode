@@ -76,4 +76,29 @@ public class Solution11 {
         }
         return res.stream().mapToInt(Integer::valueOf).toArray();
     }
+
+    /**
+     * 495. 提莫攻击
+     */
+    public static int findPoisonedDuration(int[] timeSeries, int duration) {
+        int prisonTimeStart = 0;
+        int prisonTimeEnd = 0;
+        int prisonSum = 0;
+        for (Integer timeSerie : timeSeries) {
+            if (prisonTimeEnd <= timeSerie) {
+                prisonSum += (prisonTimeEnd - prisonTimeStart);
+                prisonTimeStart = timeSerie;
+                prisonTimeEnd = timeSerie + duration;
+            } else if (prisonTimeEnd < (timeSerie + duration)) {
+                prisonTimeEnd = timeSerie + duration;
+            }
+        }
+        prisonSum +=(prisonTimeEnd-prisonTimeStart);
+        return prisonSum;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = new int[]{1,4};
+        System.out.println(findPoisonedDuration(arr, 2));
+    }
 }
