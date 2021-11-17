@@ -151,4 +151,98 @@ public class Solution11 {
 
         return sum;
     }
+
+    /**
+     * 365. 水壶问题
+     * <p>
+     * 深度优先遍历算法 ，首先要找到所有坑你的状态变化
+     */
+    public boolean canMeasureWater(int jug1Capacity, int jug2Capacity, int targetCapacity) {
+        if (jug1Capacity + jug2Capacity < targetCapacity) {
+            return false;
+        }
+        Deque<int[]> stack = new LinkedList<>();
+        stack.push(new int[]{0, 0});
+        /*记录已经计算过的状态，防止出现环，减少计算量*/
+        Set<Long> seen = new HashSet<>();
+        while (!stack.isEmpty()) {
+            if (seen.contains(hash(stack.peek()))) {
+                stack.pop();
+                continue;
+            }
+            assert stack.peek() != null;
+            seen.add(hash(stack.peek()));
+
+            int[] state = stack.pop();
+            int remainX = state[0], remainY = state[1];
+            if (remainX == targetCapacity || remainY == targetCapacity || remainX + remainY == targetCapacity) {
+                return true;
+            }
+            // 把 X 壶灌满。
+            stack.push(new int[]{jug1Capacity, remainY});
+            // 把 Y 壶灌满。
+            stack.push(new int[]{remainX, jug2Capacity});
+            // 把 X 壶倒空。
+            stack.push(new int[]{0, remainY});
+            // 把 Y 壶倒空。
+            stack.push(new int[]{remainX, 0});
+            // 把 X 壶的水灌进 Y 壶，直至灌满或倒空。
+            stack.push(new int[]{remainX - Math.min(remainX, jug2Capacity - remainY), remainY + Math.min(remainX, jug2Capacity - remainY)});
+            // 把 Y 壶的水灌进 X 壶，直至灌满或倒空。
+            stack.push(new int[]{remainX + Math.min(remainY, jug1Capacity - remainX), remainY - Math.min(remainY, jug1Capacity - remainX)});
+        }
+        return false;
+    }
+
+    public long hash(int[] state) {
+        return (long) state[0] * 1000001 + state[1];
+    }
+
+    /**
+     * 368. 最大整除子集
+     *
+     * 算法思路：动态规划
+     *
+     * 状态转移方程：枚举 j = 0…i−1 的所有整数 nums[j]，如果 nums[j] 能整除 nums[i]，
+     *
+     *说明 nums[i] 可以扩充在以 nums[j] 为最大整数的整除子集里成为一个更大的整除子集。
+     *
+     * 其中 dp[i] 表示在输入数组 nums 升序排列的前提下，以 nums[i] 为最大整数的「整除子集」的大小（在这种定义下nums[i] 必须被选择）。
+     *
+     */
+    public List<Integer> largestDivisibleSubset(int[] nums) {
+        int len = nums.length;
+        Arrays.sort(nums);
+        /*第一步：动态规划找出最大子集的个数，最大子集中的最大整数*/
+        int[] dp = new int[len];
+        Arrays.fill(dp, 1);
+        int maxSize = 1;
+        int maxVal = dp[0];
+        for (int i = 1; i < len; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[i] % nums[j] == 0) {
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            }
+            if (dp[i] > maxSize) {
+                maxSize = dp[i];
+                maxVal = nums[i];
+            }
+        }
+        /*第二步：倒推获得最大子集*/
+        List<Integer> res = new ArrayList<>();
+        if (maxSize == 1) {
+            res.add(nums[0]);
+            return res;
+        }
+        for (int i = len - 1; i >= 0; i--) {
+            if (dp[i] == maxSize && maxVal % nums[i] == 0) {
+                res.add(nums[i]);
+                maxVal = nums[i];
+                maxSize--;
+            }
+        }
+        return res;
+    }
+
 }
