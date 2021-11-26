@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.TreeNode;
+
 import java.util.*;
 
 /**
@@ -244,5 +246,28 @@ public class Solution11 {
         }
         return res;
     }
+
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root ==null){
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+          if(stack.peek().val == val){
+              return stack.pop();
+          }else {
+              TreeNode node = stack.pop();
+              if(node.left != null){
+                  stack.add(node.left);
+              }
+              if(node.right != null){
+                  stack.add(node.right);
+              }
+          }
+        }
+        return null;
+    }
+
 
 }
