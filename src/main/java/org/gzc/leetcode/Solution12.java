@@ -30,7 +30,33 @@ public class Solution12 {
         return Math.max(maxPower, power);
     }
 
+    public static int superPow(int a, int[] b) {
+        int len = b.length;
+        return indexPow(a,b,len);
+    }
+
+    private static int indexPow(int a, int[] b, int len) {
+        if(len <1){
+            return 1;
+        }
+        int part1 = myPow(a,b[len-1]);
+        len--;
+        int part2 = myPow(indexPow(a,b,len),10);
+
+        return part1*part2%1337;
+    }
+
+    private static int myPow(int a, int k) {
+        a = a%1337;
+        int ans =1;
+        for (int i=0;i<k;i++){
+            ans *=a;
+            ans %=1337;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        System.out.println(maxPower("hooraaaaaaaaaaay"));
+        System.out.println(superPow(2147483647 ,new int[]{2,0,0}));
     }
 }
