@@ -2,7 +2,7 @@ package org.gzc.leetcode;
 
 /**
  * @author GZC
- * @description 十一月份的LeetCode练习代码
+ * @description 十二月份的LeetCode练习代码
  */
 public class Solution12 {
 
@@ -46,6 +46,7 @@ public class Solution12 {
         return part1*part2%1337;
     }
 
+    /*防止溢出*/
     private static int myPow(int a, int k) {
         a = a%1337;
         int ans =1;
