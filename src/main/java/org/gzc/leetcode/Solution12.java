@@ -93,6 +93,18 @@ public class Solution12 {
         return res;
     }
 
+    public static String truncateSentence(String s, int k) {
+        int n = s.length();
+        int index =0;
+        while (index <n){
+            if(s.charAt(index) == ' ' && 0 == --k){
+                break;
+            }
+            index++;
+        }
+        return s.substring(0,index);
+    }
+
     public static void main(String[] args) {
         System.out.println(superPow(2147483647, new int[]{2, 0, 0}));
     }
