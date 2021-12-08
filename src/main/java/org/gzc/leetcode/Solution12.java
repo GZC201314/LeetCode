@@ -1,8 +1,6 @@
 package org.gzc.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * @author GZC
@@ -95,17 +93,45 @@ public class Solution12 {
 
     public static String truncateSentence(String s, int k) {
         int n = s.length();
-        int index =0;
-        while (index <n){
-            if(s.charAt(index) == ' ' && 0 == --k){
+        int index = 0;
+        while (index < n) {
+            if (s.charAt(index) == ' ' && 0 == --k) {
                 break;
             }
             index++;
         }
-        return s.substring(0,index);
+        return s.substring(0, index);
     }
 
     public static void main(String[] args) {
-        System.out.println(superPow(2147483647, new int[]{2, 0, 0}));
+        System.out.println(kSmallestPairs(new int[]{1, 2}, new int[]{3}, 3));
     }
+
+    public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        int len1 = nums1.length;
+        int len2 = nums2.length;
+        int[] pos = new int[len1];
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<List<Integer>> minHeap = new PriorityQueue<>(
+                new Comparator<List<Integer>>() {
+                    @Override
+                    public int compare(List<Integer> integers, List<Integer> t1) {
+                        return nums1[integers.get(0)] + nums2[integers.get(1)] - nums1[t1.get(0)] - nums2[t1.get(1)];
+                    }
+                }
+        );
+        for (int i = 0; i < Math.min(len1, k); i++) {
+            minHeap.offer(new ArrayList<>(Arrays.asList(i, 0)));
+        }
+
+        while (res.size() < k && !minHeap.isEmpty()) {
+            List<Integer> topNode = minHeap.poll();
+            res.add(new ArrayList<>(Arrays.asList(nums1[topNode.get(0)], nums2[topNode.get(1)])));
+            if(topNode.get(1)+1<len2){
+                minHeap.offer(new ArrayList<>(Arrays.asList(topNode.get(0),topNode.get(1)+1)));
+            }
+        }
+        return res;
+    }
+
 }
