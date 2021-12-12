@@ -134,4 +134,29 @@ public class Solution12 {
         return res;
     }
 
+    static int N = 210;
+    static int[][] cache = new int[N][N];
+
+    public int getMoneyAmount(int n) {
+        return dfs_getMoneyAmount(1,n);
+    }
+    public int dfs_getMoneyAmount(int l,int r){
+        if(l>=r){
+            return 0;
+        }
+        if(cache[l][r]!=0){
+            return cache[l][r];
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = l; i <= r ; i++) {
+            // 当选择的数位 x 时，至少需要 cur 才能猜中数字
+            int cur = Math.max(dfs_getMoneyAmount(l,i-1),dfs_getMoneyAmount(i+1,r))+i;
+            //在所有的决策中我们选择数值最小的一个
+            ans = Math.min(ans,cur);
+        }
+        cache[l][r] = ans;
+        return ans;
+
+    }
+
 }
