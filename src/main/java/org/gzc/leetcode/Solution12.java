@@ -8,6 +8,9 @@ import java.util.*;
  */
 public class Solution12 {
 
+    static int N = 210;
+    static int[][] cache = new int[N][N];
+
     public static int maxPower(String s) {
         int length = s.length();
         if (length == 0) {
@@ -104,7 +107,13 @@ public class Solution12 {
     }
 
     public static void main(String[] args) {
-        System.out.println(kSmallestPairs(new int[]{1, 2}, new int[]{3}, 3));
+        int[][] array = new int[][]{
+                {3, 0, 8, 4},
+                {2, 4, 5, 7},
+                {9, 2, 6, 3},
+                {0, 3, 1, 0}
+        };
+        System.out.println(maxIncreaseKeepingSkyline(array));
     }
 
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -127,32 +136,70 @@ public class Solution12 {
         while (res.size() < k && !minHeap.isEmpty()) {
             List<Integer> topNode = minHeap.poll();
             res.add(new ArrayList<>(Arrays.asList(nums1[topNode.get(0)], nums2[topNode.get(1)])));
-            if(topNode.get(1)+1<len2){
-                minHeap.offer(new ArrayList<>(Arrays.asList(topNode.get(0),topNode.get(1)+1)));
+            if (topNode.get(1) + 1 < len2) {
+                minHeap.offer(new ArrayList<>(Arrays.asList(topNode.get(0), topNode.get(1) + 1)));
             }
         }
         return res;
     }
 
-    static int N = 210;
-    static int[][] cache = new int[N][N];
-
-    public int getMoneyAmount(int n) {
-        return dfs_getMoneyAmount(1,n);
-    }
-    public int dfs_getMoneyAmount(int l,int r){
-        if(l>=r){
+    /**
+     * 807. 保持城市天际线
+     * @param grid
+     * @return
+     */
+    public static int maxIncreaseKeepingSkyline(int[][] grid) {
+        int hang = grid.length;
+        if (hang == 0) {
             return 0;
         }
-        if(cache[l][r]!=0){
+        int lie = grid[0].length;
+        int[] hangMax = new int[hang];
+        int[] lieMax = new int[lie];
+        for (int i = 0; i < hang; i++) {
+            int max = grid[i][0];
+            for (int j = 1; j < lie; j++) {
+                if (max < grid[i][j]) {
+                    max = grid[i][j];
+                }
+            }
+            hangMax[i] = max;
+        }
+        for (int i = 0; i < lie; i++) {
+            int max = grid[0][i];
+            for (int j = 1; j < hang; j++) {
+                if (max < grid[j][i]) {
+                    max = grid[j][i];
+                }
+            }
+            lieMax[i] = max;
+        }
+        int result = 0;
+        for (int i = 0; i < hang; i++) {
+            for (int j = 0; j < lie; j++) {
+                result += Math.min(hangMax[i] - grid[i][j], lieMax[j] - grid[i][j]);
+            }
+        }
+        return result;
+    }
+
+    public int getMoneyAmount(int n) {
+        return dfs_getMoneyAmount(1, n);
+    }
+
+    public int dfs_getMoneyAmount(int l, int r) {
+        if (l >= r) {
+            return 0;
+        }
+        if (cache[l][r] != 0) {
             return cache[l][r];
         }
         int ans = Integer.MAX_VALUE;
-        for (int i = l; i <= r ; i++) {
+        for (int i = l; i <= r; i++) {
             // 当选择的数位 x 时，至少需要 cur 才能猜中数字
-            int cur = Math.max(dfs_getMoneyAmount(l,i-1),dfs_getMoneyAmount(i+1,r))+i;
+            int cur = Math.max(dfs_getMoneyAmount(l, i - 1), dfs_getMoneyAmount(i + 1, r)) + i;
             //在所有的决策中我们选择数值最小的一个
-            ans = Math.min(ans,cur);
+            ans = Math.min(ans, cur);
         }
         cache[l][r] = ans;
         return ans;
