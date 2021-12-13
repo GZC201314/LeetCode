@@ -122,12 +122,7 @@ public class Solution12 {
         int[] pos = new int[len1];
         List<List<Integer>> res = new ArrayList<>();
         Queue<List<Integer>> minHeap = new PriorityQueue<>(
-                new Comparator<List<Integer>>() {
-                    @Override
-                    public int compare(List<Integer> integers, List<Integer> t1) {
-                        return nums1[integers.get(0)] + nums2[integers.get(1)] - nums1[t1.get(0)] - nums2[t1.get(1)];
-                    }
-                }
+                (integers, t1) -> nums1[integers.get(0)] + nums2[integers.get(1)] - nums1[t1.get(0)] - nums2[t1.get(1)]
         );
         for (int i = 0; i < Math.min(len1, k); i++) {
             minHeap.offer(new ArrayList<>(Arrays.asList(i, 0)));
@@ -145,8 +140,6 @@ public class Solution12 {
 
     /**
      * 807. 保持城市天际线
-     * @param grid
-     * @return
      */
     public static int maxIncreaseKeepingSkyline(int[][] grid) {
         int hang = grid.length;
