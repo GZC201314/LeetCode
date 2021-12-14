@@ -113,7 +113,7 @@ public class Solution12 {
                 {9, 2, 6, 3},
                 {0, 3, 1, 0}
         };
-        System.out.println(maxIncreaseKeepingSkyline(array));
+        System.out.println(wiggleMaxLength(new int[]{1,7,4,9,2,5}));
     }
 
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -197,6 +197,26 @@ public class Solution12 {
         cache[l][r] = ans;
         return ans;
 
+    }
+
+    public static int wiggleMaxLength(int[] nums) {
+        int length = nums.length;
+        int[][] dp = new int[length][2];
+        int i=1;
+        while (i<length){
+            if(nums[i]>nums[i-1]){
+                dp[i][0] =dp[i-1][0];
+                dp[i][1] = dp[i-1][0]+1;
+            }else if(nums[i]<nums[i-1]){
+                dp[i][0] = dp[i-1][1]+1;
+                dp[i][1] = dp[i-1][1];
+            }else {
+                dp[i][0] = dp[i-1][0];
+                dp[i][1] = dp[i-1][1];
+            }
+            i++;
+        }
+        return Math.max(dp[i-1][0],dp[i-1][1])+1;
     }
 
 }
