@@ -244,4 +244,23 @@ public class Solution12 {
         return -1;
     }
 
+    public char findTheDifference(String s, String t) {
+        int sLen = s.length();
+        Map<Character,Integer> map = new HashMap<>();
+        char[] tChars = t.toCharArray();
+        char[] sChars = s.toCharArray();
+        for (int i = 0; i < sLen+1; i++) {
+            map.put(tChars[i],map.getOrDefault(tChars[i],0)+1);
+        }
+        for (int i = 0; i < sLen; i++) {
+            int count = map.get(sChars[i])-1 ;
+            if(count ==0){
+                map.remove(sChars[i]);
+            }else {
+                map.put(sChars[i],count);
+            }
+        }
+        return map.keySet().stream().findFirst().get();
+    }
+
 }
