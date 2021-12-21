@@ -113,7 +113,7 @@ public class Solution12 {
                 {9, 2, 6, 3},
                 {0, 3, 1, 0}
         };
-        System.out.println(wiggleMaxLength(new int[]{1,7,4,9,2,5}));
+        System.out.println(wiggleMaxLength(new int[]{1, 7, 4, 9, 2, 5}));
     }
 
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -176,6 +176,26 @@ public class Solution12 {
         return result;
     }
 
+    public static int wiggleMaxLength(int[] nums) {
+        int length = nums.length;
+        int[][] dp = new int[length][2];
+        int i = 1;
+        while (i < length) {
+            if (nums[i] > nums[i - 1]) {
+                dp[i][0] = dp[i - 1][0];
+                dp[i][1] = dp[i - 1][0] + 1;
+            } else if (nums[i] < nums[i - 1]) {
+                dp[i][0] = dp[i - 1][1] + 1;
+                dp[i][1] = dp[i - 1][1];
+            } else {
+                dp[i][0] = dp[i - 1][0];
+                dp[i][1] = dp[i - 1][1];
+            }
+            i++;
+        }
+        return Math.max(dp[i - 1][0], dp[i - 1][1]) + 1;
+    }
+
     public int getMoneyAmount(int n) {
         return dfs_getMoneyAmount(1, n);
     }
@@ -199,31 +219,11 @@ public class Solution12 {
 
     }
 
-    public static int wiggleMaxLength(int[] nums) {
-        int length = nums.length;
-        int[][] dp = new int[length][2];
-        int i=1;
-        while (i<length){
-            if(nums[i]>nums[i-1]){
-                dp[i][0] =dp[i-1][0];
-                dp[i][1] = dp[i-1][0]+1;
-            }else if(nums[i]<nums[i-1]){
-                dp[i][0] = dp[i-1][1]+1;
-                dp[i][1] = dp[i-1][1];
-            }else {
-                dp[i][0] = dp[i-1][0];
-                dp[i][1] = dp[i-1][1];
-            }
-            i++;
-        }
-        return Math.max(dp[i-1][0],dp[i-1][1])+1;
-    }
-
     public int firstUniqChar(String s) {
         for (int i = 0; i < s.length(); i++) {
 
             String newString = s.replaceFirst(String.valueOf(s.charAt(i)), "");
-            if(!newString.contains(String.valueOf(s.charAt(i)))){
+            if (!newString.contains(String.valueOf(s.charAt(i)))) {
                 return i;
             }
         }
@@ -246,21 +246,43 @@ public class Solution12 {
 
     public char findTheDifference(String s, String t) {
         int sLen = s.length();
-        Map<Character,Integer> map = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>();
         char[] tChars = t.toCharArray();
         char[] sChars = s.toCharArray();
-        for (int i = 0; i < sLen+1; i++) {
-            map.put(tChars[i],map.getOrDefault(tChars[i],0)+1);
+        for (int i = 0; i < sLen + 1; i++) {
+            map.put(tChars[i], map.getOrDefault(tChars[i], 0) + 1);
         }
         for (int i = 0; i < sLen; i++) {
-            int count = map.get(sChars[i])-1 ;
-            if(count ==0){
+            int count = map.get(sChars[i]) - 1;
+            if (count == 0) {
                 map.remove(sChars[i]);
-            }else {
-                map.put(sChars[i],count);
+            } else {
+                map.put(sChars[i], count);
             }
         }
         return map.keySet().stream().findFirst().get();
+    }
+
+    public int dayOfYear(String date) {
+        int[] monthDays = new int[]{
+                31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+        };
+        String[] dates = date.split("-");
+
+        int year = Integer.parseInt(dates[0]);
+        int mouth = Integer.parseInt(dates[1]);
+        int day = Integer.parseInt(dates[2]);
+        int result = 0;
+        for (int i = 0; i < mouth - 1; i++) {
+            result += monthDays[i];
+        }
+        if (mouth > 2) {
+            if ((year % 100 == 0 && year % 400 == 0) || (year % 100 != 0 && year % 4 == 0)) {
+                result += 1;
+            }
+        }
+        return result += day;
+
     }
 
 }
