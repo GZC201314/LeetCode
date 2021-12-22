@@ -113,7 +113,7 @@ public class Solution12 {
                 {9, 2, 6, 3},
                 {0, 3, 1, 0}
         };
-        System.out.println(wiggleMaxLength(new int[]{1, 7, 4, 9, 2, 5}));
+        System.out.println(isSubsequence("b","abc"));
     }
 
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -284,5 +284,30 @@ public class Solution12 {
         return result += day;
 
     }
+
+    public static boolean isSubsequence(String s, String t) {
+        int sLen = s.length();
+        if(sLen ==0){
+            return true;
+        }
+        int tLen = t.length();
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        int sIndex = 0;
+        int tIndex = 0;
+        while (tIndex<tLen){
+            if(s.charAt(sIndex) == t.charAt(tIndex)){
+                sIndex++;
+                tIndex++;
+                if(sIndex == sLen){
+                    return true;
+                }
+            }else {
+                tIndex++;
+            }
+        }
+        return sIndex == sLen;
+    }
+
 
 }
