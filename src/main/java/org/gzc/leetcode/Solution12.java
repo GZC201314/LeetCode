@@ -113,7 +113,7 @@ public class Solution12 {
                 {9, 2, 6, 3},
                 {0, 3, 1, 0}
         };
-        System.out.println(isSubsequence("b","abc"));
+        System.out.println(isSubsequence("b", "abc"));
     }
 
     public static List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
@@ -194,6 +194,30 @@ public class Solution12 {
             i++;
         }
         return Math.max(dp[i - 1][0], dp[i - 1][1]) + 1;
+    }
+
+    public static boolean isSubsequence(String s, String t) {
+        int sLen = s.length();
+        if (sLen == 0) {
+            return true;
+        }
+        int tLen = t.length();
+        char[] sChars = s.toCharArray();
+        char[] tChars = t.toCharArray();
+        int sIndex = 0;
+        int tIndex = 0;
+        while (tIndex < tLen) {
+            if (s.charAt(sIndex) == t.charAt(tIndex)) {
+                sIndex++;
+                tIndex++;
+                if (sIndex == sLen) {
+                    return true;
+                }
+            } else {
+                tIndex++;
+            }
+        }
+        return sIndex == sLen;
     }
 
     public int getMoneyAmount(int n) {
@@ -285,29 +309,16 @@ public class Solution12 {
 
     }
 
-    public static boolean isSubsequence(String s, String t) {
-        int sLen = s.length();
-        if(sLen ==0){
-            return true;
-        }
-        int tLen = t.length();
-        char[] sChars = s.toCharArray();
-        char[] tChars = t.toCharArray();
-        int sIndex = 0;
-        int tIndex = 0;
-        while (tIndex<tLen){
-            if(s.charAt(sIndex) == t.charAt(tIndex)){
-                sIndex++;
-                tIndex++;
-                if(sIndex == sLen){
-                    return true;
-                }
-            }else {
-                tIndex++;
+    public List<String> readBinaryWatch(int turnedOn) {
+        List<String> ans = new ArrayList<String>();
+        for (int i = 0; i < 1024; ++i) {
+            int h = i >> 6, m = i & 63;
+            // 用位运算取出高 4 位和低 6 位
+            if (h < 12 && m < 60 && Integer.bitCount(i) == turnedOn) {
+                ans.add(h + ":" + (m < 10 ? "0" : "") + m);
             }
         }
-        return sIndex == sLen;
+        return ans;
     }
-
 
 }
