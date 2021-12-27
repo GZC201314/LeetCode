@@ -321,4 +321,24 @@ public class Solution12 {
         return ans;
     }
 
+    public int numFriendRequests(int[] ages) {
+        Arrays.sort(ages);
+        int n = ages.length;
+        int left = 0, right = 0, result = 0;
+        for (int age :
+                ages) {
+            if (age < 15) {
+                continue;
+            }
+            while (ages[left] <= 0.5 * age + 7) {
+                left++;
+            }
+            while (right + 1 < n && ages[right + 1] <= age) {
+                right++;
+            }
+            result += right - left;
+        }
+        return result;
+    }
+
 }
