@@ -33,6 +33,11 @@ public class Solution202201 {
         return result;
     }
 
+    public int arrangeCoins(int n) {
+
+        return (int) ((Math.sqrt((long) 8 * n + 1) - 1) / 2);
+    }
+
     public static void main(String[] args) {
 
     }
