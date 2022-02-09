@@ -38,6 +38,18 @@ public class Solution202201 {
         return (int) ((Math.sqrt((long) 8 * n + 1) - 1) / 2);
     }
 
+    public int countKDifference(int[] nums, int k) {
+
+        int result =0;
+        int cnt = nums.length;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            result += (map.getOrDefault(num + k, 0) + map.getOrDefault(num - k, 0));
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
 
     }
