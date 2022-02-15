@@ -1,5 +1,9 @@
 package org.gzc.leetcode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author GZC
  * @description 2022年2月份的LeetCode练习代码
@@ -13,6 +17,7 @@ public class Solution202202 {
 
     /**
      * 查找联通的图
+     *
      * @param x
      * @return
      */
@@ -25,6 +30,7 @@ public class Solution202202 {
 
     /**
      * 判断两个坐标是否联通
+     *
      * @param a
      * @param b
      * @return
@@ -35,6 +41,7 @@ public class Solution202202 {
 
     /**
      * 联通两个一维坐标
+     *
      * @param a
      * @param b
      */
@@ -92,6 +99,7 @@ public class Solution202202 {
 
     /**
      * 把二维左边转化成一维坐标
+     *
      * @param x x左边
      * @param y y坐标
      * @return 一维坐标
@@ -102,19 +110,49 @@ public class Solution202202 {
 
     /**
      * 540. 有序数组中的单一元素
+     *
      * @param nums
      * @return
      */
     public int singleNonDuplicate(int[] nums) {
-        int low =0,high = nums.length-1;
-        while (low<high){
-            int mid = (high-low)/2+low;
-            if(nums[mid] == nums[mid^1]){
-                low = mid+1;
-            }else {
+        int low = 0, high = nums.length - 1;
+        while (low < high) {
+            int mid = (high - low) / 2 + low;
+            if (nums[mid] == nums[mid ^ 1]) {
+                low = mid + 1;
+            } else {
                 high = mid;
             }
         }
         return nums[low];
+    }
+
+    /**
+     * 1380. 矩阵中的幸运数
+     * @param matrix 矩阵
+     * @return 幸运数
+     */
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[] minRow = new int[m];
+        int[] maxCol = new int[n];
+        Arrays.fill(minRow,Integer.MAX_VALUE);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                minRow[i] = Math.min(minRow[i],matrix[i][j] );
+                maxCol[j] = Math.max(maxCol[j],matrix[i][j] );
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if(matrix[i][j] == minRow[i] && matrix[i][j] == maxCol[j]){
+                    result.add(matrix[i][j]);
+                }
+            }
+        }
+        return result;
+
     }
 }
