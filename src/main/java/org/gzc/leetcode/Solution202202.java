@@ -129,30 +129,75 @@ public class Solution202202 {
 
     /**
      * 1380. 矩阵中的幸运数
+     *
      * @param matrix 矩阵
      * @return 幸运数
      */
-    public List<Integer> luckyNumbers (int[][] matrix) {
+    public List<Integer> luckyNumbers(int[][] matrix) {
         int m = matrix.length;
         int n = matrix[0].length;
         int[] minRow = new int[m];
         int[] maxCol = new int[n];
-        Arrays.fill(minRow,Integer.MAX_VALUE);
+        Arrays.fill(minRow, Integer.MAX_VALUE);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                minRow[i] = Math.min(minRow[i],matrix[i][j] );
-                maxCol[j] = Math.max(maxCol[j],matrix[i][j] );
+                minRow[i] = Math.min(minRow[i], matrix[i][j]);
+                maxCol[j] = Math.max(maxCol[j], matrix[i][j]);
             }
         }
         List<Integer> result = new ArrayList<>();
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if(matrix[i][j] == minRow[i] && matrix[i][j] == maxCol[j]){
+                if (matrix[i][j] == minRow[i] && matrix[i][j] == maxCol[j]) {
                     result.add(matrix[i][j]);
                 }
             }
         }
         return result;
-
     }
+
+    /**
+     * 378. 有序矩阵中第K小的元素
+     * @param matrix 矩阵
+     * @param k 第K小
+     * @return 结果
+     */
+    public int kthSmallest(int[][] matrix, int k) {
+        int n = matrix.length;
+        int left = matrix[0][0];
+        int right = matrix[n - 1][n - 1];
+        while (left < right) {
+            int mid = left + ((right - left) >> 1);
+            if (check(matrix, mid, k, n)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    /**
+     * 二分查找K
+     * @param matrix
+     * @param mid
+     * @param k
+     * @param n
+     * @return
+     */
+    public boolean check(int[][] matrix, int mid, int k, int n) {
+        int i = n - 1;
+        int j = 0;
+        int num = 0;
+        while (i >= 0 && j < n) {
+            if (matrix[i][j] <= mid) {
+                num += i + 1;
+                j++;
+            } else {
+                i--;
+            }
+        }
+        return num >= k;
+    }
+
 }
