@@ -9,6 +9,7 @@ import java.util.List;
  * @description 2022年2月份的LeetCode练习代码
  */
 public class Solution202202 {
+    int[][] knightDirs = {{-2, -1}, {-2, 1}, {2, -1}, {2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}};
     int N = 550;
     int[] p = new int[N * N];
     int m, n;
@@ -158,8 +159,9 @@ public class Solution202202 {
 
     /**
      * 378. 有序矩阵中第K小的元素
+     *
      * @param matrix 矩阵
-     * @param k 第K小
+     * @param k      第K小
      * @return 结果
      */
     public int kthSmallest(int[][] matrix, int k) {
@@ -179,6 +181,7 @@ public class Solution202202 {
 
     /**
      * 二分查找K
+     *
      * @param matrix
      * @param mid
      * @param k
@@ -198,6 +201,37 @@ public class Solution202202 {
             }
         }
         return num >= k;
+    }
+
+    /**
+     * 688. 骑士在棋盘上的概率
+     * @param n 棋盘尺寸
+     * @param k 步数
+     * @param row 初始行
+     * @param column 初始列
+     * @return 在棋盘的概率
+     */
+    public double knightProbability(int n, int k, int row, int column) {
+        double[][][] dp = new double[k + 1][n][n];
+        for (int step = 0; step <= k; step++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
+                    // 刚开始的时候初始化 dp数组
+                    if (step == 0) {
+                        dp[step][i][j] = 1;
+                    } else {
+                        for (int[] dir : knightDirs) {
+                            int ni = i + dir[0], nj = j + dir[1];
+                            //如果在棋盘内
+                            if (ni >= 0 && ni < n && nj >= 0 && nj < n) {
+                                dp[step][i][j] += dp[step - 1][ni][nj] / 8;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return dp[k][row][column];
     }
 
 }
