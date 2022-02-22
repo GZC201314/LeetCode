@@ -205,9 +205,10 @@ public class Solution202202 {
 
     /**
      * 688. 骑士在棋盘上的概率
-     * @param n 棋盘尺寸
-     * @param k 步数
-     * @param row 初始行
+     *
+     * @param n      棋盘尺寸
+     * @param k      步数
+     * @param row    初始行
      * @param column 初始列
      * @return 在棋盘的概率
      */
@@ -232,6 +233,26 @@ public class Solution202202 {
             }
         }
         return dp[k][row][column];
+    }
+
+    /**
+     * 405. 数字转换为十六进制数
+     * @param num 数字
+     * @return 十六进制数
+     */
+    public String toHex(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 7; i >= 0; i--) {
+            int val = (num >> (4 * i)) & 0xf;
+            if (sb.length() > 0 || val > 0) {
+                char digit = val < 10 ? (char) ('0' + val) : (char) ('a' + val - 10);
+                sb.append(digit);
+            }
+        }
+        return sb.toString();
     }
 
 }
