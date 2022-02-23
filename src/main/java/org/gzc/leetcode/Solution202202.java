@@ -237,6 +237,7 @@ public class Solution202202 {
 
     /**
      * 405. 数字转换为十六进制数
+     *
      * @param num 数字
      * @return 十六进制数
      */
@@ -253,6 +254,36 @@ public class Solution202202 {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 917. 仅仅反转字母
+     *
+     * @param s 要反转的字符串
+     * @return 反转后的字符串
+     */
+    public String reverseOnlyLetters(String s) {
+
+        char[] chars = s.toCharArray();
+        int left = 0, right = s.length() - 1;
+        while (left<=right){
+            while (left <= right && !Character.isLetter(s.charAt(left))) {
+                left++;
+            }
+            while (left <= right && !Character.isLetter(s.charAt(right))) {
+                right--;
+            }
+            if(left<=right){
+                char tem = chars[left];
+                chars[left] = chars[right];
+                chars[right] = tem;
+
+            }
+            left++;
+            right--;
+        }
+
+        return new String(chars);
     }
 
 }
