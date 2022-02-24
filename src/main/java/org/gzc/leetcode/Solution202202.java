@@ -16,6 +16,7 @@ public class Solution202202 {
     int[][] g;
     int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 
+
     /**
      * 查找联通的图
      *
@@ -266,14 +267,14 @@ public class Solution202202 {
 
         char[] chars = s.toCharArray();
         int left = 0, right = s.length() - 1;
-        while (left<=right){
+        while (left <= right) {
             while (left <= right && !Character.isLetter(s.charAt(left))) {
                 left++;
             }
             while (left <= right && !Character.isLetter(s.charAt(right))) {
                 right--;
             }
-            if(left<=right){
+            if (left <= right) {
                 char tem = chars[left];
                 chars[left] = chars[right];
                 chars[right] = tem;
@@ -284,6 +285,37 @@ public class Solution202202 {
         }
 
         return new String(chars);
+    }
+
+    /**
+     * 1706. 球会落何处
+     * @param grid 网格
+     * @return 结果
+     */
+    public int[] findBall(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = getResult(i, grid, m, n);
+        }
+        return ans;
+    }
+
+    int getResult(int x, int[][] grid, int m, int n) {
+        int r = 0, c = x;
+        while (r < m) {
+            int ne = c + grid[r][c];
+            if (ne < 0 || ne >= n) {
+                return -1;
+            }
+            if (grid[r][c] != grid[r][ne]) {
+                return -1;
+            }
+            r++;
+            c = ne;
+        }
+        return c;
     }
 
 }
