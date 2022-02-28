@@ -289,6 +289,7 @@ public class Solution202202 {
 
     /**
      * 1706. 球会落何处
+     *
      * @param grid 网格
      * @return 结果
      */
@@ -316,6 +317,19 @@ public class Solution202202 {
             c = ne;
         }
         return c;
+    }
+
+    /**
+     * 521. 最长特殊序列|
+     * @param a 字符串a
+     * @param b 字符串b
+     * @return 最长特殊序列长度
+     */
+    public int findLUSlength(String a, String b) {
+        if (a.equals(b)) {
+            return -1;
+        }
+        return Math.max(a.length(), b.length());
     }
 
 }
