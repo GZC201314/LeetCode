@@ -1,8 +1,6 @@
 package org.gzc.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author GZC
@@ -330,6 +328,33 @@ public class Solution202202 {
             return -1;
         }
         return Math.max(a.length(), b.length());
+    }
+
+    /**
+     * 409. 最长回文数
+     * @param s 字符串
+     * @return 最长回文数长度
+     */
+    public int longestPalindrome(String s) {
+        int result = 0;
+        char[] chars = s.toCharArray();
+
+        Set<Character> characterSet = new HashSet<>();
+        int charsLength = chars.length;
+        for (char ch :
+                chars) {
+            if(characterSet.contains(ch)){
+                characterSet.remove(ch);
+                result+=2;
+            }else {
+                characterSet.add(ch);
+            }
+        }
+        if(!characterSet.isEmpty()){
+           result+=1;
+        }
+        return result;
+
     }
 
 }
