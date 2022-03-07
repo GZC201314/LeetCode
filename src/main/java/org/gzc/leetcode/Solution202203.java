@@ -32,6 +32,34 @@ public class Solution202203 {
             return results.first();
         }
         return results.last();
+    }
 
+
+    /**
+     * 504. 七进制数
+     *
+     * @param num 参数
+     * @return 七进制数字符串
+     */
+    public String convertToBase7(int num) {
+        if (num == 0) {
+            return "0";
+        }
+        StringBuilder sb = new StringBuilder();
+        char flag = 0;
+        if (num < 0) {
+            flag = '-';
+        }
+        num = Math.abs(num);
+        while (num != 0) {
+            sb.append(num % 7);
+            num = num / 7;
+        }
+        if (flag == '-') {
+            sb.reverse().insert(0, '-');
+        } else {
+            sb.reverse();
+        }
+        return sb.toString();
     }
 }
