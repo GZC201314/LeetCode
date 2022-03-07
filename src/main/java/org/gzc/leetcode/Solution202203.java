@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.RandomizedSet;
+
 import java.util.Scanner;
 import java.util.TreeSet;
 
@@ -20,6 +22,9 @@ public class Solution202203 {
             case 504:
                 System.out.println(convertToBase7(12));
                 break;
+            case 389:
+                RandomizedSet randomizedSet = new RandomizedSet();
+                randomizedSet.insert(1);
             default:
                 break;
         }
