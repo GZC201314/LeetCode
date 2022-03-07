@@ -1,15 +1,28 @@
 package org.gzc.leetcode;
 
+import java.util.Scanner;
 import java.util.TreeSet;
 
 /**
  * @author GZC
  * @create 2022-03-03 21:59
- * @desc 2022年三月 LeetCode代码练习
+ * @description 2022年三月 LeetCode代码练习
  */
 public class Solution202203 {
 
     public static void main(String[] args) {
+        Scanner input=new Scanner(System.in);
+        int qusetionNum = input.nextInt();
+        switch (qusetionNum){
+            case 414:
+                System.out.println(thirdMax(new int[]{1,2,3,4}));
+                break;
+            case 504:
+                System.out.println(convertToBase7(12));
+                break;
+            default:
+                break;
+        }
 
     }
 
@@ -19,7 +32,7 @@ public class Solution202203 {
      * @param nums 数据
      * @return 第三大的数
      */
-    public int thirdMax(int[] nums) {
+    public static int thirdMax(int[] nums) {
         TreeSet<Integer> results = new TreeSet<>();
         for (int num :
                 nums) {
@@ -41,7 +54,7 @@ public class Solution202203 {
      * @param num 参数
      * @return 七进制数字符串
      */
-    public String convertToBase7(int num) {
+    public static String convertToBase7(int num) {
         if (num == 0) {
             return "0";
         }
