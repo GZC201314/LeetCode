@@ -1,9 +1,9 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.Node;
 import org.gzc.leetcode.model.RandomizedSet;
 
-import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * @author GZC
@@ -13,11 +13,11 @@ import java.util.TreeSet;
 public class Solution202203 {
 
     public static void main(String[] args) {
-        Scanner input=new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
         int qusetionNum = input.nextInt();
-        switch (qusetionNum){
+        switch (qusetionNum) {
             case 414:
-                System.out.println(thirdMax(new int[]{1,2,3,4}));
+                System.out.println(thirdMax(new int[]{1, 2, 3, 4}));
                 break;
             case 504:
                 System.out.println(convertToBase7(12));
@@ -79,5 +79,48 @@ public class Solution202203 {
             sb.reverse();
         }
         return sb.toString();
+    }
+
+    /**
+     * 589. N 叉树的前序遍历 非递归算法
+     *
+     * @param root 根节点
+     * @return 先序遍历
+     */
+    public static List<Integer> preorder(Node root) {
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        Stack<Node> nodeStack = new Stack<>();
+        nodeStack.add(root);
+        while (!nodeStack.isEmpty()){
+            Node topNode = nodeStack.pop();
+            result.add(topNode.val);
+            for (int i = topNode.children.size()-1; i >= 0 ; i--) {
+                nodeStack.add(topNode.children.get(i));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 589. N 叉树的前序遍历 递归算法
+     *
+     * @param root 根节点
+     * @return 先序遍历
+     */
+    public static List<Integer> preorder1(Node root){
+        List<Integer> result = new ArrayList<>();
+        if (root == null) {
+            return result;
+        }
+        result.add(root.val);
+
+        for (Node node1 :
+                root.children) {
+            result.addAll(preorder1(node1));
+        }
+        return result;
     }
 }

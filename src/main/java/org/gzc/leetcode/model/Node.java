@@ -15,11 +15,17 @@ public class Node {
     public Node next;
     public Node random;
     public List<Node> neighbors;
-
+    public List<Node> children;
     public Node(int val, ArrayList<Node> neighbors) {
         this.val = val;
         this.neighbors = neighbors;
     }
+
+    public Node(int _val, List<Node> _children) {
+        val = _val;
+        children = _children;
+    }
+
     public Node(int val) {
         this.val = val;
         next = null;
