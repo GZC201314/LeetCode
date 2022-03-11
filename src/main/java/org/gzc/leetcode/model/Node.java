@@ -39,6 +39,10 @@ public class Node {
         this.next = next;
     }
 
+    public Node() {
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

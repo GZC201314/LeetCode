@@ -12,6 +12,8 @@ import java.util.*;
  */
 public class Solution202203 {
 
+
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int qusetionNum = input.nextInt();
@@ -25,6 +27,10 @@ public class Solution202203 {
             case 389:
                 RandomizedSet randomizedSet = new RandomizedSet();
                 randomizedSet.insert(1);
+            case 589:
+                System.out.println(preorder(new Node()));
+                System.out.println(preorder1(new Node()));
+                break;
             default:
                 break;
         }
@@ -51,7 +57,6 @@ public class Solution202203 {
         }
         return results.last();
     }
-
 
     /**
      * 504. 七进制数
@@ -94,10 +99,10 @@ public class Solution202203 {
         }
         Stack<Node> nodeStack = new Stack<>();
         nodeStack.add(root);
-        while (!nodeStack.isEmpty()){
+        while (!nodeStack.isEmpty()) {
             Node topNode = nodeStack.pop();
             result.add(topNode.val);
-            for (int i = topNode.children.size()-1; i >= 0 ; i--) {
+            for (int i = topNode.children.size() - 1; i >= 0; i--) {
                 nodeStack.add(topNode.children.get(i));
             }
         }
@@ -110,7 +115,7 @@ public class Solution202203 {
      * @param root 根节点
      * @return 先序遍历
      */
-    public static List<Integer> preorder1(Node root){
+    public static List<Integer> preorder1(Node root) {
         List<Integer> result = new ArrayList<>();
         if (root == null) {
             return result;
@@ -123,4 +128,49 @@ public class Solution202203 {
         }
         return result;
     }
+
+    long maxScore = 0;
+    int cnt = 0;
+    int n;
+    List<Integer>[] children;
+
+    /**
+     * 2049. 统计最高分的节点数目
+     */
+    public int countHighestScoreNodes(int[] parents) {
+        n = parents.length;
+        children = new List[n];
+        for (int i = 0; i < n; i++) {
+            children[i] = new ArrayList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            int p = parents[i];
+            if (p != -1) {
+                children[p].add(i);
+            }
+        }
+        dfsCountHighestScoreNodes(0);
+        return cnt;
+    }
+
+    public int dfsCountHighestScoreNodes(int node) {
+        long score = 1;
+        int size = n - 1;
+        for (int c : children[node]) {
+            int t = dfsCountHighestScoreNodes(c);
+            score *= t;
+            size -= t;
+        }
+        if (node != 0) {
+            score *= size;
+        }
+        if (score == maxScore) {
+            cnt++;
+        } else if (score > maxScore) {
+            maxScore = score;
+            cnt = 1;
+        }
+        return n - size;
+    }
+
 }
