@@ -36,6 +36,9 @@ public class Solution202203 {
                 System.out.println(preorder(new Node()));
                 System.out.println(preorder1(new Node()));
                 break;
+            case 393:
+                System.out.println(validUtf8(new int[]{1,2,3}));
+                break;
             default:
                 break;
         }
@@ -134,7 +137,10 @@ public class Solution202203 {
         return result;
     }
 
-    public boolean validUtf8(int[] data) {
+    /**
+     * 393. UTF-8 编码验证
+     */
+    public static boolean validUtf8(int[] data) {
         int m = data.length;
         int index = 0;
         while (index < m) {
@@ -153,7 +159,7 @@ public class Solution202203 {
         return true;
     }
 
-    public int getBytes(int num) {
+    public static int getBytes(int num) {
         if ((num & MASK1) == 0) {
             return 1;
         }
@@ -169,7 +175,7 @@ public class Solution202203 {
         return n >= 2 ? n : -1;
     }
 
-    public boolean isValid(int num) {
+    public static boolean isValid(int num) {
         return (num & MASK2) == MASK1;
     }
 
