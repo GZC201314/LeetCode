@@ -19,38 +19,6 @@ public class Solution202203 {
     int n;
     List<Integer>[] children;
 
-    public void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        int qusetionNum = input.nextInt();
-        switch (qusetionNum) {
-            case 414:
-                System.out.println(thirdMax(new int[]{1, 2, 3, 4}));
-                break;
-            case 504:
-                System.out.println(convertToBase7(12));
-                break;
-            case 389:
-                RandomizedSet randomizedSet = new RandomizedSet();
-                randomizedSet.insert(1);
-            case 589:
-                System.out.println(preorder(new Node()));
-                System.out.println(preorder1(new Node()));
-                break;
-            case 393:
-                System.out.println(validUtf8(new int[]{1, 2, 3}));
-                break;
-            case 599:
-                System.out.println(Arrays.toString(findRestaurant(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"})));
-                break;
-            case 2049:
-                System.out.println(countHighestScoreNodes(new int[]{1,2,3}));
-                break;
-            default:
-                break;
-        }
-
-    }
-
     /**
      * 414. 第三大的数
      *
@@ -185,6 +153,41 @@ public class Solution202203 {
         return (num & MASK2) == MASK1;
     }
 
+    public void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int qusetionNum = input.nextInt();
+        switch (qusetionNum) {
+            case 414:
+                System.out.println(thirdMax(new int[]{1, 2, 3, 4}));
+                break;
+            case 504:
+                System.out.println(convertToBase7(12));
+                break;
+            case 389:
+                RandomizedSet randomizedSet = new RandomizedSet();
+                randomizedSet.insert(1);
+            case 589:
+                System.out.println(preorder(new Node()));
+                System.out.println(preorder1(new Node()));
+                break;
+            case 393:
+                System.out.println(validUtf8(new int[]{1, 2, 3}));
+                break;
+            case 599:
+                System.out.println(Arrays.toString(findRestaurant(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"})));
+                break;
+            case 2049:
+                System.out.println(countHighestScoreNodes(new int[]{1, 2, 3}));
+                break;
+            case 720:
+                System.out.println(longestWord(new String[]{"a", "ab"}));
+                break;
+            default:
+                break;
+        }
+
+    }
+
     /**
      * 2049. 统计最高分的节点数目
      */
@@ -250,6 +253,30 @@ public class Solution202203 {
             }
         }
         return ret.toArray(new String[0]);
+    }
+
+    /**
+     * 720. 字典中最长的单词
+     */
+    public String longestWord(String[] words) {
+
+        Arrays.sort(words, (a, b) -> {
+            if (a.length() != b.length()) {
+                return a.length() - b.length();
+            } else {
+                return b.compareTo(a);
+            }
+        });
+        String longest = "";
+        HashSet<String> candidates = new HashSet<>();
+        candidates.add("");
+        for (String word : words) {
+            if (candidates.contains(word.substring(0, word.length() - 1))) {
+                candidates.add(word);
+                longest = word;
+            }
+        }
+        return longest;
     }
 
 }
