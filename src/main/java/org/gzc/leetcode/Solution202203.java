@@ -2,6 +2,7 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.Node;
 import org.gzc.leetcode.model.RandomizedSet;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.util.*;
 
@@ -277,6 +278,23 @@ public class Solution202203 {
             }
         }
         return longest;
+    }
+
+    /**
+     * 653. 两数之和4 -输入BST
+     */
+    Set<Integer> set = new HashSet<>();
+    public boolean findTarget(TreeNode root, int k) {
+        if(root == null){
+            return false;
+        }
+        if(set.contains(k-root.val)){
+            return true;
+        }
+
+        set.add(k-root.val);
+
+        return findTarget(root.right,k)|| findTarget(root.left,k);
     }
 
 }
