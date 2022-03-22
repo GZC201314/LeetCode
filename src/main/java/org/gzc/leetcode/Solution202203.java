@@ -15,12 +15,12 @@ public class Solution202203 {
 
     static final int MASK1 = 1 << 7;
     static final int MASK2 = (1 << 7) + (1 << 6);
-    long maxScore = 0;
-    int cnt = 0;
-    int n;
-    List<Integer>[] children;
+    static long maxScore = 0;
+    static int cnt = 0;
+    static int n;
+    static List<Integer>[] children;
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int qusetionNum = input.nextInt();
         switch (qusetionNum) {
@@ -48,6 +48,8 @@ public class Solution202203 {
                 break;
             case 720:
                 System.out.println(longestWord(new String[]{"a", "ab"}));
+            case 415:
+                System.out.println(addStrings("456", "77"));
                 break;
             default:
                 break;
@@ -192,7 +194,7 @@ public class Solution202203 {
     /**
      * 2049. 统计最高分的节点数目
      */
-    public int countHighestScoreNodes(int[] parents) {
+    public static int countHighestScoreNodes(int[] parents) {
         n = parents.length;
         children = new List[n];
         for (int i = 0; i < n; i++) {
@@ -208,7 +210,7 @@ public class Solution202203 {
         return cnt;
     }
 
-    public int dfsCountHighestScoreNodes(int node) {
+    public static int dfsCountHighestScoreNodes(int node) {
         long score = 1;
         int size = n - 1;
         for (int c : children[node]) {
@@ -234,7 +236,7 @@ public class Solution202203 {
      * @param list2 第二个列表
      * @return 最小索引总和
      */
-    public String[] findRestaurant(String[] list1, String[] list2) {
+    public static String[] findRestaurant(String[] list1, String[] list2) {
         Map<String, Integer> index = new HashMap<>();
         for (int i = 0; i < list1.length; i++) {
             index.put(list1[i], i);
@@ -259,7 +261,7 @@ public class Solution202203 {
     /**
      * 720. 字典中最长的单词
      */
-    public String longestWord(String[] words) {
+    public static String longestWord(String[] words) {
 
         Arrays.sort(words, (a, b) -> {
             if (a.length() != b.length()) {
@@ -297,4 +299,30 @@ public class Solution202203 {
         return findTarget(root.right,k)|| findTarget(root.left,k);
     }
 
+
+    /**
+     * 415. 字符串相加
+     */
+    public static String addStrings(String num1, String num2) {
+
+        StringBuilder sb = new StringBuilder();
+        int num1Length = num1.length();
+        int num2Length = num2.length();
+
+        int n = 0;
+        int flag =0;
+        int maxLength = Math.max(num1Length,num2Length);
+        while (n<maxLength){
+            int numericValue1 = n<num1Length?Character.getNumericValue(num1.charAt(num1Length-n-1)):0;
+            int numericValue2 = n<num2Length?Character.getNumericValue(num2.charAt(num2Length-n-1)):0;
+            sb.append((numericValue1+numericValue2+flag)%10);
+            flag = (numericValue1+numericValue2+flag)/10;
+            n++;
+        }
+        if(flag ==1){
+            sb.append("1");
+        }
+
+        return sb.reverse().toString();
+    }
 }
