@@ -51,6 +51,12 @@ public class Solution202203 {
             case 415:
                 System.out.println(addStrings("456", "77"));
                 break;
+            case 653:
+                System.out.println(findTarget(new TreeNode(),0));
+                break;
+            case 434:
+                System.out.println(countSegments(""));
+                break;
             default:
                 break;
         }
@@ -285,8 +291,8 @@ public class Solution202203 {
     /**
      * 653. 两数之和4 -输入BST
      */
-    Set<Integer> set = new HashSet<>();
-    public boolean findTarget(TreeNode root, int k) {
+    static Set<Integer> set = new HashSet<>();
+    public static boolean findTarget(TreeNode root, int k) {
         if(root == null){
             return false;
         }
@@ -324,5 +330,27 @@ public class Solution202203 {
         }
 
         return sb.reverse().toString();
+    }
+
+    /**
+     * 434. 字符串中的单词数
+     */
+    public static int countSegments(String s) {
+
+        int result =0;
+        int length =0;
+        char[] chars = s.toCharArray();
+        for (char ch :
+                chars) {
+            if(ch==' '){
+                if(length>0){
+                    result++;
+                    length=0;
+                }
+            }else {
+                length++;
+            }
+        }
+        return result;
     }
 }
