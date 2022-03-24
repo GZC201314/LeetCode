@@ -57,6 +57,9 @@ public class Solution202203 {
             case 434:
                 System.out.println(countSegments(""));
                 break;
+            case 661:
+                System.out.println(Arrays.deepToString(imageSmoother(path)));
+                break;
             default:
                 break;
         }
@@ -352,5 +355,45 @@ public class Solution202203 {
             }
         }
         return result;
+    }
+
+    /**
+     * 661. 图片平滑器
+     */
+    static int[][] path = new int[][]{
+        {-1,-1},
+        {-1,0},
+        {-1,1},
+        {0,-1},
+        {0,1},
+        {1,-1},
+        {1,0},
+        {1,1},
+    };
+    public static int[][] imageSmoother(int[][] img) {
+
+        if(img.length == 0){
+            return new int[0][0];
+        }
+        int m = img.length;
+        int n = img[0].length;
+        int[][] result = new int[m][n];
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int count =1;
+                int sum =img[i][j];
+                for (int k = 0; k < 8; k++) {
+                    int newM = i+path[k][0];
+                    int newN = j+path[k][1];
+                    if(0<=newM&& newM<m && 0<=newN&& newN<n){
+                        sum+=img[newM][newN];
+                        count++;
+                    }
+                }
+                result[i][j] = sum/count;
+            }
+        }
+        return result;
+
     }
 }
