@@ -19,6 +19,23 @@ public class Solution202203 {
     static int cnt = 0;
     static int n;
     static List<Integer>[] children;
+    /**
+     * 653. 两数之和4 -输入BST
+     */
+    static Set<Integer> set = new HashSet<>();
+    /**
+     * 661. 图片平滑器
+     */
+    static int[][] path = new int[][]{
+            {-1, -1},
+            {-1, 0},
+            {-1, 1},
+            {0, -1},
+            {0, 1},
+            {1, -1},
+            {1, 0},
+            {1, 1},
+    };
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -44,7 +61,7 @@ public class Solution202203 {
                 System.out.println(Arrays.toString(findRestaurant(new String[]{"1", "2", "3"}, new String[]{"1", "2", "3"})));
                 break;
             case 2049:
-                System.out.println(countHighestScoreNodes(new int[]{1,2,3}));
+                System.out.println(countHighestScoreNodes(new int[]{1, 2, 3}));
                 break;
             case 720:
                 System.out.println(longestWord(new String[]{"a", "ab"}));
@@ -52,13 +69,16 @@ public class Solution202203 {
                 System.out.println(addStrings("456", "77"));
                 break;
             case 653:
-                System.out.println(findTarget(new TreeNode(),0));
+                System.out.println(findTarget(new TreeNode(), 0));
                 break;
             case 434:
                 System.out.println(countSegments(""));
                 break;
             case 661:
                 System.out.println(Arrays.deepToString(imageSmoother(path)));
+                break;
+            case 693:
+                System.out.println(hasAlternatingBits(5));
                 break;
             default:
                 break;
@@ -241,6 +261,7 @@ public class Solution202203 {
 
     /**
      * 599. 两个列表的最小索引总和
+     *
      * @param list1 第一个列表
      * @param list2 第二个列表
      * @return 最小索引总和
@@ -291,23 +312,18 @@ public class Solution202203 {
         return longest;
     }
 
-    /**
-     * 653. 两数之和4 -输入BST
-     */
-    static Set<Integer> set = new HashSet<>();
     public static boolean findTarget(TreeNode root, int k) {
-        if(root == null){
+        if (root == null) {
             return false;
         }
-        if(set.contains(k-root.val)){
+        if (set.contains(k - root.val)) {
             return true;
         }
 
-        set.add(k-root.val);
+        set.add(k - root.val);
 
-        return findTarget(root.right,k)|| findTarget(root.left,k);
+        return findTarget(root.right, k) || findTarget(root.left, k);
     }
-
 
     /**
      * 415. 字符串相加
@@ -319,16 +335,16 @@ public class Solution202203 {
         int num2Length = num2.length();
 
         int n = 0;
-        int flag =0;
-        int maxLength = Math.max(num1Length,num2Length);
-        while (n<maxLength){
-            int numericValue1 = n<num1Length?Character.getNumericValue(num1.charAt(num1Length-n-1)):0;
-            int numericValue2 = n<num2Length?Character.getNumericValue(num2.charAt(num2Length-n-1)):0;
-            sb.append((numericValue1+numericValue2+flag)%10);
-            flag = (numericValue1+numericValue2+flag)/10;
+        int flag = 0;
+        int maxLength = Math.max(num1Length, num2Length);
+        while (n < maxLength) {
+            int numericValue1 = n < num1Length ? Character.getNumericValue(num1.charAt(num1Length - n - 1)) : 0;
+            int numericValue2 = n < num2Length ? Character.getNumericValue(num2.charAt(num2Length - n - 1)) : 0;
+            sb.append((numericValue1 + numericValue2 + flag) % 10);
+            flag = (numericValue1 + numericValue2 + flag) / 10;
             n++;
         }
-        if(flag ==1){
+        if (flag == 1) {
             sb.append("1");
         }
 
@@ -340,39 +356,26 @@ public class Solution202203 {
      */
     public static int countSegments(String s) {
 
-        int result =0;
-        int length =0;
+        int result = 0;
+        int length = 0;
         char[] chars = s.toCharArray();
         for (char ch :
                 chars) {
-            if(ch==' '){
-                if(length>0){
+            if (ch == ' ') {
+                if (length > 0) {
                     result++;
-                    length=0;
+                    length = 0;
                 }
-            }else {
+            } else {
                 length++;
             }
         }
         return result;
     }
 
-    /**
-     * 661. 图片平滑器
-     */
-    static int[][] path = new int[][]{
-        {-1,-1},
-        {-1,0},
-        {-1,1},
-        {0,-1},
-        {0,1},
-        {1,-1},
-        {1,0},
-        {1,1},
-    };
     public static int[][] imageSmoother(int[][] img) {
 
-        if(img.length == 0){
+        if (img.length == 0) {
             return new int[0][0];
         }
         int m = img.length;
@@ -380,20 +383,38 @@ public class Solution202203 {
         int[][] result = new int[m][n];
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                int count =1;
-                int sum =img[i][j];
+                int count = 1;
+                int sum = img[i][j];
                 for (int k = 0; k < 8; k++) {
-                    int newM = i+path[k][0];
-                    int newN = j+path[k][1];
-                    if(0<=newM&& newM<m && 0<=newN&& newN<n){
-                        sum+=img[newM][newN];
+                    int newM = i + path[k][0];
+                    int newN = j + path[k][1];
+                    if (0 <= newM && newM < m && 0 <= newN && newN < n) {
+                        sum += img[newM][newN];
                         count++;
                     }
                 }
-                result[i][j] = sum/count;
+                result[i][j] = sum / count;
             }
         }
         return result;
-
     }
+
+    /**
+     * 693. 交替位二进制数
+     * @param n 输入数字
+     * @return 是否是交替位二进制数
+     */
+    public static boolean hasAlternatingBits(int n) {
+        int flag = 2;
+        while (n != 0) {
+            int cur = n % 2;
+            if(cur == flag){
+                return false;
+            }
+            flag = cur;
+            n /=2;
+        }
+        return true;
+    }
+
 }
