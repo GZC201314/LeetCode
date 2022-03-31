@@ -50,6 +50,7 @@ public class Solution202203 {
             case 389:
                 RandomizedSet randomizedSet = new RandomizedSet();
                 randomizedSet.insert(1);
+                break;
             case 589:
                 System.out.println(preorder(new Node()));
                 System.out.println(preorder1(new Node()));
@@ -79,6 +80,9 @@ public class Solution202203 {
                 break;
             case 693:
                 System.out.println(hasAlternatingBits(5));
+                break;
+            case 728:
+                System.out.println(selfDividingNumbers(1,22));
                 break;
             default:
                 break;
@@ -401,6 +405,7 @@ public class Solution202203 {
 
     /**
      * 693. 交替位二进制数
+     *
      * @param n 输入数字
      * @return 是否是交替位二进制数
      */
@@ -408,13 +413,38 @@ public class Solution202203 {
         int flag = 2;
         while (n != 0) {
             int cur = n % 2;
-            if(cur == flag){
+            if (cur == flag) {
                 return false;
             }
             flag = cur;
-            n /=2;
+            n /= 2;
         }
         return true;
+    }
+
+    /**
+     * 728. 自除数
+     *
+     * @param left  左边界数
+     * @param right 右边界数
+     * @return 范围内的自除数
+     */
+    public static List<Integer> selfDividingNumbers(int left, int right) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = left; i <= right; i++) {
+            int num = i;
+            while (num != 0) {
+                int bit = num % 10;
+                if (bit == 0 || i % bit != 0) {
+                    break;
+                }
+                num = num / 10;
+            }
+            if (num == 0) {
+                result.add(i);
+            }
+        }
+        return result;
     }
 
 }
