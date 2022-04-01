@@ -28,7 +28,6 @@ public class Solution202204 {
      * @return 是否是二倍数对数组
      */
     public static boolean canReorderDoubled(int[] arr) {
-
         Map<Integer, Integer> cnt = new HashMap<>();
         for (int num : arr) {
             cnt.put(num, cnt.getOrDefault(num, 0)+1);
@@ -37,12 +36,7 @@ public class Solution202204 {
             return false;
         }
         List<Integer> absKey = new ArrayList<>(cnt.keySet());
-        Collections.sort(absKey,new Comparator<Integer>() {
-            @Override
-            public int compare(Integer num1, Integer num2) {
-                return Math.abs(num1) - Math.abs(num2);
-            }
-        });
+        absKey.sort(Comparator.comparingInt(Math::abs));
 
         for (int key : absKey) {
             if (cnt.getOrDefault(2 * key,0) < cnt.get(key)) {
