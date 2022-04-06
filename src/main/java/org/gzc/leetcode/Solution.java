@@ -237,40 +237,6 @@ class Solution {
     return dp[n];
   }
 
-  //	public static boolean isInterleave(String s1, String s2, String s3) {
-  //		return dfs_isInterleave(s1, s2, s3, true);
-  //	}
-  //
-  //	public static boolean dfs_isInterleave(String s1, String s2, String s3, boolean isleft) {
-  //		if (s1.length() + s2.length() != s3.length()) {
-  //			return false;
-  //		}
-  //		if (isleft) {
-  //			if (s1.equals(s3)) {
-  //				return true;
-  //			}
-  //			for (int i = 0; i < s1.length(); i++) {
-  //				if (s3.startsWith(s1.substring(0, i + 1))) {
-  //					dfs_isInterleave(s1.substring(i + 1), s2, s3.substring(i + 1), false);
-  //				} else {
-  //					return false;
-  //				}
-  //			}
-  //			return false;
-  //		} else {
-  //			if (s2.equals(s3)) {
-  //				return true;
-  //			}
-  //			for (int i = 0; i < s2.length(); i++) {
-  //				if (s3.startsWith(s2.substring(0, i + 1))) {
-  //					dfs_isInterleave(s1, s2.substring(i + 1), s3.substring(i + 1), true);
-  //				} else {
-  //					return false;
-  //				}
-  //			}
-  //			return false;
-  //		}
-  //	}
   public static boolean isInterleave(String s1, String s2, String s3) {
     int n = s1.length(), m = s2.length(), t = s3.length();
 
@@ -299,8 +265,6 @@ class Solution {
   /**
    * 判断搜索二叉树,中序遍历序列有序
    *
-   * @param root
-   * @return
    */
   private static long leftmin = Long.MIN_VALUE;
 
@@ -365,12 +329,6 @@ class Solution {
 
     return isSymmetric(root.left, root.right);
 
-    //		while (root.left != null && root.right != null) {
-    //			if (root.left.val != root.right.val) {
-    //				return false;
-    //			}
-    //
-    //		}
   }
 
   public static boolean isSymmetric(TreeNode leftnode, TreeNode rightNode) {
@@ -387,8 +345,6 @@ class Solution {
   /**
    * 二叉树层次遍历
    *
-   * @param root
-   * @return
    */
   public static List<List<Integer>> levelOrder(TreeNode root) {
     List<List<Integer>> reLists = new ArrayList<>();
@@ -491,9 +447,6 @@ class Solution {
   /**
    * 根据中序和先序序列构造二叉树
    *
-   * @param preorder
-   * @param inorder
-   * @return
    */
   private static Map<Integer, Integer> map = new HashMap<>();
 
@@ -532,9 +485,6 @@ class Solution {
   /**
    * [9,3,15,20,7] [9,15,7,20,3]
    *
-   * @param inorder
-   * @param postorder
-   * @return
    */
   public static TreeNode buildTree(int[] inorder, int[] postorder) {
     int postlen = postorder.length;
@@ -562,45 +512,6 @@ class Solution {
     rootNode.left = buildTree(inorder, postorder, start, pIndex - 1);
     return rootNode;
   }
-
-  //    int post_idx;
-  //    static Map<Integer, Integer> idx_map = new HashMap<Integer, Integer>();
-  //
-  //    public static TreeNode helper(int[] inorder,int[] postorder,int in_left, int in_right) {
-  //        // 如果这里没有节点构造二叉树了，就结束
-  //        if (in_left > in_right) {
-  //            return null;
-  //        }
-  //
-  //        // 选择 post_idx 位置的元素作为当前子树根节点
-  //        int root_val = postorder[post_idx];
-  //        TreeNode root = new TreeNode(root_val);
-  //
-  //        // 根据 root 所在位置分成左右两棵子树
-  //        int index = idx_map.get(root_val);
-  //
-  //        // 下标减一
-  //        post_idx--;
-  //        // 构造右子树
-  //        root.right = helper(inorder,postorder,index + 1, in_right);
-  //        // 构造左子树
-  //        root.left = helper(inorder,postorder,in_left, index - 1);
-  //        return root;
-  //    }
-  //
-  //    public static TreeNode buildTree(int[] inorder, int[] postorder) {
-  //
-  //        // 从后序遍历的最后一个元素开始
-  //        post_idx = postorder.length - 1;
-  //
-  //        // 建立（元素，下标）键值对的哈希表
-  //        int idx = 0;
-  //        for (Integer val : inorder) {
-  //            idx_map.put(val, idx++);
-  //        }
-  //
-  //        return helper(inorder,postorder,0, inorder.length - 1);
-  //    }
 
   public static List<List<Integer>> levelOrderBottom(TreeNode root) {
     List<List<Integer>> reLists = new ArrayList<>();
@@ -1839,8 +1750,6 @@ class Solution {
    *
    * <p>给你二叉树的根节点 root ，返回它节点值的 前序 遍历。
    *
-   * @param root
-   * @return
    */
   public static List<Integer> preorderTraversal(TreeNode root) {
     List<Integer> result = new ArrayList<>();

@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class LRUCache {
 
-    class DoubleLinkedNode {
+    static class DoubleLinkedNode {
         int key;
         int value;
         DoubleLinkedNode prev;
