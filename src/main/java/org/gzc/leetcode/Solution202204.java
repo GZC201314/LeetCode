@@ -15,6 +15,9 @@ public class Solution202204 {
             case 954:
                 System.out.println(canReorderDoubled(new int[]{3, 1, 3, 6}));
                 break;
+            case 806:
+                System.out.println(Arrays.toString(numberOfLines(new int[]{3, 1, 3, 6}, "abc")));
+                break;
             default:
                 break;
         }
@@ -28,7 +31,7 @@ public class Solution202204 {
      * @return 是否是二倍数对数组
      */
     public static boolean canReorderDoubled(int[] arr) {
-        Map<Integer, Integer> cnt = new HashMap<>();
+        Map<Integer, Integer> cnt = new HashMap<>(16);
         for (int num : arr) {
             cnt.put(num, cnt.getOrDefault(num, 0) + 1);
         }
@@ -50,7 +53,7 @@ public class Solution202204 {
     /**
      * 806. 写字符串需要的行数
      */
-    public int[] numberOfLines(int[] widths, String s) {
+    public static int[] numberOfLines(int[] widths, String s) {
 
         char[] chars = s.toCharArray();
         int line = 0;
