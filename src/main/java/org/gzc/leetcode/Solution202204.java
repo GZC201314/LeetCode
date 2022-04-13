@@ -18,6 +18,9 @@ public class Solution202204 {
             case 806:
                 System.out.println(Arrays.toString(numberOfLines(new int[]{3, 1, 3, 6}, "abc")));
                 break;
+            case 448:
+                System.out.println(findDisappearedNumbers(new int[]{3, 1, 3, 6}));
+                break;
             default:
                 break;
         }
@@ -65,18 +68,35 @@ public class Solution202204 {
             } else if (danwei + widths[index] == 100) {
                 danwei = 0;
                 line++;
-            }else {
+            } else {
                 danwei = widths[index];
                 line++;
             }
         }
-        if(danwei ==0){
-            danwei =100;
-        }else {
+        if (danwei == 0) {
+            danwei = 100;
+        } else {
             line++;
         }
-        return new int[]{line,danwei};
+        return new int[]{line, danwei};
+    }
 
+    /**
+     * 448. 找到所有数组中消失的数字
+     */
+    public static List<Integer> findDisappearedNumbers(int[] nums) {
+        int n = nums.length;
+        for (int num : nums) {
+            int x = (num - 1) % n;
+            nums[x] += n;
+        }
+        List<Integer> ret = new ArrayList<Integer>();
+        for (int i = 0; i < n; i++) {
+            if (nums[i] <= n) {
+                ret.add(i + 1);
+            }
+        }
+        return ret;
     }
 
 }
