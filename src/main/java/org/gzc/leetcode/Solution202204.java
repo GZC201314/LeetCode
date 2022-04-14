@@ -21,6 +21,9 @@ public class Solution202204 {
             case 448:
                 System.out.println(findDisappearedNumbers(new int[]{3, 1, 3, 6}));
                 break;
+            case 1672:
+                System.out.println(maximumWealth(new int[][]{{3, 1, 3, 6},{3, 1, 3, 7}}));
+                break;
             default:
                 break;
         }
@@ -90,13 +93,32 @@ public class Solution202204 {
             int x = (num - 1) % n;
             nums[x] += n;
         }
-        List<Integer> ret = new ArrayList<Integer>();
+        List<Integer> ret = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             if (nums[i] <= n) {
                 ret.add(i + 1);
             }
         }
         return ret;
+    }
+
+    /**
+     *1672. 最富有客户的资产总量
+     */
+    public static int maximumWealth(int[][] accounts) {
+
+        int result = 0;
+        int n = accounts[0].length;
+        for (int[] account : accounts) {
+            int max = 0;
+            for (int j = 0; j < n; j++) {
+                max += account[j];
+            }
+            if (max > result) {
+                result = max;
+            }
+        }
+        return result;
     }
 
 }
