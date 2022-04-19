@@ -22,7 +22,10 @@ public class Solution202204 {
                 System.out.println(findDisappearedNumbers(new int[]{3, 1, 3, 6}));
                 break;
             case 1672:
-                System.out.println(maximumWealth(new int[][]{{3, 1, 3, 6},{3, 1, 3, 7}}));
+                System.out.println(maximumWealth(new int[][]{{3, 1, 3, 6}, {3, 1, 3, 7}}));
+                break;
+            case 821:
+                System.out.println(Arrays.toString(shortestToChar("helloworld", 'l')));
                 break;
             default:
                 break;
@@ -103,7 +106,7 @@ public class Solution202204 {
     }
 
     /**
-     *1672. 最富有客户的资产总量
+     * 1672. 最富有客户的资产总量
      */
     public static int maximumWealth(int[][] accounts) {
 
@@ -119,6 +122,40 @@ public class Solution202204 {
             }
         }
         return result;
+    }
+
+    /**
+     * 821. 字符的最短距离
+     */
+    public static int[] shortestToChar(String s, char c) {
+
+        int[] result = new int[s.length()];
+        List<Integer> cIndex = new ArrayList<>();
+        // 遍历一次获取所有的c的索引
+        char[] chars = s.toCharArray();
+        int length = chars.length;
+        for (int i = 0; i < length; i++) {
+            if (chars[i] == c) {
+                cIndex.add(i);
+            }
+        }
+
+        for (int i = 0; i < length; i++) {
+            if (chars[i] == c) {
+                result[i] = 0;
+            } else {
+                int min =Integer.MAX_VALUE;
+                for (Integer index : cIndex) {
+                    int abs = Math.abs(i - index);
+                    if(abs <min){
+                        min = abs;
+                    }
+                }
+                result[i] = min;
+            }
+        }
+        return result;
+
     }
 
 }
