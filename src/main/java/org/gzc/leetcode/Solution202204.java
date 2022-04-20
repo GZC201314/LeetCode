@@ -27,6 +27,9 @@ public class Solution202204 {
             case 821:
                 System.out.println(Arrays.toString(shortestToChar("helloworld", 'l')));
                 break;
+            case 388:
+                System.out.println(lengthLongestPath("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"));
+                break;
             default:
                 break;
         }
@@ -156,6 +159,52 @@ public class Solution202204 {
         }
         return result;
 
+    }
+
+    /**
+     * 388. 文件的最长绝对路径
+     */
+    public static int lengthLongestPath(String input) {
+
+        int maxPath = 0;
+
+        int length = input.length();
+        int pos =0;
+
+        Deque<Integer> stack = new ArrayDeque<>();
+        while (pos<length){
+            /*计算当前文件或文件夹的深度*/
+            int depth =1;
+            while (pos< length && input.charAt(pos) =='\t'){
+                pos++;
+                depth++;
+            }
+            /*统计当前文件的长度和信息*/
+            boolean isFile = false;
+            int fileNameLen =0;
+
+            while (pos < length && input.charAt(pos) != '\n') {
+                if(input.charAt(pos) == '.'){
+                    isFile = true;
+                }
+                pos++;
+                fileNameLen++;
+            }
+            /*跳过换行符*/
+            pos++;
+            while (stack.size()>=depth){
+                stack.pop();
+            }
+            if(!stack.isEmpty()){
+                fileNameLen += stack.peek()+1;
+            }
+            if(isFile){
+                maxPath = Math.max(maxPath,fileNameLen);
+            }else {
+                stack.push(fileNameLen);
+            }
+        }
+        return maxPath;
     }
 
 }
