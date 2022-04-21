@@ -147,10 +147,10 @@ public class Solution202204 {
             if (chars[i] == c) {
                 result[i] = 0;
             } else {
-                int min =Integer.MAX_VALUE;
+                int min = Integer.MAX_VALUE;
                 for (Integer index : cIndex) {
                     int abs = Math.abs(i - index);
-                    if(abs <min){
+                    if (abs < min) {
                         min = abs;
                     }
                 }
@@ -169,22 +169,22 @@ public class Solution202204 {
         int maxPath = 0;
 
         int length = input.length();
-        int pos =0;
+        int pos = 0;
 
         Deque<Integer> stack = new ArrayDeque<>();
-        while (pos<length){
+        while (pos < length) {
             /*计算当前文件或文件夹的深度*/
-            int depth =1;
-            while (pos< length && input.charAt(pos) =='\t'){
+            int depth = 1;
+            while (pos < length && input.charAt(pos) == '\t') {
                 pos++;
                 depth++;
             }
             /*统计当前文件的长度和信息*/
             boolean isFile = false;
-            int fileNameLen =0;
+            int fileNameLen = 0;
 
             while (pos < length && input.charAt(pos) != '\n') {
-                if(input.charAt(pos) == '.'){
+                if (input.charAt(pos) == '.') {
                     isFile = true;
                 }
                 pos++;
@@ -192,19 +192,42 @@ public class Solution202204 {
             }
             /*跳过换行符*/
             pos++;
-            while (stack.size()>=depth){
+            while (stack.size() >= depth) {
                 stack.pop();
             }
-            if(!stack.isEmpty()){
-                fileNameLen += stack.peek()+1;
+            if (!stack.isEmpty()) {
+                fileNameLen += stack.peek() + 1;
             }
-            if(isFile){
-                maxPath = Math.max(maxPath,fileNameLen);
-            }else {
+            if (isFile) {
+                maxPath = Math.max(maxPath, fileNameLen);
+            } else {
                 stack.push(fileNameLen);
             }
         }
         return maxPath;
+    }
+
+    /**
+     * 824. 山羊拉丁文
+     */
+    public String toGoatLatin(String sentence) {
+        String[] words = sentence.split(" ");
+        int length = words.length;
+        for (int i = 0; i < length; i++) {
+            if("aeiou".contains(words[i].substring(0,1))){
+                words[i] = words[i]+"ma";
+            }else {
+                words[i] = words[i].substring(1)+words[i].substring(0,1)+"ma";
+            }
+            StringBuilder sb = new StringBuilder();
+            for (int j = 0; j <= i; j++) {
+                sb.append("a");
+            }
+            words[i] = words[i]+sb.toString();
+        }
+
+        return String.join(" ",words);
+
     }
 
 }
