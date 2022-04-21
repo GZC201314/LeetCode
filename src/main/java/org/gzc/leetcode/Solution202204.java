@@ -30,6 +30,9 @@ public class Solution202204 {
             case 388:
                 System.out.println(lengthLongestPath("dir\n\tsubdir1\n\tsubdir2\n\t\tfile.ext"));
                 break;
+            case 824:
+                System.out.println(toGoatLatin("I speak Goat Latin"));
+                break;
             default:
                 break;
         }
@@ -210,20 +213,20 @@ public class Solution202204 {
     /**
      * 824. 山羊拉丁文
      */
-    public String toGoatLatin(String sentence) {
+    public static String toGoatLatin(String sentence) {
         String[] words = sentence.split(" ");
         int length = words.length;
         for (int i = 0; i < length; i++) {
-            if("aeiou".contains(words[i].substring(0,1))){
+            if("aeiouAEIOU".contains(words[i].substring(0,1))){
                 words[i] = words[i]+"ma";
             }else {
-                words[i] = words[i].substring(1)+words[i].substring(0,1)+"ma";
+                words[i] = words[i].substring(1)+words[i].charAt(0)+"ma";
             }
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j <= i; j++) {
                 sb.append("a");
             }
-            words[i] = words[i]+sb.toString();
+            words[i] = words[i]+ sb;
         }
 
         return String.join(" ",words);
