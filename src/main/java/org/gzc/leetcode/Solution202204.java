@@ -33,6 +33,9 @@ public class Solution202204 {
             case 824:
                 System.out.println(toGoatLatin("I speak Goat Latin"));
                 break;
+            case 868:
+                System.out.println(binaryGap(1234));
+                break;
             default:
                 break;
         }
@@ -230,7 +233,24 @@ public class Solution202204 {
         }
 
         return String.join(" ",words);
+    }
 
+    /**
+     * 868. 二进制间距
+     */
+    public static int binaryGap(int n) {
+        int max = 0;
+        int last= -1;
+        for (int i = 0; n != 0; i++) {
+            if((n &1) ==1){
+                if(last != -1){
+                    max = Math.max(max,i-last);
+                }
+                last = i;
+            }
+            n >>=1;
+        }
+        return max;
     }
 
 }
