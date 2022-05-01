@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.TreeNode;
+
 import java.util.*;
 
 /**
@@ -220,19 +222,19 @@ public class Solution202204 {
         String[] words = sentence.split(" ");
         int length = words.length;
         for (int i = 0; i < length; i++) {
-            if("aeiouAEIOU".contains(words[i].substring(0,1))){
-                words[i] = words[i]+"ma";
-            }else {
-                words[i] = words[i].substring(1)+words[i].charAt(0)+"ma";
+            if ("aeiouAEIOU".contains(words[i].substring(0, 1))) {
+                words[i] = words[i] + "ma";
+            } else {
+                words[i] = words[i].substring(1) + words[i].charAt(0) + "ma";
             }
             StringBuilder sb = new StringBuilder();
             for (int j = 0; j <= i; j++) {
                 sb.append("a");
             }
-            words[i] = words[i]+ sb;
+            words[i] = words[i] + sb;
         }
 
-        return String.join(" ",words);
+        return String.join(" ", words);
     }
 
     /**
@@ -240,17 +242,61 @@ public class Solution202204 {
      */
     public static int binaryGap(int n) {
         int max = 0;
-        int last= -1;
+        int last = -1;
         for (int i = 0; n != 0; i++) {
-            if((n &1) ==1){
-                if(last != -1){
-                    max = Math.max(max,i-last);
+            if ((n & 1) == 1) {
+                if (last != -1) {
+                    max = Math.max(max, i - last);
                 }
                 last = i;
             }
-            n >>=1;
+            n >>= 1;
         }
         return max;
     }
+
+    /**
+     * 1305. 两棵二叉搜索树中的所有元素
+     */
+    public static List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        List<Integer> result = new ArrayList<>();
+        List<Integer> result1 = new ArrayList<>();
+        List<Integer> result2 = new ArrayList<>();
+        inorder(root1, result1);
+        inorder(root2, result2);
+        int root1Len = result1.size();
+        int root2Len = result2.size();
+        int root1Index = 0;
+        int root2Index = 0;
+        while (root1Index<root1Len && root2Index<root2Len){
+            if(result1.get(root1Index)<=result2.get(root2Index)){
+                result.add(result1.get(root1Index++));
+            }else {
+                result.add(result2.get(root2Index++));
+            }
+        }
+        while (root1Index<root1Len){
+            result.add(result1.get(root1Index++));
+        }
+        while (root2Index<root2Len){
+            result.add(result2.get(root2Index++));
+        }
+        return result;
+    }
+
+    private static void inorder(TreeNode root1, List<Integer> result1) {
+        if(root1 == null){
+            return;
+        }
+        inorder(root1.left,result1);
+        result1.add(root1.val);
+        inorder(root1.right,result1);
+    }
+
+    // 中序遍历搜索树,存入列表中
+
+
+
+
 
 }
