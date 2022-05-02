@@ -38,6 +38,9 @@ public class Solution202204 {
             case 868:
                 System.out.println(binaryGap(1234));
                 break;
+            case 1305:
+                System.out.println(getAllElements(new TreeNode(2),new TreeNode(1)));
+                break;
             default:
                 break;
         }
@@ -288,12 +291,12 @@ public class Solution202204 {
         if(root1 == null){
             return;
         }
+        // 中序遍历搜索树,存入列表中
         inorder(root1.left,result1);
         result1.add(root1.val);
         inorder(root1.right,result1);
     }
 
-    // 中序遍历搜索树,存入列表中
 
 
 
