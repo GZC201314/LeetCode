@@ -1,14 +1,12 @@
 package org.gzc.leetcode;
 
 
-import com.sun.tools.javac.util.Assert;
 import org.gzc.leetcode.model.Pair;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.Scanner;
-import java.util.function.IntFunction;
 
 /**
  * @author GZC
@@ -20,13 +18,16 @@ public class Solution202205 {
         Scanner input = new Scanner(System.in);
         int qusetionNum = input.nextInt();
         switch (qusetionNum) {
+            case 713:
+                System.out.println(numSubarrayProductLessThanK(new int[]{10,9,10,4,3,8,3,3,6,2,10,10,9,3}, 19));
+                break;
             case 937:
                 System.out.println(Arrays.toString(reorderLogFiles(new String[]{"a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo", "a2 act car"})));
                 break;
 
             case 1823:
-                System.out.println(findTheWinner(5,2));
-                System.out.println(findTheWinner1(5,2));
+                System.out.println(findTheWinner(5, 2));
+                System.out.println(findTheWinner1(5, 2));
             default:
                 break;
         }
@@ -79,36 +80,36 @@ public class Solution202205 {
      * 1823. 找出游戏的获胜者
      */
     public static int findTheWinner(int n, int k) {
-        int result =0;
-        int index =0;
-        int num =0;
+        int result = 0;
+        int index = 0;
+        int num = 0;
         int restChild = n;
         int[] childs = new int[n];
-        while (restChild >1){
+        while (restChild > 1) {
             // 如果当前的用户没有被淘汰
-            if(childs[index] == 0){
+            if (childs[index] == 0) {
                 //叫号
                 num++;
-                if(num == k){
+                if (num == k) {
                     //号码清零
-                    num=0;
+                    num = 0;
                     //用户淘汰
-                    childs[index%n] = -1;
-                    index = (index+1)%n;
+                    childs[index % n] = -1;
+                    index = (index + 1) % n;
                     //剩余用户-1
                     restChild--;
-                }else {
-                    num = num%k;
-                    index = (index+1)%n;
+                } else {
+                    num = num % k;
+                    index = (index + 1) % n;
                 }
-            }else { // 如果当前的用户被淘汰了
+            } else { // 如果当前的用户被淘汰了
 
-                index = (index+1)%n;
+                index = (index + 1) % n;
             }
         }
         for (int i = 0; i < n; i++) {
-            if(childs[i] == 0){
-                result = i+1;
+            if (childs[i] == 0) {
+                result = i + 1;
             }
         }
         return result;
@@ -128,12 +129,47 @@ public class Solution202205 {
             }
             queue.poll();
         }
-        if (queue.isEmpty()){
+        if (queue.isEmpty()) {
             return 0;
         }
         return queue.peek();
     }
 
+    /**
+     * 713. 乘积小于K的子数组
+     */
+    public static int numSubarrayProductLessThanK(int[] nums, int k) {
+        int count = 0;
+        int length = nums.length;
+        /*设置窗口长度*/
+        for (int i = 1; i <= length; i++) {
+            int left = 0;
+            int right = left + i;
+            long mult = 1;
+            for (int j = left; j < right; j++) {
+                mult *= nums[j];
+            }
+            if (mult < k) {
+                count++;
+            }
+
+            while (right < length) {
+                int leftNum = nums[left++];
+                int rightNum = nums[right++];
+                mult /= leftNum;
+                mult *= rightNum;
+                // 判断当前sum是否大于K
+                if (mult >= k) {
+                    continue;
+                }
+                System.out.println(mult);
+                count++;
+            }
+
+        }
+        return count;
+
+    }
 
 }
 
