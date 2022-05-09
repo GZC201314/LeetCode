@@ -19,10 +19,13 @@ public class Solution202205 {
         int qusetionNum = input.nextInt();
         switch (qusetionNum) {
             case 713:
-                System.out.println(numSubarrayProductLessThanK(new int[]{10,9,10,4,3,8,3,3,6,2,10,10,9,3}, 19));
+                System.out.println(numSubarrayProductLessThanK(new int[]{10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3}, 19));
                 break;
             case 937:
                 System.out.println(Arrays.toString(reorderLogFiles(new String[]{"a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo", "a2 act car"})));
+                break;
+            case 942:
+                System.out.println(Arrays.toString(diStringMatch("III")));
                 break;
 
             case 1823:
@@ -168,8 +171,24 @@ public class Solution202205 {
 
         }
         return count;
-
     }
+
+    /**
+     * 942. 增减字符串匹配
+     */
+    public static int[] diStringMatch(String s) {
+
+        int n = s.length();
+        int ni = 0;
+        int nd = n;
+        int[] result = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            result[i] = s.charAt(i) == 'I' ? ni++ : nd--;
+        }
+        result[n] = ni;
+        return result;
+    }
+
 
 }
 
