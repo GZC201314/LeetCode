@@ -2,6 +2,7 @@ package org.gzc.leetcode;
 
 
 import org.gzc.leetcode.model.Pair;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.util.ArrayDeque;
 import java.util.Arrays;
@@ -26,6 +27,12 @@ public class Solution202205 {
                 break;
             case 942:
                 System.out.println(Arrays.toString(diStringMatch("III")));
+                break;
+            case 449:
+                Codec codec = new Codec();
+                String serialize = codec.serialize(new TreeNode());
+                TreeNode deserialize = codec.deserialize(serialize);
+                System.out.println(deserialize);
                 break;
 
             case 1823:
