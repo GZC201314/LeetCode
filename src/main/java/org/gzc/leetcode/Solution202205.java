@@ -8,6 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Queue;
 import java.util.Scanner;
+
 import org.gzc.leetcode.model.Codec;
 
 /**
@@ -28,6 +29,9 @@ public class Solution202205 {
                 break;
             case 942:
                 System.out.println(Arrays.toString(diStringMatch("III")));
+                break;
+            case 944:
+                System.out.println(minDeletionSize(new String[]{"cba","daf","ghi"}));
                 break;
             case 449:
                 Codec codec = new Codec();
@@ -197,6 +201,25 @@ public class Solution202205 {
         return result;
     }
 
+    /**
+     * 944. 删列造序
+     */
+    public static int minDeletionSize(String[] strs) {
+        int result =0;
+        int n = strs.length;
+        int length = strs[0].length();
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < n-1; j++) {
+                char c1 = strs[j].charAt(i);
+                char c2 = strs[j+1].charAt(i);
+                if(c2-c1<0){
+                    result++;
+                    break;
+                }
+            }
 
+        }
+        return result;
+    }
 }
 
