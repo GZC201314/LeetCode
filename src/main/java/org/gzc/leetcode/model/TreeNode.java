@@ -31,11 +31,6 @@ public class TreeNode {
         this.val = val;
     }
 
-    @Override
-    public String toString() {
-        return "TreeNode [val=" + val + ", left=" + left.val + ", right=" + right.val + "]";
-    }
-
     public TreeNode(int val, TreeNode left, TreeNode right) {
         this.val = val;
         this.left = left;

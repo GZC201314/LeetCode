@@ -4,10 +4,7 @@ package org.gzc.leetcode;
 import org.gzc.leetcode.model.Pair;
 import org.gzc.leetcode.model.TreeNode;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 import org.gzc.leetcode.model.Codec;
 
@@ -21,6 +18,10 @@ public class Solution202205 {
         Scanner input = new Scanner(System.in);
         int qusetionNum = input.nextInt();
         switch (qusetionNum) {
+            case 666:
+                TreeNode treeNode = inorderSuccessor(new TreeNode(2, new TreeNode(1), new TreeNode(3)), new TreeNode(1));
+                System.out.println(treeNode != null?treeNode.val:null);
+                break;
             case 713:
                 System.out.println(numSubarrayProductLessThanK(new int[]{10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3}, 19));
                 break;
@@ -220,6 +221,29 @@ public class Solution202205 {
 
         }
         return result;
+    }
+
+    /**
+     * [面试题04.06]后继者
+     */
+    public static TreeNode inorderSuccessor(TreeNode root, TreeNode p) {
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        TreeNode pre = null;
+        TreeNode curr = root;
+        while (!stack.isEmpty() || curr != null) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            curr = stack.pop();
+            if (pre == p) {
+                return curr;
+            }
+            pre = curr;
+            curr = curr.right;
+
+        }
+        return null;
     }
 }
 
