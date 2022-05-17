@@ -20,10 +20,13 @@ public class Solution202205 {
         switch (qusetionNum) {
             case 666:
                 TreeNode treeNode = inorderSuccessor(new TreeNode(2, new TreeNode(1), new TreeNode(3)), new TreeNode(1));
-                System.out.println(treeNode != null?treeNode.val:null);
+                System.out.println(treeNode != null ? treeNode.val : null);
                 break;
             case 713:
                 System.out.println(numSubarrayProductLessThanK(new int[]{10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3}, 19));
+                break;
+            case 953:
+                System.out.println(isAlienSorted(new String[]{"word", "world", "row"}, "worldabcefghijkmnpqstuvxyz"));
                 break;
             case 937:
                 System.out.println(Arrays.toString(reorderLogFiles(new String[]{"a1 9 2 3 1", "g1 act car", "zo4 4 7", "ab1 off key dog", "a8 act zoo", "a2 act car"})));
@@ -32,7 +35,7 @@ public class Solution202205 {
                 System.out.println(Arrays.toString(diStringMatch("III")));
                 break;
             case 944:
-                System.out.println(minDeletionSize(new String[]{"cba","daf","ghi"}));
+                System.out.println(minDeletionSize(new String[]{"cba", "daf", "ghi"}));
                 break;
             case 449:
                 Codec codec = new Codec();
@@ -206,14 +209,14 @@ public class Solution202205 {
      * 944. 删列造序
      */
     public static int minDeletionSize(String[] strs) {
-        int result =0;
+        int result = 0;
         int n = strs.length;
         int length = strs[0].length();
         for (int i = 0; i < length; i++) {
-            for (int j = 0; j < n-1; j++) {
+            for (int j = 0; j < n - 1; j++) {
                 char c1 = strs[j].charAt(i);
-                char c2 = strs[j+1].charAt(i);
-                if(c2-c1<0){
+                char c2 = strs[j + 1].charAt(i);
+                if (c2 - c1 < 0) {
                     result++;
                     break;
                 }
@@ -244,6 +247,36 @@ public class Solution202205 {
 
         }
         return null;
+    }
+
+    /**
+     * 953. 验证外星语词典
+     */
+    public static boolean isAlienSorted(String[] words, String order) {
+        int[] index = new int[26];
+        for (int i = 0; i < order.length(); ++i) {
+            index[order.charAt(i) - 'a'] = i;
+        }
+        for (int i = 1; i < words.length; i++) {
+            boolean valid = false;
+            for (int j = 0; j < words[i - 1].length() && j < words[i].length(); j++) {
+                int prev = index[words[i - 1].charAt(j) - 'a'];
+                int curr = index[words[i].charAt(j) - 'a'];
+                if (prev < curr) {
+                    valid = true;
+                    break;
+                } else if (prev > curr) {
+                    return false;
+                }
+            }
+            if (!valid) {
+                /* 比较两个字符串的长度 */
+                if (words[i - 1].length() > words[i].length()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
 
