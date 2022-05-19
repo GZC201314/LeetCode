@@ -22,8 +22,11 @@ public class Solution202205 {
                 TreeNode treeNode = inorderSuccessor(new TreeNode(2, new TreeNode(1), new TreeNode(3)), new TreeNode(1));
                 System.out.println(treeNode != null ? treeNode.val : null);
                 break;
+            case 386:
+                System.out.println(lexicalOrder(10));
+                break;
             case 462:
-                System.out.println(minMoves2(new int[]{1,10,2,9}));
+                System.out.println(minMoves2(new int[]{1, 10, 2, 9}));
                 break;
             case 713:
                 System.out.println(numSubarrayProductLessThanK(new int[]{10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3}, 19));
@@ -287,11 +290,33 @@ public class Solution202205 {
      * PS: target 取中位数的时候是移动次数最少的,至于为什么取中位数的证明,则是因为在最大值和最小值的时候,target在之间取任何值移动次数都是定值,不同的拆分直到取到中位数为止,发现取到的次数最少
      */
     public static int minMoves2(int[] nums) {
-        int result =0;
+        int result = 0;
         Arrays.sort(nums);
-        int avg = nums[nums.length/2];
-        for (int num:nums) {
-            result+=Math.abs(num-avg);
+        int avg = nums[nums.length / 2];
+        for (int num : nums) {
+            result += Math.abs(num - avg);
+        }
+        return result;
+    }
+
+    /**
+     * 386. 字典序排数
+     */
+    public static List<Integer> lexicalOrder(int n) {
+        List<Integer> result = new ArrayList<>();
+        final int nine = 9;
+        int number = 1;
+        for (int i = 0; i < n; i++) {
+            result.add(number);
+            if (number * 10 <= n) {
+                number *= 10;
+            } else {
+                while (number % nine == 0 || number + 1 > n) {
+                    number /= 10;
+                }
+                number++;
+            }
+
         }
         return result;
     }
