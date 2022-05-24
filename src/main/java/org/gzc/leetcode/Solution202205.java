@@ -1,13 +1,11 @@
 package org.gzc.leetcode;
 
 
-import org.gzc.leetcode.SolutionFinal.State;
+import org.gzc.leetcode.model.Codec;
 import org.gzc.leetcode.model.Pair;
 import org.gzc.leetcode.model.TreeNode;
 
 import java.util.*;
-
-import org.gzc.leetcode.model.Codec;
 
 /**
  * @author GZC
