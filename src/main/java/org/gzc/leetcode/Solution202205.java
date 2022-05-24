@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 
+import org.gzc.leetcode.SolutionFinal.State;
 import org.gzc.leetcode.model.Pair;
 import org.gzc.leetcode.model.TreeNode;
 
@@ -42,6 +43,9 @@ public class Solution202205 {
                 break;
             case 944:
                 System.out.println(minDeletionSize(new String[]{"cba", "daf", "ghi"}));
+                break;
+            case 965:
+                System.out.println(isUnivalTree(new TreeNode(1)));
                 break;
             case 449:
                 Codec codec = new Codec();
@@ -319,6 +323,28 @@ public class Solution202205 {
 
         }
         return result;
+    }
+
+    /**
+     * 965. 单值二叉树
+     */
+    public static boolean isUnivalTree(TreeNode root) {
+
+        int val = root.val;
+        Deque<TreeNode> stack = new LinkedList<>();
+        while (root != null || !stack.isEmpty()){
+            while (root  != null){
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if(root.val != val){
+                return false;
+            }
+            root = root.right;
+        }
+        return true;
+
     }
 }
 
