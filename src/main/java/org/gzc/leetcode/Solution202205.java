@@ -27,6 +27,9 @@ public class Solution202205 {
             case 462:
                 System.out.println(minMoves2(new int[]{1, 10, 2, 9}));
                 break;
+            case 467:
+                System.out.println(findSubstringInWraproundString("zabc"));
+                break;
             case 713:
                 System.out.println(numSubarrayProductLessThanK(new int[]{10, 9, 10, 4, 3, 8, 3, 3, 6, 2, 10, 10, 9, 3}, 19));
                 break;
@@ -330,13 +333,13 @@ public class Solution202205 {
 
         int val = root.val;
         Deque<TreeNode> stack = new LinkedList<>();
-        while (root != null || !stack.isEmpty()){
-            while (root  != null){
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
                 stack.push(root);
                 root = root.left;
             }
             root = stack.pop();
-            if(root.val != val){
+            if (root.val != val) {
                 return false;
             }
             root = root.right;
@@ -344,5 +347,24 @@ public class Solution202205 {
         return true;
 
     }
+
+    /**
+     * 467. 围绕字符串中唯一的子字符串
+     */
+    public static int findSubstringInWraproundString(String p) {
+        int[] dp = new int[26];
+        int k = 0;
+        for (int i = 0; i < p.length(); i++) {
+            if (i > 0 && (p.charAt(i) - p.charAt(i - 1)+26) % 26 == 1) {
+                k++;
+            } else {
+                k = 1;
+            }
+            int i1 = p.charAt(i) - 'a';
+            dp[i1] = Math.max(dp[i1], k);
+        }
+        return Arrays.stream(dp).sum();
+    }
+
 }
 
