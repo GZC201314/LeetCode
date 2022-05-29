@@ -15,14 +15,17 @@ import java.util.*;
 public class Solution202205 {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int qusetionNum = input.nextInt();
-        switch (qusetionNum) {
+        int questionNum = input.nextInt();
+        switch (questionNum) {
             case 666:
                 TreeNode treeNode = inorderSuccessor(new TreeNode(2, new TreeNode(1), new TreeNode(3)), new TreeNode(1));
                 System.out.println(treeNode != null ? treeNode.val : null);
                 break;
             case 386:
                 System.out.println(lexicalOrder(10));
+                break;
+            case 468:
+                System.out.println(validIPAddress("192.168.1.1"));
                 break;
             case 462:
                 System.out.println(minMoves2(new int[]{1, 10, 2, 9}));
@@ -62,6 +65,66 @@ public class Solution202205 {
                 break;
         }
 
+    }
+
+    /**
+     * 468. 验证IP地址
+     */
+    public static String validIPAddress(String queryIP) {
+        int last = -1;
+        if (queryIP.indexOf('.') >= 0) {
+            //IPv4
+            for (int i = 0; i < 4; i++) {
+                int cur = (i == 3 ? queryIP.length() : queryIP.indexOf('.', last + 1));
+                if (cur < 0) {
+                    return "Neither";
+                }
+                if (cur - last - 1 < 1 || cur - last - 1 > 3) {
+                    return "Neither";
+                }
+                int addr = 0;
+                for (int j = last + 1; j < cur; j++) {
+                    if (!Character.isDigit(queryIP.charAt(j))) {
+                        return "Neither";
+                    }
+                    addr = addr * 10 + (queryIP.charAt(j) - '0');
+                }
+                if(addr > 255){
+                    return "Neither";
+                }
+                //如果存在前置零
+                if(addr>0 && queryIP.charAt(last+1) == '0'){
+                    return "Neither";
+                }
+                //如果是零,存在多个连续零
+                if(addr ==0 && cur - last -1>1){
+                    return "Neither";
+                }
+                last = cur;
+
+            }
+            return "IPv4";
+        }else { // IPv6
+            for (int i = 0; i < 8; i++) {
+                int cur = (i ==7 ? queryIP.length():queryIP.indexOf(':',last+1));
+                // 如果不存在字符 :
+                if (cur ==0){
+                    return "Neither";
+                }
+                // IPv6 单个地址校验
+                if(cur - last -1 <1 || cur- last-1>4){
+                    return "Neither";
+                }
+                for (int j = last+1; j < cur; j++) {
+
+                    if(!Character.isDigit(queryIP.charAt(j)) && !('a' <= Character.toLowerCase(queryIP.charAt(j)) && Character.toLowerCase(queryIP.charAt(j))<='f')){
+                        return "Neither";
+                    }
+                }
+                last = cur;
+            }
+            return "IPv6";
+        }
     }
 
     /**
@@ -355,7 +418,7 @@ public class Solution202205 {
         int[] dp = new int[26];
         int k = 0;
         for (int i = 0; i < p.length(); i++) {
-            if (i > 0 && (p.charAt(i) - p.charAt(i - 1)+26) % 26 == 1) {
+            if (i > 0 && (p.charAt(i) - p.charAt(i - 1) + 26) % 26 == 1) {
                 k++;
             } else {
                 k = 1;
