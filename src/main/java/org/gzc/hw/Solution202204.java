@@ -25,7 +25,6 @@ public class Solution202204 {
 
     public static String[] ten = {"零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"};
     public static String[] power = {"万", "亿"};
-    public static String[] daiwei = {"元", "角", "分", "整"};
 
     public static void main(String[] args) throws IOException {
         Scanner input = new Scanner(System.in);
@@ -311,11 +310,371 @@ public class Solution202204 {
             case 97:
                 recordingNegativeAndPositive();
                 break;
+            case 98:
+                vendingMachine();
+                break;
+            case 99:
+                zishouNumber();
+                break;
+            case 100:
+                arithmeticSequence();
+                break;
+            case 101:
+                descAndAscOrder();
+                break;
+            case 102:
+                charCount();
+                break;
+            case 103:
+                redraiment();
+                break;
+            case 105:
+                extracted();
+                break;
+            case 106:
+                charAscOrder();
+                break;
+            case 107:
+                cubeRoot();
+                break;
+            case 108:
+                leastCommonMultiple();
+                break;
 
             default:
                 break;
         }
 
+    }
+
+    private static void leastCommonMultiple() throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        String[] numArr =bf.readLine().split(" ");
+        int a = Integer.parseInt(numArr[0]);
+        int b = Integer.parseInt(numArr[1]);
+
+        System.out.println(handle(a,b));
+    }
+
+    private static int handle(int a, int b) {
+        if (a % b == 0) {
+            return a;
+        }
+        if (b % a == 0) {
+            return b;
+        }
+        int min = Math.min(a,b);
+        for(int i=2;i<min;i++){
+            if(a%i==0 && b%i==0){
+                return i*handle(a/i,b/i);
+            }
+        }
+        return a*b;
+
+    }
+
+    private static void cubeRoot() throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        double num = Double.parseDouble(bf.readLine());
+        // 采用牛顿发，不断逼近根
+        double x0 = num;
+        double x1 = (x0-(x0*x0*x0-num)/(3*x0*x0));
+
+        while(Math.abs(x1*x1*x1-num) >0.01){
+            x0 =x1;
+            x1 = (x0-(x0*x0*x0-num)/(3*x0*x0));
+        }
+
+        System.out.printf("%.1f",x1);
+    }
+
+    private static void charAscOrder() {
+        Scanner in = new Scanner(System.in);
+        while (in.hasNext()) {
+            String str = in.nextLine();
+            String[] wordArr = str.split(" ");
+            int length = wordArr.length;
+            String[] result = new String[length];
+            for(int i=length-1;i>=0;i--){
+                StringBuilder word = new StringBuilder(wordArr[i]);
+                result[length - i-1] = word.reverse().toString();
+            }
+            System.out.println(String.join(" ",result));
+        }
+    }
+
+    private static void extracted() {
+        Scanner in = new Scanner(System.in);
+        int fushuCount =0;
+        int zhengshuCount=0;
+        float sum =0;
+        while (in.hasNextInt()) {
+            int num = in.nextInt();
+            if(num>0){
+                zhengshuCount++;
+                sum+=num;
+            }else if(num<0){
+                fushuCount++;
+            }
+        }
+        System.out.println(fushuCount);
+        if(sum>0){
+            System.out.printf("%.1f",sum/zhengshuCount);
+        }else{
+            System.out.print("0.0");
+        }
+    }
+
+    /**
+     * 103 Redraiment的走法
+     */
+    private static void redraiment() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] dp = new int[n+1];
+        for(int i=0;i<n;i++){
+            values[i] = sc.nextInt();
+        }
+        Arrays.fill(dp,1);
+        int max =1;
+        for(int i=1;i<n;i++){
+            for(int j=0;j<i;j++){
+                if(values[i]>values[j]){
+                    dp[i] = Math.max(dp[i],dp[j]+1);
+                }
+                max = Math.max(max,dp[i]);
+            }
+        }
+        System.out.println(max);
+    }
+
+    private static void charCount() {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        char[] strArr = str.toCharArray();
+        List<WordCount> list = new ArrayList<>();
+        Map<Character,Integer> map = new HashMap<>();
+        for(char chr : strArr){
+            map.put(chr,map.getOrDefault(chr,0)+1);
+        }
+        Set<Character> keys = map.keySet();
+        for(char key:keys){
+            list.add(new WordCount(key,map.get(key)));
+        }
+        list.sort((WordCount w1, WordCount w2) -> {
+            if (w1.count != w2.count) {
+                return w2.count - w1.count;
+            } else {
+                return w1.key - w2.key;
+            }
+        });
+        for(WordCount wordCount: list){
+            System.out.print(wordCount.key);
+        }
+    }
+
+    private static void descAndAscOrder() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+        }
+        int order = sc.nextInt();
+        Arrays.sort(values);
+        if(order ==0){
+            for(int value:values){
+                System.out.printf("%d ",value);
+            }
+        }else{
+            for(int i=n-1;i>=0;i--){
+                System.out.printf("%d ",values[i]);
+            }
+        }
+    }
+
+    private static void arithmeticSequence() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int N = 2+3*(n-1);
+        System.out.println(n*(2+N)/2);
+    }
+
+    private static void zishouNumber() {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int count =0;
+        for(int i =0;i<=n;i++){
+            long pow = (long) i *i;
+            String iStr = i+"";
+            String powStr = pow+"";
+            if(powStr.endsWith(iStr)){
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+
+    /**
+     * 98 自动售货系统
+     */
+    private static void vendingMachine() {
+        Scanner sc = new Scanner(System.in);
+        String commonds = sc.nextLine();
+        String[] commondArr = commonds.split(";");
+        int balance = 0;
+        Goods[] vendingMachine = new Goods[6];
+        for (int i = 0; i < 6; i++) {
+            vendingMachine[i] = new Goods();
+        }
+        SaveBox saveBox = new SaveBox();
+        List<String> keyList = new ArrayList<>();
+        vendingMachine[0].name = "A1";
+        keyList.add("A1");
+        vendingMachine[0].price = 2;
+        vendingMachine[1].name = "A2";
+        keyList.add("A2");
+        vendingMachine[1].price = 3;
+        vendingMachine[2].name = "A3";
+        keyList.add("A3");
+        vendingMachine[2].price = 4;
+        vendingMachine[3].name = "A4";
+        keyList.add("A4");
+        vendingMachine[3].price = 5;
+        vendingMachine[4].name = "A5";
+        keyList.add("A5");
+        vendingMachine[4].price = 8;
+        vendingMachine[5].name = "A6";
+        keyList.add("A6");
+        vendingMachine[5].price = 6;
+        Map<String, Goods> map = new HashMap<>();
+        for (String commond : commondArr) {
+            String[] commonLine = commond.split(" ");
+            if (commond.startsWith("r")) {
+                String[] goodsArr = commonLine[1].split("-");
+                for (int i = 0; i < 6; i++) {
+                    vendingMachine[i].count = Integer.parseInt(goodsArr[i]);
+                    map.put(vendingMachine[i].name, vendingMachine[i]);
+                }
+                String[] saveBoxArr = commonLine[2].split("-");
+                saveBox.tenCount = Integer.parseInt(saveBoxArr[3]);
+                saveBox.fiveCount = Integer.parseInt(saveBoxArr[2]);
+                saveBox.twoCount = Integer.parseInt(saveBoxArr[1]);
+                saveBox.oneCount = Integer.parseInt(saveBoxArr[0]);
+                saveBox.sum = saveBox.twoCount * 2 + saveBox.oneCount;
+                System.out.println("S001:Initialization is successful");
+            } else if (commond.startsWith("p")) {
+                if (!isDigit(commonLine[1])) {
+                    System.out.println("E002:Denomination error");
+                    continue;
+                }
+                int p = Integer.parseInt(commonLine[1]);
+                if (saveBox.sum < p && p > 2) {
+                    System.out.println("E003:Change is not enough, pay fail");
+                    continue;
+                }
+                int count = 0;
+                for (Goods goods : vendingMachine) {
+                    count += goods.count;
+                }
+                if (count == 0) {
+                    System.out.println("E005:All the goods sold out");
+                    continue;
+                }
+                balance += p;
+                // 如果是1和2，则对应的加
+                if(p ==1){
+                    saveBox.oneCount++;
+                    saveBox.sum +=p;
+                }
+                if(p ==2){
+                    saveBox.twoCount++;
+                    saveBox.sum +=p;
+                }
+                if(p == 5){
+                    saveBox.fiveCount++;
+                }
+                if(p ==10){
+                    saveBox.tenCount++;
+                }
+                System.out.println("S002:Pay success,balance=" + balance);
+            } else if (commond.startsWith("b")) {
+                if (!map.containsKey(commonLine[1])) {
+                    System.out.println("E006:Goods does not exist");
+                    continue;
+                }
+                if (map.get(commonLine[1]).count == 0) {
+                    System.out.println("E007:The goods sold out");
+                    continue;
+                }
+                if (map.get(commonLine[1]).price > balance) {
+                    System.out.println("E008:Lack of balance");
+                    continue;
+                }
+                // 投币减
+                balance -= map.get(commonLine[1]).price;
+                // 商品减
+                map.get(commonLine[1]).count--;
+
+                System.out.println("S003:Buy success,balance=" + balance);
+            } else if (commond.startsWith("c")) {
+                if (balance == 0) {
+                    System.out.println("E009:Work failure");
+                    continue;
+                }
+                int[] coins = new int[4];
+                int temp = balance;
+                // 贪心算法
+                while (temp > 0) {
+                    if (saveBox.tenCount > 0 && temp - 10 >= 0) {
+                        temp -= 10;
+                        saveBox.tenCount--;
+                        coins[3] += 1;
+                    } else if (saveBox.fiveCount > 0 && temp - 5 >= 0) {
+                        temp -= 5;
+                        saveBox.fiveCount--;
+                        coins[2] += 1;
+                    } else if (saveBox.twoCount > 0 && temp - 2 >= 0) {
+                        temp -= 2;
+                        saveBox.twoCount--;
+                        coins[1] += 1;
+                    } else if (saveBox.oneCount > 0) {
+                        temp -= 1;
+                        saveBox.oneCount--;
+                        coins[0] += 1;
+                    } else {
+                        break;
+                    }
+                }
+                balance = 0;
+                System.out.println("1 yuan coin number=" + coins[0]);
+                System.out.println("2 yuan coin number=" + coins[1]);
+                System.out.println("5 yuan coin number=" + coins[2]);
+                System.out.println("10 yuan coin number=" + coins[3]);
+                saveBox.sum -=(coins[1]*2+coins[0]);
+            } else if (commond.startsWith("q")) {
+                if(commonLine.length !=2){
+                    System.out.println("E010:Parameter error");
+                    continue;
+                }
+                int type = Integer.parseInt(commonLine[1]);
+                //查询
+                if (type == 0) { //查询商品
+                    for (String key : keyList) {
+                        Goods goods = map.get(key);
+                        System.out.println(goods.name + " " + goods.price + " " + goods.count);
+                    }
+                } else if (type == 1) {
+                    System.out.println("1 yuan coin number=" + saveBox.oneCount);
+                    System.out.println("2 yuan coin number=" + saveBox.twoCount);
+                    System.out.println("5 yuan coin number=" + saveBox.fiveCount);
+                    System.out.println("10 yuan coin number=" + saveBox.tenCount);
+                } else {
+                    System.out.println("E010:Parameter error");
+                }
+            }
+        }
     }
 
     private static void recordingNegativeAndPositive() {
@@ -465,7 +824,7 @@ public class Solution202204 {
         // 注意 hasNext 和 hasNextLine 的区别
         while (in.hasNext()) { // 注意 while 处理多个 case
             Map<String,Integer> map = new HashMap<>();
-            int n =Integer.parseInt(in.nextLine());
+            in.nextLine();
             String candidate = in.nextLine();
             String[] candidates = candidate.split(" ");
             for(String can : candidates){
@@ -500,14 +859,11 @@ public class Solution202204 {
             List<Integer> list3 = new ArrayList<>();
             int sum = 0;
             int sum5 = 0;
-            int sum3 = 0;
             for (int num : nums) {
                 sum += num;
                 if (num % 5 == 0) {
                     sum5 += num;
-                } else if (num % 3 == 0) {
-                    sum3 += num;
-                } else {
+                } else if (num % 3 != 0) {
                     list3.add(num);
                 }
             }
@@ -571,7 +927,7 @@ public class Solution202204 {
             } else if (right - left == max) {
                 sb.append(str, left + 1, right + 1);
             }
-            System.out.println(sb.toString() + "," + max);
+            System.out.println(sb + "," + max);
         }
     }
 
@@ -840,7 +1196,6 @@ public class Solution202204 {
             }
             int score = result / 10;
             switch (score) {
-                case 10:
                 case 9:
                     System.out.println("VERY_SECURE");
                     break;
@@ -859,7 +1214,7 @@ public class Solution202204 {
                 default:
                     if(result>=25){
                         System.out.println("WEAK");
-                    }else if(result>=0){
+                    }else {
                         System.out.println("VERY_WEAK");
                     }
             }
@@ -1128,8 +1483,8 @@ public class Solution202204 {
         int m = sc.nextInt();
         double num = Math.pow(m, 3);
         Deque<Integer> deque = new LinkedList<>();
+        int center = (int)num / m;
         if (num % 2 == 0) {
-            int center = (int)num / m;
             int i = 1;
             while (deque.size() < m) {
                 deque.offerFirst(center - i);
@@ -1137,7 +1492,6 @@ public class Solution202204 {
                 i += 2;
             }
         } else {
-            int center = (int) num / m;
             deque.offer(center);
             int i = 2;
             while (deque.size() < m) {
@@ -1692,7 +2046,7 @@ public class Solution202204 {
         long number = sc.nextLong();
         long first =0;
         long second =number;
-        for(int i =2;i*2<=number;i++){
+        for(int i = 2; i* 2L <=number; i++){
             if(isZhiShu(i) && isZhiShu(number-i)){
                 first = i;
                 second = number-i;
@@ -1703,7 +2057,7 @@ public class Solution202204 {
     }
 
     private static boolean isZhiShu(long number){
-        for(int i=2;i*i<=number;i++){
+        for(int i = 2; (long) i *i<=number; i++){
             if(number%i == 0){
                 return false;
             }
@@ -1790,7 +2144,7 @@ public class Solution202204 {
         if(carry == 1){
             result.append("1");
         }
-        System.out.println(result.reverse().toString());
+        System.out.println(result.reverse());
     }
 
     /**
@@ -2217,16 +2571,16 @@ public class Solution202204 {
             // 遍历列
             for (int j = 0; j < 9; j++){
                 // 跳过原始数字
-                if (board[i][j] != 0){ 
+                if (board[i][j] != 0){
                     continue;
                 }
                 // (i, j) 这个位置放k是否合适
-                for (int k = 1; k <= 9; k++){ 
+                for (int k = 1; k <= 9; k++){
                     if (isValidSudoku(i, j, k, board)){
                         //将k放在（i，j）
                         board[i][j] = k;
                         // 如果找到合适一组立刻返回
-                        if (solveSudoku(board)){ 
+                        if (solveSudoku(board)){
                             return true;
                         }
                         //回溯
@@ -2904,9 +3258,7 @@ public class Solution202204 {
         int count = Integer.parseInt(strArr[0]);
 
         String[] words = new String[count];
-        if (count >= 0) {
-            System.arraycopy(strArr, 1, words, 0, count);
-        }
+        System.arraycopy(strArr, 1, words, 0, count);
         String self = strArr[count + 1];
         int selfLen = self.length();
         Map<Character, Integer> selfMap = new HashMap<>();
@@ -3387,9 +3739,9 @@ public class Solution202204 {
         int n = sc.nextInt();
         int m = sc.nextInt();
 
-        Goods[] goods = new Goods[m];
+        Goods1[] goods = new Goods1[m];
         for(int i = 0; i < m; i++){
-            goods[i] = new Goods();
+            goods[i] = new Goods1();
         }
         for(int i = 0; i < m; i++){
             int v = sc.nextInt();
@@ -3397,7 +3749,7 @@ public class Solution202204 {
             int q = sc.nextInt();
             goods[i].v = v;
             // 直接用p*v，方便后面计算
-            goods[i].p = p * v;  
+            goods[i].p = p * v;
             if(q==0){
                 goods[i].main = true;
             }else if(goods[q-1].a1 == -1){
@@ -3480,7 +3832,7 @@ public class Solution202204 {
             }
         }
 
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     /**
@@ -3508,7 +3860,7 @@ public class Solution202204 {
             sb.append(num % 10);
             num = num / 10;
         }
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 
     /**
@@ -3799,9 +4151,6 @@ public class Solution202204 {
             if(num % i == 0) {
                 return false;
             }
-//             if(num == 1) {
-//                 return false;
-//             }
         }
         return true;
     }
@@ -3860,7 +4209,7 @@ public class Solution202204 {
     }
 
 }
-class Goods {
+class Goods1 {
     int v;
     int p;
     boolean main = false;
@@ -3898,5 +4247,34 @@ class Card {
         // 0 单 1 对 2 三 3 顺子 4 炸
         this.cardType = cardType;
         this.order = order;
+    }
+}
+
+class Goods {
+    String name;
+    int price;
+    int count;
+
+    public Goods() {
+    }
+}
+class SaveBox {
+    int sum;
+    int tenCount;
+    int fiveCount;
+    int twoCount;
+    int oneCount;
+
+    public SaveBox() {
+    }
+}
+
+class WordCount{
+    char key;
+    int count;
+
+    public WordCount(char key,int count){
+        this.key = key;
+        this.count = count;
     }
 }
