@@ -19,6 +19,10 @@ public class Solution202206 {
         switch (questionNum) {
             case 390:
                 System.out.println(lastRemaining(9));
+                break;
+            case 522:
+                System.out.println(findLUSlength(new String[]{"aaa","bbb","ccc"}));
+                break;
             default:
                 break;
         }
@@ -60,7 +64,8 @@ public class Solution202206 {
         int a1 = 1;
         int k = 0, cnt = n, step = 1;
         while (cnt > 1) {
-            if (k % 2 == 0) { // 正向
+            // 正向
+            if (k % 2 == 0) {
                 a1 = a1 + step;
             } else { // 反向
                 a1 = (cnt % 2 == 0) ? a1 : a1 + step;
@@ -71,5 +76,38 @@ public class Solution202206 {
         }
         return a1;
     }
+
+    /**
+     * 522. 最长特殊序列 II
+     */
+    public static int findLUSlength(String[] strs) {
+        int n = strs.length;
+        int ans = -1;
+        for (int i = 0; i < n; ++i) {
+            boolean check = true;
+            for (int j = 0; j < n; ++j) {
+                if (i != j && isSubseq(strs[i], strs[j])) {
+                    check = false;
+                    break;
+                }
+            }
+            if (check) {
+                ans = Math.max(ans, strs[i].length());
+            }
+        }
+        return ans;
+    }
+
+    public static boolean isSubseq(String s, String t) {
+        int ptS = 0, ptT = 0;
+        while (ptS < s.length() && ptT < t.length()) {
+            if (s.charAt(ptS) == t.charAt(ptT)) {
+                ++ptS;
+            }
+            ++ptT;
+        }
+        return ptS == s.length();
+    }
+
 }
 
