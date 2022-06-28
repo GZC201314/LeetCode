@@ -23,6 +23,9 @@ public class Solution202206 {
             case 522:
                 System.out.println(findLUSlength(new String[]{"aaa","bbb","ccc"}));
                 break;
+            case 501:
+                System.out.println(Arrays.toString(findMode(new TreeNode())));
+                break;
             default:
                 break;
         }
@@ -43,7 +46,6 @@ public class Solution202206 {
         }
         int index =0;
         int result = 0;
-        List<Integer> newList = new ArrayList<>();
         while (!deque.isEmpty()){
             if(index++ %2 ==0){
                 deque.poll();
@@ -107,6 +109,41 @@ public class Solution202206 {
             ++ptT;
         }
         return ptS == s.length();
+    }
+
+    /**
+     * 501. 二叉搜索树中的众数
+     */
+    public static int[] findMode(TreeNode root) {
+
+        Map<Integer,Integer> map = new HashMap<>();
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            map.put(node.val, map.getOrDefault(node.val,0)+1);
+            if(node.left != null){
+                stack.push(node.left);
+            }
+            if(node.right != null){
+                stack.push(node.right);
+            }
+        }
+        List<Integer> result = new ArrayList<>();
+        int max = Integer.MIN_VALUE;
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        for (Map.Entry<Integer, Integer> entry : entries) {
+            if(entry.getValue()>max){
+                max = entry.getKey();
+            }
+        }
+        for (Map.Entry<Integer, Integer> entry : entries) {
+            if(entry.getValue()==max){
+                result.add(entry.getKey());
+            }
+        }
+        return Arrays.stream(result.toArray(new Integer[0])).mapToInt(Integer::valueOf).toArray();
+
     }
 
 }
