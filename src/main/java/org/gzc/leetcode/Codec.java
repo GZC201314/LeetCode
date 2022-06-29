@@ -23,7 +23,7 @@ public class Codec {
     while (!queue.isEmpty()) {
       TreeNode node = queue.poll();
       if (node != null) {
-        res.append("" + node.val);
+        res.append("").append(node.val);
         queue.offer(node.left);
         queue.offer(node.right);
       } else {
@@ -35,9 +35,11 @@ public class Codec {
     return res.toString();
   }
 
-  // Decodes your encoded data to tree.
+  /**
+   * Decodes your encoded data to tree.
+   */
   public TreeNode deserialize(String data) {
-    if (data == "") {
+    if ("".equals(data)) {
       return null;
     }
     String[] dataList = data.substring(1, data.length() - 1).split(",");

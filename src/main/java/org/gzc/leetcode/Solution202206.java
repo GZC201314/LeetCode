@@ -3,6 +3,7 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.Codec;
 import org.gzc.leetcode.model.Pair;
+import org.gzc.leetcode.model.TinyURL;
 import org.gzc.leetcode.model.TreeNode;
 
 import java.util.*;
@@ -25,6 +26,10 @@ public class Solution202206 {
                 break;
             case 501:
                 System.out.println(Arrays.toString(findMode(new TreeNode())));
+                break;
+            case 535:
+                TinyURL tinyURL = new TinyURL();
+                System.out.println(tinyURL.decode(tinyURL.encode("https://www.baidu.com/iqw/index")));
                 break;
             default:
                 break;
