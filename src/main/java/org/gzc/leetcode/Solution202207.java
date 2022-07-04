@@ -3,7 +3,9 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ListNode;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -34,6 +36,11 @@ public class Solution202207 {
                                                                                                         new ListNode(5,
                                                                                                                 new ListNode(0)))))))))))));
                 System.out.println(Arrays.deepToString(spiralMatrix(3, 5, root)));
+                break;
+            case 1200:
+                List<List<Integer>> lists = minimumAbsDifference(new int[]{1, 2, 3, 4});
+                System.out.println(lists);
+                break;
             default:
                 break;
         }
@@ -113,6 +120,33 @@ public class Solution202207 {
                 left++;
             }
 
+        }
+        return result;
+    }
+
+    /**
+     * 1200. 最小绝对差
+     */
+    public static List<List<Integer>> minimumAbsDifference(int[] arr) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(arr);
+        int n = arr.length - 2;
+        int min = Integer.MAX_VALUE;
+        for (int i = 0; i <= n; i++) {
+            if (min > arr[i + 1] - arr[i]) {
+                result.clear();
+                List<Integer> list = new ArrayList<>();
+                list.add(arr[i]);
+                list.add(arr[i+1]);
+                result.add(list);
+                min = arr[i + 1] - arr[i];
+
+            }else if(min == arr[i + 1] - arr[i]){
+                List<Integer> list = new ArrayList<>();
+                list.add(arr[i]);
+                list.add(arr[i+1]);
+                result.add(list);
+            }
         }
         return result;
     }
