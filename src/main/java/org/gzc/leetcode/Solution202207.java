@@ -2,10 +2,9 @@ package org.gzc.leetcode;
 
 
 import org.gzc.leetcode.model.ListNode;
-import org.gzc.leetcode.model.TinyURL;
-import org.gzc.leetcode.model.TreeNode;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * @author GZC
@@ -17,6 +16,9 @@ public class Solution202207 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 390:
+                System.out.println(Arrays.toString(shuffle(new int[]{12, 3, 4, 5, 6, 7, 8, 9}, 4)));
+                break;
             case 6111:
                 ListNode root = new ListNode(3,
                         new ListNode(0,
@@ -35,6 +37,19 @@ public class Solution202207 {
             default:
                 break;
         }
+
+    }
+
+    public static int[] shuffle(int[] nums, int n) {
+        int[] arr = new int[2*n];
+        int left =0 ;
+        int right = n;
+        int index =0;
+        for(int i=0;i<n;i++){
+            arr[index++] = nums[left++];
+            arr[index++] = nums[right++];
+        }
+        return arr;
 
     }
 
