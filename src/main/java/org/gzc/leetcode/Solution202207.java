@@ -3,10 +3,7 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ListNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author GZC
@@ -40,6 +37,9 @@ public class Solution202207 {
             case 1200:
                 List<List<Integer>> lists = minimumAbsDifference(new int[]{1, 2, 3, 4});
                 System.out.println(lists);
+                break;
+            case 451:
+                System.out.println(frequencySort("tree"));
                 break;
             default:
                 break;
@@ -149,6 +149,30 @@ public class Solution202207 {
             }
         }
         return result;
+    }
+
+    /**
+     * 451. 根据字符出现频率排序
+     */
+    public static  String frequencySort(String s) {
+        Map<Character,Integer> charMap = new HashMap<>();
+        char[] chars = s.toCharArray();
+        for (char c : chars) {
+            charMap.put(c, charMap.getOrDefault(c,0)+1);
+        }
+        List<Map.Entry<Character,Integer>> list = new ArrayList<>(charMap.entrySet());
+        Collections.sort(list, (Map.Entry<Character,Integer> en1,Map.Entry<Character,Integer> en2)->{
+            return en2.getValue()-en1.getValue();
+        });
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<Character,Integer> en1 : list) {
+            int n = en1.getValue();
+            for (int i = 0;i<n;i++){
+                sb.append(en1.getKey());
+            }
+        }
+        return sb.toString();
+
     }
 
 }
