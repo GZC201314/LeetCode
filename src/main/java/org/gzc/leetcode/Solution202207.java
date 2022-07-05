@@ -41,6 +41,9 @@ public class Solution202207 {
             case 451:
                 System.out.println(frequencySort("tree"));
                 break;
+            case 452:
+                System.out.println(findMinArrowShots(new int[][]{{1,2}}));
+                break;
             default:
                 break;
         }
@@ -161,9 +164,7 @@ public class Solution202207 {
             charMap.put(c, charMap.getOrDefault(c,0)+1);
         }
         List<Map.Entry<Character,Integer>> list = new ArrayList<>(charMap.entrySet());
-        Collections.sort(list, (Map.Entry<Character,Integer> en1,Map.Entry<Character,Integer> en2)->{
-            return en2.getValue()-en1.getValue();
-        });
+        list.sort((Map.Entry<Character, Integer> en1, Map.Entry<Character, Integer> en2) -> en2.getValue() - en1.getValue());
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Character,Integer> en1 : list) {
             int n = en1.getValue();
@@ -172,6 +173,27 @@ public class Solution202207 {
             }
         }
         return sb.toString();
+
+    }
+
+    /**
+     * 452. 用最少数量的箭引爆气球
+     */
+    public static int findMinArrowShots(int[][] points) {
+
+        if (points.length == 0) {
+            return 0;
+        }
+        Arrays.sort(points, Comparator.comparingInt((int[] point) -> point[1]));
+        int pos = points[0][1];
+        int ans = 1;
+        for (int[] balloon : points) {
+            if (balloon[0] > pos) {
+                pos = balloon[1];
+                ++ans;
+            }
+        }
+        return ans;
 
     }
 
