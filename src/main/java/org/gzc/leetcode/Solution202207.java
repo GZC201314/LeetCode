@@ -7,8 +7,6 @@ import java.util.*;
 
 /**
  * @author GZC
- * @create 2022-03-03 21:59
- * @description 2022年三月 LeetCode代码练习
  */
 public class Solution202207 {
     public static void main(String[] args) {
@@ -204,7 +202,6 @@ public class Solution202207 {
      * 454. 四数相加2
      */
     public static int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
-        int n = nums1.length;
         int count = 0;
         Map<Integer, Integer> map = new HashMap<>();
         for (int num1 : nums1) {
