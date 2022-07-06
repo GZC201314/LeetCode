@@ -42,8 +42,11 @@ public class Solution202207 {
             case 452:
                 System.out.println(findMinArrowShots(new int[][]{{1,2}}));
                 break;
-            case 455:
+            case 454:
                 System.out.println(fourSumCount(new int[]{1,2},new int[]{1,2},new int[]{1,2},new int[]{1,2}));
+                break;
+            case 455:
+                System.out.println(findContentChildren(new int[]{1,2},new int[]{1,2}));
                 break;
             default:
                 break;
@@ -218,6 +221,30 @@ public class Solution202207 {
             }
         }
         return count;
+    }
+
+    /**
+     * 455. 分发饼干
+     */
+    public static int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int gLen = g.length;
+        int sLen = s.length;
+        int gIndex = 0;
+        int sIndex = 0;
+        int result = 0;
+        while (gIndex < gLen && sIndex<sLen) {
+            if(s[sIndex]>=g[gIndex]){
+                gIndex++;
+                sIndex++;
+                result++;
+            }else{
+                sIndex++;
+            }
+        }
+        return result;
+
     }
 
 }
