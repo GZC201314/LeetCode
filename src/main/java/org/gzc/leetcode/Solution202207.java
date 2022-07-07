@@ -40,13 +40,16 @@ public class Solution202207 {
                 System.out.println(frequencySort("tree"));
                 break;
             case 452:
-                System.out.println(findMinArrowShots(new int[][]{{1,2}}));
+                System.out.println(findMinArrowShots(new int[][]{{1, 2}}));
                 break;
             case 454:
-                System.out.println(fourSumCount(new int[]{1,2},new int[]{1,2},new int[]{1,2},new int[]{1,2}));
+                System.out.println(fourSumCount(new int[]{1, 2}, new int[]{1, 2}, new int[]{1, 2}, new int[]{1, 2}));
                 break;
             case 455:
-                System.out.println(findContentChildren(new int[]{1,2},new int[]{1,2}));
+                System.out.println(findContentChildren(new int[]{1, 2}, new int[]{1, 2}));
+                break;
+            case 456:
+                System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
             default:
                 break;
@@ -55,11 +58,11 @@ public class Solution202207 {
     }
 
     public static int[] shuffle(int[] nums, int n) {
-        int[] arr = new int[2*n];
-        int left =0 ;
+        int[] arr = new int[2 * n];
+        int left = 0;
         int right = n;
-        int index =0;
-        for(int i=0;i<n;i++){
+        int index = 0;
+        for (int i = 0; i < n; i++) {
             arr[index++] = nums[left++];
             arr[index++] = nums[right++];
         }
@@ -72,58 +75,58 @@ public class Solution202207 {
      */
     public static int[][] spiralMatrix(int m, int n, ListNode head) {
         int[][] result = new int[m][n];
-        for (int i = 0;i<m;i++){
-            Arrays.fill(result[i],-1);
+        for (int i = 0; i < m; i++) {
+            Arrays.fill(result[i], -1);
         }
-        int top =0;
-        int bottom = m-1;
-        int left =0;
-        int right =n-1;
-        while (head != null){
+        int top = 0;
+        int bottom = m - 1;
+        int left = 0;
+        int right = n - 1;
+        while (head != null) {
             // 向右
-            for(int i= left;i<=right;i++){
+            for (int i = left; i <= right; i++) {
                 result[top][i] = head.val;
                 head = head.next;
-                if(head == null){
+                if (head == null) {
                     return result;
                 }
             }
-            if(top<bottom){
+            if (top < bottom) {
                 top++;
             }
 
             // 向下
-            for(int i = top;i<=bottom;i++){
+            for (int i = top; i <= bottom; i++) {
                 result[i][right] = head.val;
                 head = head.next;
-                if(head == null){
+                if (head == null) {
                     return result;
                 }
             }
-            if(left<right){
+            if (left < right) {
                 right--;
             }
 
             // 向左
-            for (int i = right; i >= left ; i--) {
+            for (int i = right; i >= left; i--) {
                 result[bottom][i] = head.val;
                 head = head.next;
-                if(head == null){
+                if (head == null) {
                     return result;
                 }
             }
-            if(top<bottom){
+            if (top < bottom) {
                 bottom--;
             }
             // 向上
-            for (int i = bottom; i >= top ; i--) {
+            for (int i = bottom; i >= top; i--) {
                 result[i][left] = head.val;
                 head = head.next;
-                if(head == null){
+                if (head == null) {
                     return result;
                 }
             }
-            if(left<right){
+            if (left < right) {
                 left++;
             }
 
@@ -144,14 +147,14 @@ public class Solution202207 {
                 result.clear();
                 List<Integer> list = new ArrayList<>();
                 list.add(arr[i]);
-                list.add(arr[i+1]);
+                list.add(arr[i + 1]);
                 result.add(list);
                 min = arr[i + 1] - arr[i];
 
-            }else if(min == arr[i + 1] - arr[i]){
+            } else if (min == arr[i + 1] - arr[i]) {
                 List<Integer> list = new ArrayList<>();
                 list.add(arr[i]);
-                list.add(arr[i+1]);
+                list.add(arr[i + 1]);
                 result.add(list);
             }
         }
@@ -161,18 +164,18 @@ public class Solution202207 {
     /**
      * 451. 根据字符出现频率排序
      */
-    public static  String frequencySort(String s) {
-        Map<Character,Integer> charMap = new HashMap<>();
+    public static String frequencySort(String s) {
+        Map<Character, Integer> charMap = new HashMap<>();
         char[] chars = s.toCharArray();
         for (char c : chars) {
-            charMap.put(c, charMap.getOrDefault(c,0)+1);
+            charMap.put(c, charMap.getOrDefault(c, 0) + 1);
         }
-        List<Map.Entry<Character,Integer>> list = new ArrayList<>(charMap.entrySet());
+        List<Map.Entry<Character, Integer>> list = new ArrayList<>(charMap.entrySet());
         list.sort((Map.Entry<Character, Integer> en1, Map.Entry<Character, Integer> en2) -> en2.getValue() - en1.getValue());
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Character,Integer> en1 : list) {
+        for (Map.Entry<Character, Integer> en1 : list) {
             int n = en1.getValue();
-            for (int i = 0;i<n;i++){
+            for (int i = 0; i < n; i++) {
                 sb.append(en1.getKey());
             }
         }
@@ -234,18 +237,66 @@ public class Solution202207 {
         int gIndex = 0;
         int sIndex = 0;
         int result = 0;
-        while (gIndex < gLen && sIndex<sLen) {
-            if(s[sIndex]>=g[gIndex]){
+        while (gIndex < gLen && sIndex < sLen) {
+            if (s[sIndex] >= g[gIndex]) {
                 gIndex++;
                 sIndex++;
                 result++;
-            }else{
+            } else {
                 sIndex++;
             }
         }
         return result;
 
     }
+
+    /**
+     * 456. 132模式 超时 O(n^2)
+     */
+    public static boolean find132pattern(int[] nums) {
+        int n = nums.length;
+        for (int i = 1; i < n - 1; i++) {
+            //查找左边的小于nums[i]的最小值
+            int min = Integer.MAX_VALUE;
+            int max = Integer.MIN_VALUE;
+            for (int j = 0; j < i; j++) {
+                if (min > nums[j] && nums[j] < nums[i]) {
+                    min = nums[j];
+                }
+            }
+            for (int j = i + 1; j < n; j++) {
+                if (max < nums[j] && nums[j] < nums[i]) {
+                    max = nums[j];
+                }
+            }
+            if (max > min) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 456. 132模式 超时
+     */
+        public boolean find132pattern1 ( int[] nums){
+            int n = nums.length;
+            Deque<Integer> candidateK = new LinkedList<>();
+            candidateK.push(nums[n - 1]);
+            int maxK = Integer.MIN_VALUE;
+            for (int i = n - 2; i >= 0; --i) {
+                if (nums[i] < maxK) {
+                    return true;
+                }
+                while (!candidateK.isEmpty() && nums[i] > candidateK.peek()) {
+                    maxK = candidateK.pop();
+                }
+                if (nums[i] > maxK) {
+                    candidateK.push(nums[i]);
+                }
+            }
+            return false;
+        }
 
 }
 
