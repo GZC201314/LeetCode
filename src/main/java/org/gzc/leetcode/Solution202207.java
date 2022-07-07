@@ -50,6 +50,7 @@ public class Solution202207 {
                 break;
             case 456:
                 System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
+                System.out.println(find132pattern1(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
             default:
                 break;
@@ -277,26 +278,46 @@ public class Solution202207 {
     }
 
     /**
-     * 456. 132模式 超时
+     * 456. 132模式
      */
-        public boolean find132pattern1 ( int[] nums){
-            int n = nums.length;
-            Deque<Integer> candidateK = new LinkedList<>();
-            candidateK.push(nums[n - 1]);
-            int maxK = Integer.MIN_VALUE;
-            for (int i = n - 2; i >= 0; --i) {
-                if (nums[i] < maxK) {
-                    return true;
-                }
-                while (!candidateK.isEmpty() && nums[i] > candidateK.peek()) {
-                    maxK = candidateK.pop();
-                }
-                if (nums[i] > maxK) {
-                    candidateK.push(nums[i]);
+    public static boolean find132pattern1(int[] nums) {
+        int n = nums.length;
+        Deque<Integer> candidateK = new LinkedList<>();
+        candidateK.push(nums[n - 1]);
+        int maxK = Integer.MIN_VALUE;
+        for (int i = n - 2; i >= 0; --i) {
+            if (nums[i] < maxK) {
+                return true;
+            }
+            while (!candidateK.isEmpty() && nums[i] > candidateK.peek()) {
+                maxK = candidateK.pop();
+            }
+            if (nums[i] > maxK) {
+                candidateK.push(nums[i]);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 648. 单词替换
+     */
+    public static String replaceWords(List<String> dictionary, String sentence) {
+        List<String> result = new ArrayList<>();
+        String[] words = sentence.split(" ");
+        for (String word : words) {
+            String wordRoot = word;
+            for (String dict : dictionary) {
+                if (word.startsWith(dict)) {
+                    if (dict.length() < wordRoot.length()) {
+                        wordRoot = dict;
+                    }
                 }
             }
-            return false;
+            result.add(wordRoot);
         }
+        return String.join(" ", result);
+    }
 
 }
 
