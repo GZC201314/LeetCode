@@ -58,6 +58,9 @@ public class Solution202207 {
             case 457:
                 System.out.println(circularArrayLoop(new int[]{1, 2}));
                 break;
+            case 459:
+                System.out.println(repeatedSubstringPattern("bb"));
+                break;
             case 648:
                 List<String> list = new ArrayList<>();
                 System.out.println(replaceWords(list, " "));
@@ -384,6 +387,38 @@ public class Solution202207 {
         int n = nums.length;
         return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中 }
 
+    }
+
+    /**
+     * 459. 重复的子字符串
+     */
+    public static boolean repeatedSubstringPattern(String s) {
+        HashSet<Integer> set = new HashSet<>();
+        int len = s.length();
+        for (int i = 1;i<=len/2;i++){
+            if(len%i ==0){
+                set.add(i);
+            }
+        }
+        for (Integer integer : set) {
+            int start =0;
+            int end = integer;
+            String subStr = s.substring(start,end);
+            boolean flag = true;
+            while (end <= len){
+                if(s.substring(start,end).equals(subStr)){
+                    start = end;
+                    end = end+integer;
+                }else {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
