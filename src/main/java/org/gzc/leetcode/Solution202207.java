@@ -52,6 +52,13 @@ public class Solution202207 {
                 System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 System.out.println(find132pattern1(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
+            case 1217:
+                System.out.println(minCostToMoveChips(new int[]{1, 2}));
+                break;
+            case 648:
+                List<String> list = new ArrayList<>();
+                System.out.println(replaceWords(list," "));
+                break;
             default:
                 break;
         }
@@ -317,6 +324,23 @@ public class Solution202207 {
             result.add(wordRoot);
         }
         return String.join(" ", result);
+    }
+
+    /**
+     * 1217. 玩筹码
+     */
+    public static int minCostToMoveChips(int[] position) {
+        //移动到某个偶数的位置，所有奇数的个数和就是此时的代价
+        int even = 0;
+        int odd = 0;
+        for(int pos:position){
+            if(pos%2 ==0){
+                even++;
+            }else {
+                odd++;
+            }
+        }
+        return Math.min(even,odd);
     }
 
 }
