@@ -2,6 +2,7 @@ package org.gzc.leetcode;
 
 
 import org.gzc.leetcode.model.ListNode;
+import org.gzc.leetcode.model.MagicDictionary;
 
 import java.util.*;
 
@@ -60,6 +61,14 @@ public class Solution202207 {
                 break;
             case 459:
                 System.out.println(repeatedSubstringPattern("bb"));
+                break;
+            case 461:
+                System.out.println(hammingDistance(123,234));
+                break;
+            case 676:
+                MagicDictionary magicDictionary = new MagicDictionary();
+                magicDictionary.buildDict(new String[]{"hello","leetcode"});
+                System.out.println(magicDictionary.search("hhllo"));
                 break;
             case 460:
                 LFUCache lfuCache = new LFUCache(64);
@@ -424,6 +433,34 @@ public class Solution202207 {
             }
         }
         return false;
+    }
+
+    /**
+     * 461. 汉明距离
+     */
+    public static int hammingDistance(int x, int y) {
+        int result =0;
+        while (x >0 && y>0) {
+            if(x%2 != y%2){
+                result++;
+            }
+            x = x>>1;
+            y = y>>1;
+        }
+        while(x>0){
+            if(x%2 ==1){
+                result++;
+            }
+            x = x>>1;
+        }
+        while(y>0){
+            if(y%2 ==1){
+                result++;
+            }
+            y = y>>1;
+        }
+        return result;
+
     }
 
 }
