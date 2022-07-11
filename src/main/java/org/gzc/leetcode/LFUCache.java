@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 /**
- * 460. LFU缓存
+ *
  */
 public class LFUCache {
     Map<Integer, Node> cache;  // 存储缓存的内容
