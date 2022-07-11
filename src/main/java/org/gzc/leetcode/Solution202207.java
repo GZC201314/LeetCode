@@ -61,6 +61,11 @@ public class Solution202207 {
             case 459:
                 System.out.println(repeatedSubstringPattern("bb"));
                 break;
+            case 460:
+                LFUCache lfuCache = new LFUCache(64);
+                lfuCache.put(1,1);
+                System.out.println(lfuCache.get(1));
+                break;
             case 648:
                 List<String> list = new ArrayList<>();
                 System.out.println(replaceWords(list, " "));
