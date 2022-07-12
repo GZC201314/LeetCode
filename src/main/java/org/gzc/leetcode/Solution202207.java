@@ -65,6 +65,9 @@ public class Solution202207 {
             case 461:
                 System.out.println(hammingDistance(123,234));
                 break;
+            case 463:
+                System.out.println(islandPerimeter(new int[][]{{1,1},{1,1}}));
+                break;
             case 676:
                 MagicDictionary magicDictionary = new MagicDictionary();
                 magicDictionary.buildDict(new String[]{"hello","leetcode"});
@@ -463,4 +466,66 @@ public class Solution202207 {
 
     }
 
+    /**
+     * 463. 岛屿的周长
+     */
+    public static int islandPerimeter(int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        int[][] useFlag = new int[row][col];
+        int[][] direction = new int[][]{{-1,0},{0,1},{1,0},{0,-1}};
+        Queue<Xy> stack = new ArrayDeque<>();
+        int result =0;
+        for (int i = 0;i<row;i++){
+            for (int j = 0;j<col;j++){
+                if (grid[i][j] == 1){
+                    //计算所有的
+                    stack.offer(new Xy(i, j));
+                    while (!stack.isEmpty()){
+
+                        Xy top = stack.poll();
+                        if(useFlag[top.x][top.y] == 1){
+                            continue;
+                        }
+                        for (int k = 0;k<4;k++){
+                            int newx = direction[k][0]+ top.x;
+                            int newy = direction[k][1]+ top.y;
+                            // 判断边界是否是周长
+                                if(isSea(new Xy(newx,newy),row,col,grid)){
+                                    result++;
+                                }else {
+                                    if(useFlag[newx][newy] == 0){
+                                        Xy xy = new Xy(newx, newy);
+                                        System.out.println(xy.x +" "+xy.y);
+                                        stack.offer(xy);
+                                    }
+
+                                }
+                        }
+                        useFlag[top.x][top.y]= 1;
+                    }
+                    return result;
+                }
+            }
+        }
+        return result;
+
+
+    }
+    private static boolean isSea(Xy x,int row,int col,int[][] grid){
+        if(x.x>=0 && x.x<row && x.y>=0 && x.y<col){
+            return grid[x.x][x.y] != 1;
+        }
+        return true;
+
+    }
+    private static class Xy{
+        int x;
+        int y;
+
+        public Xy(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
 }
