@@ -2,6 +2,7 @@ package org.gzc.leetcode;
 
 
 import org.gzc.leetcode.model.ListNode;
+import org.gzc.leetcode.model.MagicDictionary;
 
 import java.util.*;
 
@@ -52,10 +53,34 @@ public class Solution202207 {
                 System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 System.out.println(find132pattern1(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
+            case 1217:
+                System.out.println(minCostToMoveChips(new int[]{1, 2}));
+                break;
+            case 457:
+                System.out.println(circularArrayLoop(new int[]{1, 2}));
+                break;
+            case 459:
+                System.out.println(repeatedSubstringPattern("bb"));
+                break;
+            case 461:
+                System.out.println(hammingDistance(123,234));
+                break;
+            case 463:
+                System.out.println(islandPerimeter(new int[][]{{1,1},{1,1}}));
+                break;
+            case 676:
+                MagicDictionary magicDictionary = new MagicDictionary();
+                magicDictionary.buildDict(new String[]{"hello","leetcode"});
+                System.out.println(magicDictionary.search("hhllo"));
+                break;
+            case 460:
+                LFUCache lfuCache = new LFUCache(64);
+                lfuCache.put(1,1);
+                System.out.println(lfuCache.get(1));
+                break;
             case 648:
                 List<String> list = new ArrayList<>();
-                list.add("a");
-                System.out.println(replaceWords(list, "1234"));
+                System.out.println(replaceWords(list, " "));
                 break;
             default:
                 break;
@@ -324,5 +349,183 @@ public class Solution202207 {
         return String.join(" ", result);
     }
 
-}
+    /**
+     * 1217. 玩筹码
+     */
+    public static int minCostToMoveChips(int[] position) {
+        //移动到某个偶数的位置，所有奇数的个数和就是此时的代价
+        int even = 0;
+        int odd = 0;
+        for (int pos : position) {
+            if (pos % 2 == 0) {
+                even++;
+            } else {
+                odd++;
+            }
+        }
+        return Math.min(even, odd);
+    }
 
+    /**
+     * 457. 环形数组是否存在循环
+     */
+    public static boolean circularArrayLoop(int[] nums) {
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            // 在nums[i] ==0 设置当前节点已经遍历过，而且没有生成环
+            if (nums[i] == 0) {
+                continue;
+            }
+            int slow = i, fast = next(nums, i);
+            // 判断非零且方向相同
+            while (nums[slow] * nums[fast] > 0 && nums[slow] * nums[next(nums, fast)] > 0) {
+                if (slow == fast) {
+                    //循环的长度大于1 相遇的位置是环的起点
+                    if (slow != next(nums, slow)) {
+                        return true;
+                    } else {
+                        break;
+                    }
+                }
+                slow = next(nums, slow);
+                fast = next(nums, next(nums, fast));
+            }
+            int add = i;
+            while (nums[add] * nums[next(nums, add)] > 0) {
+                int tmp = add;
+                add = next(nums, add);
+                nums[tmp] = 0;
+            }
+        }
+        return false;
+    }
+
+    public static int next(int[] nums, int cur) {
+        int n = nums.length;
+        return ((cur + nums[cur]) % n + n) % n; // 保证返回值在 [0,n) 中 }
+
+    }
+
+    /**
+     * 459. 重复的子字符串
+     */
+    public static boolean repeatedSubstringPattern(String s) {
+        HashSet<Integer> set = new HashSet<>();
+        int len = s.length();
+        for (int i = 1;i<=len/2;i++){
+            if(len%i ==0){
+                set.add(i);
+            }
+        }
+        for (Integer integer : set) {
+            int start =0;
+            int end = integer;
+            String subStr = s.substring(start,end);
+            boolean flag = true;
+            while (end <= len){
+                if(s.substring(start,end).equals(subStr)){
+                    start = end;
+                    end = end+integer;
+                }else {
+                    flag = false;
+                    break;
+                }
+            }
+            if(flag){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 461. 汉明距离
+     */
+    public static int hammingDistance(int x, int y) {
+        int result =0;
+        while (x >0 && y>0) {
+            if(x%2 != y%2){
+                result++;
+            }
+            x = x>>1;
+            y = y>>1;
+        }
+        while(x>0){
+            if(x%2 ==1){
+                result++;
+            }
+            x = x>>1;
+        }
+        while(y>0){
+            if(y%2 ==1){
+                result++;
+            }
+            y = y>>1;
+        }
+        return result;
+
+    }
+
+    /**
+     * 463. 岛屿的周长
+     */
+    public static int islandPerimeter(int[][] grid) {
+        int row = grid.length;
+        int col = grid[0].length;
+        int[][] useFlag = new int[row][col];
+        int[][] direction = new int[][]{{-1,0},{0,1},{1,0},{0,-1}};
+        Queue<Xy> stack = new ArrayDeque<>();
+        int result =0;
+        for (int i = 0;i<row;i++){
+            for (int j = 0;j<col;j++){
+                if (grid[i][j] == 1){
+                    //计算所有的
+                    stack.offer(new Xy(i, j));
+                    while (!stack.isEmpty()){
+
+                        Xy top = stack.poll();
+                        if(useFlag[top.x][top.y] == 1){
+                            continue;
+                        }
+                        for (int k = 0;k<4;k++){
+                            int newx = direction[k][0]+ top.x;
+                            int newy = direction[k][1]+ top.y;
+                            // 判断边界是否是周长
+                                if(isSea(new Xy(newx,newy),row,col,grid)){
+                                    result++;
+                                }else {
+                                    if(useFlag[newx][newy] == 0){
+                                        Xy xy = new Xy(newx, newy);
+                                        System.out.println(xy.x +" "+xy.y);
+                                        stack.offer(xy);
+                                    }
+
+                                }
+                        }
+                        useFlag[top.x][top.y]= 1;
+                    }
+                    return result;
+                }
+            }
+        }
+        return result;
+
+
+    }
+    private static boolean isSea(Xy x,int row,int col,int[][] grid){
+        if(x.x>=0 && x.x<row && x.y>=0 && x.y<col){
+            return grid[x.x][x.y] != 1;
+        }
+        return true;
+
+    }
+    private static class Xy{
+        int x;
+        int y;
+
+        public Xy(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
