@@ -52,6 +52,11 @@ public class Solution202207 {
                 System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 System.out.println(find132pattern1(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
+            case 648:
+                List<String> list = new ArrayList<>();
+                list.add("a");
+                System.out.println(replaceWords(list, "1234"));
+                break;
             default:
                 break;
         }
