@@ -71,6 +71,14 @@ public class Solution202207 {
             case 464:
                 System.out.println(canIWin(12,15));
                 break;
+            case 466:
+                int[] count = new int[10];
+                for(int i=0;i<1000;i++){
+                    count[rand10()-1]++;
+                }
+                System.out.println(Arrays.toString(count));
+
+                break;
             case 676:
                 MagicDictionary magicDictionary = new MagicDictionary();
                 magicDictionary.buildDict(new String[]{"hello","leetcode"});
@@ -612,5 +620,18 @@ public class Solution202207 {
         return result;
     }
 
+    /**
+     * 470. 用Rand7()实现Rand10()
+     */
+    public static int rand10() {
+        int row, col, idx;
+        Random rand = new Random();
+        do {
+            row = rand.nextInt(7)+1;
+            col = rand.nextInt(7)+1;
+            idx = col + (row - 1) * 7;
+        } while (idx > 40);
+        return 1 + (idx - 1) % 10;
+    }
 
 }
