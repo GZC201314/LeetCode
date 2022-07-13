@@ -85,6 +85,9 @@ public class Solution202207 {
                 List<String> list = new ArrayList<>();
                 System.out.println(replaceWords(list, " "));
                 break;
+            case 735:
+                System.out.println(Arrays.toString(asteroidCollision(new int[]{2, 3, -4, -5})));
+                break;
             default:
                 break;
         }
@@ -576,6 +579,37 @@ public class Solution202207 {
             memory.put(state, ans);
         }
         return memory.get(state);
+    }
+
+    /**
+     * 735. 行星碰撞
+     */
+    public static int[] asteroidCollision(int[] asteroids) {
+        Deque<Integer> stack = new ArrayDeque<>();
+
+        for (int asteroid : asteroids) {
+            boolean alive = true;
+            while (alive && asteroid < 0 && !stack.isEmpty() && stack.peek() > 0) {
+                int top = stack.peek();
+                if (top <= -asteroid) {
+                    stack.pop();
+                }
+                if (top >= -asteroid) {
+                    alive = false;
+                }
+            }
+            if (alive) {
+                stack.push(asteroid);
+            }
+        }
+        int size = stack.size();
+        int[] result = new int[size];
+        for (int i = size-1;i>=0;i--){
+            result[i] = stack.pop();
+        }
+
+
+        return result;
     }
 
 
