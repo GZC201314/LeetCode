@@ -1,10 +1,10 @@
 package org.gzc.leetcode;
 
 
+import java.util.*;
+
 import org.gzc.leetcode.model.ListNode;
 import org.gzc.leetcode.model.MagicDictionary;
-
-import java.util.*;
 
 /**
  * @author GZC
@@ -88,6 +88,13 @@ public class Solution202207 {
                 LFUCache lfuCache = new LFUCache(64);
                 lfuCache.put(1,1);
                 System.out.println(lfuCache.get(1));
+                break;
+            case 473:
+                System.out.println(makesquare(new int[]{3, 4, 5, 22, 3}));
+                System.out.println(makesquare1(new int[]{3, 4, 5, 22, 3}));
+                break;
+            case 474:
+                System.out.println(findMaxForm(new String[]{"001","1","0"},3,5));
                 break;
             case 648:
                 List<String> list = new ArrayList<>();
@@ -632,6 +639,97 @@ public class Solution202207 {
             idx = col + (row - 1) * 7;
         } while (idx > 40);
         return 1 + (idx - 1) % 10;
+    }
+
+    /**
+     * 473. 火柴拼正方形
+     */
+    public static boolean makesquare(int[] matchsticks) {
+        int sum = Arrays.stream(matchsticks).sum();
+        if(sum%4 !=0){
+            return false;
+        }
+        // 降序排列
+        Arrays.sort(matchsticks);
+        Collections.reverse(Collections.singletonList(matchsticks));
+        int[] edges = new int[4];
+        return dfs_makesquare(0,matchsticks, edges,sum/4);
+    }
+
+    public static boolean dfs_makesquare(int index, int[] matchsticks,int[] edges, int len){
+        int n = matchsticks.length;
+        if(index == n){
+            return true;
+        }
+        for(int i = 0;i<4;i++){
+            edges[i] +=matchsticks[index];
+            if(edges[i]<=len && dfs_makesquare(index+1,matchsticks,edges,len)){
+                return true;
+            }
+            edges[i] -= matchsticks[index];
+        }
+        return false;
+    }
+
+    public static boolean makesquare1(int[] matchsticks) {
+        int totalLen = Arrays.stream(matchsticks).sum();
+        if (totalLen % 4 != 0) {
+            return false;
+        }
+        int len = totalLen / 4, n = matchsticks.length;
+        int[] dp = new int[1 << n];
+        Arrays.fill(dp, -1);
+        dp[0] = 0;
+        // 1 << n 所有的状态
+        for (int s = 1; s < (1 << n); s++) {
+            for (int k = 0; k < n; k++) {
+                if ((s & (1 << k)) == 0) {
+                    continue;
+                }
+                // 把当前的火柴拿掉 100 -》011
+                int s1 = s & ~(1 << k);
+                if (dp[s1] >= 0 && dp[s1] + matchsticks[k] <= len) {
+                    //一条边放满后，自动清零
+                    dp[s] = (dp[s1] + matchsticks[k]) % len;
+                    break;
+                }
+            }
+        }
+        // 所有的火柴都使用了，边也刚刚填满
+        return dp[(1 << n) - 1] == 0;
+    }
+
+    /**
+     * 474. 一和零
+     */
+    public static int findMaxForm(String[] strs, int m, int n) {
+        int len = strs.length;
+        int[][][] dp = new int[len+1][m+1][n+1];
+        for (int i = 1;i<=len;i++){
+            // 计算当前字符的零和一的个数
+            int[] zerosAndOnes = getZerosAndOnes(strs[i-1]);
+            int zers = zerosAndOnes[0];
+            int ones = zerosAndOnes[1];
+            for (int j = 0;j<=m;j++){
+                for (int k = 0;k<=n;k++){
+                    dp[i][j][k] = dp[i-1][j][k];
+                    if(j>=zers && k>=ones){
+                        dp[i][j][k] = Math.max(dp[i-1][j][k],dp[i-1][j-zers][k-ones]+1);
+                    }
+                }
+            }
+        }
+        return dp[len][m][n];
+
+    }
+
+    public static int[] getZerosAndOnes(String str){
+        int[] result = new int[2];
+        int strLen = str.length();
+        for (int i = 0;i<strLen;i++){
+            result[str.charAt(i)-'0']++;
+        }
+        return result;
     }
 
 }
