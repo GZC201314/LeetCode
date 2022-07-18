@@ -1,10 +1,10 @@
 package org.gzc.leetcode;
 
-
 import java.util.*;
 
 import org.gzc.leetcode.model.ListNode;
 import org.gzc.leetcode.model.MagicDictionary;
+import org.gzc.leetcode.model.TreeNode;
 
 /**
  * @author GZC
@@ -15,93 +15,96 @@ public class Solution202207 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 390:
-                System.out.println(Arrays.toString(shuffle(new int[]{12, 3, 4, 5, 6, 7, 8, 9}, 4)));
+                System.out.println(Arrays.toString(shuffle(new int[] {12, 3, 4, 5, 6, 7, 8, 9}, 4)));
                 break;
             case 6111:
                 ListNode root = new ListNode(3,
-                        new ListNode(0,
-                                new ListNode(2,
-                                        new ListNode(6,
-                                                new ListNode(8,
-                                                        new ListNode(1,
-                                                                new ListNode(7,
-                                                                        new ListNode(9,
-                                                                                new ListNode(4,
-                                                                                        new ListNode(2,
-                                                                                                new ListNode(5,
-                                                                                                        new ListNode(5,
-                                                                                                                new ListNode(0)))))))))))));
+                    new ListNode(0,
+                        new ListNode(2, new ListNode(6, new ListNode(8, new ListNode(1, new ListNode(7, new ListNode(9,
+                            new ListNode(4, new ListNode(2, new ListNode(5, new ListNode(5, new ListNode(0)))))))))))));
                 System.out.println(Arrays.deepToString(spiralMatrix(3, 5, root)));
                 break;
             case 1200:
-                List<List<Integer>> lists = minimumAbsDifference(new int[]{1, 2, 3, 4});
+                List<List<Integer>> lists = minimumAbsDifference(new int[] {1, 2, 3, 4});
                 System.out.println(lists);
                 break;
             case 451:
                 System.out.println(frequencySort("tree"));
                 break;
             case 452:
-                System.out.println(findMinArrowShots(new int[][]{{1, 2}}));
+                System.out.println(findMinArrowShots(new int[][] {{1, 2}}));
                 break;
             case 454:
-                System.out.println(fourSumCount(new int[]{1, 2}, new int[]{1, 2}, new int[]{1, 2}, new int[]{1, 2}));
+                System.out
+                    .println(fourSumCount(new int[] {1, 2}, new int[] {1, 2}, new int[] {1, 2}, new int[] {1, 2}));
                 break;
             case 455:
-                System.out.println(findContentChildren(new int[]{1, 2}, new int[]{1, 2}));
+                System.out.println(findContentChildren(new int[] {1, 2}, new int[] {1, 2}));
                 break;
             case 456:
-                System.out.println(find132pattern(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
-                System.out.println(find132pattern1(new int[]{1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
+                System.out.println(find132pattern(new int[] {1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
+                System.out.println(find132pattern1(new int[] {1, 3, 2, 4, 5, 6, 7, 8, 9, 10}));
                 break;
             case 1217:
-                System.out.println(minCostToMoveChips(new int[]{1, 2}));
+                System.out.println(minCostToMoveChips(new int[] {1, 2}));
                 break;
             case 457:
-                System.out.println(circularArrayLoop(new int[]{1, 2}));
+                System.out.println(circularArrayLoop(new int[] {1, 2}));
+                break;
+            case 666:
+                TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)),
+                    new TreeNode(3, new TreeNode(6), new TreeNode(7)));
+                List<Integer> result = new ArrayList<>();
+                inOrderTraversal(node, result);
+                System.out.println("先序遍历： " + preOrderTraversalForStack(node));
+                System.out.println("后序遍历：" + postOrderTraversalForStack(node));
+                System.out.println("中序遍历：" + inOrderTraversalForStack(node));
+                System.out.println("层次遍历：" + levelOrderTraversal(node));
+                System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
+                // System.out.println(result);
                 break;
             case 459:
                 System.out.println(repeatedSubstringPattern("bb"));
                 break;
             case 461:
-                System.out.println(hammingDistance(123,234));
+                System.out.println(hammingDistance(123, 234));
                 break;
             case 463:
-                System.out.println(islandPerimeter(new int[][]{{1,1},{1,1}}));
+                System.out.println(islandPerimeter(new int[][] {{1, 1}, {1, 1}}));
                 break;
             case 464:
-                System.out.println(canIWin(12,15));
+                System.out.println(canIWin(12, 15));
                 break;
             case 466:
                 int[] count = new int[10];
-                for(int i=0;i<1000;i++){
-                    count[rand10()-1]++;
+                for (int i = 0; i < 1000; i++) {
+                    count[rand10() - 1]++;
                 }
                 System.out.println(Arrays.toString(count));
-
                 break;
             case 676:
                 MagicDictionary magicDictionary = new MagicDictionary();
-                magicDictionary.buildDict(new String[]{"hello","leetcode"});
+                magicDictionary.buildDict(new String[] {"hello", "leetcode"});
                 System.out.println(magicDictionary.search("hhllo"));
                 break;
             case 460:
                 LFUCache lfuCache = new LFUCache(64);
-                lfuCache.put(1,1);
+                lfuCache.put(1, 1);
                 System.out.println(lfuCache.get(1));
                 break;
             case 473:
-                System.out.println(makesquare(new int[]{3, 4, 5, 22, 3}));
-                System.out.println(makesquare1(new int[]{3, 4, 5, 22, 3}));
+                System.out.println(makesquare(new int[] {3, 4, 5, 22, 3}));
+                System.out.println(makesquare1(new int[] {3, 4, 5, 22, 3}));
                 break;
             case 474:
-                System.out.println(findMaxForm(new String[]{"001","1","0"},3,5));
+                System.out.println(findMaxForm(new String[] {"001", "1", "0"}, 3, 5));
                 break;
             case 648:
                 List<String> list = new ArrayList<>();
                 System.out.println(replaceWords(list, " "));
                 break;
             case 735:
-                System.out.println(Arrays.toString(asteroidCollision(new int[]{2, 3, -4, -5})));
+                System.out.println(Arrays.toString(asteroidCollision(new int[] {2, 3, -4, -5})));
                 break;
             default:
                 break;
@@ -223,7 +226,8 @@ public class Solution202207 {
             charMap.put(c, charMap.getOrDefault(c, 0) + 1);
         }
         List<Map.Entry<Character, Integer>> list = new ArrayList<>(charMap.entrySet());
-        list.sort((Map.Entry<Character, Integer> en1, Map.Entry<Character, Integer> en2) -> en2.getValue() - en1.getValue());
+        list.sort(
+            (Map.Entry<Character, Integer> en1, Map.Entry<Character, Integer> en2) -> en2.getValue() - en1.getValue());
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<Character, Integer> en1 : list) {
             int n = en1.getValue();
@@ -308,7 +312,7 @@ public class Solution202207 {
     public static boolean find132pattern(int[] nums) {
         int n = nums.length;
         for (int i = 1; i < n - 1; i++) {
-            //查找左边的小于nums[i]的最小值
+            // 查找左边的小于nums[i]的最小值
             int min = Integer.MAX_VALUE;
             int max = Integer.MIN_VALUE;
             for (int j = 0; j < i; j++) {
@@ -374,7 +378,7 @@ public class Solution202207 {
      * 1217. 玩筹码
      */
     public static int minCostToMoveChips(int[] position) {
-        //移动到某个偶数的位置，所有奇数的个数和就是此时的代价
+        // 移动到某个偶数的位置，所有奇数的个数和就是此时的代价
         int even = 0;
         int odd = 0;
         for (int pos : position) {
@@ -401,7 +405,7 @@ public class Solution202207 {
             // 判断非零且方向相同
             while (nums[slow] * nums[fast] > 0 && nums[slow] * nums[next(nums, fast)] > 0) {
                 if (slow == fast) {
-                    //循环的长度大于1 相遇的位置是环的起点
+                    // 循环的长度大于1 相遇的位置是环的起点
                     if (slow != next(nums, slow)) {
                         return true;
                     } else {
@@ -433,26 +437,26 @@ public class Solution202207 {
     public static boolean repeatedSubstringPattern(String s) {
         HashSet<Integer> set = new HashSet<>();
         int len = s.length();
-        for (int i = 1;i<=len/2;i++){
-            if(len%i ==0){
+        for (int i = 1; i <= len / 2; i++) {
+            if (len % i == 0) {
                 set.add(i);
             }
         }
         for (Integer integer : set) {
-            int start =0;
+            int start = 0;
             int end = integer;
-            String subStr = s.substring(start,end);
+            String subStr = s.substring(start, end);
             boolean flag = true;
-            while (end <= len){
-                if(s.substring(start,end).equals(subStr)){
+            while (end <= len) {
+                if (s.substring(start, end).equals(subStr)) {
                     start = end;
-                    end = end+integer;
-                }else {
+                    end = end + integer;
+                } else {
                     flag = false;
                     break;
                 }
             }
-            if(flag){
+            if (flag) {
                 return true;
             }
         }
@@ -463,25 +467,25 @@ public class Solution202207 {
      * 461. 汉明距离
      */
     public static int hammingDistance(int x, int y) {
-        int result =0;
-        while (x >0 && y>0) {
-            if(x%2 != y%2){
+        int result = 0;
+        while (x > 0 && y > 0) {
+            if (x % 2 != y % 2) {
                 result++;
             }
-            x = x>>1;
-            y = y>>1;
+            x = x >> 1;
+            y = y >> 1;
         }
-        while(x>0){
-            if(x%2 ==1){
+        while (x > 0) {
+            if (x % 2 == 1) {
                 result++;
             }
-            x = x>>1;
+            x = x >> 1;
         }
-        while(y>0){
-            if(y%2 ==1){
+        while (y > 0) {
+            if (y % 2 == 1) {
                 result++;
             }
-            y = y>>1;
+            y = y >> 1;
         }
         return result;
 
@@ -494,36 +498,36 @@ public class Solution202207 {
         int row = grid.length;
         int col = grid[0].length;
         int[][] useFlag = new int[row][col];
-        int[][] direction = new int[][]{{-1,0},{0,1},{1,0},{0,-1}};
+        int[][] direction = new int[][] {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
         Queue<Xy> stack = new ArrayDeque<>();
-        int result =0;
-        for (int i = 0;i<row;i++){
-            for (int j = 0;j<col;j++){
-                if (grid[i][j] == 1){
-                    //计算所有的
+        int result = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (grid[i][j] == 1) {
+                    // 计算所有的
                     stack.offer(new Xy(i, j));
-                    while (!stack.isEmpty()){
+                    while (!stack.isEmpty()) {
 
                         Xy top = stack.poll();
-                        if(useFlag[top.x][top.y] == 1){
+                        if (useFlag[top.x][top.y] == 1) {
                             continue;
                         }
-                        for (int k = 0;k<4;k++){
-                            int newx = direction[k][0]+ top.x;
-                            int newy = direction[k][1]+ top.y;
+                        for (int k = 0; k < 4; k++) {
+                            int newx = direction[k][0] + top.x;
+                            int newy = direction[k][1] + top.y;
                             // 判断边界是否是周长
-                                if(isSea(new Xy(newx,newy),row,col,grid)){
-                                    result++;
-                                }else {
-                                    if(useFlag[newx][newy] == 0){
-                                        Xy xy = new Xy(newx, newy);
-                                        System.out.println(xy.x +" "+xy.y);
-                                        stack.offer(xy);
-                                    }
-
+                            if (isSea(new Xy(newx, newy), row, col, grid)) {
+                                result++;
+                            } else {
+                                if (useFlag[newx][newy] == 0) {
+                                    Xy xy = new Xy(newx, newy);
+                                    System.out.println(xy.x + " " + xy.y);
+                                    stack.offer(xy);
                                 }
+
+                            }
                         }
-                        useFlag[top.x][top.y]= 1;
+                        useFlag[top.x][top.y] = 1;
                     }
                     return result;
                 }
@@ -531,16 +535,17 @@ public class Solution202207 {
         }
         return result;
 
-
     }
-    private static boolean isSea(Xy x,int row,int col,int[][] grid){
-        if(x.x>=0 && x.x<row && x.y>=0 && x.y<col){
+
+    private static boolean isSea(Xy x, int row, int col, int[][] grid) {
+        if (x.x >= 0 && x.x < row && x.y >= 0 && x.y < col) {
             return grid[x.x][x.y] != 1;
         }
         return true;
 
     }
-    private static class Xy{
+
+    private static class Xy {
         int x;
         int y;
 
@@ -554,38 +559,39 @@ public class Solution202207 {
      * 464. 我能赢吗
      */
     public static boolean canIWin(int maxChoosableInteger, int desiredTotal) {
-        //总长度不满足目标值
+        // 总长度不满足目标值
         if (maxChoosableInteger * (maxChoosableInteger + 1) < (desiredTotal * 2)) {
             return false;
         }
-        //存储state的变量值，state一共有2^maxChoosableInteger种
+        // 存储state的变量值，state一共有2^maxChoosableInteger种
         Map<Integer, Boolean> memory = new HashMap<>(1 << maxChoosableInteger);
-        //开始遍历整个树
+        // 开始遍历整个树
         return dfs_canIWin(maxChoosableInteger, 0, desiredTotal, 0, memory);
     }
 
     /**
      * @param maxChoosableInteger 最大可选择的数字
-     * @param state               状态位
-     * @param desiredTotal        目标值
-     * @param curTotal            当前值
-     * @param memory              存储搜索过的状态
+     * @param state 状态位
+     * @param desiredTotal 目标值
+     * @param curTotal 当前值
+     * @param memory 存储搜索过的状态
      */
-    private static boolean dfs_canIWin(int maxChoosableInteger, int state, int desiredTotal, int curTotal, Map<Integer, Boolean> memory) {
+    private static boolean dfs_canIWin(int maxChoosableInteger, int state, int desiredTotal, int curTotal,
+        Map<Integer, Boolean> memory) {
         if (!memory.containsKey(state)) {
             boolean ans = false;
             for (int i = 0; i < maxChoosableInteger; i++) {
-                //state的第i位表示 第i+1个数字被使用
+                // state的第i位表示 第i+1个数字被使用
                 if (((state >> i) & 1) == 1) {
                     continue;
                 }
-                //先手取i看 能不能赢 不能赢则轮到对手取数字
+                // 先手取i看 能不能赢 不能赢则轮到对手取数字
                 if (curTotal + i + 1 >= desiredTotal) {
                     ans = true;
                     break;
                 }
-                //轮到对手取数字 若对手不能赢（必然输掉的状态） 则我方赢
-                //state | (1 << i), 将state的第i位置为已使用
+                // 轮到对手取数字 若对手不能赢（必然输掉的状态） 则我方赢
+                // state | (1 << i), 将state的第i位置为已使用
                 if (!dfs_canIWin(maxChoosableInteger, state | (1 << i), desiredTotal, curTotal + i + 1, memory)) {
                     ans = true;
                     break;
@@ -619,10 +625,9 @@ public class Solution202207 {
         }
         int size = stack.size();
         int[] result = new int[size];
-        for (int i = size-1;i>=0;i--){
+        for (int i = size - 1; i >= 0; i--) {
             result[i] = stack.pop();
         }
-
 
         return result;
     }
@@ -634,8 +639,8 @@ public class Solution202207 {
         int row, col, idx;
         Random rand = new Random();
         do {
-            row = rand.nextInt(7)+1;
-            col = rand.nextInt(7)+1;
+            row = rand.nextInt(7) + 1;
+            col = rand.nextInt(7) + 1;
             idx = col + (row - 1) * 7;
         } while (idx > 40);
         return 1 + (idx - 1) % 10;
@@ -646,24 +651,24 @@ public class Solution202207 {
      */
     public static boolean makesquare(int[] matchsticks) {
         int sum = Arrays.stream(matchsticks).sum();
-        if(sum%4 !=0){
+        if (sum % 4 != 0) {
             return false;
         }
         // 降序排列
         Arrays.sort(matchsticks);
         Collections.reverse(Collections.singletonList(matchsticks));
         int[] edges = new int[4];
-        return dfs_makesquare(0,matchsticks, edges,sum/4);
+        return dfs_makesquare(0, matchsticks, edges, sum / 4);
     }
 
-    public static boolean dfs_makesquare(int index, int[] matchsticks,int[] edges, int len){
+    public static boolean dfs_makesquare(int index, int[] matchsticks, int[] edges, int len) {
         int n = matchsticks.length;
-        if(index == n){
+        if (index == n) {
             return true;
         }
-        for(int i = 0;i<4;i++){
-            edges[i] +=matchsticks[index];
-            if(edges[i]<=len && dfs_makesquare(index+1,matchsticks,edges,len)){
+        for (int i = 0; i < 4; i++) {
+            edges[i] += matchsticks[index];
+            if (edges[i] <= len && dfs_makesquare(index + 1, matchsticks, edges, len)) {
                 return true;
             }
             edges[i] -= matchsticks[index];
@@ -689,7 +694,7 @@ public class Solution202207 {
                 // 把当前的火柴拿掉 100 -》011
                 int s1 = s & ~(1 << k);
                 if (dp[s1] >= 0 && dp[s1] + matchsticks[k] <= len) {
-                    //一条边放满后，自动清零
+                    // 一条边放满后，自动清零
                     dp[s] = (dp[s1] + matchsticks[k]) % len;
                     break;
                 }
@@ -704,17 +709,17 @@ public class Solution202207 {
      */
     public static int findMaxForm(String[] strs, int m, int n) {
         int len = strs.length;
-        int[][][] dp = new int[len+1][m+1][n+1];
-        for (int i = 1;i<=len;i++){
+        int[][][] dp = new int[len + 1][m + 1][n + 1];
+        for (int i = 1; i <= len; i++) {
             // 计算当前字符的零和一的个数
-            int[] zerosAndOnes = getZerosAndOnes(strs[i-1]);
+            int[] zerosAndOnes = getZerosAndOnes(strs[i - 1]);
             int zers = zerosAndOnes[0];
             int ones = zerosAndOnes[1];
-            for (int j = 0;j<=m;j++){
-                for (int k = 0;k<=n;k++){
-                    dp[i][j][k] = dp[i-1][j][k];
-                    if(j>=zers && k>=ones){
-                        dp[i][j][k] = Math.max(dp[i-1][j][k],dp[i-1][j-zers][k-ones]+1);
+            for (int j = 0; j <= m; j++) {
+                for (int k = 0; k <= n; k++) {
+                    dp[i][j][k] = dp[i - 1][j][k];
+                    if (j >= zers && k >= ones) {
+                        dp[i][j][k] = Math.max(dp[i - 1][j][k], dp[i - 1][j - zers][k - ones] + 1);
                     }
                 }
             }
@@ -723,13 +728,174 @@ public class Solution202207 {
 
     }
 
-    public static int[] getZerosAndOnes(String str){
+    public static int[] getZerosAndOnes(String str) {
         int[] result = new int[2];
         int strLen = str.length();
-        for (int i = 0;i<strLen;i++){
-            result[str.charAt(i)-'0']++;
+        for (int i = 0; i < strLen; i++) {
+            result[str.charAt(i) - '0']++;
         }
         return result;
+    }
+
+    /**
+     * 二叉树递归遍历（基于递归序遍历）
+     */
+
+    public static void inOrderTraversal(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+        // 先序遍历
+        list.add(root.val);
+        inOrderTraversal(root.left, list);
+        // 中序遍历
+        // list.add(root.val);
+        inOrderTraversal(root.right, list);
+        // 后序遍历
+        // list.add(root.val);
+
+    }
+
+    /**
+     * 先序非递归遍历
+     */
+    public static List<Integer> preOrderTraversalForStack(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+
+            list.add(top.val);
+
+            if (top.right != null) {
+                stack.push(top.right);
+            }
+            if (top.left != null) {
+                stack.push(top.left);
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * 后序非递归遍历
+     */
+    public static List<Integer> postOrderTraversalForStack(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null) {
+            return list;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> stack1 = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            stack1.push(top);
+            if (top.left != null) {
+                stack.push(top.left);
+            }
+            if (top.right != null) {
+                stack.push(top.right);
+            }
+        }
+        while (!stack1.isEmpty()) {
+            list.add(stack1.pop().val);
+        }
+        return list;
+    }
+
+    /**
+     * 中序非递归遍历
+     */
+    public static List<Integer> inOrderTraversalForStack(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root != null) {
+            Stack<TreeNode> stack = new Stack<>();
+            while (!stack.isEmpty() || root != null) {
+                if (root != null) {
+                    stack.push(root);
+                    root = root.left;
+                } else {
+                    root = stack.pop();
+                    list.add(root.val);
+                    root = root.right;
+                }
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 二叉树的层次遍历
+     */
+    public static  List<Integer> levelOrderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        Deque<TreeNode> deque = new ArrayDeque<>();
+        if (root == null) {
+            return list;
+        }
+        deque.offer(root);
+        while (!deque.isEmpty()) {
+            TreeNode first = deque.pollLast();
+            list.add(first.val);
+            if(first.left != null){
+                deque.push(first.left);
+            }
+            if(first.right != null){
+                deque.push(first.right);
+            }
+
+        }
+        return list;
+    }
+
+    /**
+     * 二叉树的层次遍历计算节点最多的层数
+     */
+    public static  int[] levelOrderTraversalMaxNodes(TreeNode root) {
+        int max = 0;
+        int maxLevel = 1;
+        if(root == null){
+            return new int[]{max,0};
+        }
+        int curLevel = 1;
+        // 用于保存节点所在的层数
+        Map<TreeNode, Integer> map = new HashMap<>();
+        map.put(root, curLevel);
+        int curLevelNodes =0;
+
+        Deque<TreeNode> deque = new ArrayDeque<>();
+        deque.offer(root);
+        while (!deque.isEmpty()) {
+            TreeNode first = deque.pollLast();
+            Integer nodeLevel = map.get(first);
+            if(curLevel == nodeLevel){
+                curLevelNodes++;
+            }else {
+                if(max<curLevelNodes){
+                    max = curLevelNodes;
+                    maxLevel = nodeLevel;
+                }
+                curLevelNodes=1;
+                curLevel++;
+
+            }
+            if(first.left != null){
+                deque.push(first.left);
+                map.put(first.left, curLevelNodes+1);
+            }
+            if(first.right != null){
+                deque.push(first.right);
+                map.put(first.right, curLevelNodes+1);
+            }
+
+        }
+        return new int[]{max,maxLevel};
     }
 
 }
