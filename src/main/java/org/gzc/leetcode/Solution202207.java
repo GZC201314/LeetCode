@@ -64,6 +64,7 @@ public class Solution202207 {
                 System.out.println("判断搜索二叉树：" + isBST(node));
                 System.out.println("判断完全二叉树：" + isCBT(node));
                 System.out.println("判断平衡二叉树：" + isBBT(node));
+                System.out.println("计算最小公共祖先：" + getLCA(node,node.left.right,node.right.left).val);
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
                 break;
             case 459:
@@ -981,5 +982,22 @@ public class Solution202207 {
 
         return new ReturnType(leftReturnType.isBalance() && rightReturnType.isBalance() && Math.abs(leftReturnType.getHeight() - rightReturnType.getHeight()) <2,height);
     }
+
+    /**
+     * 找到两个节点的最小公共祖先
+     */
+    public static TreeNode getLCA(TreeNode head,TreeNode o1,TreeNode o2){
+        if(head == null || o1 == head || o2 == head){
+            return head;
+        }
+        TreeNode left = getLCA(head.left, o1, o2);
+        TreeNode right = getLCA(head.right, o1, o2);
+
+        if(left != null && right != null){
+            return head;
+        }
+        return left != null?left:right;
+    }
+
 
 }
