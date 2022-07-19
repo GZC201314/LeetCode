@@ -934,6 +934,7 @@ public class Solution202207 {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 TreeNode poll = queue.poll();
+                assert poll != null;
                 if (poll.left == null && poll.right != null) {
                     return false;
                 } else {
