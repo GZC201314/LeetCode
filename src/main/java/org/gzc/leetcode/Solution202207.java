@@ -52,14 +52,15 @@ public class Solution202207 {
                 System.out.println(circularArrayLoop(new int[] {1, 2}));
                 break;
             case 666:
-                TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)),
-                    new TreeNode(3, new TreeNode(6), new TreeNode(7)));
+                TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(1), new TreeNode(3)),
+                    new TreeNode(6, new TreeNode(5), new TreeNode(7)));
                 List<Integer> result = new ArrayList<>();
                 inOrderTraversal(node, result);
                 System.out.println("先序遍历： " + preOrderTraversalForStack(node));
                 System.out.println("后序遍历：" + postOrderTraversalForStack(node));
                 System.out.println("中序遍历：" + inOrderTraversalForStack(node));
                 System.out.println("层次遍历：" + levelOrderTraversal(node));
+                System.out.println("判断搜索二叉树："+isBST(node));
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
                 // System.out.println(result);
                 break;
@@ -896,6 +897,25 @@ public class Solution202207 {
 
         }
         return new int[]{max,maxLevel};
+    }
+    /**
+     * 判断一个二叉树是否是二叉搜索树
+     */
+    public static int preValue = Integer.MIN_VALUE;
+    public static boolean isBST(TreeNode node){
+
+        if(node == null){
+            return true;
+        }
+        if(!isBST(node.left)){
+            return false;
+        }
+        if(preValue >= node.val){
+            return false;
+        }else {
+            preValue = node.val;
+        }
+        return isBST(node.right);
     }
 
 }
