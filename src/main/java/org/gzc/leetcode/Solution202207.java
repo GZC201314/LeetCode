@@ -4,6 +4,7 @@ import java.util.*;
 
 import org.gzc.leetcode.model.ListNode;
 import org.gzc.leetcode.model.MagicDictionary;
+import org.gzc.leetcode.model.ReturnType;
 import org.gzc.leetcode.model.TreeNode;
 
 /**
@@ -62,6 +63,7 @@ public class Solution202207 {
                 System.out.println("层次遍历：" + levelOrderTraversal(node));
                 System.out.println("判断搜索二叉树：" + isBST(node));
                 System.out.println("判断完全二叉树：" + isCBT(node));
+                System.out.println("判断平衡二叉树：" + isBBT(node));
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
                 break;
             case 459:
@@ -957,7 +959,27 @@ public class Solution202207 {
             }
         }
         return true;
+    }
+    /**
+     * 判断一个二叉树是否是平衡二叉树
+     */
+    public static boolean isBBT(TreeNode node){
+        ReturnType returnType = checkBBT(node);
+        return returnType.isBalance();
 
+    }
+
+    public static ReturnType checkBBT(TreeNode node){
+        if(node == null){
+            return new ReturnType(true, 0);
+        }
+        ReturnType leftReturnType = checkBBT(node.left);
+        ReturnType rightReturnType = checkBBT(node.right);
+
+
+        int height = Math.max(leftReturnType.getHeight(), rightReturnType.getHeight())+1;
+
+        return new ReturnType(leftReturnType.isBalance() && rightReturnType.isBalance() && Math.abs(leftReturnType.getHeight() - rightReturnType.getHeight()) <2,height);
     }
 
 }
