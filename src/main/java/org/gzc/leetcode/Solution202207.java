@@ -60,9 +60,9 @@ public class Solution202207 {
                 System.out.println("后序遍历：" + postOrderTraversalForStack(node));
                 System.out.println("中序遍历：" + inOrderTraversalForStack(node));
                 System.out.println("层次遍历：" + levelOrderTraversal(node));
-                System.out.println("判断搜索二叉树："+isBST(node));
+                System.out.println("判断搜索二叉树：" + isBST(node));
+                System.out.println("判断完全二叉树：" + isCBT(node));
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
-                // System.out.println(result);
                 break;
             case 459:
                 System.out.println(repeatedSubstringPattern("bb"));
@@ -834,7 +834,7 @@ public class Solution202207 {
     /**
      * 二叉树的层次遍历
      */
-    public static  List<Integer> levelOrderTraversal(TreeNode root) {
+    public static List<Integer> levelOrderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         Deque<TreeNode> deque = new ArrayDeque<>();
         if (root == null) {
@@ -844,10 +844,10 @@ public class Solution202207 {
         while (!deque.isEmpty()) {
             TreeNode first = deque.pollLast();
             list.add(first.val);
-            if(first.left != null){
+            if (first.left != null) {
                 deque.push(first.left);
             }
-            if(first.right != null){
+            if (first.right != null) {
                 deque.push(first.right);
             }
 
@@ -858,64 +858,105 @@ public class Solution202207 {
     /**
      * 二叉树的层次遍历计算节点最多的层数
      */
-    public static  int[] levelOrderTraversalMaxNodes(TreeNode root) {
+    public static int[] levelOrderTraversalMaxNodes(TreeNode root) {
         int max = 0;
         int maxLevel = 1;
-        if(root == null){
-            return new int[]{max,0};
+        if (root == null) {
+            return new int[] {max, 0};
         }
         int curLevel = 1;
         // 用于保存节点所在的层数
         Map<TreeNode, Integer> map = new HashMap<>();
         map.put(root, curLevel);
-        int curLevelNodes =0;
+        int curLevelNodes = 0;
 
         Deque<TreeNode> deque = new ArrayDeque<>();
         deque.offer(root);
         while (!deque.isEmpty()) {
             TreeNode first = deque.pollLast();
             Integer nodeLevel = map.get(first);
-            if(curLevel == nodeLevel){
+            if (curLevel == nodeLevel) {
                 curLevelNodes++;
-            }else {
-                if(max<curLevelNodes){
+            } else {
+                if (max < curLevelNodes) {
                     max = curLevelNodes;
                     maxLevel = nodeLevel;
                 }
-                curLevelNodes=1;
+                curLevelNodes = 1;
                 curLevel++;
 
             }
-            if(first.left != null){
+            if (first.left != null) {
                 deque.push(first.left);
-                map.put(first.left, curLevelNodes+1);
+                map.put(first.left, curLevelNodes + 1);
             }
-            if(first.right != null){
+            if (first.right != null) {
                 deque.push(first.right);
-                map.put(first.right, curLevelNodes+1);
+                map.put(first.right, curLevelNodes + 1);
             }
 
         }
-        return new int[]{max,maxLevel};
+        return new int[] {max, maxLevel};
     }
+
     /**
      * 判断一个二叉树是否是二叉搜索树
      */
     public static int preValue = Integer.MIN_VALUE;
-    public static boolean isBST(TreeNode node){
 
-        if(node == null){
+    public static boolean isBST(TreeNode node) {
+
+        if (node == null) {
             return true;
         }
-        if(!isBST(node.left)){
+        if (!isBST(node.left)) {
             return false;
         }
-        if(preValue >= node.val){
+        if (preValue >= node.val) {
             return false;
-        }else {
+        } else {
             preValue = node.val;
         }
         return isBST(node.right);
+    }
+
+    /**
+     * 判断一个二叉树是否是完全二叉树
+     */
+    public static boolean isCBT(TreeNode node) {
+        if (node == null) {
+            return false;
+        }
+        boolean flag = false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode poll = queue.poll();
+                if (poll.left == null && poll.right != null) {
+                    return false;
+                } else {
+                    if (!flag) {
+                        if (poll.left != null && poll.right != null) {
+                            queue.offer(poll.left);
+                            queue.offer(poll.right);
+                        } else {
+                            if (poll.left != null) {
+                                queue.offer(poll.left);
+                            }
+                            flag = true;
+                        }
+                    } else {
+                        if (poll.left != null) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+
     }
 
 }
