@@ -64,6 +64,7 @@ public class Solution202207 {
                 System.out.println("判断搜索二叉树：" + isBST(node));
                 System.out.println("判断完全二叉树：" + isCBT(node));
                 System.out.println("判断平衡二叉树：" + isBBT(node));
+                System.out.println("折纸问题：" + paperFold(2));
                 System.out.println("计算最小公共祖先：" + getLCA(node,node.left.right,node.right.left).val);
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
                 break;
@@ -997,6 +998,25 @@ public class Solution202207 {
             return head;
         }
         return left != null?left:right;
+    }
+
+    /**
+     * 折纸问题
+     */
+    public static String paperFoldStr = "";
+    public static String paperFold(int n){
+        paperFoldDfs(1,n,true);
+        return paperFoldStr;
+    }
+
+    public static void paperFoldDfs(int i,int n,boolean isDown){
+        if(i > n){
+            return;
+        }
+        paperFoldDfs(i+1,n,true);
+        paperFoldStr = paperFoldStr+ (isDown?"凹":"凸");
+        paperFoldDfs(i+1,n,false);
+
     }
 
 
