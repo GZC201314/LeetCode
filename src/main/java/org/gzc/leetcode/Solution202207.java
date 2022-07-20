@@ -1019,5 +1019,34 @@ public class Solution202207 {
 
     }
 
+    /**
+     * 1260. 二维网络迁移
+     */
+    public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int size = n*m;
+        int[] nums = new int[n*m];
+
+        for (int i = 0;i<n;i++){
+            for (int j = 0;j<m;j++){
+                nums[i*m+j] = grid[i][j];
+            }
+        }
+
+        k = k%size;
+        k = size-k;
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0;i<n;i++){
+            List<Integer> num = new ArrayList<>();
+            for (int j = 0;j<m;j++){
+                num.add(nums[k++%size]);
+            }
+            result.add(num);
+        }
+
+        return result;
+
+    }
 
 }
