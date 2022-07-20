@@ -2,10 +2,7 @@ package org.gzc.leetcode;
 
 import java.util.*;
 
-import org.gzc.leetcode.model.ListNode;
-import org.gzc.leetcode.model.MagicDictionary;
-import org.gzc.leetcode.model.ReturnType;
-import org.gzc.leetcode.model.TreeNode;
+import org.gzc.leetcode.model.*;
 
 /**
  * @author GZC
@@ -105,6 +102,9 @@ public class Solution202207 {
                 break;
             case 474:
                 System.out.println(findMaxForm(new String[] {"001", "1", "0"}, 3, 5));
+                break;
+            case 502:
+                System.out.println(findMaximizedCapital(3,5,new int[] {3, 4, 5, 22, 3},new int[] {3, 4, 5, 22, 3}));
                 break;
             case 648:
                 List<String> list = new ArrayList<>();
@@ -1049,6 +1049,36 @@ public class Solution202207 {
         return result;
 
     }
+
+    /**
+     * 502. IPO
+     */
+    public static int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        PriorityQueue<Ipo> minQ = new PriorityQueue<>(Comparator.comparingInt(o -> o.capital));
+        PriorityQueue<Ipo> maxQ = new PriorityQueue<>((o1, o2) -> o2.profit-o1.profit);
+
+        int n = profits.length;
+
+        for (int i = 0;i<n;i++){
+            Ipo ipo = new Ipo(profits[i],capital[i]);
+            minQ.offer(ipo);
+        }
+
+        for (int i =0;i<k;i++){
+            while (!minQ.isEmpty() && minQ.peek().capital<=w){
+                maxQ.offer(minQ.poll());
+            }
+            if (maxQ.isEmpty()){
+                return w;
+            }
+            Ipo max = maxQ.poll();
+            w += max.profit;
+        }
+        return w;
+
+
+    }
+
 
     public static void test(){
         PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
