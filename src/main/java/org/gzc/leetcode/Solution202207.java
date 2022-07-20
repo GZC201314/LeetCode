@@ -51,6 +51,8 @@ public class Solution202207 {
                 break;
             case 457:
                 System.out.println(circularArrayLoop(new int[] {1, 2}));
+            case 1260:
+                System.out.println(shiftGrid(new int[][] {{1, 2,3},{2,3,4}},2));
                 break;
             case 666:
                 TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(1), new TreeNode(3)),
@@ -112,6 +114,7 @@ public class Solution202207 {
                 System.out.println(Arrays.toString(asteroidCollision(new int[] {2, 3, -4, -5})));
                 break;
             default:
+                test();
                 break;
         }
 
@@ -1022,16 +1025,14 @@ public class Solution202207 {
     /**
      * 1260. 二维网络迁移
      */
-    public List<List<Integer>> shiftGrid(int[][] grid, int k) {
+    public static List<List<Integer>> shiftGrid(int[][] grid, int k) {
         int n = grid.length;
         int m = grid[0].length;
         int size = n*m;
         int[] nums = new int[n*m];
 
         for (int i = 0;i<n;i++){
-            for (int j = 0;j<m;j++){
-                nums[i*m+j] = grid[i][j];
-            }
+            System.arraycopy(grid[i], 0, nums, i * m, m);
         }
 
         k = k%size;
@@ -1047,6 +1048,14 @@ public class Solution202207 {
 
         return result;
 
+    }
+
+    public static void test(){
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
+        pq.add(4);
+        pq.add(2);
+        pq.add(3);
+        System.out.println(pq.poll());
     }
 
 }
