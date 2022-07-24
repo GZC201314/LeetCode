@@ -2,9 +2,7 @@ package org.gzc.leetcode;
 
 import java.util.*;
 
-import org.gzc.leetcode.model.ListNode;
-import org.gzc.leetcode.model.MagicDictionary;
-import org.gzc.leetcode.model.TreeNode;
+import org.gzc.leetcode.model.*;
 
 /**
  * @author GZC
@@ -50,18 +48,24 @@ public class Solution202207 {
                 break;
             case 457:
                 System.out.println(circularArrayLoop(new int[] {1, 2}));
+            case 1260:
+                System.out.println(shiftGrid(new int[][] {{1, 2,3},{2,3,4}},2));
                 break;
             case 666:
-                TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(4), new TreeNode(5)),
-                    new TreeNode(3, new TreeNode(6), new TreeNode(7)));
+                TreeNode node = new TreeNode(1, new TreeNode(2, new TreeNode(1), new TreeNode(3)),
+                    new TreeNode(6, new TreeNode(5), new TreeNode(7)));
                 List<Integer> result = new ArrayList<>();
                 inOrderTraversal(node, result);
                 System.out.println("先序遍历： " + preOrderTraversalForStack(node));
                 System.out.println("后序遍历：" + postOrderTraversalForStack(node));
                 System.out.println("中序遍历：" + inOrderTraversalForStack(node));
                 System.out.println("层次遍历：" + levelOrderTraversal(node));
+                System.out.println("判断搜索二叉树：" + isBST(node));
+                System.out.println("判断完全二叉树：" + isCBT(node));
+                System.out.println("判断平衡二叉树：" + isBBT(node));
+                System.out.println("折纸问题：" + paperFold(2));
+                System.out.println("计算最小公共祖先：" + getLCA(node,node.left.right,node.right.left).val);
                 System.out.println("层次遍历计算最大节点的层数：" + Arrays.toString(levelOrderTraversalMaxNodes(node)));
-                // System.out.println(result);
                 break;
             case 459:
                 System.out.println(repeatedSubstringPattern("bb"));
@@ -99,6 +103,9 @@ public class Solution202207 {
             case 474:
                 System.out.println(findMaxForm(new String[] {"001", "1", "0"}, 3, 5));
                 break;
+            case 502:
+                System.out.println(findMaximizedCapital(3,5,new int[] {3, 4, 5, 22, 3},new int[] {3, 4, 5, 22, 3}));
+                break;
             case 648:
                 List<String> list = new ArrayList<>();
                 System.out.println(replaceWords(list, " "));
@@ -107,6 +114,7 @@ public class Solution202207 {
                 System.out.println(Arrays.toString(asteroidCollision(new int[] {2, 3, -4, -5})));
                 break;
             default:
+                test();
                 break;
         }
 
@@ -833,7 +841,7 @@ public class Solution202207 {
     /**
      * 二叉树的层次遍历
      */
-    public static  List<Integer> levelOrderTraversal(TreeNode root) {
+    public static List<Integer> levelOrderTraversal(TreeNode root) {
         List<Integer> list = new ArrayList<>();
         Deque<TreeNode> deque = new ArrayDeque<>();
         if (root == null) {
@@ -843,10 +851,10 @@ public class Solution202207 {
         while (!deque.isEmpty()) {
             TreeNode first = deque.pollLast();
             list.add(first.val);
-            if(first.left != null){
+            if (first.left != null) {
                 deque.push(first.left);
             }
-            if(first.right != null){
+            if (first.right != null) {
                 deque.push(first.right);
             }
 
@@ -857,45 +865,227 @@ public class Solution202207 {
     /**
      * 二叉树的层次遍历计算节点最多的层数
      */
-    public static  int[] levelOrderTraversalMaxNodes(TreeNode root) {
+    public static int[] levelOrderTraversalMaxNodes(TreeNode root) {
         int max = 0;
         int maxLevel = 1;
-        if(root == null){
-            return new int[]{max,0};
+        if (root == null) {
+            return new int[] {max, 0};
         }
         int curLevel = 1;
         // 用于保存节点所在的层数
         Map<TreeNode, Integer> map = new HashMap<>();
         map.put(root, curLevel);
-        int curLevelNodes =0;
+        int curLevelNodes = 0;
 
         Deque<TreeNode> deque = new ArrayDeque<>();
         deque.offer(root);
         while (!deque.isEmpty()) {
             TreeNode first = deque.pollLast();
             Integer nodeLevel = map.get(first);
-            if(curLevel == nodeLevel){
+            if (curLevel == nodeLevel) {
                 curLevelNodes++;
-            }else {
-                if(max<curLevelNodes){
+            } else {
+                if (max < curLevelNodes) {
                     max = curLevelNodes;
                     maxLevel = nodeLevel;
                 }
-                curLevelNodes=1;
+                curLevelNodes = 1;
                 curLevel++;
 
             }
-            if(first.left != null){
+            if (first.left != null) {
                 deque.push(first.left);
-                map.put(first.left, curLevelNodes+1);
+                map.put(first.left, curLevelNodes + 1);
             }
-            if(first.right != null){
+            if (first.right != null) {
                 deque.push(first.right);
-                map.put(first.right, curLevelNodes+1);
+                map.put(first.right, curLevelNodes + 1);
             }
 
         }
-        return new int[]{max,maxLevel};
+        return new int[] {max, maxLevel};
+    }
+
+    /**
+     * 判断一个二叉树是否是二叉搜索树
+     */
+    public static int preValue = Integer.MIN_VALUE;
+
+    public static boolean isBST(TreeNode node) {
+
+        if (node == null) {
+            return true;
+        }
+        if (!isBST(node.left)) {
+            return false;
+        }
+        if (preValue >= node.val) {
+            return false;
+        } else {
+            preValue = node.val;
+        }
+        return isBST(node.right);
+    }
+
+    /**
+     * 判断一个二叉树是否是完全二叉树
+     */
+    public static boolean isCBT(TreeNode node) {
+        if (node == null) {
+            return false;
+        }
+        boolean flag = false;
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode poll = queue.poll();
+                assert poll != null;
+                if (poll.left == null && poll.right != null) {
+                    return false;
+                } else {
+                    if (!flag) {
+                        if (poll.left != null && poll.right != null) {
+                            queue.offer(poll.left);
+                            queue.offer(poll.right);
+                        } else {
+                            if (poll.left != null) {
+                                queue.offer(poll.left);
+                            }
+                            flag = true;
+                        }
+                    } else {
+                        if (poll.left != null) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    /**
+     * 判断一个二叉树是否是平衡二叉树
+     */
+    public static boolean isBBT(TreeNode node){
+        ReturnType returnType = checkBBT(node);
+        return returnType.isBalance();
+
+    }
+
+    public static ReturnType checkBBT(TreeNode node){
+        if(node == null){
+            return new ReturnType(true, 0);
+        }
+        ReturnType leftReturnType = checkBBT(node.left);
+        ReturnType rightReturnType = checkBBT(node.right);
+
+
+        int height = Math.max(leftReturnType.getHeight(), rightReturnType.getHeight())+1;
+
+        return new ReturnType(leftReturnType.isBalance() && rightReturnType.isBalance() && Math.abs(leftReturnType.getHeight() - rightReturnType.getHeight()) <2,height);
+    }
+
+    /**
+     * 找到两个节点的最小公共祖先
+     */
+    public static TreeNode getLCA(TreeNode head,TreeNode o1,TreeNode o2){
+        if(head == null || o1 == head || o2 == head){
+            return head;
+        }
+        TreeNode left = getLCA(head.left, o1, o2);
+        TreeNode right = getLCA(head.right, o1, o2);
+
+        if(left != null && right != null){
+            return head;
+        }
+        return left != null?left:right;
+    }
+
+    /**
+     * 折纸问题
+     */
+    public static String paperFoldStr = "";
+    public static String paperFold(int n){
+        paperFoldDfs(1,n,true);
+        return paperFoldStr;
+    }
+
+    public static void paperFoldDfs(int i,int n,boolean isDown){
+        if(i > n){
+            return;
+        }
+        paperFoldDfs(i+1,n,true);
+        paperFoldStr = paperFoldStr+ (isDown?"凹":"凸");
+        paperFoldDfs(i+1,n,false);
+
+    }
+
+    /**
+     * 1260. 二维网络迁移
+     */
+    public static List<List<Integer>> shiftGrid(int[][] grid, int k) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int size = n*m;
+        int[] nums = new int[n*m];
+
+        for (int i = 0;i<n;i++){
+            System.arraycopy(grid[i], 0, nums, i * m, m);
+        }
+
+        k = k%size;
+        k = size-k;
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0;i<n;i++){
+            List<Integer> num = new ArrayList<>();
+            for (int j = 0;j<m;j++){
+                num.add(nums[k++%size]);
+            }
+            result.add(num);
+        }
+
+        return result;
+
+    }
+
+    /**
+     * 502. IPO
+     */
+    public static int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {
+        PriorityQueue<Ipo> minQ = new PriorityQueue<>(Comparator.comparingInt(o -> o.capital));
+        PriorityQueue<Ipo> maxQ = new PriorityQueue<>((o1, o2) -> o2.profit-o1.profit);
+
+        int n = profits.length;
+
+        for (int i = 0;i<n;i++){
+            Ipo ipo = new Ipo(profits[i],capital[i]);
+            minQ.offer(ipo);
+        }
+
+        for (int i =0;i<k;i++){
+            while (!minQ.isEmpty() && minQ.peek().capital<=w){
+                maxQ.offer(minQ.poll());
+            }
+            if (maxQ.isEmpty()){
+                return w;
+            }
+            Ipo max = maxQ.poll();
+            w += max.profit;
+        }
+        return w;
+
+
+    }
+
+
+    public static void test(){
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
+        pq.add(4);
+        pq.add(2);
+        pq.add(3);
+        System.out.println(pq.poll());
     }
 
 }
