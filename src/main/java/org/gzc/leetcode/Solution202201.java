@@ -10,47 +10,33 @@ import java.util.*;
  */
 public class Solution202201 {
 
-    public int sumOfLeftLeaves(TreeNode root) {
-        if (root == null){
-            return 0;
-        }
-        int result =0;
-        Stack<TreeNode> stack = new Stack<>();
-        stack.push(root);
-        while (!stack.isEmpty()){
-            TreeNode treeNode = stack.pop();
-            if(treeNode.left!=null){
-                if(treeNode.left.left==null && treeNode.left.right == null){
-                    result+= treeNode.left.val;
+    public static int lengthOfLongestSubstring(String s) {
+        // write code here
+        int maxLen = 0;
+        int length = s.length();
+        HashMap<Character, Integer> map = new HashMap<>();
+        int len = 0;
+        for (int i = 0; i < length; i++) {
+            if (!map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i), i);
+                len++;
+            } else {//如果含有该字符
+                // 查找含有该字符
+                maxLen = Math.max(maxLen, len);
+
+                Integer index = map.get(s.charAt(i));
+                // 把之前的元素全部移除掉,在新增新的元素
+                map.clear();
+                for (int j = index; j <= i; j++) {
+                    map.put(s.charAt(j),j);
                 }
-                stack.add(treeNode.left);
+                len = i - index;
             }
-            if(treeNode.right!=null){
-                stack.add(treeNode.right);
-            }
-
         }
-        return result;
-    }
-
-    public int arrangeCoins(int n) {
-
-        return (int) ((Math.sqrt((long) 8 * n + 1) - 1) / 2);
-    }
-
-    public int countKDifference(int[] nums, int k) {
-
-        int result =0;
-        int cnt = nums.length;
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            result += (map.getOrDefault(num + k, 0) + map.getOrDefault(num - k, 0));
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        return result;
+        return Math.max(maxLen, len);
     }
 
     public static void main(String[] args) {
-
+        System.out.println(lengthOfLongestSubstring("abcd"));
     }
 }
