@@ -1125,12 +1125,12 @@ public class Solution202207 {
 
         int i1 =0;
         int i2 = 0;
-        int[] next = getNext(m);
+        int[] next = getNext(mChars);
         while (i1<sChars.length && i2<mChars.length){
             if(sChars[i1] == mChars[i2]){
                 i1++;
                 i2++;
-            }else if(next[i2] ==0){
+            }else if(next[i2] ==-1){
                 i1++;
             }else {
                 i2 = next[i2];
@@ -1141,20 +1141,27 @@ public class Solution202207 {
 
     }
 
-    public static int[] getNext(String t){
-        int[] next = new int[t.length()];
-        next[0] = 0;
-        int i = 1, j = 0;
-        while (i < t.length()) {
-            while (j > 0 && t.charAt(i) != t.charAt(j)){
-                j = next[j];
-            }
-            if (t.charAt(i) == t.charAt(j)){
-                j++;
-            }
-            next[i] = j;
-            i++;
+    public static int[] getNext(char[] mChars){
+
+        if (mChars.length ==1){
+            return new int[]{-1};
         }
+
+        int[] next = new int[mChars.length];
+        next[0] = -1;
+        next[1] = 0;
+        int i =2;
+        int cn =0;
+        while (i<next.length){
+            if (mChars[i-1] == mChars[cn]){
+                next[i++] = ++cn;
+            }else if(cn >0){
+                cn = next[cn];
+            }else {
+                next[i++] = 0;
+            }
+        }
+
         return next;
     }
 
