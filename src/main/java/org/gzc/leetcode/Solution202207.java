@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import org.gzc.leetcode.model.*;
@@ -115,6 +117,7 @@ public class Solution202207 {
                 break;
             default:
                 test();
+                exceptiontest();
                 break;
         }
 
@@ -1086,6 +1089,22 @@ public class Solution202207 {
         pq.add(2);
         pq.add(3);
         System.out.println(pq.poll());
+    }
+
+    public static void exceptiontest(){
+
+        try {
+            System.out.println(Arrays.toString("abcdecde".split("cd", 2)));
+            throw new IOException("123");
+        }
+        catch (IOException e){
+            System.out.println("IOException");
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e){
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
+        }
     }
 
 }
