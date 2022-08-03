@@ -81,6 +81,9 @@ public class Solution202207 {
             case 464:
                 System.out.println(canIWin(12, 15));
                 break;
+            case 888:
+                System.out.println(kmp("1234","abcd12345"));
+                break;
             case 466:
                 int[] count = new int[10];
                 for (int i = 0; i < 1000; i++) {
@@ -1084,11 +1087,84 @@ public class Solution202207 {
 
 
     public static void test(){
-        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
-        pq.add(4);
-        pq.add(2);
-        pq.add(3);
-        System.out.println(pq.poll());
+//        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2-o1);
+//        pq.add(4);
+//        pq.add(2);
+//        pq.add(3);
+//        System.out.println(pq.poll());
+//        Integer i01 = 59;
+//        int i02 = 59;
+//        Integer i03 = Integer.valueOf(59);
+//        Integer i04 = new Integer(59);
+//        System.out.println(i01 == i02);
+//        System.out.println(i01 == i03);
+//        System.out.println(i03 == i04);
+//        System.out.println(i04 == i02);
+        System.out.println(f(47, -42));
+
+    }
+
+    public static int f(int a, int b){
+        int c;
+        do{
+            c = a ^ b;
+            System.out.println(c);
+            b = a & b << 1;
+            System.out.println(b);
+            a = c;
+        }while(b != 0);
+        return c;
+    }
+
+    /**
+     * kmp 算法
+     */
+    public static int kmp(String m,String s){
+        if(s ==null || m == null || m.length()<1|| s.length()<m.length()){
+            return -1;
+        }
+        char[] sChars = s.toCharArray();
+        char[] mChars = m.toCharArray();
+
+        int i1 =0;
+        int i2 = 0;
+        int[] next = getNext(mChars);
+        while (i1<sChars.length && i2<mChars.length){
+            if(sChars[i1] == mChars[i2]){
+                i1++;
+                i2++;
+            }else if(next[i2] ==-1){
+                i1++;
+            }else {
+                i2 = next[i2];
+            }
+        }
+
+        return  i2 == mChars.length ?i1-i2:-1;
+
+    }
+
+    public static int[] getNext(char[] mChars) {
+
+        if (mChars.length == 1) {
+            return new int[]{-1};
+        }
+
+        int[] next = new int[mChars.length];
+        next[0] = -1;
+        next[1] = 0;
+        int i = 2;
+        int cn = 0;
+        while (i < next.length) {
+            if (mChars[i - 1] == mChars[cn]) {
+                next[i++] = ++cn;
+            } else if (cn > 0) {
+                cn = next[cn];
+            } else {
+                next[i++] = 0;
+            }
+        }
+        return next;
     }
 
     public static void exceptiontest(){
@@ -1105,6 +1181,9 @@ public class Solution202207 {
             System.out.println("Exception");
             System.out.println(e.getMessage());
         }
+    }
+
+
     }
 
 }
