@@ -24,6 +24,10 @@ public class Solution202208 {
         switch (questionNum) {
             case 503:
                 System.out.println(Arrays.toString(nextGreaterElements(new int[]{1,2,3,4,3})));
+                break;
+            case 1403:
+                System.out.println(minSubsequence(new int[]{4, 4, 6, 7, 7}));
+                break;
             default:
                 break;
         }
@@ -45,6 +49,28 @@ public class Solution202208 {
                     result[i] = nums[j%n];
                     break;
                 }
+            }
+        }
+        return result;
+    }
+
+    public static List<Integer> minSubsequence(int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        int n = nums.length;
+        // 对数组进行排序
+        Arrays.sort(nums);
+        int left = 0;
+        int right = n-1;
+        int leftNum = 0;
+        result.add(nums[right]);
+        int rightNum = nums[right--];
+
+        while(left <= right){
+            if (leftNum+nums[left] < rightNum){
+                leftNum += nums[left++];
+            }else {
+                result.add(nums[right]);
+                rightNum += nums[right--];
             }
         }
         return result;
