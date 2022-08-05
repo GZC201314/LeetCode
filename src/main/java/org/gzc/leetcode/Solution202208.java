@@ -28,6 +28,9 @@ public class Solution202208 {
             case 1403:
                 System.out.println(minSubsequence(new int[]{4, 4, 6, 7, 7}));
                 break;
+            case 623:
+                System.out.println(addOneRow(new TreeNode(4),1,3));
+                break;
             default:
                 break;
         }
@@ -54,6 +57,9 @@ public class Solution202208 {
         return result;
     }
 
+    /**
+     * 1403. 非递增顺序的最小子序列
+     */
     public static List<Integer> minSubsequence(int[] nums) {
         List<Integer> result = new ArrayList<>();
         int n = nums.length;
@@ -74,6 +80,46 @@ public class Solution202208 {
             }
         }
         return result;
+    }
+
+    /**
+     * 623. 在二叉树中增加一行
+     */
+    public static TreeNode addOneRow(TreeNode root, int val, int depth) {
+        if (depth == 1){
+            TreeNode node = new TreeNode(val,root,null);
+            return node;
+        }
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+
+        int curDepth =1;
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            if (curDepth == depth-1){
+                for (int i = 0; i < size; i++) {
+                    TreeNode node = queue.poll();
+                    TreeNode left = node.left;
+                    TreeNode right = node.right;
+                    node.left = new TreeNode(val,left,null);
+                    node.right = new TreeNode(val,null,right);
+                }
+                break;
+            }
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if(node.left != null){
+                    queue.offer(node.left);
+                }
+                if(node.right != null){
+                    queue.offer(node.right);
+                }
+            }
+            curDepth++;
+        }
+
+
+        return root;
     }
 
 
