@@ -2,7 +2,6 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.*;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -144,19 +143,15 @@ public class Solution202208 {
 
     /**
      * 508. 出现次数最多的子树元素和
-     * @param root
-     * @return
      */
     public static int[] findFrequentTreeSum(TreeNode root) {
         Map<TreeNode,Integer> sumMap = new HashMap<>();
         Map<Integer, Integer> countMap = new HashMap<>();
-        dfs_checkPerfectNumber(root, sumMap);
+        dfsCheckPerfectNumber(root, sumMap);
 
-        sumMap.entrySet().forEach((entry)->{
-            countMap.put(entry.getValue(), countMap.getOrDefault(entry.getValue(), 0) +1 );
-        });
+        sumMap.forEach((key, value) -> countMap.put(value, countMap.getOrDefault(value, 0) + 1));
         Stream<Integer> stream = countMap.values().stream();
-        Integer max = stream.max(Integer::compareTo).get();
+        int max = stream.max(Integer::compareTo).get();
         List<Integer> list = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> entries = countMap.entrySet();
         entries.forEach((entry)->{
@@ -174,7 +169,7 @@ public class Solution202208 {
 
     }
 
-    public static int dfs_checkPerfectNumber(TreeNode node,Map<TreeNode,Integer> sumMap){
+    public static int dfsCheckPerfectNumber(TreeNode node, Map<TreeNode,Integer> sumMap){
         if(node == null){
             return 0;
         }
@@ -185,7 +180,7 @@ public class Solution202208 {
         if(sumMap.containsKey(node)){
             return sumMap.get(node);
         }
-        int sum = node.val+dfs_checkPerfectNumber(node.left,sumMap)+dfs_checkPerfectNumber(node.right,sumMap);
+        int sum = node.val+dfsCheckPerfectNumber(node.left,sumMap)+dfsCheckPerfectNumber(node.right,sumMap);
         sumMap.put(node,sum);
         return sum;
     }
