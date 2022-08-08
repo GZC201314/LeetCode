@@ -4,19 +4,12 @@ import org.gzc.leetcode.model.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * @author GZC
  */
 public class Solution202208 {
-    /**
-     * 判断一个二叉树是否是二叉搜索树
-     */
-    public static int preValue = Integer.MIN_VALUE;
-    /**
-     * 折纸问题
-     */
-    public static String paperFoldStr = "";
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -30,6 +23,12 @@ public class Solution202208 {
                 break;
             case 623:
                 System.out.println(addOneRow(new TreeNode(4),1,3));
+                break;
+            case 507:
+                System.out.println(checkPerfectNumber(28));
+                break;
+            case 508:
+                System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             default:
                 break;
@@ -87,8 +86,7 @@ public class Solution202208 {
      */
     public static TreeNode addOneRow(TreeNode root, int val, int depth) {
         if (depth == 1){
-            TreeNode node = new TreeNode(val,root,null);
-            return node;
+            return new TreeNode(val,root,null);
         }
         Queue<TreeNode> queue = new LinkedList<>();
         queue.add(root);
@@ -99,6 +97,7 @@ public class Solution202208 {
             if (curDepth == depth-1){
                 for (int i = 0; i < size; i++) {
                     TreeNode node = queue.poll();
+                    assert node != null;
                     TreeNode left = node.left;
                     TreeNode right = node.right;
                     node.left = new TreeNode(val,left,null);
@@ -108,6 +107,7 @@ public class Solution202208 {
             }
             for (int i = 0; i < size; i++) {
                 TreeNode node = queue.poll();
+                assert node != null;
                 if(node.left != null){
                     queue.offer(node.left);
                 }
@@ -120,6 +120,74 @@ public class Solution202208 {
 
 
         return root;
+    }
+
+    /**
+     * 507. 完美数
+     */
+    public static boolean checkPerfectNumber(int num) {
+
+        if(num ==1){
+            return false;
+        }
+        int sum =1;
+        for (int i = 2; i*i <= num  ; i++) {
+            if(num%i ==0){
+                sum+=i;
+                if (i*i <= num){
+                    sum+=num/i;
+                }
+            }
+        }
+        return sum == num;
+    }
+
+    /**
+     * 508. 出现次数最多的子树元素和
+     * @param root
+     * @return
+     */
+    public static int[] findFrequentTreeSum(TreeNode root) {
+        Map<TreeNode,Integer> sumMap = new HashMap<>();
+        Map<Integer, Integer> countMap = new HashMap<>();
+        dfs_checkPerfectNumber(root, sumMap);
+
+        sumMap.entrySet().forEach((entry)->{
+            countMap.put(entry.getValue(), countMap.getOrDefault(entry.getValue(), 0) +1 );
+        });
+        Stream<Integer> stream = countMap.values().stream();
+        Integer max = stream.max(Integer::compareTo).get();
+        List<Integer> list = new ArrayList<>();
+        Set<Map.Entry<Integer, Integer>> entries = countMap.entrySet();
+        entries.forEach((entry)->{
+            if (entry.getValue() == max){
+                list.add(entry.getKey());
+            }
+        });
+        int[] result = new int[list.size()];
+
+        int index = 0;
+        for (Integer key : list) {
+            result[index++] = key;
+        }
+        return result;
+
+    }
+
+    public static int dfs_checkPerfectNumber(TreeNode node,Map<TreeNode,Integer> sumMap){
+        if(node == null){
+            return 0;
+        }
+        if(node.left == null && node.right == null){
+            sumMap.put(node, node.val);
+            return node.val;
+        }
+        if(sumMap.containsKey(node)){
+            return sumMap.get(node);
+        }
+        int sum = node.val+dfs_checkPerfectNumber(node.left,sumMap)+dfs_checkPerfectNumber(node.right,sumMap);
+        sumMap.put(node,sum);
+        return sum;
     }
 
 
