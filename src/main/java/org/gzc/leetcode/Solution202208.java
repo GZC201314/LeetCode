@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.*;
+import org.gzc.leetcode.model.Node;
 
 import java.util.*;
 import java.util.stream.Stream;
@@ -22,6 +23,9 @@ public class Solution202208 {
                 break;
             case 623:
                 System.out.println(addOneRow(new TreeNode(4),1,3));
+                break;
+            case 123:
+                morris(new Node(5,new Node(4),new Node(2)));
                 break;
             case 507:
                 System.out.println(checkPerfectNumber(28));
@@ -185,5 +189,34 @@ public class Solution202208 {
         return sum;
     }
 
+    /**
+     * 二叉树 morris 遍历
+     */
+    public static void morris(Node head){
+        if(head == null){
+            return;
+        }
+        Node cur = head;
+        Node mostRight = null;
+        while(cur != null){
+            // mostRight 变成了cur左子树的最右的节点
+            mostRight = cur.left;
+            if(mostRight != null){
+                while (mostRight.right != null && mostRight.right !=cur){
+                    mostRight = mostRight.right;
+                }
+                // 第一次访问cur
+                if(mostRight.right == null){
+                    mostRight = cur;
+                    cur = cur.left;
+                    continue;
+                }else {
+                    //第二次访问cur
+                    mostRight.right = null;
+                }
+            }
+            cur = cur.right;
+        }
+    }
 
 }
