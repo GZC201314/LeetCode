@@ -27,6 +27,9 @@ public class Solution202208 {
             case 123:
                 morris(new Node(5,new Node(4),new Node(2)));
                 break;
+            case 124:
+                preOrderMorris(new Node(5,null,new Node(2)));
+                break;
             case 507:
                 System.out.println(checkPerfectNumber(28));
                 break;
@@ -197,7 +200,7 @@ public class Solution202208 {
             return;
         }
         Node cur = head;
-        Node mostRight = null;
+        Node mostRight;
         while(cur != null){
             // mostRight 变成了cur左子树的最右的节点
             mostRight = cur.left;
@@ -207,13 +210,46 @@ public class Solution202208 {
                 }
                 // 第一次访问cur
                 if(mostRight.right == null){
-                    mostRight = cur;
+                    mostRight.right = cur;
                     cur = cur.left;
                     continue;
                 }else {
                     //第二次访问cur
                     mostRight.right = null;
                 }
+            }
+            cur = cur.right;
+        }
+    }
+
+    /**
+     * mirris 先序遍历
+     */
+    public static void preOrderMorris(Node head){
+        if(head == null){
+            return;
+        }
+        Node cur = head;
+        Node mostRight;
+        while(cur != null){
+            // mostRight 变成了cur左子树的最右的节点
+            mostRight = cur.left;
+            if(mostRight != null){
+                while (mostRight.right != null && mostRight.right !=cur){
+                    mostRight = mostRight.right;
+                }
+                // 第一次访问cur
+                if(mostRight.right == null){
+                    System.out.println(cur.val);
+                    mostRight.right = cur;
+                    cur = cur.left;
+                    continue;
+                }else {
+                    //第二次访问cur
+                    mostRight.right = null;
+                }
+            }else {
+                System.out.println(cur.val);
             }
             cur = cur.right;
         }
