@@ -1097,7 +1097,34 @@ public class Solution202207 {
 //        System.out.println(i01 == i03);
 //        System.out.println(i03 == i04);
 //        System.out.println(i04 == i02);
-        System.out.println(f(47, -42));
+        Scanner sc = new Scanner(System.in);
+        String nd = sc.nextLine();
+        String[] nAndd = nd.split(" ");
+        int n = Integer.parseInt(nAndd[0]);
+        int d = Integer.parseInt(nAndd[1]);
+        int[] D = new int[n];
+        for(int i=0;i<n;i++){
+            D[i] = sc.nextInt();
+        }
+        int[] dp = new int[n+1];
+        dp[0] =0;
+        dp[1] =0;
+        dp[2] =0;
+        for(int i=2;i<n;i++){
+            //计算在此之前可以加入自己的数
+            int size =0;
+            for(int j=i-1;j>=0;j--){
+                if(D[i]-D[j] <=d){
+                    size++;
+                }
+            }
+            int num = 0;
+            if(size>=2){
+                num = (size*(size-1))/2;
+            }
+            dp[i+1] = num+dp[i];
+        }
+        System.out.println(dp[n]);
 
     }
 
