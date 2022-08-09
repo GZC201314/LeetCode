@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 import org.gzc.leetcode.model.*;
@@ -118,6 +120,7 @@ public class Solution202207 {
                 break;
             default:
                 test();
+                exceptiontest();
                 break;
         }
 
@@ -1168,28 +1171,44 @@ public class Solution202207 {
 
     }
 
-    public static int[] getNext(char[] mChars){
+    public static int[] getNext(char[] mChars) {
 
-        if (mChars.length ==1){
+        if (mChars.length == 1) {
             return new int[]{-1};
         }
 
         int[] next = new int[mChars.length];
         next[0] = -1;
         next[1] = 0;
-        int i =2;
-        int cn =0;
-        while (i<next.length){
-            if (mChars[i-1] == mChars[cn]){
+        int i = 2;
+        int cn = 0;
+        while (i < next.length) {
+            if (mChars[i - 1] == mChars[cn]) {
                 next[i++] = ++cn;
-            }else if(cn >0){
+            } else if (cn > 0) {
                 cn = next[cn];
-            }else {
+            } else {
                 next[i++] = 0;
             }
         }
-
         return next;
     }
 
-}
+    public static void exceptiontest(){
+
+        try {
+            System.out.println(Arrays.toString("abcdecde".split("cd", 2)));
+            throw new IOException("123");
+        }
+        catch (IOException e){
+            System.out.println("IOException");
+            System.out.println(e.getMessage());
+        }
+        catch (Exception e){
+            System.out.println("Exception");
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    }
