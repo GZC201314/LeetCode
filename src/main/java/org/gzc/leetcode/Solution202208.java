@@ -12,6 +12,11 @@ import java.util.stream.Stream;
  */
 public class Solution202208 {
 
+    /**
+     * 640. 求解方程
+     */
+    private static final String CHARS = "-+x=";
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
@@ -36,6 +41,9 @@ public class Solution202208 {
                 break;
             case 640:
                 System.out.println(solveEquation("3x+6=2x"));
+                break;
+            case 517:
+                System.out.println(findMinMoves(new int[]{3,4,5,6,7}));
                 break;
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
@@ -259,53 +267,78 @@ public class Solution202208 {
         }
     }
 
-        /**
-         * 640. 求解方程
-         */
-        private static final String CHARS = "-+x=";
-        public static  String solveEquation(String equation) {
-            equation += "=";
-            int sign = 1, cur = 0, num = 0, k = 0;
-            boolean hasVal = false, left = true;
-            for (int i = 0; i < equation.length(); i++) {
-                char c = equation.charAt(i);
-                if (CHARS.contains(String.valueOf(c))) {
-                    if (c == 'x') {
-                        if (!hasVal && cur == 0) {
-                            cur = 1;
-                        }
-                        k += left ? sign * cur : -sign * cur;
-                    } else {
-                        num -= left ? sign * cur: -sign * cur;
+    public static String solveEquation(String equation) {
+        equation += "=";
+        int sign = 1, cur = 0, num = 0, k = 0;
+        boolean hasVal = false, left = true;
+        for (int i = 0; i < equation.length(); i++) {
+            char c = equation.charAt(i);
+            if (CHARS.contains(String.valueOf(c))) {
+                if (c == 'x') {
+                    if (!hasVal && cur == 0) {
+                        cur = 1;
                     }
-                    cur = 0;
-                    hasVal = false;
+                    k += left ? sign * cur : -sign * cur;
+                } else {
+                    num -= left ? sign * cur : -sign * cur;
                 }
-
-                switch (c) {
-                    case '-':
-                        sign = -1;
-                        break;
-                    case '+':
-                        sign = 1;
-                        break;
-                    case '=':
-                        sign = 1;
-                        left = false;
-                        break;
-                    case 'x':
-                        break;
-                    default:
-                        cur = cur * 10 + (c - '0');
-                        hasVal = true;
-                }
-
+                cur = 0;
+                hasVal = false;
             }
-            if (k == 0) {
-                return num != 0 ? "No solution" : "Infinite solutions";
+
+            switch (c) {
+                case '-':
+                    sign = -1;
+                    break;
+                case '+':
+                    sign = 1;
+                    break;
+                case '=':
+                    sign = 1;
+                    left = false;
+                    break;
+                case 'x':
+                    break;
+                default:
+                    cur = cur * 10 + (c - '0');
+                    hasVal = true;
             }
-            return num % k == 0 ? String.format("x=%d", num/k) : "No solution";
+
         }
+        if (k == 0) {
+            return num != 0 ? "No solution" : "Infinite solutions";
+        }
+        return num % k == 0 ? String.format("x=%d", num / k) : "No solution";
+    }
+
+    /**
+     * 517. 超级洗衣机
+     */
+    public static int findMinMoves(int[] machines) {
+        int sum = 0;
+        int n = machines.length;
+        for (int machine : machines) {
+            sum += machine;
+        }
+        if(sum%n !=0){
+            return -1;
+        }
+        int ans = Integer.MIN_VALUE;
+        int avg = sum/n;
+        int leftSum =0;
+        int rightSum =0;
+        for (int i = 0; i < n; i++) {
+            int leftRest = leftSum- i*avg;
+            int rightRest = sum -leftRest-machines[i] - (n-i-1)*avg;
+            if (leftRest<0 && rightRest<0){
+                ans = Math.max(ans, Math.abs(leftRest) + Math.abs(rightRest));
+            }else {
+                ans = Math.max(ans,Math.max(Math.abs(leftRest),Math.abs(rightRest)));
+            }
+            leftSum +=machines[i];
+        }
+        return ans;
+    }
 
 
 }
