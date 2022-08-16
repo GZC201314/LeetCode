@@ -42,6 +42,12 @@ public class Solution202208 {
             case 640:
                 System.out.println(solveEquation("3x+6=2x"));
                 break;
+            case 1656:
+                OrderedStream orderedStream = new OrderedStream(10);
+                orderedStream.insert(1,"a");
+                orderedStream.insert(2,"b");
+                orderedStream.insert(3,"c");
+                break;
             case 517:
                 System.out.println(findMinMoves(new int[]{3,4,5,6,7}));
                 break;
