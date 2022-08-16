@@ -326,10 +326,9 @@ public class Solution202208 {
         int ans = Integer.MIN_VALUE;
         int avg = sum/n;
         int leftSum =0;
-        int rightSum =0;
         for (int i = 0; i < n; i++) {
             int leftRest = leftSum- i*avg;
-            int rightRest = sum -leftRest-machines[i] - (n-i-1)*avg;
+            int rightRest = sum -leftSum-machines[i] - (n-i-1)*avg;
             if (leftRest<0 && rightRest<0){
                 ans = Math.max(ans, Math.abs(leftRest) + Math.abs(rightRest));
             }else {
