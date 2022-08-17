@@ -12,10 +12,7 @@ import java.util.stream.Stream;
  */
 public class Solution202208 {
 
-    /**
-     * 640. 求解方程
-     */
-    private static final String CHARS = "-+x=";
+
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -41,15 +38,6 @@ public class Solution202208 {
                 break;
             case 640:
                 System.out.println(solveEquation("3x+6=2x"));
-                break;
-            case 1656:
-                OrderedStream orderedStream = new OrderedStream(10);
-                orderedStream.insert(1,"a");
-                orderedStream.insert(2,"b");
-                orderedStream.insert(3,"c");
-                break;
-            case 517:
-                System.out.println(findMinMoves(new int[]{3,4,5,6,7}));
                 break;
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
@@ -273,49 +261,53 @@ public class Solution202208 {
         }
     }
 
-    public static String solveEquation(String equation) {
-        equation += "=";
-        int sign = 1, cur = 0, num = 0, k = 0;
-        boolean hasVal = false, left = true;
-        for (int i = 0; i < equation.length(); i++) {
-            char c = equation.charAt(i);
-            if (CHARS.contains(String.valueOf(c))) {
-                if (c == 'x') {
-                    if (!hasVal && cur == 0) {
-                        cur = 1;
+        /**
+         * 640. 求解方程
+         */
+        private static final String CHARS = "-+x=";
+        public static  String solveEquation(String equation) {
+            equation += "=";
+            int sign = 1, cur = 0, num = 0, k = 0;
+            boolean hasVal = false, left = true;
+            for (int i = 0; i < equation.length(); i++) {
+                char c = equation.charAt(i);
+                if (CHARS.contains(String.valueOf(c))) {
+                    if (c == 'x') {
+                        if (!hasVal && cur == 0) {
+                            cur = 1;
+                        }
+                        k += left ? sign * cur : -sign * cur;
+                    } else {
+                        num -= left ? sign * cur: -sign * cur;
                     }
-                    k += left ? sign * cur : -sign * cur;
-                } else {
-                    num -= left ? sign * cur : -sign * cur;
+                    cur = 0;
+                    hasVal = false;
                 }
-                cur = 0;
-                hasVal = false;
-            }
 
-            switch (c) {
-                case '-':
-                    sign = -1;
-                    break;
-                case '+':
-                    sign = 1;
-                    break;
-                case '=':
-                    sign = 1;
-                    left = false;
-                    break;
-                case 'x':
-                    break;
-                default:
-                    cur = cur * 10 + (c - '0');
-                    hasVal = true;
-            }
+                switch (c) {
+                    case '-':
+                        sign = -1;
+                        break;
+                    case '+':
+                        sign = 1;
+                        break;
+                    case '=':
+                        sign = 1;
+                        left = false;
+                        break;
+                    case 'x':
+                        break;
+                    default:
+                        cur = cur * 10 + (c - '0');
+                        hasVal = true;
+                }
 
+            }
+            if (k == 0) {
+                return num != 0 ? "No solution" : "Infinite solutions";
+            }
+            return num % k == 0 ? String.format("x=%d", num/k) : "No solution";
         }
-        if (k == 0) {
-            return num != 0 ? "No solution" : "Infinite solutions";
-        }
-        return num % k == 0 ? String.format("x=%d", num / k) : "No solution";
-    }
 
     /**
      * 517. 超级洗衣机
@@ -345,5 +337,33 @@ public class Solution202208 {
         return ans;
     }
 
+    public static int[] dp;
+    public static int[] used;
+
+        public static void goodNote(int[] nices){
+            int n = nices.length;
+            dp = new int[n+1];
+            used = new int[n];
+            System.out.println(handle(nices,0));
+            System.out.println(Arrays.toString(dp));
+        }
+
+    public static int handle(int[] nums,int index){
+        if(index >= nums.length){
+            return 0;
+        }
+        if(dp[index] !=0){
+            return dp[index];
+        }
+        if(index == nums.length-1){
+            return dp[index];
+        }
+        if(index == nums.length-2){
+            dp[index] = Math.max(nums[index],nums[index+1]);
+            return dp[index];
+        }
+        dp[index] = Math.max(handle(nums,index+2)+nums[index],handle(nums,index+1));
+        return dp[index];
+    }
 
 }
