@@ -36,8 +36,17 @@ public class Solution202208 {
             case 507:
                 System.out.println(checkPerfectNumber(28));
                 break;
+            case 517:
+                System.out.println(findMinMoves(new int[]{3,4,5}));
+                break;
+            case 666:
+                goodNote(new int[]{3,4,5});
+                break;
             case 640:
                 System.out.println(solveEquation("3x+6=2x"));
+                break;
+            case 1302:
+                System.out.println(deepestLeavesSum(new TreeNode(1)));
                 break;
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
@@ -46,6 +55,46 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1302. 层数最深叶子节点的和
+     */
+    public static int deepestLeavesSum(TreeNode root) {
+
+       return handleDeepestLeavesSum(root, 0).sum;
+    }
+
+    public static Info handleDeepestLeavesSum(TreeNode node, int deep){
+        if (node == null){
+            return new Info(deep,0);
+        }
+        if(node.left ==null && node.right ==null){
+            return new Info(deep, node.val);
+        }
+        Info leftInfo = handleDeepestLeavesSum(node.left, deep + 1);
+        Info rightInfo = handleDeepestLeavesSum(node.right, deep + 1);
+        int sum;
+        int maxDeep = leftInfo.deep;
+        if (leftInfo.deep> rightInfo.deep){
+            sum = leftInfo.sum;
+        }else if (leftInfo.deep< rightInfo.deep){
+            maxDeep = rightInfo.deep;
+            sum = rightInfo.sum;
+        }else {
+            sum = leftInfo.sum+ rightInfo.sum;
+        }
+        return new Info(maxDeep, sum);
+    }
+
+    static class Info {
+        int deep;
+        int sum;
+
+        public Info(int deep, int sum) {
+            this.deep = deep;
+            this.sum = sum;
+        }
     }
 
     /**
@@ -164,11 +213,16 @@ public class Solution202208 {
 
         sumMap.forEach((key, value) -> countMap.put(value, countMap.getOrDefault(value, 0) + 1));
         Stream<Integer> stream = countMap.values().stream();
-        int max = stream.max(Integer::compareTo).get();
+        int max = 0;
+        Optional<Integer> max1 = stream.max(Integer::compareTo);
+        if (max1.isPresent()){
+            max = max1.get();
+        }
         List<Integer> list = new ArrayList<>();
         Set<Map.Entry<Integer, Integer>> entries = countMap.entrySet();
+        int finalMax = max;
         entries.forEach((entry) -> {
-            if (entry.getValue() == max) {
+            if (entry.getValue() == finalMax) {
                 list.add(entry.getKey());
             }
         });
