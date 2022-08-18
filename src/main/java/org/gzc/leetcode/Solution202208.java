@@ -48,12 +48,82 @@ public class Solution202208 {
             case 1302:
                 System.out.println(deepestLeavesSum(new TreeNode(1)));
                 break;
+            case 33:
+                System.out.println(verifyPostorder(new int[]{4, 6, 7, 5}));
+                break;
+
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             default:
                 break;
         }
+
+    }
+
+
+    /**
+     * 剑指 Offer 33. 二叉搜索树的后序遍历序列
+     */
+    public static boolean verifyPostorder(int[] postorder) {
+        int n = postorder.length;
+        int[] inorder = Arrays.copyOf(postorder, n);
+        Arrays.sort(inorder);
+        return verifyPostorderHandle(postorder,inorder,0,n-1,0,n-1);
+
+    }
+
+    public static boolean verifyPostorderHandle(int[] postorder, int[] inorder,int posti,int postj,int ini,int inj){
+        if(posti == postj && ini == inj){
+            return postorder[posti] == inorder[ini];
+        }
+        // 遍历完毕 返回true
+        if(posti>postj || ini>inj){
+            return true;
+        }
+
+        //获取根结点
+        int root = postorder[postj];
+        //获取根结点在中序遍历中的位置
+        int rootInorderIndex =-1;
+        for (int i = ini;i<=inj;i++){
+            if(inorder[i] == root){
+                rootInorderIndex = i;
+                break;
+            }
+        }
+        if(rootInorderIndex ==-1){
+            return false;
+        }
+        int[] subPostOrderLeft;
+        if(posti > posti + rootInorderIndex - ini){
+            return true;
+        }else {
+            subPostOrderLeft = Arrays.copyOfRange(postorder, posti, posti + rootInorderIndex - ini);
+        }
+        int[] subPostOrderRight;
+        if(posti+rootInorderIndex-ini>postj){
+            return true;
+        }else {
+            subPostOrderRight = Arrays.copyOfRange(postorder, posti+rootInorderIndex-ini, postj);
+        }
+        int leftMax = Integer.MIN_VALUE;
+        int rightMin = Integer.MAX_VALUE;
+
+        if(subPostOrderLeft.length > 0){
+            for (int node : subPostOrderLeft) {
+                leftMax = Math.max(leftMax,node);
+            }
+        }
+        if(subPostOrderRight.length > 0){
+            for (int node : subPostOrderRight) {
+                rightMin = Math.min(rightMin,node);
+            }
+        }
+
+
+
+        return verifyPostorderHandle(postorder,inorder,posti,posti+rootInorderIndex-ini-1,ini,rootInorderIndex-1) && verifyPostorderHandle(postorder,inorder,posti+rootInorderIndex-ini,postj-1,rootInorderIndex+1,inj) && root>leftMax && root<rightMin;
 
     }
 
