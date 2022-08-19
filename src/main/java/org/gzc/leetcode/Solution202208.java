@@ -51,6 +51,9 @@ public class Solution202208 {
             case 33:
                 System.out.println(verifyPostorder(new int[]{4, 6, 7, 5}));
                 break;
+            case 1450:
+                System.out.println(busyStudent(new int[]{4, 6, 7, 5},new int[]{4, 6, 7, 5},4));
+                break;
 
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
@@ -488,6 +491,22 @@ public class Solution202208 {
         }
         dp[index] = Math.max(handle(nums,index+2)+nums[index],handle(nums,index+1));
         return dp[index];
+    }
+
+    /**
+     * 1450. 在既定时间做作业的学生人数
+     */
+    public static int busyStudent(int[] startTime, int[] endTime, int queryTime) {
+
+        int result =0;
+        int n = startTime.length;
+        for (int i = 0; i < n; i++) {
+            if(startTime[i] <= queryTime && queryTime <= endTime[i]){
+                result++;
+            }
+        }
+
+        return result;
     }
 
 }
