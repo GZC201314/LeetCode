@@ -54,6 +54,9 @@ public class Solution202208 {
             case 2344:
                 System.out.println(minOperations(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
                 break;
+            case 1818:
+                System.out.println(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                break;
 
             case 508:
                 System.out
@@ -63,6 +66,38 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1818. 绝对差值和
+     */
+    public static int minAbsoluteSumDiff(int[] nums1, int[] nums2) {
+        TreeSet<Integer> treeSet = new TreeSet<>();
+        int mod = 1000000007;
+        long ans = 0;
+        int n = nums1.length;
+        for (int i : nums1) {
+            treeSet.add(i);
+        }
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int num1 = nums1[i];
+            int num2 = nums2[i];
+            int curAns = Math.abs(num1 - num2);
+            Integer floor = treeSet.floor(num2);
+            if (floor != null) {
+                max = Math.max(max, curAns - Math.abs(floor - num2));
+            }
+            Integer ceiling = treeSet.ceiling(num2);
+            if (ceiling != null) {
+                max = Math.max(max, curAns - Math.abs(ceiling - num2));
+            }
+            ans += curAns;
+            ans %= mod;
+        }
+
+        return (int)(ans - max + mod) % mod;
     }
 
     /**
