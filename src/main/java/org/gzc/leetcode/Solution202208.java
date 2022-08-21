@@ -59,8 +59,7 @@ public class Solution202208 {
                 break;
 
             case 508:
-                System.out
-                    .println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
+                System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
