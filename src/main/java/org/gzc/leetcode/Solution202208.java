@@ -62,6 +62,9 @@ public class Solution202208 {
                 System.out
                     .println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
+            case 1042:
+                System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
+                break;
             default:
                 break;
         }
@@ -195,6 +198,63 @@ public class Solution202208 {
             && verifyPostorderHandle(postorder, inorder, posti + rootInorderIndex - ini, postj - 1,
                 rootInorderIndex + 1, inj)
             && root > leftMax && root < rightMin;
+
+    }
+
+    /**
+     * 1042. 不邻接植花
+     */
+    public static int[] gardenNoAdj(int n, int[][] paths) {
+
+        Map<Integer, List<Integer>> s2e = new HashMap<>();
+        Map<Integer, List<Integer>> e2s = new HashMap<>();
+        for (int[] path : paths) {
+            List<Integer> s2eList = s2e.getOrDefault(path[0], new ArrayList<>());
+            List<Integer> e2sList = e2s.getOrDefault(path[1], new ArrayList<>());
+            s2eList.add(path[1]);
+            e2sList.add(path[0]);
+            s2e.put(path[0], s2eList);
+            e2s.put(path[1], e2sList);
+        }
+        int[] result = new int[n];
+        for (int i = 1; i <= n; i++) {
+            // 先求出当前节点所有的邻接节点
+
+            //1. 获取所有的出度
+            List<Integer> s2eList = s2e.get(i);
+            List<Integer> e2sList = e2s.get(i);
+            int[] flowers = new int[(s2eList ==null?0:s2eList.size())+(e2sList == null?0:e2sList.size())];
+            int index = 0;
+            if(s2eList != null){
+                for (Integer flower : s2eList) {
+                    flowers[index++] = flower;
+                }
+            }
+            if(e2sList != null){
+                for (Integer flower : e2sList) {
+                    flowers[index++] = flower;
+                }
+            }
+            HashSet<Integer> set = new HashSet<>();
+            for (int flower : flowers) {
+                if (result[flower-1] !=0){
+                    set.add(result[flower-1]);
+                }
+            }
+            if(set.size() ==0){
+                result[i-1] = 1;
+            }else {
+                for (int j = 1; j <=4 ; j++) {
+                    if(!set.contains(j)){
+                        result[i-1] = j;
+                        break;
+                    }
+                }
+            }
+        }
+
+        return result;
+
 
     }
 
