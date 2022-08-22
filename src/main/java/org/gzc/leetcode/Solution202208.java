@@ -61,6 +61,9 @@ public class Solution202208 {
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
+            case 655:
+                System.out.println(printTree(new TreeNode(1,new TreeNode(2),null)));
+                break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
                 break;
@@ -68,6 +71,80 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 655. 输出二叉树
+     */
+    public static List<List<String>> printTree(TreeNode root) {
+        Queue<Info1> queue = new LinkedList<>();
+        // 获取二叉树的深度
+        int height = printTreeHandler(root);
+        int n = (1<< height)-1;
+        String[][] res = new String[height][n];
+        res[0][(n-1)/2] = String.valueOf(root.val);
+        queue.offer(new Info1(root, 0, (n - 1) / 2));
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Info1 node = queue.poll();
+                assert node != null;
+                int r = node.r;
+                int c = node.c;
+                //获取它的左右孩子结点
+                if (node.node.left != null){
+                    int nextR = r+1;
+                    int nextC = c-(1<<(height-r-2));
+                    res[nextR][nextC] = String.valueOf(node.node.left.val);
+                    queue.offer(new Info1(node.node.left, nextR, nextC));
+                }
+                if(node.node.right != null){
+                    int nextR = r+1;
+                    int nextC = c+(1<<(height-r-2));
+                    res[nextR][nextC] = String.valueOf(node.node.right.val);
+                    queue.offer(new Info1(node.node.right, nextR, nextC));
+                }
+            }
+        }
+        List<List<String>> result = new ArrayList<>();
+        for (int i = 0; i < height; i++) {
+            List<String> list = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                if (res[i][j] == null){
+                    list.add("");
+                }else {
+                    list.add(res[i][j]);
+                }
+            }
+            result.add(list);
+        }
+        return result;
+
+
+
+    }
+    static class Info1{
+        TreeNode node;
+        int r;
+        int c;
+        public Info1(TreeNode node,int r,int c) {
+            this.node = node;
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    public static int printTreeHandler(TreeNode root) {
+        if(root == null){
+            return 0;
+        }
+        if(root.left == null && root.right == null){
+            return 1;
+        }
+
+        int leftHeight = printTreeHandler(root.left);
+        int rightHeight = printTreeHandler(root.right);
+        return Math.max(leftHeight, rightHeight)+1;
     }
 
     /**
