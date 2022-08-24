@@ -39,6 +39,9 @@ public class Solution202208 {
             case 666:
                 goodNote(new int[] {3, 4, 5});
                 break;
+            case 888:
+                System.out.println(getValue("-1+4*(-2*3)"));
+                break;
             case 640:
                 System.out.println(solveEquation("3x+6=2x"));
                 break;
@@ -711,6 +714,70 @@ public class Solution202208 {
         }
 
         return result;
+    }
+
+
+    /**
+     * 888. 运算符计算
+     */
+    public static int getValue(String str){
+        return value(str.toCharArray(),0)[0];
+    }
+
+    public static int[] value(char[] str, int i){
+        Deque<String> que = new ArrayDeque<>();
+        int num = 0;
+        int[] bra;
+        // 当前数组不越界
+        while (i<str.length && str[i] != ')'){
+            if (Character.isDigit(str[i])){
+                num += num*10+str[i++]-'0';
+            }else if(str[i] != '('){
+                // 遇到的是运算符号
+                addNum(que, num);
+                que.addLast(String.valueOf(str[i++]));
+                num = 0;
+            }else {
+                // 如果遇到的是（
+                bra = value(str, i+1);
+                num = bra[0];
+                i = bra[1]+1;
+            }
+        }
+        addNum(que,num);
+        return new int[]{getNum(que),i};
+    }
+
+    /**
+     * 计算只有+-的表达式的最终结果
+     */
+    private static int getNum(Deque<String> que) {
+        while (que.size() >1){
+            int firstNum = Integer.parseInt(que.pollFirst());
+            String opt = que.pollFirst();
+            int secend = Integer.parseInt(Objects.requireNonNull(que.pollFirst()));
+            que.offerFirst(String.valueOf("+".equals(opt)?firstNum+secend:firstNum-secend));
+        }
+        return Integer.parseInt(Objects.requireNonNull(que.poll()));
+    }
+
+    private static void addNum(Deque<String> que, int num) {
+        if(que.isEmpty()){
+            que.addLast(String.valueOf(num));
+            return;
+        }
+        // 如果栈顶元素是 * /
+        if("*".equals(que.peekLast()) || "/".equals(que.peekLast())){
+            String opt = que.pollLast();
+            int firstNum = Integer.parseInt(Objects.requireNonNull(que.pollLast()));
+            if("*".equals(opt)){
+                que.offerLast(String.valueOf(firstNum*num));
+            }else {
+                que.offerLast(String.valueOf(firstNum/num));
+            }
+        }else {
+            que.offerLast(String.valueOf(num));
+        }
     }
 
 }
