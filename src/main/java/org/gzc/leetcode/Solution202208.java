@@ -60,6 +60,9 @@ public class Solution202208 {
             case 1818:
                 System.out.println(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
                 break;
+            case 1460:
+                System.out.println(canBeEqual(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                break;
 
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
@@ -74,6 +77,33 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1460. 通过反转子数组使两个数组相等
+     */
+    public static boolean canBeEqual(int[] target, int[] arr) {
+
+        int m = target.length;
+        int n = arr.length;
+        if(m !=n){
+            return false;
+        }
+        HashMap<Integer,Integer> targetSet = new HashMap<>();
+        HashMap<Integer,Integer> arrSet = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            targetSet.put(target[i], targetSet.getOrDefault(target[i],0)+1);
+            arrSet.put(arr[i], arrSet.getOrDefault(arr[i],0)+1);
+        }
+        for (Map.Entry<Integer, Integer> targerEntry : targetSet.entrySet()) {
+            if(!targerEntry.getValue().equals(arrSet.get(targerEntry.getKey()))){
+                return false;
+            }else {
+                arrSet.remove(targerEntry.getKey());
+            }
+        }
+        return arrSet.isEmpty();
     }
 
     /**
