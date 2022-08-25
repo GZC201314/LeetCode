@@ -73,6 +73,9 @@ public class Solution202208 {
             case 1569:
                 System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
                 break;
+            case 1553:
+                System.out.println(minDays(10));
+                break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
                 break;
@@ -80,6 +83,43 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1553. 吃掉 N 个橘子的最少天数
+     */
+    public static Map<Integer, Integer> dpMap = new HashMap<>();
+    public static int[] dp;
+    public static int minDays(int n) {
+
+        if (n <=1){
+            return n;
+        }
+        dp = new int[n+1];
+
+        return dfsMinDays(n);
+
+    }
+    public static int dfsMinDays(int n) {
+        if (dpMap.getOrDefault(n,0) != 0){
+            return dpMap.get(n);
+        }
+        if (n <=1){
+            return n;
+        }
+        if (n % 6 ==0){
+            int i = 1 + dfsMinDays(n / 3);
+            int i1 = 1+dfsMinDays(n/2);
+            int min = Math.min(i, i1);
+            dpMap.put(n, min);
+            return min;
+        }
+        int one = 1+dfsMinDays(n-1);
+        int three = n%3 == 0?1+dfsMinDays(n/3):Integer.MAX_VALUE;
+        int twn = n%2 == 0?1+dfsMinDays(n/2):Integer.MAX_VALUE;
+        int min = Math.min(one, Math.min(twn, three));
+        dpMap.put(n, min);
+        return min;
     }
 
     /**
@@ -760,7 +800,6 @@ public class Solution202208 {
         return ans;
     }
 
-    public static int[] dp;
     public static int[] used;
 
     public static void goodNote(int[] nices) {
