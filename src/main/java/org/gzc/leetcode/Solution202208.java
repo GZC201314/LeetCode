@@ -70,6 +70,9 @@ public class Solution202208 {
             case 655:
                 System.out.println(printTree(new TreeNode(1,new TreeNode(2),null)));
                 break;
+            case 1569:
+                System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
+                break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
                 break;
@@ -77,6 +80,63 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1569. 将子数组重排序得到同一个二叉查找树的方案数
+     */
+    public static int[][] C;
+    public static int mod = 1000000007;
+    public static int numOfWays(int[] nums) {
+        int n = nums.length;
+        // 预处理先计算组合数
+        C =  new int[n+1][n+1];
+
+        getC(n);
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            res.add(nums[i]);
+        }
+        return dfsNumOfWays(res)-1;
+    }
+
+    public static int dfsNumOfWays(List<Integer> nums){
+        int n = nums.size();
+        if(n == 0){
+            return 1;
+        }
+        //答案只有在头结点相同的重排中
+        int root = nums.get(0);
+
+        List<Integer> left = new ArrayList<>();
+        List<Integer> right = new ArrayList<>();
+        for (int i = 1; i < n; i++) {
+            if(nums.get(i) < root){
+                left.add(nums.get(i));
+            }else {
+                right.add(nums.get(i));
+            }
+        }
+        int leftCount = dfsNumOfWays(left);
+        int rightCount = dfsNumOfWays(right);
+
+        return (int)((long)C[n - 1][left.size()] * leftCount % mod * rightCount % mod);
+
+    }
+
+    /**
+     * 计算组合数
+     */
+    public static void getC(int n){
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <=i ; j++) {
+                if (j ==0){
+                    C[i][j] =1;
+                }else {
+                    C[i][j] = (C[i-1][j]+C[i-1][j-1])%mod;
+                }
+            }
+        }
     }
 
     /**
