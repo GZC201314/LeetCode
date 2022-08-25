@@ -91,11 +91,10 @@ public class Solution202208 {
         int n = nums.length;
         // 预处理先计算组合数
         C =  new int[n+1][n+1];
-
         getC(n);
         List<Integer> res = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            res.add(nums[i]);
+        for (int num : nums) {
+            res.add(num);
         }
         return dfsNumOfWays(res)-1;
     }
