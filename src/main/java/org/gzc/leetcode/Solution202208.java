@@ -90,6 +90,59 @@ public class Solution202208 {
     }
 
     /**
+     * 字符匹配，动态规划版本
+     */
+    public static boolean matchString(String s,String e){
+        if(s == null || e == null){
+            return false;
+        }
+        char[] sChars = s.toCharArray();
+        char[] eChars = e.toCharArray();
+
+        return isValid(sChars, eChars) && processString(sChars, eChars, 0, 0);
+
+    }
+
+    /**
+     * s[si...] 能否被e[ei...]匹配成功
+     * PS 必须保证e[ei] != '*'
+     */
+    private static boolean processString(char[] s, char[] e,int si,int ei) {
+        // 是否匹配完成
+        if(ei == e.length){
+            return si == s.length;
+        }
+        //ei+1 位置不是*
+        if(ei+1 == e.length || e[ei+1] != '*'){
+            return si != s.length && (e[ei] == s[si]||e[ei] == '.') && processString(s, e, si+1,ei+1);
+        }
+        // ei+1位置是*
+        while (si != s.length && (e[ei] == s[si]||e[ei]=='.')){
+            if (processString(s, e,si,ei+2)){
+                return true;
+            }
+            si++;
+        }
+        return processString(s, e,si,ei+2);
+
+
+    }
+
+    public static boolean isValid(char[] s,char[] e){
+        for (char c : s) {
+            if(c == '*'|| c == '.'){
+                return false;
+            }
+        }
+        for (int i = 0; i < e.length; i++) {
+            if(e[i] == '*' &&(i==0 ||e[i-1] =='*')){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 1314. 分裂方案数
      */
     public static int getSplitNumount(int num){
@@ -803,7 +856,7 @@ public class Solution202208 {
             char c = equation.charAt(i);
             if (CHARS.contains(String.valueOf(c))) {
                 if (c == 'x') {
-                    if (!hasVal && cur == 0) {
+                    if (!hasVal) {
                         cur = 1;
                     }
                     k += left ? sign * cur : -sign * cur;
