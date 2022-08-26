@@ -1,9 +1,11 @@
 package org.gzc.leetcode;
 
+import org.apache.commons.lang3.time.StopWatch;
 import org.gzc.leetcode.model.*;
 import org.gzc.leetcode.model.Node;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 /**
@@ -75,6 +77,8 @@ public class Solution202208 {
                 break;
             case 1553:
                 System.out.println(minDays(10));
+            case 1314:
+                System.out.println(getSplitNumount(120));
                 break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
@@ -84,6 +88,69 @@ public class Solution202208 {
         }
 
     }
+
+    /**
+     * 1314. 分裂方案数
+     */
+    public static int getSplitNumount(int num){
+
+        if(num <= 0){
+            return 0;
+        }
+        int[][] dp = new int[num+1][num+1];
+        StopWatch stopWatch = new StopWatch();
+
+
+
+        stopWatch.start();
+        int sum = getSplitNumountHandler(1,num);
+        stopWatch.stop();
+        System.out.println("优化前的版本花费时间是："+stopWatch.getTime(TimeUnit.MILLISECONDS)+" 结果是:"+sum);
+        stopWatch.reset();
+        stopWatch.start();
+        int sum1 = getSplitNumountHandler1(1,num,dp);
+        stopWatch.stop();
+        System.out.println("优化后的版本花费时间是："+stopWatch.getTime(TimeUnit.MILLISECONDS)+" 结果是:"+sum1);
+        return getSplitNumountHandler1(1,num,dp);
+    }
+
+    public static int getSplitNumountHandler(int pre, int rest) {
+        if (rest ==0){
+            return 1;
+        }
+        if(rest<pre){
+            return 0;
+        }
+
+        int sum = 0;
+        for (int i = pre; i <= rest; i++) {
+            sum += getSplitNumountHandler(i,rest-i);
+        }
+        return sum;
+    }
+
+    /**
+     * 优化版本
+     */
+    public static int getSplitNumountHandler1(int pre, int rest,int[][] dp) {
+        if (rest ==0){
+            return 1;
+        }
+        if(rest<pre){
+            return 0;
+        }
+        if (dp[pre][rest] !=0){
+            return dp[pre][rest];
+        }
+
+        int sum = 0;
+        for (int i = pre; i <= rest; i++) {
+            sum += getSplitNumountHandler1(i,rest-i,dp);
+        }
+        dp[pre][rest] = sum;
+        return sum;
+    }
+
 
     /**
      * 1553. 吃掉 N 个橘子的最少天数
