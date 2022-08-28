@@ -84,6 +84,7 @@ public class Solution202208 {
                 System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
                 break;
             default:
+                System.out.println(matchString("aaab", "a*b"));
                 break;
         }
 
