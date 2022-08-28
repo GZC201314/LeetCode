@@ -13,15 +13,31 @@ import java.util.stream.Stream;
  */
 public class Solution202208 {
 
+    /**
+     * 640. 求解方程
+     */
+    private static final String CHARS = "-+x=";
+    /**
+     * 1553. 吃掉 N 个橘子的最少天数
+     */
+    public static Map<Integer, Integer> dpMap = new HashMap<>();
+    public static int[] dp;
+    /**
+     * 1569. 将子数组重排序得到同一个二叉查找树的方案数
+     */
+    public static int[][] C;
+    public static int mod = 1000000007;
+    public static int[] used;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 503:
-                System.out.println(Arrays.toString(nextGreaterElements(new int[] {1, 2, 3, 4, 3})));
+                System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 3, 4, 3})));
                 break;
             case 1403:
-                System.out.println(minSubsequence(new int[] {4, 4, 6, 7, 7}));
+                System.out.println(minSubsequence(new int[]{4, 4, 6, 7, 7}));
                 break;
             case 623:
                 System.out.println(addOneRow(new TreeNode(4), 1, 3));
@@ -36,10 +52,10 @@ public class Solution202208 {
                 System.out.println(checkPerfectNumber(28));
                 break;
             case 517:
-                System.out.println(findMinMoves(new int[] {3, 4, 5}));
+                System.out.println(findMinMoves(new int[]{3, 4, 5}));
                 break;
             case 666:
-                goodNote(new int[] {3, 4, 5});
+                goodNote(new int[]{3, 4, 5});
                 break;
             case 888:
                 System.out.println(getValue("-1+4*(-2*3)"));
@@ -51,29 +67,32 @@ public class Solution202208 {
                 System.out.println(deepestLeavesSum(new TreeNode(1)));
                 break;
             case 33:
-                System.out.println(verifyPostorder(new int[] {4, 6, 7, 5}));
+                System.out.println(verifyPostorder(new int[]{4, 6, 7, 5}));
+                break;
+            case 793:
+                System.out.println(preimageSizeFZF(5));
                 break;
             case 1450:
-                System.out.println(busyStudent(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}, 4));
+                System.out.println(busyStudent(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}, 4));
                 break;
             case 2344:
-                System.out.println(minOperations(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                System.out.println(minOperations(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
                 break;
             case 1818:
-                System.out.println(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                System.out.println(minAbsoluteSumDiff(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
                 break;
             case 1460:
-                System.out.println(canBeEqual(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                System.out.println(canBeEqual(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
                 break;
 
             case 508:
                 System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             case 655:
-                System.out.println(printTree(new TreeNode(1,new TreeNode(2),null)));
+                System.out.println(printTree(new TreeNode(1, new TreeNode(2), null)));
                 break;
             case 1569:
-                System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
+                System.out.println(numOfWays(new int[]{4, 6, 7, 5}));
                 break;
             case 1553:
                 System.out.println(minDays(10));
@@ -81,7 +100,7 @@ public class Solution202208 {
                 System.out.println(getSplitNumount(120));
                 break;
             case 1042:
-                System.out.println(Arrays.toString(gardenNoAdj(4,new int[][]{{1,2},{3,4},{3,2},{4,2},{1,4}})));
+                System.out.println(Arrays.toString(gardenNoAdj(4, new int[][]{{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
                 break;
             default:
                 System.out.println(matchString("aaab", "a*b"));
@@ -93,8 +112,8 @@ public class Solution202208 {
     /**
      * 字符匹配，动态规划版本
      */
-    public static boolean matchString(String s,String e){
-        if(s == null || e == null){
+    public static boolean matchString(String s, String e) {
+        if (s == null || e == null) {
             return false;
         }
         char[] sChars = s.toCharArray();
@@ -108,35 +127,35 @@ public class Solution202208 {
      * s[si...] 能否被e[ei...]匹配成功
      * PS 必须保证e[ei] != '*'
      */
-    private static boolean processString(char[] s, char[] e,int si,int ei) {
+    private static boolean processString(char[] s, char[] e, int si, int ei) {
         // 是否匹配完成
-        if(ei == e.length){
+        if (ei == e.length) {
             return si == s.length;
         }
         //ei+1 位置不是*
-        if(ei+1 == e.length || e[ei+1] != '*'){
-            return si != s.length && (e[ei] == s[si]||e[ei] == '.') && processString(s, e, si+1,ei+1);
+        if (ei + 1 == e.length || e[ei + 1] != '*') {
+            return si != s.length && (e[ei] == s[si] || e[ei] == '.') && processString(s, e, si + 1, ei + 1);
         }
         // ei+1位置是*
-        while (si != s.length && (e[ei] == s[si]||e[ei]=='.')){
-            if (processString(s, e,si,ei+2)){
+        while (si != s.length && (e[ei] == s[si] || e[ei] == '.')) {
+            if (processString(s, e, si, ei + 2)) {
                 return true;
             }
             si++;
         }
-        return processString(s, e,si,ei+2);
+        return processString(s, e, si, ei + 2);
 
 
     }
 
-    public static boolean isValid(char[] s,char[] e){
+    public static boolean isValid(char[] s, char[] e) {
         for (char c : s) {
-            if(c == '*'|| c == '.'){
+            if (c == '*' || c == '.') {
                 return false;
             }
         }
         for (int i = 0; i < e.length; i++) {
-            if(e[i] == '*' &&(i==0 ||e[i-1] =='*')){
+            if (e[i] == '*' && (i == 0 || e[i - 1] == '*')) {
                 return false;
             }
         }
@@ -146,39 +165,38 @@ public class Solution202208 {
     /**
      * 1314. 分裂方案数
      */
-    public static int getSplitNumount(int num){
+    public static int getSplitNumount(int num) {
 
-        if(num <= 0){
+        if (num <= 0) {
             return 0;
         }
-        int[][] dp = new int[num+1][num+1];
+        int[][] dp = new int[num + 1][num + 1];
         StopWatch stopWatch = new StopWatch();
 
 
-
         stopWatch.start();
-        int sum = getSplitNumountHandler(1,num);
+        int sum = getSplitNumountHandler(1, num);
         stopWatch.stop();
-        System.out.println("优化前的版本花费时间是："+stopWatch.getTime(TimeUnit.MILLISECONDS)+" 结果是:"+sum);
+        System.out.println("优化前的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum);
         stopWatch.reset();
         stopWatch.start();
-        int sum1 = getSplitNumountHandler1(1,num,dp);
+        int sum1 = getSplitNumountHandler1(1, num, dp);
         stopWatch.stop();
-        System.out.println("优化后的版本花费时间是："+stopWatch.getTime(TimeUnit.MILLISECONDS)+" 结果是:"+sum1);
-        return getSplitNumountHandler1(1,num,dp);
+        System.out.println("优化后的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum1);
+        return getSplitNumountHandler1(1, num, dp);
     }
 
     public static int getSplitNumountHandler(int pre, int rest) {
-        if (rest ==0){
+        if (rest == 0) {
             return 1;
         }
-        if(rest<pre){
+        if (rest < pre) {
             return 0;
         }
 
         int sum = 0;
         for (int i = pre; i <= rest; i++) {
-            sum += getSplitNumountHandler(i,rest-i);
+            sum += getSplitNumountHandler(i, rest - i);
         }
         return sum;
     }
@@ -186,83 +204,73 @@ public class Solution202208 {
     /**
      * 优化版本
      */
-    public static int getSplitNumountHandler1(int pre, int rest,int[][] dp) {
-        if (rest ==0){
+    public static int getSplitNumountHandler1(int pre, int rest, int[][] dp) {
+        if (rest == 0) {
             return 1;
         }
-        if(rest<pre){
+        if (rest < pre) {
             return 0;
         }
-        if (dp[pre][rest] !=0){
+        if (dp[pre][rest] != 0) {
             return dp[pre][rest];
         }
 
         int sum = 0;
         for (int i = pre; i <= rest; i++) {
-            sum += getSplitNumountHandler1(i,rest-i,dp);
+            sum += getSplitNumountHandler1(i, rest - i, dp);
         }
         dp[pre][rest] = sum;
         return sum;
     }
 
-
-    /**
-     * 1553. 吃掉 N 个橘子的最少天数
-     */
-    public static Map<Integer, Integer> dpMap = new HashMap<>();
-    public static int[] dp;
     public static int minDays(int n) {
 
-        if (n <=1){
+        if (n <= 1) {
             return n;
         }
-        dp = new int[n+1];
+        dp = new int[n + 1];
 
         return dfsMinDays(n);
 
     }
+
     public static int dfsMinDays(int n) {
-        if (dpMap.getOrDefault(n,0) != 0){
+        if (dpMap.getOrDefault(n, 0) != 0) {
             return dpMap.get(n);
         }
-        if (n <=1){
+        if (n <= 1) {
             return n;
         }
-        if (n % 6 ==0){
+        if (n % 6 == 0) {
             int i = 1 + dfsMinDays(n / 3);
-            int i1 = 1+dfsMinDays(n/2);
+            int i1 = 1 + dfsMinDays(n / 2);
             int min = Math.min(i, i1);
             dpMap.put(n, min);
             return min;
         }
-        int one = 1+dfsMinDays(n-1);
-        int three = n%3 == 0?1+dfsMinDays(n/3):Integer.MAX_VALUE;
-        int twn = n%2 == 0?1+dfsMinDays(n/2):Integer.MAX_VALUE;
+        int one = 1 + dfsMinDays(n - 1);
+        int three = n % 3 == 0 ? 1 + dfsMinDays(n / 3) : Integer.MAX_VALUE;
+        int twn = n % 2 == 0 ? 1 + dfsMinDays(n / 2) : Integer.MAX_VALUE;
         int min = Math.min(one, Math.min(twn, three));
         dpMap.put(n, min);
         return min;
     }
 
-    /**
-     * 1569. 将子数组重排序得到同一个二叉查找树的方案数
-     */
-    public static int[][] C;
-    public static int mod = 1000000007;
     public static int numOfWays(int[] nums) {
         int n = nums.length;
         // 预处理先计算组合数
-        C =  new int[n+1][n+1];
+        C = new int[n + 1][n + 1];
         getC(n);
         List<Integer> res = new ArrayList<>();
         for (int num : nums) {
             res.add(num);
         }
-        return dfsNumOfWays(res)-1;
+        return dfsNumOfWays(res) - 1;
     }
 
-    public static int dfsNumOfWays(List<Integer> nums){
+    public static int dfsNumOfWays(List<Integer> nums) {
         int n = nums.size();
-        if(n == 0){
+        if (n == 0) {
             return 1;
         }
         //答案只有在头结点相同的重排中
@@ -271,29 +279,29 @@ public class Solution202208 {
         List<Integer> left = new ArrayList<>();
         List<Integer> right = new ArrayList<>();
         for (int i = 1; i < n; i++) {
-            if(nums.get(i) < root){
+            if (nums.get(i) < root) {
                 left.add(nums.get(i));
-            }else {
+            } else {
                 right.add(nums.get(i));
             }
         }
         int leftCount = dfsNumOfWays(left);
         int rightCount = dfsNumOfWays(right);
 
-        return (int)((long)C[n - 1][left.size()] * leftCount % mod * rightCount % mod);
+        return (int) ((long) C[n - 1][left.size()] * leftCount % mod * rightCount % mod);
 
     }
 
     /**
      * 计算组合数
      */
-    public static void getC(int n){
+    public static void getC(int n) {
         for (int i = 0; i <= n; i++) {
-            for (int j = 0; j <=i ; j++) {
-                if (j ==0){
-                    C[i][j] =1;
-                }else {
-                    C[i][j] = (C[i-1][j]+C[i-1][j-1])%mod;
+            for (int j = 0; j <= i; j++) {
+                if (j == 0) {
+                    C[i][j] = 1;
+                } else {
+                    C[i][j] = (C[i - 1][j] + C[i - 1][j - 1]) % mod;
                 }
             }
         }
@@ -306,20 +314,20 @@ public class Solution202208 {
 
         int m = target.length;
         int n = arr.length;
-        if(m !=n){
+        if (m != n) {
             return false;
         }
-        HashMap<Integer,Integer> targetSet = new HashMap<>();
-        HashMap<Integer,Integer> arrSet = new HashMap<>();
+        HashMap<Integer, Integer> targetSet = new HashMap<>();
+        HashMap<Integer, Integer> arrSet = new HashMap<>();
 
         for (int i = 0; i < n; i++) {
-            targetSet.put(target[i], targetSet.getOrDefault(target[i],0)+1);
-            arrSet.put(arr[i], arrSet.getOrDefault(arr[i],0)+1);
+            targetSet.put(target[i], targetSet.getOrDefault(target[i], 0) + 1);
+            arrSet.put(arr[i], arrSet.getOrDefault(arr[i], 0) + 1);
         }
         for (Map.Entry<Integer, Integer> targerEntry : targetSet.entrySet()) {
-            if(!targerEntry.getValue().equals(arrSet.get(targerEntry.getKey()))){
+            if (!targerEntry.getValue().equals(arrSet.get(targerEntry.getKey()))) {
                 return false;
-            }else {
+            } else {
                 arrSet.remove(targerEntry.getKey());
             }
         }
@@ -333,9 +341,9 @@ public class Solution202208 {
         Queue<Info1> queue = new LinkedList<>();
         // 获取二叉树的深度
         int height = printTreeHandler(root);
-        int n = (1<< height)-1;
+        int n = (1 << height) - 1;
         String[][] res = new String[height][n];
-        res[0][(n-1)/2] = String.valueOf(root.val);
+        res[0][(n - 1) / 2] = String.valueOf(root.val);
         queue.offer(new Info1(root, 0, (n - 1) / 2));
         while (!queue.isEmpty()) {
             int size = queue.size();
@@ -345,15 +353,15 @@ public class Solution202208 {
                 int r = node.r;
                 int c = node.c;
                 //获取它的左右孩子结点
-                if (node.node.left != null){
-                    int nextR = r+1;
-                    int nextC = c-(1<<(height-r-2));
+                if (node.node.left != null) {
+                    int nextR = r + 1;
+                    int nextC = c - (1 << (height - r - 2));
                     res[nextR][nextC] = String.valueOf(node.node.left.val);
                     queue.offer(new Info1(node.node.left, nextR, nextC));
                 }
-                if(node.node.right != null){
-                    int nextR = r+1;
-                    int nextC = c+(1<<(height-r-2));
+                if (node.node.right != null) {
+                    int nextR = r + 1;
+                    int nextC = c + (1 << (height - r - 2));
                     res[nextR][nextC] = String.valueOf(node.node.right.val);
                     queue.offer(new Info1(node.node.right, nextR, nextC));
                 }
@@ -363,9 +371,9 @@ public class Solution202208 {
         for (int i = 0; i < height; i++) {
             List<String> list = new ArrayList<>();
             for (int j = 0; j < n; j++) {
-                if (res[i][j] == null){
+                if (res[i][j] == null) {
                     list.add("");
-                }else {
+                } else {
                     list.add(res[i][j]);
                 }
             }
@@ -374,30 +382,19 @@ public class Solution202208 {
         return result;
 
 
-
-    }
-    static class Info1{
-        TreeNode node;
-        int r;
-        int c;
-        public Info1(TreeNode node,int r,int c) {
-            this.node = node;
-            this.r = r;
-            this.c = c;
-        }
     }
 
     public static int printTreeHandler(TreeNode root) {
-        if(root == null){
+        if (root == null) {
             return 0;
         }
-        if(root.left == null && root.right == null){
+        if (root.left == null && root.right == null) {
             return 1;
         }
 
         int leftHeight = printTreeHandler(root.left);
         int rightHeight = printTreeHandler(root.right);
-        return Math.max(leftHeight, rightHeight)+1;
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 
     /**
@@ -429,30 +426,30 @@ public class Solution202208 {
             ans %= mod;
         }
 
-        return (int)(ans - max + mod) % mod;
+        return (int) (ans - max + mod) % mod;
     }
 
     /**
      * 2344. 使数组可以被整除的最少删除次数
      */
     public static int minOperations(int[] nums, int[] numsDivide) {
-        int g =0;
+        int g = 0;
         for (int j : numsDivide) {
             g = gcd(g, j);
         }
-        TreeMap<Integer,Integer> map = new TreeMap<>();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
 
-        int result =0;
+        int result = 0;
         for (int num : nums) {
-            map.put(num,map.getOrDefault(num,0)+1);
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
 
         Set<Integer> keys = map.keySet();
         for (Integer key : keys) {
-            if(g%key ==0){
+            if (g % key == 0) {
                 return result;
-            }else {
-                result+= map.get(key);
+            } else {
+                result += map.get(key);
             }
         }
         return -1;
@@ -474,7 +471,7 @@ public class Solution202208 {
     }
 
     public static boolean verifyPostorderHandle(int[] postorder, int[] inorder, int posti, int postj, int ini,
-        int inj) {
+                                                int inj) {
         if (posti == postj && ini == inj) {
             return postorder[posti] == inorder[ini];
         }
@@ -523,10 +520,10 @@ public class Solution202208 {
         }
 
         return verifyPostorderHandle(postorder, inorder, posti, posti + rootInorderIndex - ini - 1, ini,
-            rootInorderIndex - 1)
-            && verifyPostorderHandle(postorder, inorder, posti + rootInorderIndex - ini, postj - 1,
+                rootInorderIndex - 1)
+                && verifyPostorderHandle(postorder, inorder, posti + rootInorderIndex - ini, postj - 1,
                 rootInorderIndex + 1, inj)
-            && root > leftMax && root < rightMin;
+                && root > leftMax && root < rightMin;
 
     }
 
@@ -552,30 +549,30 @@ public class Solution202208 {
             //1. 获取所有的出度
             List<Integer> s2eList = s2e.get(i);
             List<Integer> e2sList = e2s.get(i);
-            int[] flowers = new int[(s2eList ==null?0:s2eList.size())+(e2sList == null?0:e2sList.size())];
+            int[] flowers = new int[(s2eList == null ? 0 : s2eList.size()) + (e2sList == null ? 0 : e2sList.size())];
             int index = 0;
-            if(s2eList != null){
+            if (s2eList != null) {
                 for (Integer flower : s2eList) {
                     flowers[index++] = flower;
                 }
             }
-            if(e2sList != null){
+            if (e2sList != null) {
                 for (Integer flower : e2sList) {
                     flowers[index++] = flower;
                 }
             }
             HashSet<Integer> set = new HashSet<>();
             for (int flower : flowers) {
-                if (result[flower-1] !=0){
-                    set.add(result[flower-1]);
+                if (result[flower - 1] != 0) {
+                    set.add(result[flower - 1]);
                 }
             }
-            if(set.size() ==0){
-                result[i-1] = 1;
-            }else {
-                for (int j = 1; j <=4 ; j++) {
-                    if(!set.contains(j)){
-                        result[i-1] = j;
+            if (set.size() == 0) {
+                result[i - 1] = 1;
+            } else {
+                for (int j = 1; j <= 4; j++) {
+                    if (!set.contains(j)) {
+                        result[i - 1] = j;
                         break;
                     }
                 }
@@ -615,16 +612,6 @@ public class Solution202208 {
             sum = leftInfo.sum + rightInfo.sum;
         }
         return new Info(maxDeep, sum);
-    }
-
-    static class Info {
-        int deep;
-        int sum;
-
-        public Info(int deep, int sum) {
-            this.deep = deep;
-            this.sum = sum;
-        }
     }
 
     /**
@@ -844,11 +831,6 @@ public class Solution202208 {
         }
     }
 
-    /**
-     * 640. 求解方程
-     */
-    private static final String CHARS = "-+x=";
-
     public static String solveEquation(String equation) {
         equation += "=";
         int sign = 1, cur = 0, num = 0, k = 0;
@@ -921,8 +903,6 @@ public class Solution202208 {
         return ans;
     }
 
-    public static int[] used;
-
     public static void goodNote(int[] nices) {
         int n = nices.length;
         dp = new int[n + 1];
@@ -965,67 +945,115 @@ public class Solution202208 {
         return result;
     }
 
-
     /**
      * 888. 运算符计算
      */
-    public static int getValue(String str){
-        return value(str.toCharArray(),0)[0];
+    public static int getValue(String str) {
+        return value(str.toCharArray(), 0)[0];
     }
 
-    public static int[] value(char[] str, int i){
+    public static int[] value(char[] str, int i) {
         Deque<String> que = new ArrayDeque<>();
         int num = 0;
         int[] bra;
         // 当前数组不越界
-        while (i<str.length && str[i] != ')'){
-            if (Character.isDigit(str[i])){
-                num += num*10+str[i++]-'0';
-            }else if(str[i] != '('){
+        while (i < str.length && str[i] != ')') {
+            if (Character.isDigit(str[i])) {
+                num += num * 10 + str[i++] - '0';
+            } else if (str[i] != '(') {
                 // 遇到的是运算符号
                 addNum(que, num);
                 que.addLast(String.valueOf(str[i++]));
                 num = 0;
-            }else {
+            } else {
                 // 如果遇到的是（
-                bra = value(str, i+1);
+                bra = value(str, i + 1);
                 num = bra[0];
-                i = bra[1]+1;
+                i = bra[1] + 1;
             }
         }
-        addNum(que,num);
-        return new int[]{getNum(que),i};
+        addNum(que, num);
+        return new int[]{getNum(que), i};
     }
 
     /**
      * 计算只有+-的表达式的最终结果
      */
     private static int getNum(Deque<String> que) {
-        while (que.size() >1){
+        while (que.size() > 1) {
             int firstNum = Integer.parseInt(que.pollFirst());
             String opt = que.pollFirst();
             int secend = Integer.parseInt(Objects.requireNonNull(que.pollFirst()));
-            que.offerFirst(String.valueOf("+".equals(opt)?firstNum+secend:firstNum-secend));
+            que.offerFirst(String.valueOf("+".equals(opt) ? firstNum + secend : firstNum - secend));
         }
         return Integer.parseInt(Objects.requireNonNull(que.poll()));
     }
 
     private static void addNum(Deque<String> que, int num) {
-        if(que.isEmpty()){
+        if (que.isEmpty()) {
             que.addLast(String.valueOf(num));
             return;
         }
         // 如果栈顶元素是 * /
-        if("*".equals(que.peekLast()) || "/".equals(que.peekLast())){
+        if ("*".equals(que.peekLast()) || "/".equals(que.peekLast())) {
             String opt = que.pollLast();
             int firstNum = Integer.parseInt(Objects.requireNonNull(que.pollLast()));
-            if("*".equals(opt)){
-                que.offerLast(String.valueOf(firstNum*num));
-            }else {
-                que.offerLast(String.valueOf(firstNum/num));
+            if ("*".equals(opt)) {
+                que.offerLast(String.valueOf(firstNum * num));
+            } else {
+                que.offerLast(String.valueOf(firstNum / num));
             }
-        }else {
+        } else {
             que.offerLast(String.valueOf(num));
+        }
+    }
+
+    /**
+     * 793. 阶乘函数后K个零
+     */
+    public static int preimageSizeFZF(int k) {
+
+        long start = 0L, end = 5L*k,mid;
+        while (start <= end) {
+            mid = start + (end - start) / 2;
+            long n =5L;
+            long sum =0L;
+            while (n<=mid){
+                sum += mid/n;
+                n *=5;
+            }
+            if (sum ==k){
+                return 5;
+            }
+            if (sum<k){
+                start = mid + 1;
+            }else {
+                end = mid-1;
+            }
+
+        }
+        return 0;
+    }
+
+    static class Info1 {
+        TreeNode node;
+        int r;
+        int c;
+
+        public Info1(TreeNode node, int r, int c) {
+            this.node = node;
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    static class Info {
+        int deep;
+        int sum;
+
+        public Info(int deep, int sum) {
+            this.deep = deep;
+            this.sum = sum;
         }
     }
 
