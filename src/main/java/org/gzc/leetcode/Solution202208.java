@@ -94,6 +94,9 @@ public class Solution202208 {
             case 1569:
                 System.out.println(numOfWays(new int[]{4, 6, 7, 5}));
                 break;
+            case 1470:
+                System.out.println(Arrays.toString(shuffle(new int[]{4, 6, 7, 5}, 2)));
+                break;
             case 1553:
                 System.out.println(minDays(10));
             case 1314:
@@ -107,6 +110,79 @@ public class Solution202208 {
                 break;
         }
 
+    }
+    /**
+     * 1470. 重新排列数组
+     */
+    public static int[] shuffle(int[] nums, int n) {
+        perfectShuffle(nums,0,n*2-1,n);
+        for (int i = 0; i < n; i++) {
+            int num = nums[i*2];
+            nums[i*2] = nums[i*2+1];
+            nums[i*2+1] = num;
+        }
+        return nums;
+
+
+        //对前半部分（n/2-size/2,n/2）和后半部分（n/2,n/2+size/2）进行反转
+    }
+
+
+    public static void perfectShuffle(int[] nums,int from,int to,int n){
+        if (from >= to) {
+            return;//如果递归到最后则直接返回
+        } else if (to - from == 1) {
+            revertArr(nums,from,to);
+            return;
+        }
+        int k = 0;//用来记录3^k中的k
+        int m;//算法中的m
+        int n2 = 2 * n;//算法中的2n
+        int p = (n2 + 1);//p=3^k  3^k-1<2n<3^(k+1)-1->3^k<2n+1=p
+        int k_3 = 1;//用于记录3^k的
+        while (k <= p / 3) {//通过不断除以3找到最大k值，使得p>3^k成立
+            k++;
+            p /= 3;
+            k_3 *= 3;
+        }
+        m = (k_3 - 1) / 2;//2m=3^k-1->m=(3^k-1)/2 至此得到了最大2m=3^k-1<2n，当然还有其他更好的办法
+
+        rightCircle(nums,from+m,from+n+m-1,m);
+        for (int i = 0, t = 1; i < k; ++i, t *= 3) {
+            /*
+             * 运用之前推导的环开始计算，因为算法中数组下标是从1开始的，我们这里的下标是从0开始
+             * 所以在传偏移量的时候要减去1，这样偏移量加上算法计算出的值正好相互抵消符合实际下标
+             *
+             * */
+            circle(nums, from - 1, t, m * 2 + 1);
+        }
+
+        perfectShuffle(nums, 2 * m + from, to, (to - (2 * m + from )+1) / 2);
+
+
+
+
+    }
+    //数组下标从1开始，主要是因为环是1->2->4->8->7->5->1
+    public static void circle(int[] a, int from, int i, int n2) {
+        for (int k = 2 * i % n2; k != i; k = 2 * k % n2) {
+            int temp = a[i + from];
+            a[i + from] = a[k + from];
+            a[k + from] = temp;
+        }
+    }
+    public static void revertArr(int[] nums, int left, int right){
+        while(left<right){
+            int tem = nums[left];
+            nums[left++] = nums[right];
+            nums[right--] = tem;
+        }
+    }
+
+    public static void rightCircle(int[] nums, int from, int to, int m){
+        revertArr(nums, to - m + 1, to);
+        revertArr(nums, from, to - m);
+        revertArr(nums, from, to);
     }
 
     /**
