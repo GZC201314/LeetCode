@@ -51,6 +51,9 @@ public class Solution202208 {
             case 507:
                 System.out.println(checkPerfectNumber(28));
                 break;
+            case 1884:
+                System.out.println(twoEggDrop(28));
+                break;
             case 517:
                 System.out.println(findMinMoves(new int[]{3, 4, 5}));
                 break;
@@ -111,6 +114,44 @@ public class Solution202208 {
         }
 
     }
+
+    static int[][] twoEggDropdb;
+
+    /**
+     * 1884. 鸡蛋掉落-两枚鸡蛋
+     */
+    public static int twoEggDrop(int n) {
+        twoEggDropdb = new int[n+1][3];
+        return twoEggDropdfs(n,2);
+    }
+
+    /**
+     * n层楼，k个鸡蛋最少需要多少次尝试
+     */
+    public static int twoEggDropdfs(int n, int k) {
+
+        if(n == 0){
+            return 0;
+        }
+        if(n == 1){
+            return 1;
+        }
+        if (twoEggDropdb[n][k] != 0){
+            return twoEggDropdb[n][k];
+        }
+        if (k == 1){
+            twoEggDropdb[n][k] = n;
+            return twoEggDropdb[n][k];
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int i = 1; i <= n ; i++) {
+            // 分两种情况在第i层鸡蛋碎了，另一种情况鸡蛋没有碎
+            ans = Math.min(ans,Math.max(twoEggDropdfs(i-1,1),twoEggDropdfs(n-i,2))+1);
+        }
+        twoEggDropdb[n][k] = ans;
+        return ans;
+    }
+
     /**
      * 1470. 重新排列数组
      */
