@@ -105,6 +105,9 @@ public class Solution202208 {
             case 1314:
                 System.out.println(getSplitNumount(120));
                 break;
+            case 1328:
+                System.out.println(breakPalindrome("aba"));
+                break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4, new int[][]{{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
                 break;
@@ -115,8 +118,37 @@ public class Solution202208 {
 
     }
 
-    static int[][] twoEggDropdb;
+    /**
+     * 1328. 破坏回文串
+     */
+    public static String breakPalindrome(String palindrome) {
+        char[] paArr = palindrome.toCharArray();
+        int n = paArr.length;
+        if(n <= 1){
+            return "";
+        }
+        boolean aFlag = true;
+        for (int i = 0; i < n / 2; i++) {
 
+            if (paArr[i] == 'a'){
+                continue;
+            }
+            if (paArr[i] != 'a'){
+                aFlag = false;
+                paArr[i] = 'a';
+                break;
+            }
+        }
+
+        if (aFlag){
+            paArr[n-1] ='b';
+        }
+
+        return new String(paArr);
+
+    }
+
+    static int[][] twoEggDropdb;
     /**
      * 1884. 鸡蛋掉落-两枚鸡蛋
      */
