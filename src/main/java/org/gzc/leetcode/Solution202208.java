@@ -42,6 +42,21 @@ public class Solution202208 {
             case 623:
                 System.out.println(addOneRow(new TreeNode(4), 1, 3));
                 break;
+            case 554:
+                List<List<Integer>> lists = new ArrayList<>();
+                List<Integer> list1 = new ArrayList<>();
+                list1.add(1);
+                list1.add(1);
+                lists.add(list1);
+                List<Integer> list2 = new ArrayList<>();
+                list2.add(2);
+                lists.add(list2);
+                List<Integer> list3 = new ArrayList<>();
+                list3.add(1);
+                list3.add(1);
+                lists.add(list3);
+                System.out.println(leastBricks(lists));
+                break;
             case 123:
                 morris(new Node(5, new Node(4), new Node(2)));
                 break;
@@ -118,6 +133,33 @@ public class Solution202208 {
 
     }
 
+    /**
+     * 554. 砌砖
+     */
+    public static int leastBricks(List<List<Integer>> wall) {
+        int m = wall.size();
+        Map<Integer, Integer> map = new HashMap<>();
+        for (List<Integer> list : wall) {
+            int split =0;
+            int size = list.size()-1;
+            for (int i = 0; i < size; i++) {
+                split += list.get(i);
+                map.put(split, map.getOrDefault(split, 0) +1);
+            }
+        }
+        // 如果中间没有缝隙，则每一层都会被切到
+        if (map.isEmpty()) {
+            return m;
+        }
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        // 计算最大的空隙数
+        int max=-1;
+        for (Map.Entry<Integer, Integer> entry : entries) {
+            max = Math.max(entry.getValue(), max);
+        }
+        return m-max;
+
+    }
     /**
      * 1328. 破坏回文串
      */
