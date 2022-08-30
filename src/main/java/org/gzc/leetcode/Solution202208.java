@@ -169,19 +169,22 @@ public class Solution202208 {
             HashSet<Integer> richSet = richMap.get(i);
             //如果不存在比他富有的，则结果是他本身
             if (richSet == null) {
-                result[i] = quiet[i];
+                result[i] = i;
             }else {
                 int min = Integer.MAX_VALUE;
+                int y = -1;
                 Queue<Integer> queue = new LinkedList<>();
+                queue.offer(i);
                 for (Integer rich : richSet) {
                     queue.offer(rich);
                 }
-                System.out.println("i = "+i);
                 while (!queue.isEmpty()) {
                     //  获取
                     Integer poll = queue.poll();
-                    System.out.println(poll);
                     min = Math.min(min, quiet[poll]);
+                    if (min == quiet[poll]){
+                        y = poll;
+                    }
                     HashSet<Integer> integers = richMap.get(poll);
                     if (integers != null && integers.size()>0){
                         for (Integer integer : integers) {
@@ -191,7 +194,7 @@ public class Solution202208 {
                         }
                     }
                 }
-                result[i] = min;
+                result[i] = y;
             }
         }
 
