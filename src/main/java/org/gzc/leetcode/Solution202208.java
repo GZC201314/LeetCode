@@ -130,6 +130,9 @@ public class Solution202208 {
             case 1470:
                 System.out.println(Arrays.toString(shuffle(new int[]{4, 6, 7, 5}, 2)));
                 break;
+            case 851:
+                System.out.println(Arrays.toString(loudAndRich(new int[][]{{1,0},{2,1},{3,1},{3,7},{4,3},{5,3},{6,3}}, new int[]{3,2,5,4,6,1,7,0})));
+                break;
             case 1553:
                 System.out.println(minDays(10));
             case 1314:
@@ -155,27 +158,44 @@ public class Solution202208 {
      * 851. 喧闹和富有
      */
     public static int[] loudAndRich(int[][] richer, int[] quiet) {
-
         int[] result = new int[quiet.length];
         Map<Integer, HashSet<Integer>> richMap = new HashMap<>();
         // 构建富有map
         for (int[] riched : richer) {
-            HashSet<Integer> richSet = richMap.getOrDefault(riched[1], new HashSet<>());
+            HashSet<Integer> richSet = richMap.computeIfAbsent(riched[1], k -> new HashSet<>());
             richSet.add(riched[0]);
-            richMap.put(riched[1],richSet);
         }
         for (int i = 0; i < quiet.length; i++) {
             HashSet<Integer> richSet = richMap.get(i);
             //如果不存在比他富有的，则结果是他本身
             if (richSet == null) {
-
                 result[i] = quiet[i];
+            }else {
+                int min = Integer.MAX_VALUE;
+                Queue<Integer> queue = new LinkedList<>();
+                for (Integer rich : richSet) {
+                    queue.offer(rich);
+                }
+                System.out.println("i = "+i);
+                while (!queue.isEmpty()) {
+                    //  获取
+                    Integer poll = queue.poll();
+                    System.out.println(poll);
+                    min = Math.min(min, quiet[poll]);
+                    HashSet<Integer> integers = richMap.get(poll);
+                    if (integers != null && integers.size()>0){
+                        for (Integer integer : integers) {
+                            if (!queue.contains(integer)){
+                                queue.offer(integer);
+                            }
+                        }
+                    }
+                }
+                result[i] = min;
             }
         }
 
-
-
-
+        return result;
     }
 
     /**
