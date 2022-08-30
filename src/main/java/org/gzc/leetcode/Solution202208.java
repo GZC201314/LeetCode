@@ -152,6 +152,33 @@ public class Solution202208 {
     }
 
     /**
+     * 851. 喧闹和富有
+     */
+    public static int[] loudAndRich(int[][] richer, int[] quiet) {
+
+        int[] result = new int[quiet.length];
+        Map<Integer, HashSet<Integer>> richMap = new HashMap<>();
+        // 构建富有map
+        for (int[] riched : richer) {
+            HashSet<Integer> richSet = richMap.getOrDefault(riched[1], new HashSet<>());
+            richSet.add(riched[0]);
+            richMap.put(riched[1],richSet);
+        }
+        for (int i = 0; i < quiet.length; i++) {
+            HashSet<Integer> richSet = richMap.get(i);
+            //如果不存在比他富有的，则结果是他本身
+            if (richSet == null) {
+
+                result[i] = quiet[i];
+            }
+        }
+
+
+
+
+    }
+
+    /**
      * 841. 钥匙与房间
      */
     public static boolean canVisitAllRooms(List<List<Integer>> rooms) {
