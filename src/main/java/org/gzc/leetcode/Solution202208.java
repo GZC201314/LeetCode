@@ -42,7 +42,7 @@ public class Solution202208 {
             case 623:
                 System.out.println(addOneRow(new TreeNode(4), 1, 3));
                 break;
-            case 554:
+            case 841:
                 List<List<Integer>> lists = new ArrayList<>();
                 List<Integer> list1 = new ArrayList<>();
                 list1.add(1);
@@ -55,7 +55,22 @@ public class Solution202208 {
                 list3.add(1);
                 list3.add(1);
                 lists.add(list3);
-                System.out.println(leastBricks(lists));
+                System.out.println(canVisitAllRooms(lists));
+                break;
+            case 554:
+                List<List<Integer>> lists1 = new ArrayList<>();
+                List<Integer> list4 = new ArrayList<>();
+                list4.add(1);
+                list4.add(1);
+                lists1.add(list4);
+                List<Integer> list5 = new ArrayList<>();
+                list5.add(2);
+                lists1.add(list5);
+                List<Integer> list6 = new ArrayList<>();
+                list6.add(1);
+                list6.add(1);
+                lists1.add(list6);
+                System.out.println(leastBricks(lists1));
                 break;
             case 123:
                 morris(new Node(5, new Node(4), new Node(2)));
@@ -134,6 +149,32 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 841. 钥匙与房间
+     */
+    public static boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        int size = rooms.size();
+        boolean[] set = new boolean[size];
+        int count = 0;
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(0);
+        while (!queue.isEmpty()) {
+            Integer poll = queue.poll();
+            if (!set[poll]){
+                set[poll] = true;
+                count++;
+            }
+            List<Integer> list = rooms.get(poll);
+            for (int roomKey : list) {
+                if (!set[roomKey]){
+                    queue.offer(roomKey);
+                }
+            }
+        }
+        return count == size;
     }
 
     /**
