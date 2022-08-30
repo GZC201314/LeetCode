@@ -123,6 +123,9 @@ public class Solution202208 {
             case 1328:
                 System.out.println(breakPalindrome("aba"));
                 break;
+            case 57:
+                System.out.println(Arrays.deepToString(findContinuousSequence(15)));
+                break;
             case 1042:
                 System.out.println(Arrays.toString(gardenNoAdj(4, new int[][]{{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
                 break;
@@ -131,6 +134,41 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 剑指offer 57-|| 和为S的连续正数序列
+     */
+    public static int[][] findContinuousSequence(int target) {
+        if (target == 1) {
+            return new int[][] {{}};
+        }
+
+        ArrayList<int[]> result = new ArrayList<>();
+        int start = 0;
+        int end = 1;
+        int sum = 1;
+        while (start < end) {
+            if (sum == target) {
+                if (start ==0){
+                    start++;
+                }
+                int[] ans = new int[end-start+1];
+                for (int i = start; i <= end; i++) {
+                    if (i != 0){
+                        ans[i-start] = i;
+                    }
+                }
+                result.add(ans);
+                sum -= start++;
+                sum += ++end;
+            } else if (sum<target){
+                sum += ++end;
+            }else {
+                sum -= start++;
+            }
+        }
+        return result.toArray(new int[result.size()][]);
     }
 
     /**
