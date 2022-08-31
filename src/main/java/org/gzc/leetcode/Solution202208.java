@@ -159,6 +159,29 @@ public class Solution202208 {
     }
 
     /**
+     * 396. 旋转函数
+     * 动态规划 转移方程 F(i) = f(i-1) +sum - n*nums[n-i];
+     */
+    public static int maxRotateFunction(int[] nums) {
+        // 计算数组总和
+        int sum =0;
+        int n = nums.length;
+        int ans = 0;
+        for (int j = 0; j < n; j++) {
+            ans += j*nums[j];
+            sum += nums[j];
+        }
+        int res = ans;
+        int pre = ans;
+        for (int i = 1; i < n; i++) {
+            pre = pre +sum - n *nums[n -i];
+            res = Math.max(res, pre);
+        }
+
+        return res;
+    }
+
+    /**
      * 851. 喧闹和富有
      */
     public static int[] loudAndRich(int[][] richer, int[] quiet) {
