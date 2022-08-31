@@ -34,10 +34,10 @@ public class Solution202208 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 503:
-                System.out.println(Arrays.toString(nextGreaterElements(new int[]{1, 2, 3, 4, 3})));
+                System.out.println(Arrays.toString(nextGreaterElements(new int[] {1, 2, 3, 4, 3})));
                 break;
             case 1403:
-                System.out.println(minSubsequence(new int[]{4, 4, 6, 7, 7}));
+                System.out.println(minSubsequence(new int[] {4, 4, 6, 7, 7}));
                 break;
             case 623:
                 System.out.println(addOneRow(new TreeNode(4), 1, 3));
@@ -85,10 +85,10 @@ public class Solution202208 {
                 System.out.println(twoEggDrop(28));
                 break;
             case 517:
-                System.out.println(findMinMoves(new int[]{3, 4, 5}));
+                System.out.println(findMinMoves(new int[] {3, 4, 5}));
                 break;
             case 666:
-                goodNote(new int[]{3, 4, 5});
+                goodNote(new int[] {3, 4, 5});
                 break;
             case 888:
                 System.out.println(getValue("-1+4*(-2*3)"));
@@ -100,38 +100,41 @@ public class Solution202208 {
                 System.out.println(deepestLeavesSum(new TreeNode(1)));
                 break;
             case 33:
-                System.out.println(verifyPostorder(new int[]{4, 6, 7, 5}));
+                System.out.println(verifyPostorder(new int[] {4, 6, 7, 5}));
                 break;
             case 793:
                 System.out.println(preimageSizeFZF(5));
                 break;
             case 1450:
-                System.out.println(busyStudent(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}, 4));
+                System.out.println(busyStudent(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}, 4));
                 break;
             case 2344:
-                System.out.println(minOperations(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
+                System.out.println(minOperations(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
                 break;
             case 1818:
-                System.out.println(minAbsoluteSumDiff(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
+                System.out.println(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
                 break;
             case 1460:
-                System.out.println(canBeEqual(new int[]{4, 6, 7, 5}, new int[]{4, 6, 7, 5}));
+                System.out.println(canBeEqual(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
                 break;
 
             case 508:
-                System.out.println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
+                System.out
+                    .println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             case 655:
                 System.out.println(printTree(new TreeNode(1, new TreeNode(2), null)));
                 break;
             case 1569:
-                System.out.println(numOfWays(new int[]{4, 6, 7, 5}));
+                System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
                 break;
             case 1470:
-                System.out.println(Arrays.toString(shuffle(new int[]{4, 6, 7, 5}, 2)));
+                System.out.println(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
                 break;
             case 851:
-                System.out.println(Arrays.toString(loudAndRich(new int[][]{{1,0},{2,1},{3,1},{3,7},{4,3},{5,3},{6,3}}, new int[]{3,2,5,4,6,1,7,0})));
+                System.out.println(
+                    Arrays.toString(loudAndRich(new int[][] {{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}},
+                        new int[] {3, 2, 5, 4, 6, 1, 7, 0})));
                 break;
             case 1553:
                 System.out.println(minDays(10));
@@ -145,7 +148,8 @@ public class Solution202208 {
                 System.out.println(Arrays.deepToString(findContinuousSequence(15)));
                 break;
             case 1042:
-                System.out.println(Arrays.toString(gardenNoAdj(4, new int[][]{{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
+                System.out
+                    .println(Arrays.toString(gardenNoAdj(4, new int[][] {{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
                 break;
             default:
                 System.out.println(matchString("aaab", "a*b"));
@@ -158,45 +162,43 @@ public class Solution202208 {
      * 851. 喧闹和富有
      */
     public static int[] loudAndRich(int[][] richer, int[] quiet) {
-        int[] result = new int[quiet.length];
-        Map<Integer, HashSet<Integer>> richMap = new HashMap<>();
-        // 构建富有map
-        for (int[] riched : richer) {
-            HashSet<Integer> richSet = richMap.computeIfAbsent(riched[1], k -> new HashSet<>());
-            richSet.add(riched[0]);
+
+        // 1. 构建图
+        int n = quiet.length;
+        List<Integer>[] g = new List[n];
+        for (int i = 0; i < n; i++) {
+            g[i] = new ArrayList<>();
         }
-        for (int i = 0; i < quiet.length; i++) {
-            HashSet<Integer> richSet = richMap.get(i);
-            //如果不存在比他富有的，则结果是他本身
-            if (richSet == null) {
-                result[i] = i;
-            }else {
-                int min = Integer.MAX_VALUE;
-                int y = -1;
-                PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.comparingInt(i2 -> quiet[i2]));
-                queue.offer(i);
-                for (Integer rich : richSet) {
-                    queue.offer(rich);
-                }
-                while (!queue.isEmpty()) {
-                    //  获取
-                    Integer poll = queue.poll();
-                    min = Math.min(min, quiet[poll]);
-                    if (min == quiet[poll]){
-                        y = poll;
-                    }
-                    HashSet<Integer> integers = richMap.get(poll);
-                    if (integers != null && integers.size()>0){
-                        for (Integer integer : integers) {
-                            queue.offer(integer);
-                        }
-                    }
-                }
-                result[i] = y;
+        // 用于记录比i大的结点的个数
+        int[] richerCount = new int[n];
+        for (int[] richs : richer) {
+            g[richs[0]].add(richs[1]);
+            ++richerCount[richs[1]];
+        }
+        int[] ans = new int[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = i;
+        }
+        // 用于存储 当前的最大的结点
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            if (richerCount[i] == 0){
+                q.offer(i);
             }
         }
+        while (!q.isEmpty()){
+            int max = q.poll();
+            for (int min : g[max]) {
+                if (quiet[ans[max]]<quiet[ans[min]]){
+                    ans[min] = ans[max];
+                }
+                if (--richerCount[min] ==0){
+                    q.offer(min);
+                }
+            }
+        }
+        return ans;
 
-        return result;
     }
 
     /**
@@ -207,18 +209,17 @@ public class Solution202208 {
         boolean[] set = new boolean[size];
         int count = 0;
 
-
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(0);
         while (!queue.isEmpty()) {
             Integer poll = queue.poll();
-            if (!set[poll]){
+            if (!set[poll]) {
                 set[poll] = true;
                 count++;
             }
             List<Integer> list = rooms.get(poll);
             for (int roomKey : list) {
-                if (!set[roomKey]){
+                if (!set[roomKey]) {
                     queue.offer(roomKey);
                 }
             }
@@ -240,21 +241,21 @@ public class Solution202208 {
         int sum = 1;
         while (start < end) {
             if (sum == target) {
-                if (start ==0){
+                if (start == 0) {
                     start++;
                 }
-                int[] ans = new int[end-start+1];
+                int[] ans = new int[end - start + 1];
                 for (int i = start; i <= end; i++) {
-                    if (i != 0){
-                        ans[i-start] = i;
+                    if (i != 0) {
+                        ans[i - start] = i;
                     }
                 }
                 result.add(ans);
                 sum -= start++;
                 sum += ++end;
-            } else if (sum<target){
+            } else if (sum < target) {
                 sum += ++end;
-            }else {
+            } else {
                 sum -= start++;
             }
         }
@@ -268,11 +269,11 @@ public class Solution202208 {
         int m = wall.size();
         Map<Integer, Integer> map = new HashMap<>();
         for (List<Integer> list : wall) {
-            int split =0;
-            int size = list.size()-1;
+            int split = 0;
+            int size = list.size() - 1;
             for (int i = 0; i < size; i++) {
                 split += list.get(i);
-                map.put(split, map.getOrDefault(split, 0) +1);
+                map.put(split, map.getOrDefault(split, 0) + 1);
             }
         }
         // 如果中间没有缝隙，则每一层都会被切到
@@ -281,37 +282,38 @@ public class Solution202208 {
         }
         Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
         // 计算最大的空隙数
-        int max=-1;
+        int max = -1;
         for (Map.Entry<Integer, Integer> entry : entries) {
             max = Math.max(entry.getValue(), max);
         }
-        return m-max;
+        return m - max;
 
     }
+
     /**
      * 1328. 破坏回文串
      */
     public static String breakPalindrome(String palindrome) {
         char[] paArr = palindrome.toCharArray();
         int n = paArr.length;
-        if(n <= 1){
+        if (n <= 1) {
             return "";
         }
         boolean aFlag = true;
         for (int i = 0; i < n / 2; i++) {
 
-            if (paArr[i] == 'a'){
+            if (paArr[i] == 'a') {
                 continue;
             }
-            if (paArr[i] != 'a'){
+            if (paArr[i] != 'a') {
                 aFlag = false;
                 paArr[i] = 'a';
                 break;
             }
         }
 
-        if (aFlag){
-            paArr[n-1] ='b';
+        if (aFlag) {
+            paArr[n - 1] = 'b';
         }
 
         return new String(paArr);
@@ -319,12 +321,13 @@ public class Solution202208 {
     }
 
     static int[][] twoEggDropdb;
+
     /**
      * 1884. 鸡蛋掉落-两枚鸡蛋
      */
     public static int twoEggDrop(int n) {
-        twoEggDropdb = new int[n+1][3];
-        return twoEggDropdfs(n,2);
+        twoEggDropdb = new int[n + 1][3];
+        return twoEggDropdfs(n, 2);
     }
 
     /**
@@ -332,23 +335,23 @@ public class Solution202208 {
      */
     public static int twoEggDropdfs(int n, int k) {
 
-        if(n == 0){
+        if (n == 0) {
             return 0;
         }
-        if(n == 1){
+        if (n == 1) {
             return 1;
         }
-        if (twoEggDropdb[n][k] != 0){
+        if (twoEggDropdb[n][k] != 0) {
             return twoEggDropdb[n][k];
         }
-        if (k == 1){
+        if (k == 1) {
             twoEggDropdb[n][k] = n;
             return twoEggDropdb[n][k];
         }
         int ans = Integer.MAX_VALUE;
-        for (int i = 1; i <= n ; i++) {
+        for (int i = 1; i <= n; i++) {
             // 分两种情况在第i层鸡蛋碎了，另一种情况鸡蛋没有碎
-            ans = Math.min(ans,Math.max(twoEggDropdfs(i-1,1),twoEggDropdfs(n-i,2))+1);
+            ans = Math.min(ans, Math.max(twoEggDropdfs(i - 1, 1), twoEggDropdfs(n - i, 2)) + 1);
         }
         twoEggDropdb[n][k] = ans;
         return ans;
@@ -358,38 +361,36 @@ public class Solution202208 {
      * 1470. 重新排列数组
      */
     public static int[] shuffle(int[] nums, int n) {
-        perfectShuffle(nums,0,n*2-1,n);
+        perfectShuffle(nums, 0, n * 2 - 1, n);
         for (int i = 0; i < n; i++) {
-            int num = nums[i*2];
-            nums[i*2] = nums[i*2+1];
-            nums[i*2+1] = num;
+            int num = nums[i * 2];
+            nums[i * 2] = nums[i * 2 + 1];
+            nums[i * 2 + 1] = num;
         }
         return nums;
 
-
     }
 
-
-    public static void perfectShuffle(int[] nums,int from,int to,int n){
+    public static void perfectShuffle(int[] nums, int from, int to, int n) {
         if (from >= to) {
-            return;//如果递归到最后则直接返回
+            return;// 如果递归到最后则直接返回
         } else if (to - from == 1) {
-            revertArr(nums,from,to);
+            revertArr(nums, from, to);
             return;
         }
-        int k = 0;//用来记录3^k中的k
-        int m;//算法中的m
-        int n2 = 2 * n;//算法中的2n
-        int p = (n2 + 1);//p=3^k  3^k-1<2n<3^(k+1)-1->3^k<2n+1=p
-        int k_3 = 1;//用于记录3^k的
-        while (k <= p / 3) {//通过不断除以3找到最大k值，使得p>3^k成立
+        int k = 0;// 用来记录3^k中的k
+        int m;// 算法中的m
+        int n2 = 2 * n;// 算法中的2n
+        int p = (n2 + 1);// p=3^k 3^k-1<2n<3^(k+1)-1->3^k<2n+1=p
+        int k_3 = 1;// 用于记录3^k的
+        while (k <= p / 3) {// 通过不断除以3找到最大k值，使得p>3^k成立
             k++;
             p /= 3;
             k_3 *= 3;
         }
-        m = (k_3 - 1) / 2;//2m=3^k-1->m=(3^k-1)/2 至此得到了最大2m=3^k-1<2n，当然还有其他更好的办法
+        m = (k_3 - 1) / 2;// 2m=3^k-1->m=(3^k-1)/2 至此得到了最大2m=3^k-1<2n，当然还有其他更好的办法
 
-        rightCircle(nums,from+m,from+n+m-1,m);
+        rightCircle(nums, from + m, from + n + m - 1, m);
         for (int i = 0, t = 1; i < k; ++i, t *= 3) {
             /*
              * 运用之前推导的环开始计算，因为算法中数组下标是从1开始的，我们这里的下标是从0开始
@@ -399,13 +400,11 @@ public class Solution202208 {
             circle(nums, from - 1, t, m * 2 + 1);
         }
 
-        perfectShuffle(nums, 2 * m + from, to, (to - (2 * m + from )+1) / 2);
-
-
-
+        perfectShuffle(nums, 2 * m + from, to, (to - (2 * m + from) + 1) / 2);
 
     }
-    //数组下标从1开始，主要是因为环是1->2->4->8->7->5->1
+
+    // 数组下标从1开始，主要是因为环是1->2->4->8->7->5->1
     public static void circle(int[] a, int from, int i, int n2) {
         for (int k = 2 * i % n2; k != i; k = 2 * k % n2) {
             int temp = a[i + from];
@@ -413,15 +412,16 @@ public class Solution202208 {
             a[k + from] = temp;
         }
     }
-    public static void revertArr(int[] nums, int left, int right){
-        while(left<right){
+
+    public static void revertArr(int[] nums, int left, int right) {
+        while (left < right) {
             int tem = nums[left];
             nums[left++] = nums[right];
             nums[right--] = tem;
         }
     }
 
-    public static void rightCircle(int[] nums, int from, int to, int m){
+    public static void rightCircle(int[] nums, int from, int to, int m) {
         revertArr(nums, to - m + 1, to);
         revertArr(nums, from, to - m);
         revertArr(nums, from, to);
@@ -442,15 +442,14 @@ public class Solution202208 {
     }
 
     /**
-     * s[si...] 能否被e[ei...]匹配成功
-     * PS 必须保证e[ei] != '*'
+     * s[si...] 能否被e[ei...]匹配成功 PS 必须保证e[ei] != '*'
      */
     private static boolean processString(char[] s, char[] e, int si, int ei) {
         // 是否匹配完成
         if (ei == e.length) {
             return si == s.length;
         }
-        //ei+1 位置不是*
+        // ei+1 位置不是*
         if (ei + 1 == e.length || e[ei + 1] != '*') {
             return si != s.length && (e[ei] == s[si] || e[ei] == '.') && processString(s, e, si + 1, ei + 1);
         }
@@ -462,7 +461,6 @@ public class Solution202208 {
             si++;
         }
         return processString(s, e, si, ei + 2);
-
 
     }
 
@@ -490,7 +488,6 @@ public class Solution202208 {
         }
         int[][] dp = new int[num + 1][num + 1];
         StopWatch stopWatch = new StopWatch();
-
 
         stopWatch.start();
         int sum = getSplitNumountHandler(1, num);
@@ -591,7 +588,7 @@ public class Solution202208 {
         if (n == 0) {
             return 1;
         }
-        //答案只有在头结点相同的重排中
+        // 答案只有在头结点相同的重排中
         int root = nums.get(0);
 
         List<Integer> left = new ArrayList<>();
@@ -606,7 +603,7 @@ public class Solution202208 {
         int leftCount = dfsNumOfWays(left);
         int rightCount = dfsNumOfWays(right);
 
-        return (int) ((long) C[n - 1][left.size()] * leftCount % mod * rightCount % mod);
+        return (int)((long)C[n - 1][left.size()] * leftCount % mod * rightCount % mod);
 
     }
 
@@ -670,7 +667,7 @@ public class Solution202208 {
                 assert node != null;
                 int r = node.r;
                 int c = node.c;
-                //获取它的左右孩子结点
+                // 获取它的左右孩子结点
                 if (node.node.left != null) {
                     int nextR = r + 1;
                     int nextC = c - (1 << (height - r - 2));
@@ -698,7 +695,6 @@ public class Solution202208 {
             result.add(list);
         }
         return result;
-
 
     }
 
@@ -744,7 +740,7 @@ public class Solution202208 {
             ans %= mod;
         }
 
-        return (int) (ans - max + mod) % mod;
+        return (int)(ans - max + mod) % mod;
     }
 
     /**
@@ -789,7 +785,7 @@ public class Solution202208 {
     }
 
     public static boolean verifyPostorderHandle(int[] postorder, int[] inorder, int posti, int postj, int ini,
-                                                int inj) {
+        int inj) {
         if (posti == postj && ini == inj) {
             return postorder[posti] == inorder[ini];
         }
@@ -838,10 +834,10 @@ public class Solution202208 {
         }
 
         return verifyPostorderHandle(postorder, inorder, posti, posti + rootInorderIndex - ini - 1, ini,
-                rootInorderIndex - 1)
-                && verifyPostorderHandle(postorder, inorder, posti + rootInorderIndex - ini, postj - 1,
+            rootInorderIndex - 1)
+            && verifyPostorderHandle(postorder, inorder, posti + rootInorderIndex - ini, postj - 1,
                 rootInorderIndex + 1, inj)
-                && root > leftMax && root < rightMin;
+            && root > leftMax && root < rightMin;
 
     }
 
@@ -864,7 +860,7 @@ public class Solution202208 {
         for (int i = 1; i <= n; i++) {
             // 先求出当前节点所有的邻接节点
 
-            //1. 获取所有的出度
+            // 1. 获取所有的出度
             List<Integer> s2eList = s2e.get(i);
             List<Integer> e2sList = e2s.get(i);
             int[] flowers = new int[(s2eList == null ? 0 : s2eList.size()) + (e2sList == null ? 0 : e2sList.size())];
@@ -898,7 +894,6 @@ public class Solution202208 {
         }
 
         return result;
-
 
     }
 
@@ -1291,7 +1286,7 @@ public class Solution202208 {
             }
         }
         addNum(que, num);
-        return new int[]{getNum(que), i};
+        return new int[] {getNum(que), i};
     }
 
     /**
@@ -1331,22 +1326,22 @@ public class Solution202208 {
      */
     public static int preimageSizeFZF(int k) {
 
-        long start = 0L, end = 5L*k,mid;
+        long start = 0L, end = 5L * k, mid;
         while (start <= end) {
             mid = start + (end - start) / 2;
-            long n =5L;
-            long sum =0L;
-            while (n<=mid){
-                sum += mid/n;
-                n *=5;
+            long n = 5L;
+            long sum = 0L;
+            while (n <= mid) {
+                sum += mid / n;
+                n *= 5;
             }
-            if (sum ==k){
+            if (sum == k) {
                 return 5;
             }
-            if (sum<k){
+            if (sum < k) {
                 start = mid + 1;
-            }else {
-                end = mid-1;
+            } else {
+                end = mid - 1;
             }
 
         }
