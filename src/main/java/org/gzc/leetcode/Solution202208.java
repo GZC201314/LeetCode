@@ -128,6 +128,9 @@ public class Solution202208 {
             case 1569:
                 System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
                 break;
+            case 396:
+                System.out.println(maxRotateFunction(new int[] {4, 6, 7, 5}));
+                break;
             case 1470:
                 System.out.println(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
                 break;
