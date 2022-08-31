@@ -144,6 +144,10 @@ public class Solution202208 {
             case 1314:
                 System.out.println(getSplitNumount(120));
                 break;
+            case 397:
+                System.out.println(integerReplacement(2147483647));
+//                System.out.println(integerReplacement(1000000));
+                break;
             case 1328:
                 System.out.println(breakPalindrome("aba"));
                 break;
@@ -162,22 +166,43 @@ public class Solution202208 {
     }
 
     /**
-     * 396. 旋转函数
-     * 动态规划 转移方程 F(i) = f(i-1) +sum - n*nums[n-i];
+     * 397.正数替换(溢出情况分析，变量增大的情况要避免)
+     */
+    public static Map<Integer, Integer> mapDp = new HashMap<>();
+    public static int integerReplacement(int n) {
+        // base case
+        if (n == 1) {
+            return 0;
+        }
+        if (!mapDp.containsKey(n)) {
+            int ans;
+            if (n % 2 == 1) {
+                ans = 1 + Math.min(integerReplacement(n/2+1) + 1, integerReplacement(n / 2) + 1);
+            } else {
+                ans = 1 + integerReplacement(n / 2);
+            }
+            mapDp.put(n, ans);
+            return ans;
+        }
+        return mapDp.get(n);
+    }
+
+    /**
+     * 396. 旋转函数 动态规划 转移方程 F(i) = F(i-1) +sum - n*nums[n-i];
      */
     public static int maxRotateFunction(int[] nums) {
         // 计算数组总和
-        int sum =0;
+        int sum = 0;
         int n = nums.length;
         int ans = 0;
         for (int j = 0; j < n; j++) {
-            ans += j*nums[j];
+            ans += j * nums[j];
             sum += nums[j];
         }
         int res = ans;
         int pre = ans;
         for (int i = 1; i < n; i++) {
-            pre = pre +sum - n *nums[n -i];
+            pre = pre + sum - n * nums[n - i];
             res = Math.max(res, pre);
         }
 
@@ -208,17 +233,17 @@ public class Solution202208 {
         // 用于存储 当前的最大的结点
         Queue<Integer> q = new LinkedList<>();
         for (int i = 0; i < n; i++) {
-            if (richerCount[i] == 0){
+            if (richerCount[i] == 0) {
                 q.offer(i);
             }
         }
-        while (!q.isEmpty()){
+        while (!q.isEmpty()) {
             int max = q.poll();
             for (int min : g[max]) {
-                if (quiet[ans[max]]<quiet[ans[min]]){
+                if (quiet[ans[max]] < quiet[ans[min]]) {
                     ans[min] = ans[max];
                 }
-                if (--richerCount[min] ==0){
+                if (--richerCount[min] == 0) {
                     q.offer(min);
                 }
             }
