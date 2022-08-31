@@ -165,6 +165,42 @@ public class Solution202208 {
 
     }
 
+
+    /**
+     * 403. 青蛙过河
+     */
+    public static boolean canCross(int[] stones) {
+        // 保存距离和索引的映射
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = stones.length;
+        for (int i = 0; i < n; i++) {
+            map.put(stones[i], i);
+        }
+        return canCrossDfs(stones,map, 2,1);
+    }
+
+    /**
+     *
+     * @param stones 石子分布 PS 可以跨越石子跳跃
+     * @param cur 当前所在第几个石子
+     * @param kStep 上一步跳的步数
+     */
+    public static boolean canCrossDfs(int[] stones,Map<Integer, Integer> map,int cur,int kStep){
+        // base case
+        if (kStep < 1){
+            return false;
+        }
+        if (cur == stones.length){
+            return true;
+        }
+        return stones[cur-1]+kStep-1 == stones[cur] && canCrossDfs(stones,map, cur+1,kStep-1)
+                ||
+                stones[cur-1]+kStep == stones[cur] && canCrossDfs(stones,map, cur+1,kStep)
+                ||
+                stones[cur-1]+kStep+1 == stones[cur] && canCrossDfs(stones,map, cur+1,kStep+1);
+
+    }
+
     /**
      * 397.正数替换(溢出情况分析，变量增大的情况要避免)
      */
