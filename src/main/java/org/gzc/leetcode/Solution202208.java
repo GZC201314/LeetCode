@@ -173,7 +173,7 @@ public class Solution202208 {
             }else {
                 int min = Integer.MAX_VALUE;
                 int y = -1;
-                Queue<Integer> queue = new LinkedList<>();
+                PriorityQueue<Integer> queue = new PriorityQueue<>(Comparator.comparingInt(i2 -> quiet[i2]));
                 queue.offer(i);
                 for (Integer rich : richSet) {
                     queue.offer(rich);
@@ -188,9 +188,7 @@ public class Solution202208 {
                     HashSet<Integer> integers = richMap.get(poll);
                     if (integers != null && integers.size()>0){
                         for (Integer integer : integers) {
-                            if (!queue.contains(integer)){
-                                queue.offer(integer);
-                            }
+                            queue.offer(integer);
                         }
                     }
                 }
@@ -208,6 +206,7 @@ public class Solution202208 {
         int size = rooms.size();
         boolean[] set = new boolean[size];
         int count = 0;
+
 
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(0);
