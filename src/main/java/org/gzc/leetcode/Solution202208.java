@@ -131,6 +131,9 @@ public class Solution202208 {
             case 396:
                 System.out.println(maxRotateFunction(new int[] {4, 6, 7, 5}));
                 break;
+            case 403:
+                System.out.println(canCross(new int[] {4, 6, 7, 5}));
+                break;
             case 1470:
                 System.out.println(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
                 break;
@@ -169,14 +172,22 @@ public class Solution202208 {
     /**
      * 403. 青蛙过河
      */
+    public static Map<CanCrossInfo,Boolean> mapDb;
     public static boolean canCross(int[] stones) {
+        // 如果第一步都跳不过
+        if (stones[0]+1 != stones[1]){
+            return false;
+        }
+
+        mapDb = new HashMap<>();
+
         // 保存距离和索引的映射
         Map<Integer, Integer> map = new HashMap<>();
         int n = stones.length;
         for (int i = 0; i < n; i++) {
             map.put(stones[i], i);
         }
-        return canCrossDfs(stones,map, 2,1);
+        return canCrossDfs(stones,map, 1,1);
     }
 
     /**
@@ -185,20 +196,49 @@ public class Solution202208 {
      * @param cur 当前所在第几个石子
      * @param kStep 上一步跳的步数
      */
-    public static boolean canCrossDfs(int[] stones,Map<Integer, Integer> map,int cur,int kStep){
+    public static boolean canCrossDfs(int[] stones, Map<Integer, Integer> map, int cur, int kStep){
         // base case
         if (kStep < 1){
             return false;
         }
-        if (cur == stones.length){
+
+        if (cur == stones.length-1){
             return true;
         }
-        return stones[cur-1]+kStep-1 == stones[cur] && canCrossDfs(stones,map, cur+1,kStep-1)
+        if (mapDb.containsKey(new CanCrossInfo(cur, kStep))){
+            return mapDb.get(new CanCrossInfo(cur, kStep));
+        }
+        boolean result = map.containsKey(stones[cur]+kStep-1) && canCrossDfs(stones,map, map.get(stones[cur]+kStep-1),kStep-1)
                 ||
-                stones[cur-1]+kStep == stones[cur] && canCrossDfs(stones,map, cur+1,kStep)
+                map.containsKey(stones[cur]+kStep) && canCrossDfs(stones,map, map.get(stones[cur]+kStep),kStep)
                 ||
-                stones[cur-1]+kStep+1 == stones[cur] && canCrossDfs(stones,map, cur+1,kStep+1);
+                map.containsKey(stones[cur]+kStep+1) && canCrossDfs(stones,map, map.get(stones[cur]+kStep+1),kStep+1);
 
+        mapDb.put(new CanCrossInfo(cur, kStep),result);
+        return  result;
+
+    }
+    static class CanCrossInfo {
+        int cur;
+        int kStep;
+        public CanCrossInfo(int cur, int kStep){
+            this.cur = cur;
+            this.kStep = kStep;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            CanCrossInfo info = (CanCrossInfo) o;
+            return cur == info.cur &&
+                    kStep == info.kStep;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(cur, kStep);
+        }
     }
 
     /**
