@@ -128,6 +128,9 @@ public class Solution202208 {
             case 1569:
                 System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
                 break;
+            case 413:
+                System.out.println(numberOfArithmeticSlices(new int[] {4, 6, 7, 5}));
+                break;
             case 396:
                 System.out.println(maxRotateFunction(new int[] {4, 6, 7, 5}));
                 break;
@@ -169,6 +172,42 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 413. 等差数列划分
+     */
+    public static int numberOfArithmeticSlices(int[] nums) {
+        int n = nums.length;
+        if (n <3 ){
+            return 0;
+        }
+        NumberOfArithmeticSlicesInfo last = new NumberOfArithmeticSlicesInfo(0, 0);
+        for (int i = 3; i <= n ; i++) {
+            // 以nums[i-1]结尾的子数组，组成的等差数列的个数
+            // p1 在 dp[i-1]中找到已经组成的等差数列，拼上 nums[i-1] p2 在nums[0..i-2]取最后两个数和nums[i-1]组成等差数组
+            int sub = nums[i-2]-nums[i-3];
+            int sub1  = nums[i-1]- nums[i-2];
+            int bottomSum =0;
+            if (sub== sub1){
+                bottomSum = last.bottomSum+1;
+            }
+            int sum = last.sum+bottomSum;
+
+            last = new NumberOfArithmeticSlicesInfo(sum, bottomSum);
+        }
+
+        return last.sum;
+
+
+    }
+    static class NumberOfArithmeticSlicesInfo{
+        int sum;
+        int bottomSum;
+        public NumberOfArithmeticSlicesInfo(int sum, int bottomSum){
+            this.sum = sum;
+            this.bottomSum = bottomSum;
+        }
     }
 
     /**
