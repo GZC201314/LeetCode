@@ -1,0 +1,154 @@
+package org.gzc.leetcode;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Scanner;
+
+/**
+ * @author GZC
+ */
+public class Solution202209 {
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        int questionNum = input.nextInt();
+        switch (questionNum) {
+            case 416:
+                System.out.println(canPartition(new int[] {9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100}));
+                System.out.println(canPartition1(new int[] {9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100}));
+            default:
+                break;
+        }
+
+    }
+
+    public static boolean canPartition(int[] nums) {
+        int sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        if (sum % 2 == 1)
+            return false;
+        int target = sum / 2; // dp[i][j]代表可装物品为0-i，背包容量为j的情况下，背包内容量的最大价值
+        int[][] dp = new int[nums.length][target + 1];
+        // 初始化,dp[0][j]的最大价值nums[0](if j > weight[i]) //dp[i][0]均为0，不用初始化
+        for (int j = nums[0]; j <= target; j++) {
+            dp[0][j] = nums[0];
+        }
+        // 遍历物品，遍历背包 //递推公式:
+        for (int i = 1; i < nums.length; i++) {
+            for (int j = 0; j <= target; j++) {
+                // 背包容量可以容纳nums[i]
+                if (j >= nums[i]) {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[nums.length - 1][target] == target;
+    }
+
+    /**
+     * 返回nums[i...]是否可以组成rest 剪枝
+     */
+    public static boolean canPartition1(int[] nums) {
+
+        int[] sum = new int[nums.length];
+        sum[0] = nums[0];
+        for (int i = 1; i < nums.length; i++) {
+            sum[i] = nums[i] + sum[i - 1];
+        }
+
+        if ((sum[nums.length - 1] & 1) == 1) {
+            return false;
+        }
+        return canPartitionDfs(nums, 0, sum[nums.length - 1] / 2, sum);
+
+    }
+
+    /**
+     * 返回nums[i...]是否可以组成rest 剪枝
+     */
+    static Map<CanPartitionInfo, Boolean> dbMap = new HashMap<>();
+
+    public static boolean canPartitionDfs(int[] nums, int i, int rest, int[] sum) {
+        // if (rest == 0) {
+        // return true;
+        // }
+        if (rest < 0) {
+            return false;
+        }
+        if (i >= nums.length) {
+            return false;
+        }
+
+        if (dbMap.get(new CanPartitionInfo(i, rest)) != null) {
+            return dbMap.get(new CanPartitionInfo(i, rest));
+        }
+        if (rest == nums[i]) {
+            dbMap.put(new CanPartitionInfo(i, rest), true);
+            return true;
+        }
+        if (i != 0 && sum[sum.length - 1] - sum[i - 1] < rest) {
+            dbMap.put(new CanPartitionInfo(i, rest), false);
+            return false;
+        }
+
+        // 分两种情况 nums[i] 要 nums[i] 不要
+        boolean p1 = canPartitionDfs(nums, i + 1, rest - nums[i], sum);
+        boolean p2 = canPartitionDfs(nums, i + 1, rest, sum);
+        boolean result = p1 || p2;
+        dbMap.put(new CanPartitionInfo(i, rest), result);
+        dbMap.put(new CanPartitionInfo(i + 1, rest), p1);
+        dbMap.put(new CanPartitionInfo(i + 1, rest - nums[i]), p2);
+        return result;
+    }
+
+    static class CanPartitionInfo {
+        int index;
+        int rest;
+
+        public CanPartitionInfo(int index, int rest) {
+            this.index = index;
+            this.rest = rest;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            CanPartitionInfo that = (CanPartitionInfo)o;
+            return index == that.index && rest == that.rest;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(index, rest);
+        }
+    }
+
+}
