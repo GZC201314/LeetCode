@@ -134,6 +134,9 @@ public class Solution202208 {
             case 403:
                 System.out.println(canCross(new int[] {4, 6, 7, 5}));
                 break;
+            case 410:
+                System.out.println(splitArray(new int[] {4, 6, 7, 5},6));
+                break;
             case 1470:
                 System.out.println(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
                 break;
@@ -149,7 +152,7 @@ public class Solution202208 {
                 break;
             case 397:
                 System.out.println(integerReplacement(2147483647));
-//                System.out.println(integerReplacement(1000000));
+                // System.out.println(integerReplacement(1000000));
                 break;
             case 1328:
                 System.out.println(breakPalindrome("aba"));
@@ -168,14 +171,39 @@ public class Solution202208 {
 
     }
 
+    /**
+     * 410. 分割数组的最大值
+     */
+    public static int splitArray(int[] nums, int m) {
+        int n = nums.length;
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(dp[i], Integer.MAX_VALUE);
+        }
+        // 计算前缀和
+        int[] sub = new int[n + 1];
+        for (int i = 0; i < n; i++) {
+            sub[i + 1] = sub[i] + nums[i];
+        }
+        dp[0][0] = 0;
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= Math.min(i, m); j++) {
+                for (int k = 0; k < i; k++) {
+                    dp[i][j] = Math.min(dp[i][j], Math.max(dp[k][j - 1], sub[i] - sub[k]));
+                }
+            }
+        }
+        return dp[n][m];
+    }
 
     /**
      * 403. 青蛙过河
      */
-    public static Map<CanCrossInfo,Boolean> mapDb;
+    public static Map<CanCrossInfo, Boolean> mapDb;
+
     public static boolean canCross(int[] stones) {
         // 如果第一步都跳不过
-        if (stones[0]+1 != stones[1]){
+        if (stones[0] + 1 != stones[1]) {
             return false;
         }
 
@@ -187,7 +215,7 @@ public class Solution202208 {
         for (int i = 0; i < n; i++) {
             map.put(stones[i], i);
         }
-        return canCrossDfs(stones,map, 1,1);
+        return canCrossDfs(stones, map, 1, 1);
     }
 
     /**
@@ -196,43 +224,46 @@ public class Solution202208 {
      * @param cur 当前所在第几个石子
      * @param kStep 上一步跳的步数
      */
-    public static boolean canCrossDfs(int[] stones, Map<Integer, Integer> map, int cur, int kStep){
+    public static boolean canCrossDfs(int[] stones, Map<Integer, Integer> map, int cur, int kStep) {
         // base case
-        if (kStep < 1){
+        if (kStep < 1) {
             return false;
         }
 
-        if (cur == stones.length-1){
+        if (cur == stones.length - 1) {
             return true;
         }
-        if (mapDb.containsKey(new CanCrossInfo(cur, kStep))){
+        if (mapDb.containsKey(new CanCrossInfo(cur, kStep))) {
             return mapDb.get(new CanCrossInfo(cur, kStep));
         }
-        boolean result = map.containsKey(stones[cur]+kStep-1) && canCrossDfs(stones,map, map.get(stones[cur]+kStep-1),kStep-1)
-                ||
-                map.containsKey(stones[cur]+kStep) && canCrossDfs(stones,map, map.get(stones[cur]+kStep),kStep)
-                ||
-                map.containsKey(stones[cur]+kStep+1) && canCrossDfs(stones,map, map.get(stones[cur]+kStep+1),kStep+1);
+        boolean result = map.containsKey(stones[cur] + kStep - 1)
+            && canCrossDfs(stones, map, map.get(stones[cur] + kStep - 1), kStep - 1)
+            || map.containsKey(stones[cur] + kStep) && canCrossDfs(stones, map, map.get(stones[cur] + kStep), kStep)
+            || map.containsKey(stones[cur] + kStep + 1)
+                && canCrossDfs(stones, map, map.get(stones[cur] + kStep + 1), kStep + 1);
 
-        mapDb.put(new CanCrossInfo(cur, kStep),result);
-        return  result;
+        mapDb.put(new CanCrossInfo(cur, kStep), result);
+        return result;
 
     }
+
     static class CanCrossInfo {
         int cur;
         int kStep;
-        public CanCrossInfo(int cur, int kStep){
+
+        public CanCrossInfo(int cur, int kStep) {
             this.cur = cur;
             this.kStep = kStep;
         }
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            CanCrossInfo info = (CanCrossInfo) o;
-            return cur == info.cur &&
-                    kStep == info.kStep;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            CanCrossInfo info = (CanCrossInfo)o;
+            return cur == info.cur && kStep == info.kStep;
         }
 
         @Override
@@ -245,6 +276,7 @@ public class Solution202208 {
      * 397.正数替换(溢出情况分析，变量增大的情况要避免)
      */
     public static Map<Integer, Integer> mapDp = new HashMap<>();
+
     public static int integerReplacement(int n) {
         // base case
         if (n == 1) {
@@ -253,7 +285,7 @@ public class Solution202208 {
         if (!mapDp.containsKey(n)) {
             int ans;
             if (n % 2 == 1) {
-                ans = 1 + Math.min(integerReplacement(n/2+1) + 1, integerReplacement(n / 2) + 1);
+                ans = 1 + Math.min(integerReplacement(n / 2 + 1) + 1, integerReplacement(n / 2) + 1);
             } else {
                 ans = 1 + integerReplacement(n / 2);
             }
