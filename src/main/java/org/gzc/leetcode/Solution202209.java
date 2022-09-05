@@ -40,9 +40,22 @@ public class Solution202209 {
                 case 446:
                     System.out.println(numberOfArithmeticSlices(new int[]{1,2,3,4,5,67,7}));
                     break;
+                case 458:
+                    System.out.println(poorPigs(4,15,15));
+                    break;
             default:
                 break;
         }
+
+    }
+
+    /**
+     * 458. 可怜的小猪
+     */
+    public static int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
+
+        int times = minutesToTest/minutesToDie+1;
+        return (int) Math.ceil(Math.log(buckets)/Math.log(times)-1e-5);
 
     }
 
