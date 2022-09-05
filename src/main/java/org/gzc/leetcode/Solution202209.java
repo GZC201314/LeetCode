@@ -37,9 +37,38 @@ public class Solution202209 {
                 case 435:
                     System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{-100,-2},{5,7}}));
                     break;
+                case 446:
+                    System.out.println(numberOfArithmeticSlices(new int[]{1,2,3,4,5,67,7}));
+                    break;
             default:
                 break;
         }
+
+    }
+
+    /**
+     * 446. 等差数列划分 II - 子序列
+     */
+    public static int numberOfArithmeticSlices(int[] nums) {
+        int result = 0;
+        int n = nums.length;
+        // 用于记录以i结尾公差为d的伪等差数列的个数（任意两个数都是伪等差数列）
+        Map<Long,Integer>[] dpMap = new HashMap[n];
+
+        for (int i = 0; i < n; i++) {
+            dpMap[i] = new HashMap<>();
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                long d = (long) nums[j]-nums[i];
+                Integer count = dpMap[j].getOrDefault(d, 0);
+                result += count;
+
+                // 加一是为了统计两个数的等差数列
+                dpMap[i].put(d, dpMap[i].getOrDefault(d,0)+count+1);
+            }
+        }
+        return result;
 
     }
 
@@ -85,6 +114,9 @@ public class Solution202209 {
 
     }
 
+    /**
+     * 416. 分割等和子集
+     */
     public static boolean canPartition(int[] nums) {
         int sum = 0;
         for (int num : nums) {
