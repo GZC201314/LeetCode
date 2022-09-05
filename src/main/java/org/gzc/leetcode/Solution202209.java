@@ -1,9 +1,6 @@
 package org.gzc.leetcode;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author GZC
@@ -26,7 +23,7 @@ public class Solution202209 {
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100}));
-                System.out.println(canPartition1(new int[] {9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                System.out.println(canPartition1(new int[] {19, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
@@ -37,8 +34,53 @@ public class Solution202209 {
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100}));
+                case 435:
+                    System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{-100,-2},{5,7}}));
+                    break;
             default:
                 break;
+        }
+
+    }
+
+    /**
+     * 435. 无重叠区间
+     */
+    public static int eraseOverlapIntervals(int[][] intervals) {
+
+        List<EraseOverlapIntervalsClass> sortedList = new ArrayList<>();
+
+        for (int[] interval : intervals) {
+            sortedList.add(new EraseOverlapIntervalsClass(interval[0], interval[1]));
+        }
+        sortedList.sort((o1, o2) -> o1.right == o2.right ? o1.left - o2.left : o1.right - o2.right);
+
+        int curRight = Integer.MIN_VALUE;
+        int count = 0;
+        for (EraseOverlapIntervalsClass eraseOverlapIntervalsClass : sortedList) {
+            if (curRight != eraseOverlapIntervalsClass.right){
+                if (eraseOverlapIntervalsClass.left>=curRight){
+//                    lastRight = curRight;
+                    curRight = eraseOverlapIntervalsClass.right;
+                }else {
+                    count++;
+                }
+            }else {
+                count++;
+            }
+        }
+
+        return count;
+
+    }
+
+    static class EraseOverlapIntervalsClass {
+        int left;
+        int right;
+
+        public EraseOverlapIntervalsClass(int left, int right){
+            this.left = left;
+            this.right = right;
         }
 
     }
