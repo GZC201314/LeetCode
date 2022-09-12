@@ -160,6 +160,9 @@ public class Solution202208 {
             case 1328:
                 System.out.println(breakPalindrome("aba"));
                 break;
+            case 1608:
+                System.out.println(specialArray(new int[]{1,3,9,5,11,2,11,0,4,2}));
+                break;
             case 57:
                 System.out.println(Arrays.deepToString(findContinuousSequence(15)));
                 break;
@@ -172,6 +175,22 @@ public class Solution202208 {
                 break;
         }
 
+    }
+
+    /**
+     * 1608. 特殊数组的特征值
+     */
+    public static int specialArray(int[] nums) {
+        Arrays.sort(nums);
+        int n = nums.length;
+        //如果当前大于等于的个数是x,则前一个数要小于这个x
+        for (int i = n-1; i >=0 ; i--) {
+            int x = n - i;
+            if (i-1>0 && nums[i-1]<x && nums[i]>=x){
+                return x;
+            }
+        }
+        return nums[0]>=n?n:-1;
     }
 
     /**
