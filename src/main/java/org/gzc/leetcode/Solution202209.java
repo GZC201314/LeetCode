@@ -40,6 +40,9 @@ public class Solution202209 {
                 case 446:
                     System.out.println(numberOfArithmeticSlices(new int[]{1,2,3,4,5,67,7}));
                     break;
+                case 670:
+                    System.out.println(maximumSwap(2736));
+                    break;
                 case 458:
                     System.out.println(poorPigs(4,15,15));
                     break;
@@ -47,6 +50,64 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 670. 最大交换
+     */
+    public static int maximumSwap(int num) {
+        List<Integer> list = new ArrayList<>();
+        while (num >0 ) {
+            int mod = num%10;
+            num /= 10;
+            list.add(mod);
+        }
+        dfsMaximumSwap(list, list.size()-1, 0);
+        int result = 0;
+
+        for (int i = list.size()-1; i >=0 ; i--) {
+            result = result*10+list.get(i);
+        }
+        return result;
+
+
+    }
+
+    public static void dfsMaximumSwap(List<Integer> list,int left, int right){
+        if (left == right){
+            return;
+        }
+
+        int max = -1;
+        for (int i = right; i <= left; i++) {
+            if (list.get(i) > max){
+                max = list.get(i);
+            }
+        }
+        // 从左往右找第一个不是最大值的数，从右向左找是最大值的第一个数
+        // 分两种情况进行讨论 第一种 最高位是最大值 第二种 最高位不是最大值
+        if (list.get(left) == max){
+           dfsMaximumSwap(list,left-1,right);
+        }else {
+            while (left>=0){
+                if (list.get(left--)!=max){
+                    break;
+                }
+            }
+            left++;
+            while (right<=left){
+                if (list.get(right++) == max){
+                    break;
+                }
+            }
+            right--;
+            if (left>right){
+                Integer integer = list.get(left);
+                Integer integer1 = list.get(right);
+                list.set(left, integer1);
+                list.set(right, integer);
+            }
+        }
     }
 
     /**
