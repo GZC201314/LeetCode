@@ -1,5 +1,6 @@
 package org.gzc.leetcode;
 
+
 import java.util.*;
 
 /**
@@ -43,6 +44,9 @@ public class Solution202209 {
                 case 670:
                     System.out.println(maximumSwap(2736));
                     break;
+                case 386:
+                    System.out.println(lexicalOrder(1234));
+                    break;
                 case 458:
                     System.out.println(poorPigs(4,15,15));
                     break;
@@ -50,6 +54,34 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 386. 字典排序数
+     */
+    static List<Integer> ans = new ArrayList<>();
+    public static List<Integer> lexicalOrder(int n) {
+
+        for (int i = 1; i < 10; i++) {
+            if (i>n){
+                break;
+            }
+            ans.add(i);
+            dfsLexicalOrder(n,i);
+
+        }
+        return ans;
+    }
+
+    public static void dfsLexicalOrder(int n,int num){
+        for (int i = 0; i < 10; i++) {
+            int numNew = num*10+i;
+            if (numNew>n){
+                break;
+            }
+            ans.add(numNew);
+            dfsLexicalOrder(n,numNew);
+        }
     }
 
     /**
@@ -196,8 +228,9 @@ public class Solution202209 {
         for (int num : nums) {
             sum += num;
         }
-        if (sum % 2 == 1)
+        if (sum % 2 == 1) {
             return false;
+        }
         int target = sum / 2; // dp[i][j]代表可装物品为0-i，背包容量为j的情况下，背包内容量的最大价值
         int[][] dp = new int[nums.length][target + 1];
         // 初始化,dp[0][j]的最大价值nums[0](if j > weight[i]) //dp[i][0]均为0，不用初始化
@@ -285,10 +318,12 @@ public class Solution202209 {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
-            if (o == null || getClass() != o.getClass())
+            }
+            if (o == null || getClass() != o.getClass()) {
                 return false;
+            }
             CanPartitionInfo that = (CanPartitionInfo)o;
             return index == that.index && rest == that.rest;
         }
