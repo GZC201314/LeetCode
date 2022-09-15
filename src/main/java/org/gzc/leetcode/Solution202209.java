@@ -46,6 +46,9 @@ public class Solution202209 {
             case 386:
                 System.out.println(lexicalOrder(1234));
                 break;
+            case 394:
+                System.out.println(decodeString("3[a2[c]]"));
+                break;
             case 672:
                 System.out.println(flipLights(2, 5));
                 break;
@@ -55,6 +58,54 @@ public class Solution202209 {
             default:
                 break;
         }
+
+    }
+
+    /**
+     * 394. 解密字符串
+     * @param s
+     * @return
+     */
+    public static String decodeString(String s) {
+        Stack<Character> stack = new Stack<>();
+        char[] chars = s.toCharArray();
+        for (char aChar : chars) {
+            if (aChar == ']'){
+                // 一直弹栈，一直到第一个【
+                StringBuilder sb = new StringBuilder();
+                while (!stack.isEmpty()){
+                    Character pop = stack.pop();
+                    if (pop == '['){
+                        // 组合加密的字符串
+                        String encodeString = sb.reverse().toString();
+                        // 寻找加密次数
+                        int count = 0;
+                        int index = 0;
+                        while (!stack.isEmpty()&&Character.isDigit(stack.peek())){
+                            count += Math.pow(10,index++)*(stack.pop()-'0');
+                        }
+                        for (int i = 0; i < count; i++) {
+                            char[] chars1 = encodeString.toCharArray();
+                            for (char c : chars1) {
+                                stack.push(c);
+                            }
+                        }
+                        break;
+                    }else {
+                        sb.append(pop);
+
+                    }
+                }
+            }else {
+                stack.push(aChar);
+            }
+
+        }
+        StringBuilder result = new StringBuilder();
+        while (!stack.isEmpty()){
+            result.append(stack.pop());
+        }
+        return result.reverse().toString();
 
     }
 
