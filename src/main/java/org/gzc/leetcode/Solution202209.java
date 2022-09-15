@@ -1,6 +1,5 @@
 package org.gzc.leetcode;
 
-
 import java.util.*;
 
 /**
@@ -35,23 +34,90 @@ public class Solution202209 {
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100}));
-                case 435:
-                    System.out.println(eraseOverlapIntervals(new int[][]{{1,2},{2,3},{3,4},{-100,-2},{5,7}}));
-                    break;
-                case 446:
-                    System.out.println(numberOfArithmeticSlices(new int[]{1,2,3,4,5,67,7}));
-                    break;
-                case 670:
-                    System.out.println(maximumSwap(2736));
-                    break;
-                case 386:
-                    System.out.println(lexicalOrder(1234));
-                    break;
-                case 458:
-                    System.out.println(poorPigs(4,15,15));
-                    break;
+            case 435:
+                System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                break;
+            case 446:
+                System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
+                break;
+            case 670:
+                System.out.println(maximumSwap(2736));
+                break;
+            case 386:
+                System.out.println(lexicalOrder(1234));
+                break;
+            case 672:
+                System.out.println(flipLights(2, 5));
+                break;
+            case 458:
+                System.out.println(poorPigs(4, 15, 15));
+                break;
             default:
                 break;
+        }
+
+    }
+
+    /**
+     * 672. 灯泡开关 ||
+     */
+    public static Set<Integer> set = new HashSet<>();
+
+    public static int flipLights(int n, int presses) {
+
+        // 初始化灯泡
+        int light = 1 << n - 1;
+        // 用于存储可能的情况
+        flipLightsDfs(n, light, presses);
+
+        return set.size();
+
+    }
+
+    /**
+     *
+     * @param n 灯泡个数
+     * @param light 当前的灯泡的情况
+     * @param presses 剩余的操作次数
+     */
+    public static void flipLightsDfs(int n, int light, int presses) {
+
+        if (presses == 0) {
+            set.add(light);
+        }
+        if (presses < 0) {
+            return;
+        }
+        Set<Integer> pressesSet = new HashSet<>();
+        // 第一个开关 ，把所有的灯都反转
+        int p1 = 1 << n - 1;
+        light = p1 ^ light;
+        if (pressesSet.add(light)) {
+            flipLightsDfs(n, light, presses - 1);
+        }
+        // 第二个开关，反转编号为偶数的灯的状态
+        for (int i = 2; i <= n; i = i + 2) {
+            int p2 = 1 << (i - 1);
+            light = ((light | p2) == 0) ? light + p2 : light ^ p2;
+        }
+        if (pressesSet.add(light)) {
+            flipLightsDfs(n, light, presses - 1);
+        }
+        // 第三个开关，反转编号为奇数的灯的状态
+        for (int i = 1; i <= n; i = i + 2) {
+            int p3 = 1 << (i - 1);
+            light = ((light | p3) == 0) ? light + p3 : light ^ p3;
+        }
+        if (pressesSet.add(light)) {
+            flipLightsDfs(n, light, presses - 1);
+        }
+        // 第四个开关，反转编号为 j = 3k + 1 的灯的状态，其中 k = 0, 1, 2, ...（即 1, 4, 7, 10, ...）
+        for (int i = 1; i <= n; i = i + 3) {
+            int p4 = 1 << (i - 1);
+            light = ((light | p4) == 0) ? light + p4 : light ^ p4;
+        }
+        if (pressesSet.add(light)) {
+            flipLightsDfs(n, light, presses - 1);
         }
 
     }
@@ -60,27 +126,28 @@ public class Solution202209 {
      * 386. 字典排序数
      */
     static List<Integer> ans = new ArrayList<>();
+
     public static List<Integer> lexicalOrder(int n) {
 
         for (int i = 1; i < 10; i++) {
-            if (i>n){
+            if (i > n) {
                 break;
             }
             ans.add(i);
-            dfsLexicalOrder(n,i);
+            dfsLexicalOrder(n, i);
 
         }
         return ans;
     }
 
-    public static void dfsLexicalOrder(int n,int num){
+    public static void dfsLexicalOrder(int n, int num) {
         for (int i = 0; i < 10; i++) {
-            int numNew = num*10+i;
-            if (numNew>n){
+            int numNew = num * 10 + i;
+            if (numNew > n) {
                 break;
             }
             ans.add(numNew);
-            dfsLexicalOrder(n,numNew);
+            dfsLexicalOrder(n, numNew);
         }
     }
 
@@ -89,51 +156,50 @@ public class Solution202209 {
      */
     public static int maximumSwap(int num) {
         List<Integer> list = new ArrayList<>();
-        while (num >0 ) {
-            int mod = num%10;
+        while (num > 0) {
+            int mod = num % 10;
             num /= 10;
             list.add(mod);
         }
-        dfsMaximumSwap(list, list.size()-1, 0);
+        dfsMaximumSwap(list, list.size() - 1, 0);
         int result = 0;
 
-        for (int i = list.size()-1; i >=0 ; i--) {
-            result = result*10+list.get(i);
+        for (int i = list.size() - 1; i >= 0; i--) {
+            result = result * 10 + list.get(i);
         }
         return result;
 
-
     }
 
-    public static void dfsMaximumSwap(List<Integer> list,int left, int right){
-        if (left == right){
+    public static void dfsMaximumSwap(List<Integer> list, int left, int right) {
+        if (left == right) {
             return;
         }
 
         int max = -1;
         for (int i = right; i <= left; i++) {
-            if (list.get(i) > max){
+            if (list.get(i) > max) {
                 max = list.get(i);
             }
         }
         // 从左往右找第一个不是最大值的数，从右向左找是最大值的第一个数
         // 分两种情况进行讨论 第一种 最高位是最大值 第二种 最高位不是最大值
-        if (list.get(left) == max){
-           dfsMaximumSwap(list,left-1,right);
-        }else {
-            while (left>=0){
-                if (list.get(left--)!=max){
+        if (list.get(left) == max) {
+            dfsMaximumSwap(list, left - 1, right);
+        } else {
+            while (left >= 0) {
+                if (list.get(left--) != max) {
                     break;
                 }
             }
             left++;
-            while (right<=left){
-                if (list.get(right++) == max){
+            while (right <= left) {
+                if (list.get(right++) == max) {
                     break;
                 }
             }
             right--;
-            if (left>right){
+            if (left > right) {
                 Integer integer = list.get(left);
                 Integer integer1 = list.get(right);
                 list.set(left, integer1);
@@ -147,8 +213,8 @@ public class Solution202209 {
      */
     public static int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
 
-        int times = minutesToTest/minutesToDie+1;
-        return (int) Math.ceil(Math.log(buckets)/Math.log(times)-1e-5);
+        int times = minutesToTest / minutesToDie + 1;
+        return (int)Math.ceil(Math.log(buckets) / Math.log(times) - 1e-5);
 
     }
 
@@ -159,19 +225,19 @@ public class Solution202209 {
         int result = 0;
         int n = nums.length;
         // 用于记录以i结尾公差为d的伪等差数列的个数（任意两个数都是伪等差数列）
-        Map<Long,Integer>[] dpMap = new HashMap[n];
+        Map<Long, Integer>[] dpMap = new HashMap[n];
 
         for (int i = 0; i < n; i++) {
             dpMap[i] = new HashMap<>();
         }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                long d = (long) nums[j]-nums[i];
+                long d = (long)nums[j] - nums[i];
                 Integer count = dpMap[j].getOrDefault(d, 0);
                 result += count;
 
                 // 加一是为了统计两个数的等差数列
-                dpMap[i].put(d, dpMap[i].getOrDefault(d,0)+count+1);
+                dpMap[i].put(d, dpMap[i].getOrDefault(d, 0) + count + 1);
             }
         }
         return result;
@@ -193,14 +259,14 @@ public class Solution202209 {
         int curRight = Integer.MIN_VALUE;
         int count = 0;
         for (EraseOverlapIntervalsClass eraseOverlapIntervalsClass : sortedList) {
-            if (curRight != eraseOverlapIntervalsClass.right){
-                if (eraseOverlapIntervalsClass.left>=curRight){
-//                    lastRight = curRight;
+            if (curRight != eraseOverlapIntervalsClass.right) {
+                if (eraseOverlapIntervalsClass.left >= curRight) {
+                    // lastRight = curRight;
                     curRight = eraseOverlapIntervalsClass.right;
-                }else {
+                } else {
                     count++;
                 }
-            }else {
+            } else {
                 count++;
             }
         }
@@ -213,7 +279,7 @@ public class Solution202209 {
         int left;
         int right;
 
-        public EraseOverlapIntervalsClass(int left, int right){
+        public EraseOverlapIntervalsClass(int left, int right) {
             this.left = left;
             this.right = right;
         }
