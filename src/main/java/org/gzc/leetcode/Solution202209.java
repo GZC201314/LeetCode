@@ -49,6 +49,9 @@ public class Solution202209 {
             case 394:
                 System.out.println(decodeString("3[a2[c]]"));
                 break;
+            case 395:
+                System.out.println(longestSubstring("abcdedghijklmnopqrstuvwxyz", 2));
+                break;
             case 672:
                 System.out.println(flipLights(2, 5));
                 break;
@@ -62,27 +65,64 @@ public class Solution202209 {
     }
 
     /**
+     * 395. 至少有K个字符的最长子串
+     */
+    public static int longestSubstring(String s, int k) {
+        int n = s.length();
+        int[] cnt = new int[26];
+        // 统计所有的字母出现个数
+        for(int c : s.toCharArray()) cnt[c - 'a'] ++;
+        // 定义一个字符串，用于传入split函数分割当前字符串
+        StringBuilder cut = new StringBuilder();
+        // 定义一个标志，用于标记是否所有字符都满足要求
+        boolean flag = true;
+        // 遍历所有字符
+        for(int i = 0; i < 26; i++) {
+            if(cnt[i] > 0 && cnt[i] < k) {
+                // 这个字符不满足要求，并且加入分割串
+                flag = false;
+                cut.append((char)(i + 'a'));
+                cut.append("|");
+            }
+        }
+        // 所有字符都满足要求的话，就直接返回字符串长度
+        if(flag) return n;
+        String s1 = cut.toString();
+        s1 = s1.substring(0, s1.length() - 1);
+        // 切割当前字符串，得到被切割的子串数组
+        String[] cuted = s.split(s1);
+
+        int res = 0;
+        for(String c : cuted) {
+            // 递归处理子串
+            res = Math.max(longestSubstring(c, k), res);
+        }
+
+        return res;
+    }
+
+
+
+    /**
      * 394. 解密字符串
-     * @param s
-     * @return
      */
     public static String decodeString(String s) {
         Stack<Character> stack = new Stack<>();
         char[] chars = s.toCharArray();
         for (char aChar : chars) {
-            if (aChar == ']'){
+            if (aChar == ']') {
                 // 一直弹栈，一直到第一个【
                 StringBuilder sb = new StringBuilder();
-                while (!stack.isEmpty()){
+                while (!stack.isEmpty()) {
                     Character pop = stack.pop();
-                    if (pop == '['){
+                    if (pop == '[') {
                         // 组合加密的字符串
                         String encodeString = sb.reverse().toString();
                         // 寻找加密次数
                         int count = 0;
                         int index = 0;
-                        while (!stack.isEmpty()&&Character.isDigit(stack.peek())){
-                            count += Math.pow(10,index++)*(stack.pop()-'0');
+                        while (!stack.isEmpty() && Character.isDigit(stack.peek())) {
+                            count += Math.pow(10, index++) * (stack.pop() - '0');
                         }
                         for (int i = 0; i < count; i++) {
                             char[] chars1 = encodeString.toCharArray();
@@ -91,18 +131,18 @@ public class Solution202209 {
                             }
                         }
                         break;
-                    }else {
+                    } else {
                         sb.append(pop);
 
                     }
                 }
-            }else {
+            } else {
                 stack.push(aChar);
             }
 
         }
         StringBuilder result = new StringBuilder();
-        while (!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             result.append(stack.pop());
         }
         return result.reverse().toString();
@@ -144,6 +184,7 @@ public class Solution202209 {
         int p1 = 1 << n - 1;
         light = p1 ^ light;
         if (pressesSet.add(light)) {
+
             flipLightsDfs(n, light, presses - 1);
         }
         // 第二个开关，反转编号为偶数的灯的状态
