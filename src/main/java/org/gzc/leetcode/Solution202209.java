@@ -40,6 +40,9 @@ public class Solution202209 {
             case 446:
                 System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
                 break;
+            case 2149:
+                System.out.println(Arrays.toString(rearrangeArray(new int[]{3,1,2,-5,-1,-3})));
+                break;
             case 670:
                 System.out.println(maximumSwap(2736));
                 break;
@@ -62,6 +65,38 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 2149. 按符号重排数组
+     */
+    public static int[] rearrangeArray(int[] nums) {
+        int zheng = 0;
+        int fu = 0;
+        int index = 0;
+        int[] result = new int[nums.length];
+        while (index < nums.length){
+            while (zheng < nums.length){
+                if (0 < nums[zheng]){
+                    break;
+                }
+                zheng++;
+            }
+            if (zheng < nums.length){
+                result[index++] = nums[zheng++];
+            }
+
+            while (fu < nums.length){
+                if (0 > nums[fu]){
+                    break;
+                }
+                fu++;
+            }
+            if (fu < nums.length){
+                result[index++] = nums[fu++];
+            }
+        }
+        return result;
     }
 
     /**
