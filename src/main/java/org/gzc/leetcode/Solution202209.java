@@ -48,6 +48,9 @@ public class Solution202209 {
             case 670:
                 System.out.println(maximumSwap(2736));
                 break;
+            case 400:
+                System.out.println(findNthDigit(1000000000));
+                break;
             case 386:
                 System.out.println(lexicalOrder(1234));
                 break;
@@ -69,6 +72,36 @@ public class Solution202209 {
 
     }
 
+    /**
+     * 400. 第N位数字
+     */
+    public static int findNthDigit(int n) {
+        if (n<10){
+            return n;
+        }
+        int index =0;
+        long sum =0;
+        while (sum<=n){
+            sum +=((index+1)*9*Math.pow(10,index++));
+        }
+        index = index-1;
+        // 计算当前位数的就、第一个数
+        int v = (int)(n - (sum - ((index+1)*9 * Math.pow(10, index))));
+
+        int count = v/(index+1);
+
+        int rest = v%(index+1);
+
+        int pow = (int)Math.pow(10, index)+count;
+        String s = String.valueOf(pow);
+        if (rest== 0){
+            return (pow-1)%10;
+        }else {
+            return Integer.parseInt(s.charAt(rest-1)+"");
+        }
+
+
+    }
 
     /**
      * 399. 除法求值
