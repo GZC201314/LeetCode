@@ -1,9 +1,9 @@
 package org.gzc.leetcode;
 
+import java.util.*;
+
 import org.gzc.leetcode.model.DisjointSet;
 import org.gzc.leetcode.model.UnionFind;
-
-import java.util.*;
 
 /**
  * @author GZC
@@ -43,6 +43,23 @@ public class Solution202209 {
             case 435:
                 System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
+            case 399:
+                // equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
+                List<List<String>> equations = new ArrayList<>();
+                List<String> equation = new ArrayList<>();
+                equation.add("a");
+                equation.add("b");
+                List<String> equation1 = new ArrayList<>();
+                equation1.add("b");
+                equation1.add("c");
+                equations.add(equation);
+                equations.add(equation1);
+                double[] values = new double[]{2.0,3,0};
+                 System.out.println(Arrays.toString(calcEquation(equations,values,equations)));
+                break;
+            case 547:
+                System.out.println(findCircleNum(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                break;
             case 446:
                 System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
                 break;
@@ -74,6 +91,41 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 547. 省份数量
+     */
+    public static int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i; j < n; j++) {
+                if (isConnected[i][j] ==1){
+                    findCircleNumdfs(isConnected,i,j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    public static void findCircleNumdfs(int[][] isConnected,int i,int j){
+        isConnected[i][j] = 2;
+        isConnected[j][i] = 2;
+        int n = isConnected.length;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(j);
+
+        while (!queue.isEmpty()){
+            Integer poll = queue.poll();
+            for (int k = 0; k < n; k++) {
+                if (isConnected[poll][k] ==1){
+                    isConnected[poll][k] = 2;
+                    isConnected[k][poll] = 2;
+                    queue.offer(k);
+                }
+            }
+        }
     }
 
     /**
