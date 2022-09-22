@@ -1940,7 +1940,7 @@ class SolutionHead {
                     if (inArea(newX, newY, m, n)
                             && visited[newIndex]
                             && !unionFind.isConnected(index, newIndex)) {
-                        unionFind.union(index, newIndex);
+                        unionFind.union(index, newIndex,0);
                     }
                 }
             }
