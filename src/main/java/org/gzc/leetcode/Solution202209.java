@@ -1,5 +1,6 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.DisjointSet;
 import org.gzc.leetcode.model.UnionFind;
 
 import java.util.*;
@@ -36,6 +37,9 @@ public class Solution202209 {
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
                     100, 100, 100, 100}));
+            case 1391:
+                System.out.println(hasValidPath(new int[][] {{2, 4, 3}, {6, 5, 2}}));
+                break;
             case 435:
                 System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
@@ -43,7 +47,7 @@ public class Solution202209 {
                 System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
                 break;
             case 2149:
-                System.out.println(Arrays.toString(rearrangeArray(new int[]{3,1,2,-5,-1,-3})));
+                System.out.println(Arrays.toString(rearrangeArray(new int[] {3, 1, 2, -5, -1, -3})));
                 break;
             case 670:
                 System.out.println(maximumSwap(2736));
@@ -73,33 +77,120 @@ public class Solution202209 {
     }
 
     /**
+     * 1391. 检查网格中是否存在有效路径
+     *
+     * 1 表示连接左单元格和右单元格的街道。 2 表示连接上单元格和下单元格的街道。 3 表示连接左单元格和下单元格的街道。 4 表示连接右单元格和下单元格的街道。 5 表示连接左单元格和上单元格的街道。 6
+     * 表示连接右单元格和上单元格的街道。
+     *
+     */
+    public static DisjointSet ds;
+    public static int n;
+
+    public static boolean hasValidPath(int[][] grid) {
+        int m = grid.length;
+        n = grid[0].length;
+        ds = new DisjointSet(m, n);
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                hasValidPathdfs(grid, i, j);
+            }
+        }
+        return ds.find(getId(0, 0)) == ds.find(getId(m - 1, n - 1));
+
+    }
+
+    private static void hasValidPathdfs(int[][] grid, int i, int j) {
+        switch (grid[i][j]) {
+            case 1:
+                turnLeftIsOk(grid, i, j);
+                turnRightIsOk(grid, i, j);
+                break;
+            case 2:
+                turnUpIsOk(grid, i, j);
+                turnBottomIsOk(grid, i, j);
+                break;
+            case 3:
+                turnLeftIsOk(grid, i, j);
+                turnBottomIsOk(grid, i, j);
+                break;
+            case 4:
+                turnRightIsOk(grid, i, j);
+                turnBottomIsOk(grid, i, j);
+                break;
+            case 5:
+                turnLeftIsOk(grid, i, j);
+                turnUpIsOk(grid, i, j);
+                break;
+            case 6:
+                turnUpIsOk(grid, i, j);
+                turnRightIsOk(grid, i, j);
+                break;
+
+        }
+    }
+
+    private static void turnBottomIsOk(int[][] grid, int i, int i1) {
+        i++;
+        if (i < grid.length && (grid[i][i1] == 2 || grid[i][i1] == 5 || grid[i][i1] == 6)) {
+            ds.union(getId(i - 1, i1), getId(i, i1));
+        }
+    }
+
+    private static void turnUpIsOk(int[][] grid, int i, int i1) {
+        i--;
+
+        if (i >= 0 && (grid[i][i1] == 2 || grid[i][i1] == 3 || grid[i][i1] == 4)) {
+            ds.union(getId(i + 1, i1), getId(i, i1));
+        }
+    }
+
+    private static void turnRightIsOk(int[][] grid, int i, int i1) {
+        i1++;
+        if (i1 < grid[0].length && (grid[i][i1] == 1 || grid[i][i1] == 3 || grid[i][i1] == 5)) {
+            ds.union(getId(i, i1 - 1), getId(i, i1));
+        }
+    }
+
+    private static void turnLeftIsOk(int[][] grid, int i, int i1) {
+        i1--;
+        if (i1 >= 0 && (grid[i][i1] == 1 || grid[i][i1] == 4 || grid[i][i1] == 6)) {
+            ds.union(getId(i, i1 + 1), getId(i, i1));
+        }
+
+    }
+
+    private static int getId(int x, int y) {
+        return x * n + y;
+    }
+
+    /**
      * 400. 第N位数字
      */
     public static int findNthDigit(int n) {
-        if (n<10){
+        if (n < 10) {
             return n;
         }
-        int index =0;
-        long sum =0;
-        while (sum<=n){
-            sum +=((index+1)*9*Math.pow(10,index++));
+        int index = 0;
+        long sum = 0;
+        while (sum <= n) {
+            sum += ((index + 1) * 9 * Math.pow(10, index++));
         }
-        index = index-1;
+        index = index - 1;
         // 计算当前位数的就、第一个数
-        int v = (int)(n - (sum - ((index+1)*9 * Math.pow(10, index))));
+        int v = (int)(n - (sum - ((index + 1) * 9 * Math.pow(10, index))));
 
-        int count = v/(index+1);
+        int count = v / (index + 1);
 
-        int rest = v%(index+1);
+        int rest = v % (index + 1);
 
-        int pow = (int)Math.pow(10, index)+count;
+        int pow = (int)Math.pow(10, index) + count;
         String s = String.valueOf(pow);
-        if (rest== 0){
-            return (pow-1)%10;
-        }else {
-            return Integer.parseInt(s.charAt(rest-1)+"");
+        if (rest == 0) {
+            return (pow - 1) % 10;
+        } else {
+            return Integer.parseInt(s.charAt(rest - 1) + "");
         }
-
 
     }
 
@@ -142,9 +233,9 @@ public class Solution202209 {
             if (id1 == null || id2 == null) {
                 res[i] = -1.0d;
             } else {
-                if (unionFind.isConnected(id1,id2)){
-                    res[i] = unionFind.getWeight(id1,id2);
-                }else {
+                if (unionFind.isConnected(id1, id2)) {
+                    res[i] = unionFind.getWeight(id1, id2);
+                } else {
                     res[i] = -1.0;
                 }
             }
@@ -160,24 +251,24 @@ public class Solution202209 {
         int fu = 0;
         int index = 0;
         int[] result = new int[nums.length];
-        while (index < nums.length){
-            while (zheng < nums.length){
-                if (0 < nums[zheng]){
+        while (index < nums.length) {
+            while (zheng < nums.length) {
+                if (0 < nums[zheng]) {
                     break;
                 }
                 zheng++;
             }
-            if (zheng < nums.length){
+            if (zheng < nums.length) {
                 result[index++] = nums[zheng++];
             }
 
-            while (fu < nums.length){
-                if (0 > nums[fu]){
+            while (fu < nums.length) {
+                if (0 > nums[fu]) {
                     break;
                 }
                 fu++;
             }
-            if (fu < nums.length){
+            if (fu < nums.length) {
                 result[index++] = nums[fu++];
             }
         }
@@ -191,14 +282,15 @@ public class Solution202209 {
         int n = s.length();
         int[] cnt = new int[26];
         // 统计所有的字母出现个数
-        for(int c : s.toCharArray()) cnt[c - 'a'] ++;
+        for (int c : s.toCharArray())
+            cnt[c - 'a']++;
         // 定义一个字符串，用于传入split函数分割当前字符串
         StringBuilder cut = new StringBuilder();
         // 定义一个标志，用于标记是否所有字符都满足要求
         boolean flag = true;
         // 遍历所有字符
-        for(int i = 0; i < 26; i++) {
-            if(cnt[i] > 0 && cnt[i] < k) {
+        for (int i = 0; i < 26; i++) {
+            if (cnt[i] > 0 && cnt[i] < k) {
                 // 这个字符不满足要求，并且加入分割串
                 flag = false;
                 cut.append((char)(i + 'a'));
@@ -206,22 +298,21 @@ public class Solution202209 {
             }
         }
         // 所有字符都满足要求的话，就直接返回字符串长度
-        if(flag) return n;
+        if (flag)
+            return n;
         String s1 = cut.toString();
         s1 = s1.substring(0, s1.length() - 1);
         // 切割当前字符串，得到被切割的子串数组
         String[] cuted = s.split(s1);
 
         int res = 0;
-        for(String c : cuted) {
+        for (String c : cuted) {
             // 递归处理子串
             res = Math.max(longestSubstring(c, k), res);
         }
 
         return res;
     }
-
-
 
     /**
      * 394. 解密字符串
