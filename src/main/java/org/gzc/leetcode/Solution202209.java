@@ -334,8 +334,9 @@ public class Solution202209 {
         int n = s.length();
         int[] cnt = new int[26];
         // 统计所有的字母出现个数
-        for (int c : s.toCharArray())
+        for (int c : s.toCharArray()) {
             cnt[c - 'a']++;
+        }
         // 定义一个字符串，用于传入split函数分割当前字符串
         StringBuilder cut = new StringBuilder();
         // 定义一个标志，用于标记是否所有字符都满足要求
@@ -350,8 +351,9 @@ public class Solution202209 {
             }
         }
         // 所有字符都满足要求的话，就直接返回字符串长度
-        if (flag)
+        if (flag) {
             return n;
+        }
         String s1 = cut.toString();
         s1 = s1.substring(0, s1.length() - 1);
         // 切割当前字符串，得到被切割的子串数组
@@ -696,9 +698,6 @@ public class Solution202209 {
     static Map<CanPartitionInfo, Boolean> dbMap = new HashMap<>();
 
     public static boolean canPartitionDfs(int[] nums, int i, int rest, int[] sum) {
-        // if (rest == 0) {
-        // return true;
-        // }
         if (rest < 0) {
             return false;
         }
