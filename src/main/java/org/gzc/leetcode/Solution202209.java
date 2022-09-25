@@ -10,38 +10,59 @@ import org.gzc.leetcode.model.UnionFind;
  */
 public class Solution202209 {
 
+    /**
+     * 1391. 检查网格中是否存在有效路径
+     * <p>
+     * 1 表示连接左单元格和右单元格的街道。 2 表示连接上单元格和下单元格的街道。 3 表示连接左单元格和下单元格的街道。 4 表示连接右单元格和下单元格的街道。 5 表示连接左单元格和上单元格的街道。 6
+     * 表示连接右单元格和上单元格的街道。
+     */
+    public static DisjointSet ds;
+    public static int n;
+    /**
+     * 672. 灯泡开关 ||
+     */
+    public static Set<Integer> set = new HashSet<>();
+    /**
+     * 386. 字典排序数
+     */
+    static List<Integer> ans = new ArrayList<>();
+    /**
+     * 返回nums[i...]是否可以组成rest 剪枝
+     */
+    static Map<CanPartitionInfo, Boolean> dbMap = new HashMap<>();
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 416:
-                System.out.println(canPartition(new int[] {9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100}));
-                System.out.println(canPartition1(new int[] {19, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                    100, 100, 100, 100}));
+                System.out.println(canPartition(new int[]{9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100}));
+                System.out.println(canPartition1(new int[]{19, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                        100, 100, 100, 100}));
             case 1391:
-                System.out.println(hasValidPath(new int[][] {{2, 4, 3}, {6, 5, 2}}));
+                System.out.println(hasValidPath(new int[][]{{2, 4, 3}, {6, 5, 2}}));
                 break;
             case 435:
-                System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                System.out.println(eraseOverlapIntervals(new int[][]{{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
             case 399:
                 // equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
@@ -54,17 +75,17 @@ public class Solution202209 {
                 equation1.add("c");
                 equations.add(equation);
                 equations.add(equation1);
-                double[] values = new double[]{2.0,3,0};
-                 System.out.println(Arrays.toString(calcEquation(equations,values,equations)));
+                double[] values = new double[]{2.0, 3, 0};
+                System.out.println(Arrays.toString(calcEquation(equations, values, equations)));
                 break;
             case 547:
-                System.out.println(findCircleNum(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                System.out.println(findCircleNum(new int[][]{{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
             case 446:
-                System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
+                System.out.println(numberOfArithmeticSlices(new int[]{1, 2, 3, 4, 5, 67, 7}));
                 break;
             case 2149:
-                System.out.println(Arrays.toString(rearrangeArray(new int[] {3, 1, 2, -5, -1, -3})));
+                System.out.println(Arrays.toString(rearrangeArray(new int[]{3, 1, 2, -5, -1, -3})));
                 break;
             case 670:
                 System.out.println(maximumSwap(2736));
@@ -84,6 +105,9 @@ public class Solution202209 {
             case 672:
                 System.out.println(flipLights(2, 5));
                 break;
+            case 788:
+                System.out.println(rotatedDigits(10000));
+                break;
             case 458:
                 System.out.println(poorPigs(4, 15, 15));
                 break;
@@ -94,6 +118,32 @@ public class Solution202209 {
     }
 
     /**
+     * 788. 旋转数字
+     */
+    public static int rotatedDigits(int n) {
+        int lastResult = 0;
+        int result = 0;
+        for (int i = 1; i <= n; i++) {
+            String str = String.valueOf(i);
+            if (str.contains("3")|| str.contains("4")||str.contains("7")){
+                result = lastResult;
+            }else {
+                if (str.contains("2")||str.contains("5")||str.contains("6")||str.contains("9")){
+
+                    result = lastResult+1;
+                    lastResult = result;
+
+                }else {
+                    result = lastResult;
+                }
+            }
+
+        }
+        return result;
+    }
+
+
+    /**
      * 547. 省份数量
      */
     public static int findCircleNum(int[][] isConnected) {
@@ -101,25 +151,26 @@ public class Solution202209 {
         int count = 0;
         for (int i = 0; i < n; i++) {
             for (int j = i; j < n; j++) {
-                if (isConnected[i][j] ==1){
-                    findCircleNumdfs(isConnected,i,j);
+                if (isConnected[i][j] == 1) {
+                    findCircleNumdfs(isConnected, i, j);
                     count++;
                 }
             }
         }
         return count;
     }
-    public static void findCircleNumdfs(int[][] isConnected,int i,int j){
+
+    public static void findCircleNumdfs(int[][] isConnected, int i, int j) {
         isConnected[i][j] = 2;
         isConnected[j][i] = 2;
         int n = isConnected.length;
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(j);
 
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             Integer poll = queue.poll();
             for (int k = 0; k < n; k++) {
-                if (isConnected[poll][k] ==1){
+                if (isConnected[poll][k] == 1) {
                     isConnected[poll][k] = 2;
                     isConnected[k][poll] = 2;
                     queue.offer(k);
@@ -127,16 +178,6 @@ public class Solution202209 {
             }
         }
     }
-
-    /**
-     * 1391. 检查网格中是否存在有效路径
-     *
-     * 1 表示连接左单元格和右单元格的街道。 2 表示连接上单元格和下单元格的街道。 3 表示连接左单元格和下单元格的街道。 4 表示连接右单元格和下单元格的街道。 5 表示连接左单元格和上单元格的街道。 6
-     * 表示连接右单元格和上单元格的街道。
-     *
-     */
-    public static DisjointSet ds;
-    public static int n;
 
     public static boolean hasValidPath(int[][] grid) {
         int m = grid.length;
@@ -177,6 +218,8 @@ public class Solution202209 {
             case 6:
                 turnUpIsOk(grid, i, j);
                 turnRightIsOk(grid, i, j);
+                break;
+            default:
                 break;
 
         }
@@ -230,13 +273,13 @@ public class Solution202209 {
         }
         index = index - 1;
         // 计算当前位数的就、第一个数
-        int v = (int)(n - (sum - ((index + 1) * 9 * Math.pow(10, index))));
+        int v = (int) (n - (sum - ((index + 1) * 9 * Math.pow(10, index))));
 
         int count = v / (index + 1);
 
         int rest = v % (index + 1);
 
-        int pow = (int)Math.pow(10, index) + count;
+        int pow = (int) Math.pow(10, index) + count;
         String s = String.valueOf(pow);
         if (rest == 0) {
             return (pow - 1) % 10;
@@ -346,7 +389,7 @@ public class Solution202209 {
             if (cnt[i] > 0 && cnt[i] < k) {
                 // 这个字符不满足要求，并且加入分割串
                 flag = false;
-                cut.append((char)(i + 'a'));
+                cut.append((char) (i + 'a'));
                 cut.append("|");
             }
         }
@@ -414,11 +457,6 @@ public class Solution202209 {
 
     }
 
-    /**
-     * 672. 灯泡开关 ||
-     */
-    public static Set<Integer> set = new HashSet<>();
-
     public static int flipLights(int n, int presses) {
 
         // 初始化灯泡
@@ -431,9 +469,8 @@ public class Solution202209 {
     }
 
     /**
-     *
-     * @param n 灯泡个数
-     * @param light 当前的灯泡的情况
+     * @param n       灯泡个数
+     * @param light   当前的灯泡的情况
      * @param presses 剩余的操作次数
      */
     public static void flipLightsDfs(int n, int light, int presses) {
@@ -478,11 +515,6 @@ public class Solution202209 {
         }
 
     }
-
-    /**
-     * 386. 字典排序数
-     */
-    static List<Integer> ans = new ArrayList<>();
 
     public static List<Integer> lexicalOrder(int n) {
 
@@ -571,7 +603,7 @@ public class Solution202209 {
     public static int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
 
         int times = minutesToTest / minutesToDie + 1;
-        return (int)Math.ceil(Math.log(buckets) / Math.log(times) - 1e-5);
+        return (int) Math.ceil(Math.log(buckets) / Math.log(times) - 1e-5);
 
     }
 
@@ -589,7 +621,7 @@ public class Solution202209 {
         }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                long d = (long)nums[j] - nums[i];
+                long d = (long) nums[j] - nums[i];
                 Integer count = dpMap[j].getOrDefault(d, 0);
                 result += count;
 
@@ -629,17 +661,6 @@ public class Solution202209 {
         }
 
         return count;
-
-    }
-
-    static class EraseOverlapIntervalsClass {
-        int left;
-        int right;
-
-        public EraseOverlapIntervalsClass(int left, int right) {
-            this.left = left;
-            this.right = right;
-        }
 
     }
 
@@ -692,11 +713,6 @@ public class Solution202209 {
 
     }
 
-    /**
-     * 返回nums[i...]是否可以组成rest 剪枝
-     */
-    static Map<CanPartitionInfo, Boolean> dbMap = new HashMap<>();
-
     public static boolean canPartitionDfs(int[] nums, int i, int rest, int[] sum) {
         if (rest < 0) {
             return false;
@@ -727,6 +743,17 @@ public class Solution202209 {
         return result;
     }
 
+    static class EraseOverlapIntervalsClass {
+        int left;
+        int right;
+
+        public EraseOverlapIntervalsClass(int left, int right) {
+            this.left = left;
+            this.right = right;
+        }
+
+    }
+
     static class CanPartitionInfo {
         int index;
         int rest;
@@ -744,7 +771,7 @@ public class Solution202209 {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            CanPartitionInfo that = (CanPartitionInfo)o;
+            CanPartitionInfo that = (CanPartitionInfo) o;
             return index == that.index && rest == that.rest;
         }
 
