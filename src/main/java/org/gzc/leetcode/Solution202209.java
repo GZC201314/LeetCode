@@ -111,6 +111,9 @@ public class Solution202209 {
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[]{3})));
                 break;
+            case 885:
+                System.out.println(Arrays.toString(spiralMatrixIII(1,4,0,0)));
+                break;
             case 458:
                 System.out.println(poorPigs(4, 15, 15));
                 break;
@@ -119,6 +122,59 @@ public class Solution202209 {
         }
 
     }
+
+    /**
+     * 885.螺旋矩阵|||
+     */
+    public static int[][] spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
+        int n = rows * cols;
+        int[][] result = new int[n][2];
+
+        int left = cStart;
+        int right = cStart;
+        int top = rStart;
+        int down = rStart;
+
+        int count = 0;
+        while (count < n){
+            // 向右
+            for (int i = left; i <= right ; i++) {
+                if (validPos(top, i,rows,cols)){
+                    result[count++] = new int[]{top,i};
+                }
+            }
+            right++;
+
+            // 向下
+            for (int i = top; i <= down ; i++) {
+                if (validPos(i, right,rows,cols)){
+                    result[count++] = new int[]{i,right};
+                }
+            }
+            down++;
+            // 向左
+            for (int i = right; i >= left ; i--) {
+                if (validPos(down, i, rows,cols)){
+                    result[count++] = new int[]{down,i};
+                }
+            }
+            left--;
+            // 向上
+            for (int i = down; i >= top ; i--) {
+                if (validPos(i, left, rows,cols)){
+                    result[count++] = new int[]{i,left};
+                }
+            }
+            top--;
+        }
+        return result;
+
+    }
+
+    private static boolean validPos(int r, int l, int rows, int cols) {
+        return r >= 0 && r < rows && l >= 0 && l < cols;
+    }
+
 
     /**
      * 面试题 17.19 消失的两个数字
