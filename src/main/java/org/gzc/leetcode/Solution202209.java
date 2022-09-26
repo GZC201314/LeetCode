@@ -84,6 +84,9 @@ public class Solution202209 {
             case 446:
                 System.out.println(numberOfArithmeticSlices(new int[]{1, 2, 3, 4, 5, 67, 7}));
                 break;
+            case 852:
+                System.out.println(peakIndexInMountainArray(new int[]{1, 2, 3, 4, 5, 67, 7}));
+                break;
             case 2149:
                 System.out.println(Arrays.toString(rearrangeArray(new int[]{3, 1, 2, -5, -1, -3})));
                 break;
@@ -124,6 +127,34 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 852. 山脉数组的峰顶索引
+     */
+    public static int peakIndexInMountainArray(int[] arr) {
+        int left = 0;
+        int right = arr.length-1;
+        int mid = (left+right)/2;
+        while (left < right) {
+            if (mid ==0){
+                return 1;
+            }
+            if (mid == arr.length-1){
+                return mid-1;
+            }
+            if (arr[mid]>arr[mid-1] && arr[mid]>arr[mid+1]){
+                break;
+            }
+            if (arr[mid]>arr[mid-1] && arr[mid]<arr[mid+1]){
+                left = mid+1;
+            }
+            if (arr[mid]<arr[mid-1] && arr[mid]>arr[mid+1]){
+                right = mid-1;
+            }
+            mid = (left+right)/2;
+        }
+        return mid;
     }
 
     /**
