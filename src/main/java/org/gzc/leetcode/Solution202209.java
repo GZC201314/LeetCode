@@ -36,36 +36,37 @@ public class Solution202209 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 416:
-                System.out.println(canPartition(new int[]{9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100}));
-                System.out.println(canPartition1(new int[]{19, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
-                        100, 100, 100, 100}));
+                System.out.println(canPartition(new int[] {9, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100}));
+                System.out.println(canPartition1(new int[] {19, 79, 2, 4, 8, 16, 32, 64, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100,
+                    100, 100, 100, 100}));
             case 1391:
-                System.out.println(hasValidPath(new int[][]{{2, 4, 3}, {6, 5, 2}}));
+                System.out.println(hasValidPath(new int[][] {{2, 4, 3}, {6, 5, 2}}));
                 break;
             case 435:
-                System.out.println(eraseOverlapIntervals(new int[][]{{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
             case 399:
-                // equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
+                // equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries =
+                // [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
                 List<List<String>> equations = new ArrayList<>();
                 List<String> equation = new ArrayList<>();
                 equation.add("a");
@@ -75,20 +76,23 @@ public class Solution202209 {
                 equation1.add("c");
                 equations.add(equation);
                 equations.add(equation1);
-                double[] values = new double[]{2.0, 3, 0};
+                double[] values = new double[] {2.0, 3, 0};
                 System.out.println(Arrays.toString(calcEquation(equations, values, equations)));
                 break;
             case 547:
-                System.out.println(findCircleNum(new int[][]{{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
+                System.out.println(findCircleNum(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
             case 446:
-                System.out.println(numberOfArithmeticSlices(new int[]{1, 2, 3, 4, 5, 67, 7}));
+                System.out.println(numberOfArithmeticSlices(new int[] {1, 2, 3, 4, 5, 67, 7}));
                 break;
             case 852:
-                System.out.println(peakIndexInMountainArray(new int[]{1, 2, 3, 4, 5, 67, 7}));
+                System.out.println(peakIndexInMountainArray(new int[] {1, 2, 3, 4, 5, 67, 7}));
+                break;
+            case 853:
+                System.out.println(carFleet(12, new int[] {10, 8, 0, 5, 3}, new int[] {2, 4, 1, 1, 3}));
                 break;
             case 2149:
-                System.out.println(Arrays.toString(rearrangeArray(new int[]{3, 1, 2, -5, -1, -3})));
+                System.out.println(Arrays.toString(rearrangeArray(new int[] {3, 1, 2, -5, -1, -3})));
                 break;
             case 670:
                 System.out.println(maximumSwap(2736));
@@ -115,10 +119,10 @@ public class Solution202209 {
                 System.out.println(rotatedDigits(10000));
                 break;
             case 666:
-                System.out.println(Arrays.toString(missingTwo(new int[]{3})));
+                System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
             case 885:
-                System.out.println(Arrays.toString(spiralMatrixIII(1,4,0,0)));
+                System.out.println(Arrays.toString(spiralMatrixIII(1, 4, 0, 0)));
                 break;
             case 458:
                 System.out.println(poorPigs(4, 15, 15));
@@ -130,29 +134,67 @@ public class Solution202209 {
     }
 
     /**
+     * 853. 车队
+     */
+    public static int carFleet(int target, int[] position, int[] speed) {
+        PriorityQueue<CarFleetInfo> priorityQueue = new PriorityQueue<>((o1, o2) -> {
+            if (o1.pos != o2.pos) {
+                return o2.pos - o1.pos;
+            } else {
+                return Float.compare(o2.needTime, o1.needTime);
+            }
+        });
+        for (int i = 0; i < position.length; i++) {
+            priorityQueue.offer(new CarFleetInfo(position[i], (target - position[i]) / (float)speed[i]));
+        }
+        int count = 0;
+
+        float lastTime = 0;
+        while (!priorityQueue.isEmpty()) {
+            CarFleetInfo poll = priorityQueue.poll();
+            if(poll.needTime >lastTime){
+                count++;
+                lastTime = poll.needTime;
+            }
+        }
+
+        return count;
+    }
+
+    public static class CarFleetInfo {
+        int pos;
+        float needTime;
+
+        public CarFleetInfo(int pos, float needTime) {
+            this.pos = pos;
+            this.needTime = needTime;
+        }
+    }
+
+    /**
      * 852. 山脉数组的峰顶索引
      */
     public static int peakIndexInMountainArray(int[] arr) {
         int left = 0;
-        int right = arr.length-1;
-        int mid = (left+right)/2;
+        int right = arr.length - 1;
+        int mid = (left + right) / 2;
         while (left < right) {
-            if (mid ==0){
+            if (mid == 0) {
                 return 1;
             }
-            if (mid == arr.length-1){
-                return mid-1;
+            if (mid == arr.length - 1) {
+                return mid - 1;
             }
-            if (arr[mid]>arr[mid-1] && arr[mid]>arr[mid+1]){
+            if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1]) {
                 break;
             }
-            if (arr[mid]>arr[mid-1] && arr[mid]<arr[mid+1]){
-                left = mid+1;
+            if (arr[mid] > arr[mid - 1] && arr[mid] < arr[mid + 1]) {
+                left = mid + 1;
             }
-            if (arr[mid]<arr[mid-1] && arr[mid]>arr[mid+1]){
-                right = mid-1;
+            if (arr[mid] < arr[mid - 1] && arr[mid] > arr[mid + 1]) {
+                right = mid - 1;
             }
-            mid = (left+right)/2;
+            mid = (left + right) / 2;
         }
         return mid;
     }
@@ -161,32 +203,34 @@ public class Solution202209 {
      * 869. 重新排序得到2的幂
      */
     public static boolean[] vis;
+
     public static boolean reorderedPowerOf2(int n) {
         char[] chars = String.valueOf(n).toCharArray();
         vis = new boolean[chars.length];
         Arrays.sort(chars);
-        return reorderedPowerOf2Dfs(chars, 0,0);
-
+        return reorderedPowerOf2Dfs(chars, 0, 0);
 
     }
-    public static boolean reorderedPowerOf2Dfs(char[] chars,int index,int num){
-        if (index == chars.length){
+
+    public static boolean reorderedPowerOf2Dfs(char[] chars, int index, int num) {
+        if (index == chars.length) {
             return powerOf2(num);
         }
         for (int i = 0; i < chars.length; i++) {
-            if ((num ==0 && chars[i] == '0') || vis[i]|| (i>0 && !vis[i-1] && chars[i] == chars[i-1])){
+            if ((num == 0 && chars[i] == '0') || vis[i] || (i > 0 && !vis[i - 1] && chars[i] == chars[i - 1])) {
                 continue;
             }
             vis[i] = true;
-            if (reorderedPowerOf2Dfs(chars,index+1,num*10+chars[i]-'0')){
+            if (reorderedPowerOf2Dfs(chars, index + 1, num * 10 + chars[i] - '0')) {
                 return true;
             }
             vis[i] = false;
         }
         return false;
     }
-    public static boolean powerOf2(int n){
-        return (n &(n-1)) ==0;
+
+    public static boolean powerOf2(int n) {
+        return (n & (n - 1)) == 0;
     }
 
     /**
@@ -202,33 +246,33 @@ public class Solution202209 {
         int down = rStart;
 
         int count = 0;
-        while (count < n){
+        while (count < n) {
             // 向右
-            for (int i = left; i <= right ; i++) {
-                if (validPos(top, i,rows,cols)){
-                    result[count++] = new int[]{top,i};
+            for (int i = left; i <= right; i++) {
+                if (validPos(top, i, rows, cols)) {
+                    result[count++] = new int[] {top, i};
                 }
             }
             right++;
 
             // 向下
-            for (int i = top; i <= down ; i++) {
-                if (validPos(i, right,rows,cols)){
-                    result[count++] = new int[]{i,right};
+            for (int i = top; i <= down; i++) {
+                if (validPos(i, right, rows, cols)) {
+                    result[count++] = new int[] {i, right};
                 }
             }
             down++;
             // 向左
-            for (int i = right; i >= left ; i--) {
-                if (validPos(down, i, rows,cols)){
-                    result[count++] = new int[]{down,i};
+            for (int i = right; i >= left; i--) {
+                if (validPos(down, i, rows, cols)) {
+                    result[count++] = new int[] {down, i};
                 }
             }
             left--;
             // 向上
-            for (int i = down; i >= top ; i--) {
-                if (validPos(i, left, rows,cols)){
-                    result[count++] = new int[]{i,left};
+            for (int i = down; i >= top; i--) {
+                if (validPos(i, left, rows, cols)) {
+                    result[count++] = new int[] {i, left};
                 }
             }
             top--;
@@ -241,28 +285,27 @@ public class Solution202209 {
         return r >= 0 && r < rows && l >= 0 && l < cols;
     }
 
-
     /**
      * 面试题 17.19 消失的两个数字
      */
     public static int[] missingTwo(int[] nums) {
-        int n = nums.length+2;
-        int sum = (int)((1+n)*(n/2.0));
+        int n = nums.length + 2;
+        int sum = (int)((1 + n) * (n / 2.0));
         int sum1 = 0;
         for (int num : nums) {
             sum1 += num;
         }
         int result = sum - sum1;
-        int mid = (result+1)/2;
-        sum =0;
+        int mid = (result + 1) / 2;
+        sum = 0;
         for (int num : nums) {
-            if (num<mid){
+            if (num < mid) {
                 sum += num;
             }
         }
-        sum1 = (int)((mid)*((mid-1)/2.0));
+        sum1 = (int)((mid) * ((mid - 1) / 2.0));
 
-        return new int[]{sum1-sum,result-(sum1-sum)};
+        return new int[] {sum1 - sum, result - (sum1 - sum)};
     }
 
     /**
@@ -273,15 +316,15 @@ public class Solution202209 {
         int result = 0;
         for (int i = 1; i <= n; i++) {
             String str = String.valueOf(i);
-            if (str.contains("3")|| str.contains("4")||str.contains("7")){
+            if (str.contains("3") || str.contains("4") || str.contains("7")) {
                 result = lastResult;
-            }else {
-                if (str.contains("2")||str.contains("5")||str.contains("6")||str.contains("9")){
+            } else {
+                if (str.contains("2") || str.contains("5") || str.contains("6") || str.contains("9")) {
 
-                    result = lastResult+1;
+                    result = lastResult + 1;
                     lastResult = result;
 
-                }else {
+                } else {
                     result = lastResult;
                 }
             }
@@ -289,7 +332,6 @@ public class Solution202209 {
         }
         return result;
     }
-
 
     /**
      * 547. 省份数量
@@ -421,13 +463,13 @@ public class Solution202209 {
         }
         index = index - 1;
         // 计算当前位数的就、第一个数
-        int v = (int) (n - (sum - ((index + 1) * 9 * Math.pow(10, index))));
+        int v = (int)(n - (sum - ((index + 1) * 9 * Math.pow(10, index))));
 
         int count = v / (index + 1);
 
         int rest = v % (index + 1);
 
-        int pow = (int) Math.pow(10, index) + count;
+        int pow = (int)Math.pow(10, index) + count;
         String s = String.valueOf(pow);
         if (rest == 0) {
             return (pow - 1) % 10;
@@ -537,7 +579,7 @@ public class Solution202209 {
             if (cnt[i] > 0 && cnt[i] < k) {
                 // 这个字符不满足要求，并且加入分割串
                 flag = false;
-                cut.append((char) (i + 'a'));
+                cut.append((char)(i + 'a'));
                 cut.append("|");
             }
         }
@@ -617,8 +659,8 @@ public class Solution202209 {
     }
 
     /**
-     * @param n       灯泡个数
-     * @param light   当前的灯泡的情况
+     * @param n 灯泡个数
+     * @param light 当前的灯泡的情况
      * @param presses 剩余的操作次数
      */
     public static void flipLightsDfs(int n, int light, int presses) {
@@ -751,7 +793,7 @@ public class Solution202209 {
     public static int poorPigs(int buckets, int minutesToDie, int minutesToTest) {
 
         int times = minutesToTest / minutesToDie + 1;
-        return (int) Math.ceil(Math.log(buckets) / Math.log(times) - 1e-5);
+        return (int)Math.ceil(Math.log(buckets) / Math.log(times) - 1e-5);
 
     }
 
@@ -769,7 +811,7 @@ public class Solution202209 {
         }
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < i; j++) {
-                long d = (long) nums[j] - nums[i];
+                long d = (long)nums[j] - nums[i];
                 Integer count = dpMap[j].getOrDefault(d, 0);
                 result += count;
 
@@ -919,7 +961,7 @@ public class Solution202209 {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            CanPartitionInfo that = (CanPartitionInfo) o;
+            CanPartitionInfo that = (CanPartitionInfo)o;
             return index == that.index && rest == that.rest;
         }
 
