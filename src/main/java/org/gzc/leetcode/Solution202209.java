@@ -108,6 +108,9 @@ public class Solution202209 {
             case 788:
                 System.out.println(rotatedDigits(10000));
                 break;
+            case 666:
+                System.out.println(Arrays.toString(missingTwo(new int[]{3})));
+                break;
             case 458:
                 System.out.println(poorPigs(4, 15, 15));
                 break;
@@ -115,6 +118,29 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 面试题 17.19 消失的两个数字
+     */
+    public static int[] missingTwo(int[] nums) {
+        int n = nums.length+2;
+        int sum = (int)((1+n)*(n/2.0));
+        int sum1 = 0;
+        for (int num : nums) {
+            sum1 += num;
+        }
+        int result = sum - sum1;
+        int mid = (result+1)/2;
+        sum =0;
+        for (int num : nums) {
+            if (num<mid){
+                sum += num;
+            }
+        }
+        sum1 = (int)((mid)*((mid-1)/2.0));
+
+        return new int[]{sum1-sum,result-(sum1-sum)};
     }
 
     /**
