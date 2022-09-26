@@ -96,6 +96,9 @@ public class Solution202209 {
             case 386:
                 System.out.println(lexicalOrder(1234));
                 break;
+            case 869:
+                System.out.println(reorderedPowerOf2(1234));
+                break;
             case 394:
                 System.out.println(decodeString("3[a2[c]]"));
                 break;
@@ -121,6 +124,38 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 869. 重新排序得到2的幂
+     */
+    public static boolean[] vis;
+    public static boolean reorderedPowerOf2(int n) {
+        char[] chars = String.valueOf(n).toCharArray();
+        vis = new boolean[chars.length];
+        Arrays.sort(chars);
+        return reorderedPowerOf2Dfs(chars, 0,0);
+
+
+    }
+    public static boolean reorderedPowerOf2Dfs(char[] chars,int index,int num){
+        if (index == chars.length){
+            return powerOf2(num);
+        }
+        for (int i = 0; i < chars.length; i++) {
+            if ((num ==0 && chars[i] == '0') || vis[i]|| (i>0 && !vis[i-1] && chars[i] == chars[i-1])){
+                continue;
+            }
+            vis[i] = true;
+            if (reorderedPowerOf2Dfs(chars,index+1,num*10+chars[i]-'0')){
+                return true;
+            }
+            vis[i] = false;
+        }
+        return false;
+    }
+    public static boolean powerOf2(int n){
+        return (n &(n-1)) ==0;
     }
 
     /**
