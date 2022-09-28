@@ -65,8 +65,6 @@ public class Solution202209 {
                 System.out.println(eraseOverlapIntervals(new int[][] {{1, 2}, {2, 3}, {3, 4}, {-100, -2}, {5, 7}}));
                 break;
             case 399:
-                // equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries =
-                // [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
                 List<List<String>> equations = new ArrayList<>();
                 List<String> equation = new ArrayList<>();
                 equation.add("a");
@@ -106,6 +104,9 @@ public class Solution202209 {
             case 869:
                 System.out.println(reorderedPowerOf2(1234));
                 break;
+            case 854:
+                System.out.println(kSimilarity("abac","baca"));
+                break;
             case 394:
                 System.out.println(decodeString("3[a2[c]]"));
                 break;
@@ -134,6 +135,57 @@ public class Solution202209 {
     }
 
     /**
+     * 854. 相似度为K的字符串
+     */
+    public static int min = Integer.MAX_VALUE;
+    public static int kSimilarity(String s1, String s2) {
+
+
+        char[] s1Arr = s1.toCharArray();
+        char[] s2Arr = s2.toCharArray();
+        return kSimilarityDfs(s1Arr,s2Arr,0,0);
+
+    }
+
+    public static int kSimilarityDfs(char[] s1, char[] s2,int start,int curCount) {
+        // 剪枝
+        if (curCount >= min){
+            return min;
+        }
+        int n = s1.length;
+        // 如果是最后一个字符
+        if (start == n-1){
+            return min = Math.min(min,curCount);
+        }
+
+
+        for (int i = start; i < n; i++) {
+            if (s1[i] != s2[i]) {
+                // 寻找下一个不同的字符
+                for (int j = i + 1; j < n; j++) {
+                    if (s2[j]!=s1[j] && s2[j] == s1[i]){
+                        swap(s2, i, j);
+                        kSimilarityDfs(s1,s2,start+1,curCount+1);
+                        swap(s2, i, j);
+                        if (s2[i] == s1[j]){
+                            break;
+                        }
+
+                    }
+                }
+                return min;
+            }
+        }
+        return min = Math.min(curCount,min);
+    }
+
+    private static void swap(char[] s2, int i, int j) {
+        char temp = s2[i];
+        s2[i] = s2[j];
+        s2[j] = temp;
+    }
+
+    /**
      * 853. 车队
      */
     public static int carFleet(int target, int[] position, int[] speed) {
@@ -152,7 +204,7 @@ public class Solution202209 {
         float lastTime = 0;
         while (!priorityQueue.isEmpty()) {
             CarFleetInfo poll = priorityQueue.poll();
-            if(poll.needTime >lastTime){
+            if (poll.needTime > lastTime) {
                 count++;
                 lastTime = poll.needTime;
             }
