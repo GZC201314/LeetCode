@@ -120,6 +120,9 @@ public class Solution202209 {
             case 788:
                 System.out.println(rotatedDigits(10000));
                 break;
+            case 402:
+                System.out.println(removeKdigits("1111111", 3));
+                break;
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
@@ -132,7 +135,7 @@ public class Solution202209 {
             default:
                 ListNode node1 = new ListNode(1);
                 node1 = reverseList(node1);
-                while(node1 != null){
+                while (node1 != null) {
                     System.out.println(node1.val);
                     node1 = node1.next;
                 }
@@ -142,13 +145,50 @@ public class Solution202209 {
     }
 
     /**
+     * 402. 移调K位数字
+     */
+    public static String removeKdigits(String num, int k) {
+        Deque<Character> stack = new LinkedList<>();
+        int n = num.length();
+        if (n ==k){
+            return "0";
+        }
+        stack.push(num.charAt(0));
+        for (int i = 1; i < n; i++) {
+            while (k>0 && !stack.isEmpty() &&num.charAt(i) < stack.peekLast()){
+                stack.pollLast();
+                k--;
+            }
+            stack.offerLast(num.charAt(i));
+        }
+        while (k>0 && !stack.isEmpty()){
+            stack.pollLast();
+            k--;
+        }
+        StringBuilder result = new StringBuilder();
+        if (stack.isEmpty()) {
+            return "0";
+        }
+        while (!stack.isEmpty()) {
+            Character fir = stack.pollFirst();
+            if (fir != '0') {
+                result.append(fir);
+                while (!stack.isEmpty()) {
+                    result.append(stack.pollFirst());
+                }
+            }
+        }
+        return result.length() == 0 ? "0" : result.toString();
+    }
+
+    /**
      * 反转列表
      */
     public static ListNode reverseList(ListNode head) {
         ListNode pre = null;
         ListNode cur = head;
 
-        while (cur != null){
+        while (cur != null) {
             ListNode next = cur.next;
             cur.next = pre;
             pre = cur;
