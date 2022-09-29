@@ -132,6 +132,9 @@ public class Solution202209 {
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
+            case 779:
+                System.out.println(kthGrammar(3,4));
+                break;
             case 885:
                 System.out.println(Arrays.toString(spiralMatrixIII(1, 4, 0, 0)));
                 break;
@@ -151,10 +154,27 @@ public class Solution202209 {
     }
 
     /**
+     * 779.第K个语法符号
+     */
+
+    public static int kthGrammar(int n, int k) {
+        if (n ==1){
+            return 0;
+        }
+        int pow = (int)Math.pow(2, n - 1);
+        int mid = pow / 2;
+        if (mid >=k){
+            int i = kthGrammar(n - 1, k);
+            return i;
+        }else{
+            int i = kthGrammar(n - 1, k - mid) == 0 ? 1 : 0;
+            return i;
+        }
+    }
+    /**
      * 692. 前K个高频单词
      */
     public static List<String> topKFrequent(String[] words, int k) {
-        int n = words.length;
         PriorityQueue<TopKFrequentInfo> pq = new PriorityQueue<>((o1,o2)->{
             if (o1.count ==o2.count){
                 return o2.word.compareTo(o1.word);
@@ -163,11 +183,11 @@ public class Solution202209 {
             }
         });
         Map<String, Integer> map = new HashMap<>();
-        for (int i = 0; i < n; i++) {
-            if (map.containsKey(words[i])){
-                map.put(words[i],map.get(words[i]) +1);
-            }else {
-                map.put(words[i], 1);
+        for (String word : words) {
+            if (map.containsKey(word)) {
+                map.put(word, map.get(word) + 1);
+            } else {
+                map.put(word, 1);
             }
         }
         map.forEach((key, value) -> {
