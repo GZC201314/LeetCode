@@ -114,6 +114,9 @@ public class Solution202209 {
             case 395:
                 System.out.println(longestSubstring("abcdedghijklmnopqrstuvwxyz", 2));
                 break;
+            case 692:
+                System.out.println(topKFrequent(new String[]{"i","love","leetcode","i","love","coding"}, 2));
+                break;
             case 672:
                 System.out.println(flipLights(2, 5));
                 break;
@@ -145,6 +148,56 @@ public class Solution202209 {
                 break;
         }
 
+    }
+
+    /**
+     * 692. 前K个高频单词
+     */
+    public static List<String> topKFrequent(String[] words, int k) {
+        int n = words.length;
+        PriorityQueue<TopKFrequentInfo> pq = new PriorityQueue<>((o1,o2)->{
+            if (o1.count ==o2.count){
+                return o2.word.compareTo(o1.word);
+            }else {
+                return o1.count - o2.count;
+            }
+        });
+        Map<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            if (map.containsKey(words[i])){
+                map.put(words[i],map.get(words[i]) +1);
+            }else {
+                map.put(words[i], 1);
+            }
+        }
+        map.forEach((key, value) -> {
+            if (pq.size() < k) {
+                pq.offer(new TopKFrequentInfo(key, value));
+            } else {
+                TopKFrequentInfo top = pq.peek();
+                assert top != null;
+                if (top.count<value||(top.count == value && top.word.compareTo(key)>0)){
+
+                    pq.poll();
+                    pq.offer(new TopKFrequentInfo(key, value));
+                }
+            }
+        });
+        List<String> result = new ArrayList<>();
+        while (!pq.isEmpty()) {
+            result.add(pq.poll().word);
+        }
+        Collections.reverse(result);
+        return result;
+    }
+
+    static class TopKFrequentInfo {
+        String word;
+        int count;
+        public TopKFrequentInfo(String word, int count){
+            this.word = word;
+            this.count = count;
+        }
     }
 
     /**
@@ -271,7 +324,8 @@ public class Solution202209 {
                 return min;
             }
         }
-        return min = Math.min(curCount, min);
+        min = Math.min(curCount, min);
+        return min;
     }
 
     private static void swap(char[] s2, int i, int j) {
