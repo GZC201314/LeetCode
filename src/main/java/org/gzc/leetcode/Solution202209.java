@@ -3,6 +3,7 @@ package org.gzc.leetcode;
 import java.util.*;
 
 import org.gzc.leetcode.model.DisjointSet;
+import org.gzc.leetcode.model.ListNode;
 import org.gzc.leetcode.model.UnionFind;
 
 /**
@@ -105,7 +106,7 @@ public class Solution202209 {
                 System.out.println(reorderedPowerOf2(1234));
                 break;
             case 854:
-                System.out.println(kSimilarity("abac","baca"));
+                System.out.println(kSimilarity("abac", "baca"));
                 break;
             case 394:
                 System.out.println(decodeString("3[a2[c]]"));
@@ -129,8 +130,31 @@ public class Solution202209 {
                 System.out.println(poorPigs(4, 15, 15));
                 break;
             default:
+                ListNode node1 = new ListNode(1);
+                node1 = reverseList(node1);
+                while(node1 != null){
+                    System.out.println(node1.val);
+                    node1 = node1.next;
+                }
                 break;
         }
+
+    }
+
+    /**
+     * 反转列表
+     */
+    public static ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+
+        while (cur != null){
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
 
     }
 
@@ -138,36 +162,35 @@ public class Solution202209 {
      * 854. 相似度为K的字符串
      */
     public static int min = Integer.MAX_VALUE;
-    public static int kSimilarity(String s1, String s2) {
 
+    public static int kSimilarity(String s1, String s2) {
 
         char[] s1Arr = s1.toCharArray();
         char[] s2Arr = s2.toCharArray();
-        return kSimilarityDfs(s1Arr,s2Arr,0,0);
+        return kSimilarityDfs(s1Arr, s2Arr, 0, 0);
 
     }
 
-    public static int kSimilarityDfs(char[] s1, char[] s2,int start,int curCount) {
+    public static int kSimilarityDfs(char[] s1, char[] s2, int start, int curCount) {
         // 剪枝
-        if (curCount >= min){
+        if (curCount >= min) {
             return min;
         }
         int n = s1.length;
         // 如果是最后一个字符
-        if (start == n-1){
-            return min = Math.min(min,curCount);
+        if (start == n - 1) {
+            return min = Math.min(min, curCount);
         }
-
 
         for (int i = start; i < n; i++) {
             if (s1[i] != s2[i]) {
                 // 寻找下一个不同的字符
                 for (int j = i + 1; j < n; j++) {
-                    if (s2[j]!=s1[j] && s2[j] == s1[i]){
+                    if (s2[j] != s1[j] && s2[j] == s1[i]) {
                         swap(s2, i, j);
-                        kSimilarityDfs(s1,s2,start+1,curCount+1);
+                        kSimilarityDfs(s1, s2, start + 1, curCount + 1);
                         swap(s2, i, j);
-                        if (s2[i] == s1[j]){
+                        if (s2[i] == s1[j]) {
                             break;
                         }
 
@@ -176,7 +199,7 @@ public class Solution202209 {
                 return min;
             }
         }
-        return min = Math.min(curCount,min);
+        return min = Math.min(curCount, min);
     }
 
     private static void swap(char[] s2, int i, int j) {
