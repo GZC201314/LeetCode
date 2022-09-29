@@ -123,6 +123,9 @@ public class Solution202209 {
             case 402:
                 System.out.println(removeKdigits("1111111", 3));
                 break;
+            case 1714:
+                System.out.println(Arrays.toString(smallestK(new int[]{1, 3, 5, 7, 2, 4, 6, 8}, 4)));
+                break;
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
@@ -141,6 +144,35 @@ public class Solution202209 {
                 }
                 break;
         }
+
+    }
+
+    /**
+     * 面试题 17.14 最小K个数
+     */
+    public static int[] smallestK(int[] arr, int k) {
+        if (k == 0) {
+            return new int[]{};
+        }
+        int[] result = new int[k];
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2)->o2-o1);
+        for (int i : arr) {
+            if (pq.size() < k){
+                pq.offer(i);
+            }else {
+                if (!pq.isEmpty()&&pq.peek() >i){
+                    pq.poll();
+                    pq.offer(i);
+                }
+            }
+        }
+        for (int i = k-1; i >= 0; i--) {
+            if (!pq.isEmpty()){
+                result[i] = pq.poll();
+            }
+        }
+
+        return result;
 
     }
 
