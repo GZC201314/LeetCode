@@ -164,11 +164,9 @@ public class Solution202209 {
         int pow = (int)Math.pow(2, n - 1);
         int mid = pow / 2;
         if (mid >=k){
-            int i = kthGrammar(n - 1, k);
-            return i;
+            return kthGrammar(n - 1, k);
         }else{
-            int i = kthGrammar(n - 1, k - mid) == 0 ? 1 : 0;
-            return i;
+            return kthGrammar(n - 1, k - mid) == 0 ? 1 : 0;
         }
     }
     /**
