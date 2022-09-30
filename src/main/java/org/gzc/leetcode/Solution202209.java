@@ -129,6 +129,9 @@ public class Solution202209 {
             case 1714:
                 System.out.println(Arrays.toString(smallestK(new int[]{1, 3, 5, 7, 2, 4, 6, 8}, 4)));
                 break;
+            case 795:
+                System.out.println(numSubarrayBoundedMax(new int[]{73,55,36,5,55,14,9,7,72,52}, 32,69));
+                break;
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
@@ -154,6 +157,28 @@ public class Solution202209 {
         }
 
     }
+
+    /**
+     * 795. 区间子数组个数
+     */
+    public static int numSubarrayBoundedMax(int[] nums, int left, int right) {
+        int lastBreak = -1;
+        int lastCount = 0;
+        int ans = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i]>right){
+                lastBreak = i;
+                lastCount =0;
+            }else if (nums[i]<left){
+                ans += lastCount;
+            }else {
+                lastCount = i - lastBreak;
+                ans += lastCount;
+            }
+        }
+        return ans;
+    }
+
     // 得到比 str 大的下一个 10 进制对称的数字，例如 1->2, 4->5, 9->11
     public static String next(String str) {
         int n = str.length();
