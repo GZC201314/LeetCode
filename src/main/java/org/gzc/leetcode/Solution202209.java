@@ -134,6 +134,8 @@ public class Solution202209 {
                 break;
             case 779:
                 System.out.println(kthGrammar(3,4));
+            case 2081:
+                System.out.println(kMirror(5,20));
                 break;
             case 885:
                 System.out.println(Arrays.toString(spiralMatrixIII(1, 4, 0, 0)));
@@ -151,6 +153,71 @@ public class Solution202209 {
                 break;
         }
 
+    }
+    // 得到比 str 大的下一个 10 进制对称的数字，例如 1->2, 4->5, 9->11
+    public static String next(String str) {
+        int n = str.length();
+
+        StringBuilder sb = new StringBuilder();
+        // 将 str 截断一半，然后 + 1 最后把另一半缺失的数字补齐即可
+        long num = Long.parseLong(str.substring(0, (n + 1) / 2));
+
+        // 发生进位，则表示下一个数字的位数是 n + 1 位， 比如 99 下一个对称数字 101 就发生了进位
+        if (Long.toString(num + 1).length() != Long.toString(num).length()) {
+            for (int i = 0; i <= n; i++) {
+                if (i == 0 || i == n) {
+                    sb.append(1);
+                } else {
+                    sb.append(0);
+                }
+            }
+        } else {
+            sb.append(num + 1);
+            for (int i = (n + 1) / 2; i < n; i++) {
+                sb.append(sb.charAt(n - 1 - i));
+            }
+        }
+
+        return sb.toString();
+    }
+    /**
+     * 2081. k镜像数字的和
+     */
+    public static long kMirror(int k, int n) {
+        long result = 0;
+        long index = 1;
+        while (n > 0) {
+            // 转换成K进制数
+            Deque<Long> stack = getKNum(k, index);
+            if (valid(stack)) {
+                result += index;
+                n--;
+            }
+
+            index = Long.parseLong(next(Long.toString(index)));
+        }
+        return result;
+
+    }
+
+    private static Deque<Long> getKNum(int k, long index) {
+        long number = index;
+        Deque<Long> stack = new LinkedList<>();
+        while (number != 0) {
+            stack.push(number % k);
+            number /= k;
+        }
+        return stack;
+    }
+
+    private static boolean valid(Deque<Long> stack) {
+        boolean flag = true;
+        while (stack.size() > 1) {
+            if (!stack.pollFirst().equals(stack.pollLast())) {
+                flag = false;
+            }
+        }
+        return flag;
     }
 
     /**
