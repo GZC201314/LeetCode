@@ -115,7 +115,7 @@ public class Solution202209 {
                 System.out.println(longestSubstring("abcdedghijklmnopqrstuvwxyz", 2));
                 break;
             case 692:
-                System.out.println(topKFrequent(new String[]{"i","love","leetcode","i","love","coding"}, 2));
+                System.out.println(topKFrequent(new String[] {"i", "love", "leetcode", "i", "love", "coding"}, 2));
                 break;
             case 672:
                 System.out.println(flipLights(2, 5));
@@ -127,18 +127,18 @@ public class Solution202209 {
                 System.out.println(removeKdigits("1111111", 3));
                 break;
             case 1714:
-                System.out.println(Arrays.toString(smallestK(new int[]{1, 3, 5, 7, 2, 4, 6, 8}, 4)));
+                System.out.println(Arrays.toString(smallestK(new int[] {1, 3, 5, 7, 2, 4, 6, 8}, 4)));
                 break;
             case 795:
-                System.out.println(numSubarrayBoundedMax(new int[]{73,55,36,5,55,14,9,7,72,52}, 32,69));
+                System.out.println(numSubarrayBoundedMax(new int[] {73, 55, 36, 5, 55, 14, 9, 7, 72, 52}, 32, 69));
                 break;
             case 666:
                 System.out.println(Arrays.toString(missingTwo(new int[] {3})));
                 break;
             case 779:
-                System.out.println(kthGrammar(3,4));
+                System.out.println(kthGrammar(3, 4));
             case 2081:
-                System.out.println(kMirror(5,20));
+                System.out.println(kMirror(5, 20));
                 break;
             case 885:
                 System.out.println(Arrays.toString(spiralMatrixIII(1, 4, 0, 0)));
@@ -166,12 +166,12 @@ public class Solution202209 {
         int lastCount = 0;
         int ans = 0;
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i]>right){
+            if (nums[i] > right) {
                 lastBreak = i;
-                lastCount =0;
-            }else if (nums[i]<left){
+                lastCount = 0;
+            } else if (nums[i] < left) {
                 ans += lastCount;
-            }else {
+            } else {
                 lastCount = i - lastBreak;
                 ans += lastCount;
             }
@@ -205,6 +205,7 @@ public class Solution202209 {
 
         return sb.toString();
     }
+
     /**
      * 2081. k镜像数字的和
      */
@@ -250,25 +251,26 @@ public class Solution202209 {
      */
 
     public static int kthGrammar(int n, int k) {
-        if (n ==1){
+        if (n == 1) {
             return 0;
         }
         int pow = (int)Math.pow(2, n - 1);
         int mid = pow / 2;
-        if (mid >=k){
+        if (mid >= k) {
             return kthGrammar(n - 1, k);
-        }else{
+        } else {
             return kthGrammar(n - 1, k - mid) == 0 ? 1 : 0;
         }
     }
+
     /**
      * 692. 前K个高频单词
      */
     public static List<String> topKFrequent(String[] words, int k) {
-        PriorityQueue<TopKFrequentInfo> pq = new PriorityQueue<>((o1,o2)->{
-            if (o1.count ==o2.count){
+        PriorityQueue<TopKFrequentInfo> pq = new PriorityQueue<>((o1, o2) -> {
+            if (o1.count == o2.count) {
                 return o2.word.compareTo(o1.word);
-            }else {
+            } else {
                 return o1.count - o2.count;
             }
         });
@@ -286,7 +288,7 @@ public class Solution202209 {
             } else {
                 TopKFrequentInfo top = pq.peek();
                 assert top != null;
-                if (top.count<value||(top.count == value && top.word.compareTo(key)>0)){
+                if (top.count < value || (top.count == value && top.word.compareTo(key) > 0)) {
 
                     pq.poll();
                     pq.offer(new TopKFrequentInfo(key, value));
@@ -304,7 +306,8 @@ public class Solution202209 {
     static class TopKFrequentInfo {
         String word;
         int count;
-        public TopKFrequentInfo(String word, int count){
+
+        public TopKFrequentInfo(String word, int count) {
             this.word = word;
             this.count = count;
         }
@@ -315,22 +318,22 @@ public class Solution202209 {
      */
     public static int[] smallestK(int[] arr, int k) {
         if (k == 0) {
-            return new int[]{};
+            return new int[] {};
         }
         int[] result = new int[k];
-        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2)->o2-o1);
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1);
         for (int i : arr) {
-            if (pq.size() < k){
+            if (pq.size() < k) {
                 pq.offer(i);
-            }else {
-                if (!pq.isEmpty()&&pq.peek() >i){
+            } else {
+                if (!pq.isEmpty() && pq.peek() > i) {
                     pq.poll();
                     pq.offer(i);
                 }
             }
         }
-        for (int i = k-1; i >= 0; i--) {
-            if (!pq.isEmpty()){
+        for (int i = k - 1; i >= 0; i--) {
+            if (!pq.isEmpty()) {
                 result[i] = pq.poll();
             }
         }
@@ -345,18 +348,18 @@ public class Solution202209 {
     public static String removeKdigits(String num, int k) {
         Deque<Character> stack = new LinkedList<>();
         int n = num.length();
-        if (n ==k){
+        if (n == k) {
             return "0";
         }
         stack.push(num.charAt(0));
         for (int i = 1; i < n; i++) {
-            while (k>0 && !stack.isEmpty() &&num.charAt(i) < stack.peekLast()){
+            while (k > 0 && !stack.isEmpty() && num.charAt(i) < stack.peekLast()) {
                 stack.pollLast();
                 k--;
             }
             stack.offerLast(num.charAt(i));
         }
-        while (k>0 && !stack.isEmpty()){
+        while (k > 0 && !stack.isEmpty()) {
             stack.pollLast();
             k--;
         }
