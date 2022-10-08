@@ -1,7 +1,6 @@
 package org.gzc.leetcode;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -17,6 +16,9 @@ public class Solution202210 {
             case 1800:
                 System.out.println(maxAscendingSum(new int[]{1, 2, 3, 4}));
                 break;
+            case 1601:
+                System.out.println(maximumRequests(5,new int[][]{{0,1},{1,0},{0,1},{1,2},{2,0},{3,4}}));
+                break;
             case 870:
                 System.out.println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
                 break;
@@ -27,6 +29,43 @@ public class Solution202210 {
                 break;
         }
 
+    }
+
+    /**
+     * 1601. 最多可达成的换楼请求数目
+     */
+    public static int maximumRequestsAnswer = 0;
+    public static int maximumRequests(int n, int[][] requests) {
+        maximumRequestsdfs(new int[n],requests,0,0);
+        return maximumRequestsAnswer;
+    }
+
+    public static void maximumRequestsdfs(int[] used,int[][] requests,int cur,int chosen){
+        if (cur == requests.length){
+            if (validUsedArr(used)){
+                maximumRequestsAnswer = Math.max(chosen,maximumRequestsAnswer);
+            }
+            return;
+        }
+        // 不选当前的request
+        maximumRequestsdfs(used, requests,cur+1,chosen);
+
+        // 选择当前的request
+        used[requests[cur][0]]--;
+        used[requests[cur][1]]++;
+        maximumRequestsdfs(used, requests,cur+1,chosen+1);
+        // 回溯
+        used[requests[cur][1]]--;
+        used[requests[cur][0]]++;
+    }
+
+    private static boolean validUsedArr(int[] used) {
+        for (int i : used) {
+            if (i !=0){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
