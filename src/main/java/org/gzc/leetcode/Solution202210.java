@@ -1,6 +1,9 @@
 package org.gzc.leetcode;
 
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 /**
  * @author GZC
@@ -14,6 +17,9 @@ public class Solution202210 {
             case 1800:
                 System.out.println(maxAscendingSum(new int[]{1, 2, 3, 4}));
                 break;
+            case 870:
+                System.out.println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
+                break;
             case 1551:
                 System.out.println(minOperations(3));
                 break;
@@ -21,6 +27,32 @@ public class Solution202210 {
                 break;
         }
 
+    }
+
+    /**
+     * 870. 优势洗牌
+     */
+    public static int[] advantageCount(int[] nums1, int[] nums2) {
+        int n = nums1.length;
+        int[] result = new int[n];
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        for (int num : nums1) {
+            map.put(num, map.getOrDefault(num,0)+1);
+        }
+        for (int i = 0; i < n; i++) {
+            // 找到最小的满足数
+            Integer integer = map.higherKey(nums2[i]);
+            if (integer == null){
+                integer = map.firstKey();
+            }
+            result[i] = integer;
+            if (map.get(integer) == 1){
+                map.remove(integer);
+            }else {
+                map.put(integer, map.get(integer)-1);
+            }
+        }
+        return result;
     }
 
     /**
