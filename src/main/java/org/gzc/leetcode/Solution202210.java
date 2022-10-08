@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.ParkingSystem;
+
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.TreeMap;
@@ -18,6 +20,14 @@ public class Solution202210 {
                 break;
             case 1601:
                 System.out.println(maximumRequests(5,new int[][]{{0,1},{1,0},{0,1},{1,2},{2,0},{3,4}}));
+                break;
+            case 1603:
+                ParkingSystem parkingSystem = new ParkingSystem(1,1,0);
+                System.out.println(parkingSystem.addCar(1));
+                System.out.println(parkingSystem.addCar(1));
+                System.out.println(parkingSystem.addCar(2));
+                System.out.println(parkingSystem.addCar(3));
+
                 break;
             case 870:
                 System.out.println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
