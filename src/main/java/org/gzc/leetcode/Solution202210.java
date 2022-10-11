@@ -19,13 +19,13 @@ public class Solution202210 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 1800:
-                System.out.println(maxAscendingSum(new int[]{1, 2, 3, 4}));
+                System.out.println(maxAscendingSum(new int[] {1, 2, 3, 4}));
                 break;
             case 1601:
-                System.out.println(maximumRequests(5,new int[][]{{0,1},{1,0},{0,1},{1,2},{2,0},{3,4}}));
+                System.out.println(maximumRequests(5, new int[][] {{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
                 break;
             case 1603:
-                ParkingSystem parkingSystem = new ParkingSystem(1,1,0);
+                ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
                 System.out.println(parkingSystem.addCar(1));
                 System.out.println(parkingSystem.addCar(1));
                 System.out.println(parkingSystem.addCar(2));
@@ -33,21 +33,22 @@ public class Solution202210 {
 
                 break;
             case 870:
-                System.out.println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
+                System.out
+                    .println(Arrays.toString(advantageCount(new int[] {12, 24, 8, 32}, new int[] {13, 25, 32, 11})));
                 break;
             case 1551:
                 System.out.println(minOperations(3));
                 break;
             case 952:
-                System.out.println(largestComponentSize(new int[]{4,6,15,9}));
+                System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
                 break;
             case 955:
-                System.out.println(minDeletionSize(new String[]{"123","612","156","913"}));
+                System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
                 break;
             case 951:
-                TreeNode node = new TreeNode(1,new TreeNode(3),null);
-                TreeNode node1 = new TreeNode(1,null,new TreeNode(3));
-                System.out.println(flipEquiv(node,node1));
+                TreeNode node = new TreeNode(1, new TreeNode(3), null);
+                TreeNode node1 = new TreeNode(1, null, new TreeNode(3));
+                System.out.println(flipEquiv(node, node1));
                 break;
             default:
                 break;
@@ -65,14 +66,13 @@ public class Solution202210 {
         String[] cur = new String[N];
         for (int j = 0; j < W; ++j) {
             String[] cur2 = Arrays.copyOf(cur, N);
-            for (int i = 0; i < N; ++i){
+            for (int i = 0; i < N; ++i) {
                 cur2[i] += A[i].charAt(j);
             }
 
-            if (isSorted(cur2)){
+            if (isSorted(cur2)) {
                 cur = cur2;
-            }
-            else{
+            } else {
                 ans++;
             }
         }
@@ -82,7 +82,7 @@ public class Solution202210 {
 
     public static boolean isSorted(String[] A) {
         for (int i = 0; i < A.length - 1; ++i)
-            if (A[i].compareTo(A[i+1]) > 0){
+            if (A[i].compareTo(A[i + 1]) > 0) {
                 return false;
             }
 
@@ -94,7 +94,7 @@ public class Solution202210 {
      */
     public static int largestComponentSize(int[] nums) {
         OptionalInt max = Arrays.stream(nums).max();
-        if (!max.isPresent()){
+        if (!max.isPresent()) {
             return -1;
         }
         int m = max.getAsInt();
@@ -121,41 +121,43 @@ public class Solution202210 {
      * 951. 反转等价二叉树
      */
     public static boolean flipEquiv(TreeNode root1, TreeNode root2) {
-        if (root1 == null){
+        if (root1 == null) {
             return root2 == null;
         }
-        if (root2 == null){
+        if (root2 == null) {
             return false;
         }
-        if (root1.left == null && root1.right == null && root2.left == null && root2.right == null){
+        if (root1.left == null && root1.right == null && root2.left == null && root2.right == null) {
             return root1.val == root2.val;
         }
-        return (flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left)||flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
+        return (flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left)
+            || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
     }
 
     /**
      * 1601. 最多可达成的换楼请求数目
      */
     public static int maximumRequestsAnswer = 0;
+
     public static int maximumRequests(int n, int[][] requests) {
-        maximumRequestsdfs(new int[n],requests,0,0);
+        maximumRequestsdfs(new int[n], requests, 0, 0);
         return maximumRequestsAnswer;
     }
 
-    public static void maximumRequestsdfs(int[] used,int[][] requests,int cur,int chosen){
-        if (cur == requests.length){
-            if (validUsedArr(used)){
-                maximumRequestsAnswer = Math.max(chosen,maximumRequestsAnswer);
+    public static void maximumRequestsdfs(int[] used, int[][] requests, int cur, int chosen) {
+        if (cur == requests.length) {
+            if (validUsedArr(used)) {
+                maximumRequestsAnswer = Math.max(chosen, maximumRequestsAnswer);
             }
             return;
         }
         // 不选当前的request
-        maximumRequestsdfs(used, requests,cur+1,chosen);
+        maximumRequestsdfs(used, requests, cur + 1, chosen);
 
         // 选择当前的request
         used[requests[cur][0]]--;
         used[requests[cur][1]]++;
-        maximumRequestsdfs(used, requests,cur+1,chosen+1);
+        maximumRequestsdfs(used, requests, cur + 1, chosen + 1);
         // 回溯
         used[requests[cur][1]]--;
         used[requests[cur][0]]++;
@@ -163,7 +165,7 @@ public class Solution202210 {
 
     private static boolean validUsedArr(int[] used) {
         for (int i : used) {
-            if (i !=0){
+            if (i != 0) {
                 return false;
             }
         }
@@ -178,19 +180,19 @@ public class Solution202210 {
         int[] result = new int[n];
         TreeMap<Integer, Integer> map = new TreeMap<>();
         for (int num : nums1) {
-            map.put(num, map.getOrDefault(num,0)+1);
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
         for (int i = 0; i < n; i++) {
             // 找到最小的满足数
             Integer integer = map.higherKey(nums2[i]);
-            if (integer == null){
+            if (integer == null) {
                 integer = map.firstKey();
             }
             result[i] = integer;
-            if (map.get(integer) == 1){
+            if (map.get(integer) == 1) {
                 map.remove(integer);
-            }else {
-                map.put(integer, map.get(integer)-1);
+            } else {
+                map.put(integer, map.get(integer) - 1);
             }
         }
         return result;
@@ -217,11 +219,11 @@ public class Solution202210 {
         int result = Integer.MIN_VALUE;
         int lastNum = Integer.MIN_VALUE;
         for (int num : nums) {
-            if (num>lastNum){
+            if (num > lastNum) {
                 sum += num;
-            }else {
+            } else {
                 result = Math.max(result, sum);
-                sum =num;
+                sum = num;
             }
             lastNum = num;
         }
