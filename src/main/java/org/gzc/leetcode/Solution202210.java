@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ParkingSystem;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -35,10 +36,30 @@ public class Solution202210 {
             case 1551:
                 System.out.println(minOperations(3));
                 break;
+            case 951:
+                TreeNode node = new TreeNode(1,new TreeNode(3),null);
+                TreeNode node1 = new TreeNode(1,null,new TreeNode(3));
+                System.out.println(flipEquiv(node,node));
+                break;
             default:
                 break;
         }
+    }
 
+    /**
+     * 951. 反转等价二叉树
+     */
+    public static boolean flipEquiv(TreeNode root1, TreeNode root2) {
+        if (root1 == null){
+            return root2 == null;
+        }
+        if (root2 == null){
+            return false;
+        }
+        if (root1.left == null && root1.right == null && root2.left == null && root2.right == null){
+            return root1.val == root2.val;
+        }
+        return (flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left)||flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
     }
 
     /**
