@@ -42,6 +42,10 @@ public class Solution202210 {
             case 952:
                 System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
                 break;
+            case 956:
+                System.out.println(tallestBillboard(
+                    new int[] {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 50, 50, 50, 150, 150, 150, 100, 100, 100, 123}));
+                break;
             case 955:
                 System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
                 break;
@@ -53,6 +57,33 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 956. 最高的广告牌
+     */
+    public static int tallestBillboardAns = 0;
+    public static int tallestBillboard(int[] rods) {
+        tallestBillboardDfs(rods, 0, 0, 0);
+        return tallestBillboardAns;
+    }
+
+    public static void tallestBillboardDfs(int[] rods, int index, int cur1, int cur2) {
+
+        if (index == rods.length) {
+            if (cur1 == cur2) {
+                tallestBillboardAns = Math.max(tallestBillboardAns, cur1);
+            }
+            return;
+        }
+        if (cur1 == cur2) {
+            tallestBillboardAns = Math.max(tallestBillboardAns, cur1);
+        }
+
+        // 三个可能性
+        tallestBillboardDfs(rods, index + 1, cur1 + rods[index], cur2);
+        tallestBillboardDfs(rods, index + 1, cur1, cur2);
+        tallestBillboardDfs(rods, index + 1, cur1, cur2 + rods[index]);
     }
 
     /**
@@ -140,11 +171,11 @@ public class Solution202210 {
     public static int maximumRequestsAnswer = 0;
 
     public static int maximumRequests(int n, int[][] requests) {
-        maximumRequestsdfs(new int[n], requests, 0, 0);
+        maximumRequestsDfs(new int[n], requests, 0, 0);
         return maximumRequestsAnswer;
     }
 
-    public static void maximumRequestsdfs(int[] used, int[][] requests, int cur, int chosen) {
+    public static void maximumRequestsDfs(int[] used, int[][] requests, int cur, int chosen) {
         if (cur == requests.length) {
             if (validUsedArr(used)) {
                 maximumRequestsAnswer = Math.max(chosen, maximumRequestsAnswer);
@@ -152,12 +183,12 @@ public class Solution202210 {
             return;
         }
         // 不选当前的request
-        maximumRequestsdfs(used, requests, cur + 1, chosen);
+        maximumRequestsDfs(used, requests, cur + 1, chosen);
 
         // 选择当前的request
         used[requests[cur][0]]--;
         used[requests[cur][1]]++;
-        maximumRequestsdfs(used, requests, cur + 1, chosen + 1);
+        maximumRequestsDfs(used, requests, cur + 1, chosen + 1);
         // 回溯
         used[requests[cur][1]]--;
         used[requests[cur][0]]++;
