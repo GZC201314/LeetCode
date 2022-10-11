@@ -41,6 +41,9 @@ public class Solution202210 {
             case 952:
                 System.out.println(largestComponentSize(new int[]{4,6,15,9}));
                 break;
+            case 955:
+                System.out.println(minDeletionSize(new String[]{"123","612","156","913"}));
+                break;
             case 951:
                 TreeNode node = new TreeNode(1,new TreeNode(3),null);
                 TreeNode node1 = new TreeNode(1,null,new TreeNode(3));
@@ -49,6 +52,41 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 955. 删列造序||
+     */
+    public static int minDeletionSize(String[] A) {
+        int N = A.length;
+        int W = A[0].length();
+        int ans = 0;
+
+        String[] cur = new String[N];
+        for (int j = 0; j < W; ++j) {
+            String[] cur2 = Arrays.copyOf(cur, N);
+            for (int i = 0; i < N; ++i){
+                cur2[i] += A[i].charAt(j);
+            }
+
+            if (isSorted(cur2)){
+                cur = cur2;
+            }
+            else{
+                ans++;
+            }
+        }
+
+        return ans;
+    }
+
+    public static boolean isSorted(String[] A) {
+        for (int i = 0; i < A.length - 1; ++i)
+            if (A[i].compareTo(A[i+1]) > 0){
+                return false;
+            }
+
+        return true;
     }
 
     /**
