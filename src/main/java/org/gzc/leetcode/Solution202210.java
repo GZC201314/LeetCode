@@ -2,8 +2,10 @@ package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ParkingSystem;
 import org.gzc.leetcode.model.TreeNode;
+import org.gzc.leetcode.model.UnionFind2;
 
 import java.util.Arrays;
+import java.util.OptionalInt;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -36,14 +38,45 @@ public class Solution202210 {
             case 1551:
                 System.out.println(minOperations(3));
                 break;
+            case 952:
+                System.out.println(largestComponentSize(new int[]{4,6,15,9}));
+                break;
             case 951:
                 TreeNode node = new TreeNode(1,new TreeNode(3),null);
                 TreeNode node1 = new TreeNode(1,null,new TreeNode(3));
-                System.out.println(flipEquiv(node,node));
+                System.out.println(flipEquiv(node,node1));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 952. 按公因数计算最大组件的大小
+     */
+    public static int largestComponentSize(int[] nums) {
+        OptionalInt max = Arrays.stream(nums).max();
+        if (!max.isPresent()){
+            return -1;
+        }
+        int m = max.getAsInt();
+        UnionFind2 uf = new UnionFind2(m + 1);
+        for (int num : nums) {
+            for (int i = 2; i * i <= num; i++) {
+                if (num % i == 0) {
+                    uf.union(num, i);
+                    uf.union(num, num / i);
+                }
+            }
+        }
+        int[] counts = new int[m + 1];
+        int ans = 0;
+        for (int num : nums) {
+            int root = uf.find(num);
+            counts[root]++;
+            ans = Math.max(ans, counts[root]);
+        }
+        return ans;
     }
 
     /**
