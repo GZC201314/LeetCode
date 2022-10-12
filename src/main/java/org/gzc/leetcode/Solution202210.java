@@ -4,10 +4,7 @@ import org.gzc.leetcode.model.ParkingSystem;
 import org.gzc.leetcode.model.TreeNode;
 import org.gzc.leetcode.model.UnionFind2;
 
-import java.util.Arrays;
-import java.util.OptionalInt;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @author GZC
@@ -44,7 +41,7 @@ public class Solution202210 {
                 break;
             case 956:
                 System.out.println(tallestBillboard(
-                    new int[] {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 50, 50, 50, 150, 150, 150, 100, 100, 100, 123}));
+                    new int[] {33,30,41,34,37,29,26,31,42,33,38,27,33,31,35,900,900,900,900,900}));
                 break;
             case 955:
                 System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
@@ -63,13 +60,21 @@ public class Solution202210 {
      * 956. 最高的广告牌
      */
     public static int tallestBillboardAns = 0;
+    public static Set<TallestBillboardInfo> set = new HashSet<>();
 
     public static int tallestBillboard(int[] rods) {
-        tallestBillboardDfs(rods, 0, 0, 0);
+        int n = rods.length;
+        int[] sumArr = new int[n];
+        int sum = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            sumArr[i] = sum + rods[i];
+            sum = sumArr[i];
+        }
+        tallestBillboardDfs(rods, sumArr, 0, 0, 0);
         return tallestBillboardAns;
     }
 
-    public static void tallestBillboardDfs(int[] rods, int index, int cur1, int cur2) {
+    public static void tallestBillboardDfs(int[] rods, int[] sumArr, int index, int cur1, int cur2) {
 
         if (index == rods.length) {
             if (cur1 == cur2) {
@@ -77,15 +82,57 @@ public class Solution202210 {
             }
             return;
         }
-        if (cur1 == cur2) {
-            tallestBillboardAns = Math.max(tallestBillboardAns, cur1);
+        if (set.contains(new TallestBillboardInfo(cur1, cur2,index))){
+            return;
+        }
+        if ((cur1 + cur2 + sumArr[index]) < tallestBillboardAns * 2) {
+            return;
+        }
+        int max = Math.max(cur1, cur2);
+        int min = Math.min(cur1, cur2);
+        int sub = max - min;
+        if (sub > sumArr[index]) {
+            return;
+        } else if (sub == sumArr[index]) {
+            tallestBillboardAns = Math.max(tallestBillboardAns, max);
+            return;
         }
 
         // 三个可能性
-        tallestBillboardDfs(rods, index + 1, cur1 + rods[index], cur2);
-        tallestBillboardDfs(rods, index + 1, cur1, cur2);
-        tallestBillboardDfs(rods, index + 1, cur1, cur2 + rods[index]);
+        tallestBillboardDfs(rods, sumArr, index + 1, cur1 + rods[index], cur2);
+        tallestBillboardDfs(rods, sumArr, index + 1, cur1, cur2);
+        tallestBillboardDfs(rods, sumArr, index + 1, cur1, cur2 + rods[index]);
+
+        set.add(new TallestBillboardInfo(cur1, cur2,index));
+        set.add(new TallestBillboardInfo(cur2, cur1,index));
     }
+
+
+static class TallestBillboardInfo {
+    int cur1;
+    int cur2;
+    int index;
+    public TallestBillboardInfo(int cur1, int cur2, int index){
+        this.cur1 = cur1;
+        this.cur2 = cur2;
+        this.index = index;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TallestBillboardInfo info = (TallestBillboardInfo) o;
+        return cur1 == info.cur1 &&
+                cur2 == info.cur2 &&
+                index == info.index;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cur1, cur2, index);
+    }
+}
 
     /**
      * 955. 删列造序||
