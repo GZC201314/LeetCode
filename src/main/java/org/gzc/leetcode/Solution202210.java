@@ -49,6 +49,10 @@ public class Solution202210 {
             case 955:
                 System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
                 break;
+            case 958:
+                TreeNode treeNode = new TreeNode(1, new TreeNode(3), null);
+                System.out.println(isCompleteTree(treeNode));
+                break;
             case 951:
                 TreeNode node = new TreeNode(1, new TreeNode(3), null);
                 TreeNode node1 = new TreeNode(1, null, new TreeNode(3));
@@ -58,6 +62,29 @@ public class Solution202210 {
                 break;
         }
     }
+
+    /**
+     * 958. 二叉树的完全性检验
+     */
+    public static boolean isCompleteTree(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+        boolean reachedEnd = false;
+        while(!q.isEmpty()){
+            TreeNode cur = q.poll();
+            if(reachedEnd && cur != null){
+                return false;
+            }
+            if(cur == null){
+                reachedEnd = true;
+                continue;
+            }
+            q.offer(cur.left);
+            q.offer(cur.right);
+        }
+        return true;
+    }
+
 
     /**
      * 957. N天后的牢房
