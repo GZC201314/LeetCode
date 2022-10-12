@@ -39,8 +39,11 @@ public class Solution202210 {
             case 952:
                 System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
                 break;
+            case 904:
+                System.out.println(totalFruit(new int[] {1, 2, 3, 2, 2}));
+                break;
             case 957:
-                System.out.println(Arrays.toString(prisonAfterNDays(new int[] {0,1,0,1,1,0,0,1}, 7)));
+                System.out.println(Arrays.toString(prisonAfterNDays(new int[] {0, 1, 0, 1, 1, 0, 0, 1}, 7)));
                 break;
             case 956:
                 System.out.println(tallestBillboard(
@@ -64,18 +67,62 @@ public class Solution202210 {
     }
 
     /**
+     * 904. 水果成篮
+     */
+    public static int totalFruit(int[] fruits) {
+        int max = 0;
+        int left = 0;
+        int right = 0;
+        int cur = 0;
+        // 存储当前窗口中的水果
+        Map<Integer, Integer> map = new HashMap<>();
+        int n = fruits.length;
+        while (right < n) {
+            int fruit = fruits[right++];
+            if (map.containsKey(fruit)) {
+                map.put(fruit, map.get(fruit) + 1);
+                cur++;
+            } else {
+                if (map.size() < 2) {
+                    map.put(fruit, 1);
+                    cur++;
+                } else {
+                    max = Math.max(max, cur);
+                    // 滑动窗口，删除窗口中的一个水果
+                    while (left <= right) {
+                        int leftFruit = fruits[left++];
+                        int leftFruitCount = map.get(leftFruit);
+                        if (leftFruitCount == 1) {
+                            map.remove(leftFruit);
+                            map.put(fruit, 1);
+                            break;
+                        } else {
+                            map.put(leftFruit, leftFruitCount - 1);
+                            cur--;
+                        }
+
+                    }
+
+                }
+            }
+        }
+        return Math.max(max, cur);
+
+    }
+
+    /**
      * 958. 二叉树的完全性检验
      */
     public static boolean isCompleteTree(TreeNode root) {
         Queue<TreeNode> q = new LinkedList<>();
         q.offer(root);
         boolean reachedEnd = false;
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             TreeNode cur = q.poll();
-            if(reachedEnd && cur != null){
+            if (reachedEnd && cur != null) {
                 return false;
             }
-            if(cur == null){
+            if (cur == null) {
                 reachedEnd = true;
                 continue;
             }
@@ -84,7 +131,6 @@ public class Solution202210 {
         }
         return true;
     }
-
 
     /**
      * 957. N天后的牢房
@@ -107,12 +153,12 @@ public class Solution202210 {
                 }
             }
 
-            if (i ==0){
+            if (i == 0) {
                 cellsArr.add(newCells);
-            }else {
+            } else {
                 // 计算出当前的周期是多少
                 if (Arrays.equals(newCells, cellsArr.get(0))) {
-//                    System.out.println("周期是"+i);
+                    // System.out.println("周期是"+i);
                     cycle = i;
                     break;
                 }
@@ -120,13 +166,13 @@ public class Solution202210 {
             }
             cells = newCells.clone();
         }
-        if (n>cycle && cycle !=0){
-            n = n%cycle;
-            if (n ==0){
+        if (n > cycle && cycle != 0) {
+            n = n % cycle;
+            if (n == 0) {
                 n = cycle;
             }
         }
-        return cellsArr.get(n-1);
+        return cellsArr.get(n - 1);
     }
 
     /**
