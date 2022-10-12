@@ -39,9 +39,12 @@ public class Solution202210 {
             case 952:
                 System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
                 break;
+            case 957:
+                System.out.println(Arrays.toString(prisonAfterNDays(new int[] {0,1,0,1,1,0,0,1}, 7)));
+                break;
             case 956:
                 System.out.println(tallestBillboard(
-                    new int[] {33,30,41,34,37,29,26,31,42,33,38,27,33,31,35,900,900,900,900,900}));
+                    new int[] {33, 30, 41, 34, 37, 29, 26, 31, 42, 33, 38, 27, 33, 31, 35, 900, 900, 900, 900, 900}));
                 break;
             case 955:
                 System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
@@ -54,6 +57,49 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 957. N天后的牢房
+     */
+    public static int[] prisonAfterNDays(int[] cells, int n) {
+        List<int[]> cellsArr = new ArrayList<>();
+        int cycle = 0;
+        for (int i = 0; i < n; i++) {
+            int length = cells.length;
+            int[] newCells = new int[length];
+            for (int j = 0; j < length; j++) {
+                if (j == 0 || j == length - 1) {
+                    newCells[j] = 0;
+                } else {
+                    if (cells[j - 1] == cells[j + 1]) {
+                        newCells[j] = 1;
+                    } else {
+                        newCells[j] = 0;
+                    }
+                }
+            }
+
+            if (i ==0){
+                cellsArr.add(newCells);
+            }else {
+                // 计算出当前的周期是多少
+                if (Arrays.equals(newCells, cellsArr.get(0))) {
+//                    System.out.println("周期是"+i);
+                    cycle = i;
+                    break;
+                }
+                cellsArr.add(newCells.clone());
+            }
+            cells = newCells.clone();
+        }
+        if (n>cycle && cycle !=0){
+            n = n%cycle;
+            if (n ==0){
+                n = cycle;
+            }
+        }
+        return cellsArr.get(n-1);
     }
 
     /**
@@ -82,7 +128,7 @@ public class Solution202210 {
             }
             return;
         }
-        if (set.contains(new TallestBillboardInfo(cur1, cur2,index))){
+        if (set.contains(new TallestBillboardInfo(cur1, cur2, index))) {
             return;
         }
         if ((cur1 + cur2 + sumArr[index]) < tallestBillboardAns * 2) {
@@ -103,36 +149,36 @@ public class Solution202210 {
         tallestBillboardDfs(rods, sumArr, index + 1, cur1, cur2);
         tallestBillboardDfs(rods, sumArr, index + 1, cur1, cur2 + rods[index]);
 
-        set.add(new TallestBillboardInfo(cur1, cur2,index));
-        set.add(new TallestBillboardInfo(cur2, cur1,index));
+        set.add(new TallestBillboardInfo(cur1, cur2, index));
+        set.add(new TallestBillboardInfo(cur2, cur1, index));
     }
 
+    static class TallestBillboardInfo {
+        int cur1;
+        int cur2;
+        int index;
 
-static class TallestBillboardInfo {
-    int cur1;
-    int cur2;
-    int index;
-    public TallestBillboardInfo(int cur1, int cur2, int index){
-        this.cur1 = cur1;
-        this.cur2 = cur2;
-        this.index = index;
-    }
+        public TallestBillboardInfo(int cur1, int cur2, int index) {
+            this.cur1 = cur1;
+            this.cur2 = cur2;
+            this.index = index;
+        }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TallestBillboardInfo info = (TallestBillboardInfo) o;
-        return cur1 == info.cur1 &&
-                cur2 == info.cur2 &&
-                index == info.index;
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            TallestBillboardInfo info = (TallestBillboardInfo)o;
+            return cur1 == info.cur1 && cur2 == info.cur2 && index == info.index;
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(cur1, cur2, index);
+        @Override
+        public int hashCode() {
+            return Objects.hash(cur1, cur2, index);
+        }
     }
-}
 
     /**
      * 955. 删列造序||
