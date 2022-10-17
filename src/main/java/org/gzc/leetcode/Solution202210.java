@@ -55,6 +55,9 @@ public class Solution202210 {
             case 955:
                 System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
                 break;
+            case 1552:
+                System.out.println(maxDistance(new int[] {1,2,3,4,5,6},3));
+                break;
             case 958:
                 TreeNode treeNode = new TreeNode(1, new TreeNode(3), null);
                 System.out.println(isCompleteTree(treeNode));
@@ -70,8 +73,38 @@ public class Solution202210 {
     }
 
     /**
+     * 1552. 两球之间的磁力
+     */
+    public static int maxDistance(int[] position, int m) {
+        Arrays.sort(position);
+        int left = 1, right = position[position.length - 1] - position[0], ans = -1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (check(mid, position, m)) {
+                ans = mid;
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return ans;
+    }
+
+    public static boolean check(int x, int[] position, int m) {
+        int pre = position[0], cnt = 1;
+        for (int i = 1; i < position.length; ++i) {
+            if (position[i] - pre >= x) {
+                pre = position[i];
+                cnt += 1;
+            }
+        }
+        return cnt >= m;
+    }
+
+    /**
      * 1733. 需要教语言的最少人数
      */
+    @SuppressWarnings("unchecked")
     public static int minimumTeachings(int n, int[][] languages, int[][] friendships) {
         // 人数
         int m = languages.length;
@@ -98,8 +131,9 @@ public class Solution202210 {
                 }
             }
             // 是，就跳过
-            if (flag)
+            if (flag) {
                 continue;
+            }
             // 对于u和v，如果没被遍历过，则加入对应语言set中
             if (!p[u]) {
                 p[u] = true;
@@ -118,8 +152,9 @@ public class Solution202210 {
         // num，表示不能直接交流的人的总人数
         int num = 0;
         for (int i = 1; i < m + 1; i++) {
-            if (p[i])
+            if (p[i]) {
                 num++;
+            }
         }
         // 判断每种语言下，需要学习的人数，取最小即答案
         for (int i = 1; i < n + 1; i++) {
@@ -137,7 +172,7 @@ public class Solution202210 {
         int right = 0;
         int cur = 0;
         // 存储当前窗口中的水果
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(16);
         int n = fruits.length;
         while (right < n) {
             int fruit = fruits[right++];
@@ -301,10 +336,12 @@ public class Solution202210 {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o)
+            if (this == o) {
                 return true;
-            if (o == null || getClass() != o.getClass())
+            }
+            if (o == null || getClass() != o.getClass()) {
                 return false;
+            }
             TallestBillboardInfo info = (TallestBillboardInfo)o;
             return cur1 == info.cur1 && cur2 == info.cur2 && index == info.index;
         }
@@ -341,10 +378,11 @@ public class Solution202210 {
     }
 
     public static boolean isSorted(String[] A) {
-        for (int i = 0; i < A.length - 1; ++i)
+        for (int i = 0; i < A.length - 1; ++i) {
             if (A[i].compareTo(A[i + 1]) > 0) {
                 return false;
             }
+        }
 
         return true;
     }
