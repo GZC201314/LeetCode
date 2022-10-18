@@ -58,6 +58,9 @@ public class Solution202210 {
             case 1552:
                 System.out.println(maxDistance(new int[] {1,2,3,4,5,6},3));
                 break;
+            case 1253:
+                System.out.println(reconstructMatrix(9,2,new int[] {0,1,2,0,0,0,0,0,2,1,2,1,2}));
+                break;
             case 958:
                 TreeNode treeNode = new TreeNode(1, new TreeNode(3), null);
                 System.out.println(isCompleteTree(treeNode));
@@ -70,6 +73,45 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1253. 重构2行二进制矩阵
+     */
+    public static List<List<Integer>> reconstructMatrix(int upper, int lower, int[] colsum) {
+        List<List<Integer>> result = new ArrayList<>();
+        int sum = Arrays.stream(colsum).sum();
+        if (upper+lower != sum){
+            return result;
+        }
+        result.add(new ArrayList<>());
+        result.add(new ArrayList<>());
+        for (int colSum : colsum) {
+
+            if (colSum == 2) {
+                result.get(0).add(1);
+                result.get(1).add(1);
+                upper--;
+                lower--;
+            } else if (colSum == 1) {
+                if (upper > lower) {
+                    upper--;
+                    result.get(0).add(1);
+                    result.get(1).add(0);
+                } else {
+                    lower--;
+                    result.get(0).add(0);
+                    result.get(1).add(1);
+                }
+            } else {
+                result.get(0).add(0);
+                result.get(1).add(0);
+            }
+        }
+        if (upper!=0 || lower !=0){
+            result.clear();
+        }
+        return result;
     }
 
     /**
