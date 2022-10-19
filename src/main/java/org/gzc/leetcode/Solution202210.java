@@ -332,7 +332,6 @@ public class Solution202210 {
             } else {
                 // 计算出当前的周期是多少
                 if (Arrays.equals(newCells, cellsArr.get(0))) {
-                    // System.out.println("周期是"+i);
                     cycle = i;
                     break;
                 }
