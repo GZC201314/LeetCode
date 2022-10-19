@@ -58,6 +58,9 @@ public class Solution202210 {
             case 1552:
                 System.out.println(maxDistance(new int[] {1,2,3,4,5,6},3));
                 break;
+            case 1700:
+                System.out.println(countStudents(new int[] {1,1,1,0,0,1},new int[] {1,0,0,0,1,1}));
+                break;
             case 1253:
                 System.out.println(reconstructMatrix(9,2,new int[] {0,1,2,0,0,0,0,0,2,1,2,1,2}));
                 break;
@@ -75,6 +78,38 @@ public class Solution202210 {
         }
     }
 
+    /**
+     * 1700. 无法吃午餐的学生数量
+     */
+    public static int countStudents(int[] students, int[] sandwiches) {
+
+        Deque<Integer> stuDeque = new ArrayDeque<>();
+        Deque<Integer> sanDeque = new ArrayDeque<>();
+        int n = students.length;
+        for (int i = 0; i < n; i++) {
+            stuDeque.offerLast(students[i]);
+            sanDeque.offerLast(sandwiches[i]);
+        }
+        while (!stuDeque.isEmpty()){
+            int size = stuDeque.size();
+            for (int i = 0; i < size; i++) {
+                Integer like = stuDeque.pollFirst();
+                Integer sandwich = sanDeque.peekFirst();
+                assert like != null;
+                if (like.equals(sandwich)){
+                    sanDeque.pollFirst();
+                }else {
+                    stuDeque.offerLast(like);
+                }
+            }
+            if (size == stuDeque.size()){
+                break;
+            }
+
+        }
+        return stuDeque.size();
+
+    }
     /**
      * 1253. 重构2行二进制矩阵
      */
