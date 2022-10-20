@@ -11,15 +11,25 @@ import java.util.*;
  */
 public class Solution202210 {
 
+    /**
+     * 956. 最高的广告牌
+     */
+    public static int tallestBillboardAns = 0;
+    public static Set<TallestBillboardInfo> set = new HashSet<>();
+    /**
+     * 1601. 最多可达成的换楼请求数目
+     */
+    public static int maximumRequestsAnswer = 0;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 1800:
-                System.out.println(maxAscendingSum(new int[] {1, 2, 3, 4}));
+                System.out.println(maxAscendingSum(new int[]{1, 2, 3, 4}));
                 break;
             case 1601:
-                System.out.println(maximumRequests(5, new int[][] {{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
+                System.out.println(maximumRequests(5, new int[][]{{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
                 break;
             case 1603:
                 ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
@@ -31,38 +41,41 @@ public class Solution202210 {
                 break;
             case 870:
                 System.out
-                    .println(Arrays.toString(advantageCount(new int[] {12, 24, 8, 32}, new int[] {13, 25, 32, 11})));
+                        .println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
                 break;
             case 1551:
                 System.out.println(minOperations(3));
                 break;
             case 952:
-                System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
+                System.out.println(largestComponentSize(new int[]{4, 6, 15, 9}));
                 break;
             case 904:
-                System.out.println(totalFruit(new int[] {1, 2, 3, 2, 2}));
+                System.out.println(totalFruit(new int[]{1, 2, 3, 2, 2}));
                 break;
             case 1733:
-                System.out.println(minimumTeachings(2,new int[][] {{1},{2},{1,2}},new int[][]{{1,2},{1,3},{2,3}}));
+                System.out.println(minimumTeachings(2, new int[][]{{1}, {2}, {1, 2}}, new int[][]{{1, 2}, {1, 3}, {2, 3}}));
                 break;
             case 957:
-                System.out.println(Arrays.toString(prisonAfterNDays(new int[] {0, 1, 0, 1, 1, 0, 0, 1}, 7)));
+                System.out.println(Arrays.toString(prisonAfterNDays(new int[]{0, 1, 0, 1, 1, 0, 0, 1}, 7)));
                 break;
             case 956:
                 System.out.println(tallestBillboard(
-                    new int[] {33, 30, 41, 34, 37, 29, 26, 31, 42, 33, 38, 27, 33, 31, 35, 900, 900, 900, 900, 900}));
+                        new int[]{33, 30, 41, 34, 37, 29, 26, 31, 42, 33, 38, 27, 33, 31, 35, 900, 900, 900, 900, 900}));
                 break;
             case 955:
-                System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
+                System.out.println(minDeletionSize(new String[]{"123", "612", "156", "913"}));
+                break;
+            case 959:
+                System.out.println(regionsBySlashes(new String[]{" /","/ "}));
                 break;
             case 1552:
-                System.out.println(maxDistance(new int[] {1,2,3,4,5,6},3));
+                System.out.println(maxDistance(new int[]{1, 2, 3, 4, 5, 6}, 3));
                 break;
             case 1700:
-                System.out.println(countStudents(new int[] {1,1,1,0,0,1},new int[] {1,0,0,0,1,1}));
+                System.out.println(countStudents(new int[]{1, 1, 1, 0, 0, 1}, new int[]{1, 0, 0, 0, 1, 1}));
                 break;
             case 1253:
-                System.out.println(reconstructMatrix(9,2,new int[] {0,1,2,0,0,0,0,0,2,1,2,1,2}));
+                System.out.println(reconstructMatrix(9, 2, new int[]{0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2}));
                 break;
             case 958:
                 TreeNode treeNode = new TreeNode(1, new TreeNode(3), null);
@@ -78,6 +91,68 @@ public class Solution202210 {
         }
     }
 
+
+    /**
+     * 959. 由斜杠划分区域
+     */
+    public static int regionsBySlashes(String[] grid) {
+        int n = grid[0].length();
+        int res = 0;
+        int[][] gridArr = new int[n*3][n*3];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int x = i*3;
+                int y = j*3;
+                if (grid[i].charAt(j) =='\\'){
+                    for (int k = 0; k < 3; k++) {
+                        gridArr[x++][y++]=1;
+                    }
+                }
+                if (grid[i].charAt(j) =='/'){
+
+                    gridArr[x+1][y+1] =1;
+                    gridArr[x+2][y] =1;
+                    gridArr[x][y+2] =1;
+                }
+            }
+        }
+        int[][] dic = new int[][] {{1,0},{-1,0},{0,1},{0,-1}};
+        for (int i = 0; i < n * 3; i++) {
+            for (int j = 0; j < n * 3; j++) {
+                // 开始扩散
+                if (gridArr[i][j] ==0){
+                    Deque<Integer> stack = new ArrayDeque<>();
+                    stack.offerLast(i);
+                    stack.offerLast(j);
+                    gridArr[i][j] = 1;
+                    while (!stack.isEmpty()){
+                        int x = stack.pollFirst();
+                        int y =0;
+                        if (!stack.isEmpty()){
+                            y = stack.pollFirst();
+                        }
+                        for (int k = 0; k < 4; k++) {
+                            if (validDic(x+dic[k][0],y+dic[k][1],n*3)){
+                                if (gridArr[x+dic[k][0]][y+dic[k][1]] ==0){
+                                    stack.offerLast(x+dic[k][0]);
+                                    stack.offerLast(y+dic[k][1]);
+                                    gridArr[x+dic[k][0]][y+dic[k][1]] =1;
+                                }
+                            }
+                        }
+                    }
+                    res++;
+
+                }
+            }
+        }
+        return res;
+
+    }
+    public static boolean validDic(int x,int y,int n){
+        return x >= 0 && x < n && y >= 0 && y < n;
+    }
+
     /**
      * 1700. 无法吃午餐的学生数量
      */
@@ -90,19 +165,19 @@ public class Solution202210 {
             stuDeque.offerLast(students[i]);
             sanDeque.offerLast(sandwiches[i]);
         }
-        while (!stuDeque.isEmpty()){
+        while (!stuDeque.isEmpty()) {
             int size = stuDeque.size();
             for (int i = 0; i < size; i++) {
                 Integer like = stuDeque.pollFirst();
                 Integer sandwich = sanDeque.peekFirst();
                 assert like != null;
-                if (like.equals(sandwich)){
+                if (like.equals(sandwich)) {
                     sanDeque.pollFirst();
-                }else {
+                } else {
                     stuDeque.offerLast(like);
                 }
             }
-            if (size == stuDeque.size()){
+            if (size == stuDeque.size()) {
                 break;
             }
 
@@ -110,13 +185,14 @@ public class Solution202210 {
         return stuDeque.size();
 
     }
+
     /**
      * 1253. 重构2行二进制矩阵
      */
     public static List<List<Integer>> reconstructMatrix(int upper, int lower, int[] colsum) {
         List<List<Integer>> result = new ArrayList<>();
         int sum = Arrays.stream(colsum).sum();
-        if (upper+lower != sum){
+        if (upper + lower != sum) {
             return result;
         }
         result.add(new ArrayList<>());
@@ -143,7 +219,7 @@ public class Solution202210 {
                 result.get(1).add(0);
             }
         }
-        if (upper!=0 || lower !=0){
+        if (upper != 0 || lower != 0) {
             result.clear();
         }
         return result;
@@ -348,12 +424,6 @@ public class Solution202210 {
         return cellsArr.get(n - 1);
     }
 
-    /**
-     * 956. 最高的广告牌
-     */
-    public static int tallestBillboardAns = 0;
-    public static Set<TallestBillboardInfo> set = new HashSet<>();
-
     public static int tallestBillboard(int[] rods) {
         int n = rods.length;
         int[] sumArr = new int[n];
@@ -397,35 +467,6 @@ public class Solution202210 {
 
         set.add(new TallestBillboardInfo(cur1, cur2, index));
         set.add(new TallestBillboardInfo(cur2, cur1, index));
-    }
-
-    static class TallestBillboardInfo {
-        int cur1;
-        int cur2;
-        int index;
-
-        public TallestBillboardInfo(int cur1, int cur2, int index) {
-            this.cur1 = cur1;
-            this.cur2 = cur2;
-            this.index = index;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-            TallestBillboardInfo info = (TallestBillboardInfo)o;
-            return cur1 == info.cur1 && cur2 == info.cur2 && index == info.index;
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(cur1, cur2, index);
-        }
     }
 
     /**
@@ -505,13 +546,8 @@ public class Solution202210 {
             return root1.val == root2.val;
         }
         return (flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left)
-            || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
+                || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
     }
-
-    /**
-     * 1601. 最多可达成的换楼请求数目
-     */
-    public static int maximumRequestsAnswer = 0;
 
     public static int maximumRequests(int n, int[][] requests) {
         maximumRequestsDfs(new int[n], requests, 0, 0);
@@ -602,6 +638,35 @@ public class Solution202210 {
             lastNum = num;
         }
         return Math.max(result, sum);
+    }
+
+    static class TallestBillboardInfo {
+        int cur1;
+        int cur2;
+        int index;
+
+        public TallestBillboardInfo(int cur1, int cur2, int index) {
+            this.cur1 = cur1;
+            this.cur2 = cur2;
+            this.index = index;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            TallestBillboardInfo info = (TallestBillboardInfo) o;
+            return cur1 == info.cur1 && cur2 == info.cur2 && index == info.index;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(cur1, cur2, index);
+        }
     }
 
 }
