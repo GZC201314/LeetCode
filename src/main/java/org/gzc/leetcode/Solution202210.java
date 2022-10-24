@@ -66,10 +66,13 @@ public class Solution202210 {
                 System.out.println(minDeletionSize(new String[]{"123", "612", "156", "913"}));
                 break;
             case 959:
-                System.out.println(regionsBySlashes(new String[]{" /","/ "}));
+                System.out.println(regionsBySlashes(new String[]{" /", "/ "}));
                 break;
             case 1552:
                 System.out.println(maxDistance(new int[]{1, 2, 3, 4, 5, 6}, 3));
+                break;
+            case 915:
+                System.out.println(partitionDisjoint(new int[]{5, 0, 3, 8, 6}));
                 break;
             case 1700:
                 System.out.println(countStudents(new int[]{1, 1, 1, 0, 0, 1}, new int[]{1, 0, 0, 0, 1, 1}));
@@ -91,6 +94,33 @@ public class Solution202210 {
         }
     }
 
+    /**
+     * 915. 分割数组
+     */
+    public static int partitionDisjoint(int[] nums) {
+        int n = nums.length;
+        int[] max = new int[n];
+        int[] min = new int[n];
+        max[0] = nums[0];
+        min[n - 1] = nums[n - 1];
+        for (int i = 1; i < n; i++) {
+            max[i] = Math.max(nums[i], max[i - 1]);
+        }
+        for (int i = n - 2; i >= 0; i--) {
+            min[i] = Math.min(nums[i], min[i + 1]);
+        }
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1) {
+                return -1;
+            }
+            if (max[i] <= min[i + 1]) {
+                return i + 1;
+            }
+        }
+        return -1;
+
+    }
+
 
     /**
      * 959. 由斜杠划分区域
@@ -98,45 +128,45 @@ public class Solution202210 {
     public static int regionsBySlashes(String[] grid) {
         int n = grid[0].length();
         int res = 0;
-        int[][] gridArr = new int[n*3][n*3];
+        int[][] gridArr = new int[n * 3][n * 3];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                int x = i*3;
-                int y = j*3;
-                if (grid[i].charAt(j) =='\\'){
+                int x = i * 3;
+                int y = j * 3;
+                if (grid[i].charAt(j) == '\\') {
                     for (int k = 0; k < 3; k++) {
-                        gridArr[x++][y++]=1;
+                        gridArr[x++][y++] = 1;
                     }
                 }
-                if (grid[i].charAt(j) =='/'){
+                if (grid[i].charAt(j) == '/') {
 
-                    gridArr[x+1][y+1] =1;
-                    gridArr[x+2][y] =1;
-                    gridArr[x][y+2] =1;
+                    gridArr[x + 1][y + 1] = 1;
+                    gridArr[x + 2][y] = 1;
+                    gridArr[x][y + 2] = 1;
                 }
             }
         }
-        int[][] dic = new int[][] {{1,0},{-1,0},{0,1},{0,-1}};
+        int[][] dic = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (int i = 0; i < n * 3; i++) {
             for (int j = 0; j < n * 3; j++) {
                 // 开始扩散
-                if (gridArr[i][j] ==0){
+                if (gridArr[i][j] == 0) {
                     Deque<Integer> stack = new ArrayDeque<>();
                     stack.offerLast(i);
                     stack.offerLast(j);
                     gridArr[i][j] = 1;
-                    while (!stack.isEmpty()){
+                    while (!stack.isEmpty()) {
                         int x = stack.pollFirst();
-                        int y =0;
-                        if (!stack.isEmpty()){
+                        int y = 0;
+                        if (!stack.isEmpty()) {
                             y = stack.pollFirst();
                         }
                         for (int k = 0; k < 4; k++) {
-                            if (validDic(x+dic[k][0],y+dic[k][1],n*3)){
-                                if (gridArr[x+dic[k][0]][y+dic[k][1]] ==0){
-                                    stack.offerLast(x+dic[k][0]);
-                                    stack.offerLast(y+dic[k][1]);
-                                    gridArr[x+dic[k][0]][y+dic[k][1]] =1;
+                            if (validDic(x + dic[k][0], y + dic[k][1], n * 3)) {
+                                if (gridArr[x + dic[k][0]][y + dic[k][1]] == 0) {
+                                    stack.offerLast(x + dic[k][0]);
+                                    stack.offerLast(y + dic[k][1]);
+                                    gridArr[x + dic[k][0]][y + dic[k][1]] = 1;
                                 }
                             }
                         }
@@ -149,7 +179,8 @@ public class Solution202210 {
         return res;
 
     }
-    public static boolean validDic(int x,int y,int n){
+
+    public static boolean validDic(int x, int y, int n) {
         return x >= 0 && x < n && y >= 0 && y < n;
     }
 
