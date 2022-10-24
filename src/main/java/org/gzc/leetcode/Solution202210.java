@@ -99,21 +99,17 @@ public class Solution202210 {
      */
     public static int partitionDisjoint(int[] nums) {
         int n = nums.length;
-        int[] max = new int[n];
         int[] min = new int[n];
-        max[0] = nums[0];
         min[n - 1] = nums[n - 1];
-        for (int i = 1; i < n; i++) {
-            max[i] = Math.max(nums[i], max[i - 1]);
-        }
         for (int i = n - 2; i >= 0; i--) {
             min[i] = Math.min(nums[i], min[i + 1]);
         }
-        for (int i = 0; i < n; i++) {
-            if (i == n - 1) {
-                return -1;
+        int leftMax = Integer.MIN_VALUE;
+        for (int i = 0; i < n-1; i++) {
+            if (nums[i]>leftMax){
+                leftMax = nums[i];
             }
-            if (max[i] <= min[i + 1]) {
+            if (leftMax <= min[i + 1]) {
                 return i + 1;
             }
         }
