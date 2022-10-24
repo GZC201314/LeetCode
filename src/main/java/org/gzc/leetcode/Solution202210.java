@@ -20,6 +20,9 @@ public class Solution202210 {
      * 1601. 最多可达成的换楼请求数目
      */
     public static int maximumRequestsAnswer = 0;
+    public static int num_two = 2;
+    public static int num_three = 3;
+    public static int num_four = 4;
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -101,7 +104,7 @@ public class Solution202210 {
         int n = nums.length;
         int[] min = new int[n];
         min[n - 1] = nums[n - 1];
-        for (int i = n - 2; i >= 0; i--) {
+        for (int i = n - num_two; i >= 0; i--) {
             min[i] = Math.min(nums[i], min[i + 1]);
         }
         int leftMax = Integer.MIN_VALUE;
@@ -130,7 +133,7 @@ public class Solution202210 {
                 int x = i * 3;
                 int y = j * 3;
                 if (grid[i].charAt(j) == '\\') {
-                    for (int k = 0; k < 3; k++) {
+                    for (int k = 0; k < num_three; k++) {
                         gridArr[x++][y++] = 1;
                     }
                 }
@@ -143,8 +146,8 @@ public class Solution202210 {
             }
         }
         int[][] dic = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for (int i = 0; i < n * 3; i++) {
-            for (int j = 0; j < n * 3; j++) {
+        for (int i = 0; i < n * num_three; i++) {
+            for (int j = 0; j < n * num_three; j++) {
                 // 开始扩散
                 if (gridArr[i][j] == 0) {
                     Deque<Integer> stack = new ArrayDeque<>();
@@ -157,7 +160,7 @@ public class Solution202210 {
                         if (!stack.isEmpty()) {
                             y = stack.pollFirst();
                         }
-                        for (int k = 0; k < 4; k++) {
+                        for (int k = 0; k < num_four; k++) {
                             if (validDic(x + dic[k][0], y + dic[k][1], n * 3)) {
                                 if (gridArr[x + dic[k][0]][y + dic[k][1]] == 0) {
                                     stack.offerLast(x + dic[k][0]);
@@ -474,7 +477,7 @@ public class Solution202210 {
         if (set.contains(new TallestBillboardInfo(cur1, cur2, index))) {
             return;
         }
-        if ((cur1 + cur2 + sumArr[index]) < tallestBillboardAns * 2) {
+        if ((cur1 + cur2 + sumArr[index]) < tallestBillboardAns * num_two) {
             return;
         }
         int max = Math.max(cur1, cur2);
@@ -642,7 +645,7 @@ public class Solution202210 {
         int num = 2 * (n - 1) + 1;
         int avg = (num + 1) / 2;
         int res = 0;
-        for (int i = 0; i * 2 < n; i++) {
+        for (int i = 0; i * num_two < n; i++) {
             res += (avg - (2 * i + 1));
         }
         return res;
