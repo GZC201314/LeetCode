@@ -34,6 +34,9 @@ public class Solution202210 {
             case 1601:
                 System.out.println(maximumRequests(5, new int[][]{{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
                 break;
+            case 934:
+                System.out.println(shortestBridge( new int[][]{{1,1,1,1,1},{1,0,0,0,1},{1,0,1,0,1},{1,0,0,0,1},{1,1,1,1,1}}));
+                break;
             case 1603:
                 ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
                 System.out.println(parkingSystem.addCar(1));
@@ -95,6 +98,65 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 934. 最短的桥
+     */
+    public static int[][] coordinates = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}}; // 上、下、右、左四个方向
+    public static Deque<int[]> edges; // 用户存储边缘格子
+    public static int shortestBridge(int[][] grid) {
+        int result = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean findIsland = false; // 只要找到2个岛屿中其中的1个岛屿，就将其设置为true，并结束步骤1中的两层for循环
+        edges = new ArrayDeque<>();
+        /* 步骤1：为其中一个岛屿打标记（val=2），并保存”边界格子“到edges中 */
+        for (int i = 0; !findIsland && i < grid.length; i++) {
+            for (int j = 0; !findIsland && j < grid[0].length; j++) {
+                if (findIsland = (grid[i][j] == 1)) {
+                    markIsland(grid,i, j);
+                }
+            }
+        }
+
+        while (!edges.isEmpty()) {
+            result++; // 扩展层数
+            int num = edges.size();
+            for (int i = 0; i < num; i++) {
+                int[] edge = edges.removeFirst();
+                for (int[] c : coordinates) { // 向edge的四个方向查看格子编号，并扩展岛屿边界
+                    int nex = edge[0] + c[0], ney = edge[1] + c[1];
+                    if(isLegal(nex, ney,m,n) && grid[nex][ney] == 0) {
+                        edges.addLast(new int[]{nex, ney}); // 添加新的边界
+                        grid[nex][ney] = 2;
+                    }
+                    else if (isLegal(nex, ney,m,n) && grid[nex][ney] == 1) {
+                        return result; // 与另一个岛屿相遇，则直接返回result
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void markIsland(int[][] grid, int row, int column) {
+        if (!isLegal(row, column, grid.length, grid[0].length) || grid[row][column] == 2) {
+            return;
+        }
+        if (grid[row][column] == 0) {
+            grid[row][column] = 2; // 将边界向外扩展1层岛屿（val=2)
+            edges.addLast(new int[]{row, column});
+            return;
+        }
+        grid[row][column] = 2; // 为岛屿打标记（val=2）
+        for (int[] c : coordinates) {
+            markIsland(grid,row + c[0], column + c[1]); // 深度遍历某个格子的四个方向
+        }
+    }
+
+    public static boolean isLegal(int row, int column,int m,int n) {
+        return row >= 0 && row < m && column >= 0 && column < n;
     }
 
     /**
