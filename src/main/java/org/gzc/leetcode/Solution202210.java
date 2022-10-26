@@ -80,6 +80,9 @@ public class Solution202210 {
             case 915:
                 System.out.println(partitionDisjoint(new int[]{5, 0, 3, 8, 6}));
                 break;
+            case 862:
+                System.out.println(shortestSubarray(new int[]{2,-1,2},3));
+                break;
             case 1700:
                 System.out.println(countStudents(new int[]{1, 1, 1, 0, 0, 1}, new int[]{1, 0, 0, 0, 1, 1}));
                 break;
@@ -98,6 +101,30 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 862. 和至少为K的最短子数组
+     */
+    public static int shortestSubarray(int[] nums, int k) {
+        int n = nums.length;
+        long[] preSumArr = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            preSumArr[i + 1] = preSumArr[i] + nums[i];
+        }
+        int res = n + 1;
+        Deque<Integer> queue = new ArrayDeque<>();
+        for (int i = 0; i <= n; i++) {
+            long curSum = preSumArr[i];
+            while (!queue.isEmpty() && curSum - preSumArr[queue.peekFirst()] >= k) {
+                res = Math.min(res, i - queue.pollFirst());
+            }
+            while (!queue.isEmpty() && preSumArr[queue.peekLast()] >= curSum) {
+                queue.pollLast();
+            }
+            queue.offerLast(i);
+        }
+        return res < n + 1 ? res : -1;
     }
 
     // 上、下、右、左四个方向
