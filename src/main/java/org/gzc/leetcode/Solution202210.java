@@ -100,11 +100,13 @@ public class Solution202210 {
         }
     }
 
+    // 上、下、右、左四个方向
+    public static int[][] coordinates = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
+    // 用户存储边缘格子
+    public static Deque<int[]> edges;
     /**
      * 934. 最短的桥
      */
-    public static int[][] coordinates = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}}; // 上、下、右、左四个方向
-    public static Deque<int[]> edges; // 用户存储边缘格子
     public static int shortestBridge(int[][] grid) {
         int result = 0;
         int m = grid.length;
