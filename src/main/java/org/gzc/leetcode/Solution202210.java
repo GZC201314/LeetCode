@@ -29,13 +29,14 @@ public class Solution202210 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 1800:
-                System.out.println(maxAscendingSum(new int[]{1, 2, 3, 4}));
+                System.out.println(maxAscendingSum(new int[] {1, 2, 3, 4}));
                 break;
             case 1601:
-                System.out.println(maximumRequests(5, new int[][]{{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
+                System.out.println(maximumRequests(5, new int[][] {{0, 1}, {1, 0}, {0, 1}, {1, 2}, {2, 0}, {3, 4}}));
                 break;
             case 934:
-                System.out.println(shortestBridge( new int[][]{{1,1,1,1,1},{1,0,0,0,1},{1,0,1,0,1},{1,0,0,0,1},{1,1,1,1,1}}));
+                System.out.println(shortestBridge(
+                    new int[][] {{1, 1, 1, 1, 1}, {1, 0, 0, 0, 1}, {1, 0, 1, 0, 1}, {1, 0, 0, 0, 1}, {1, 1, 1, 1, 1}}));
                 break;
             case 1603:
                 ParkingSystem parkingSystem = new ParkingSystem(1, 1, 0);
@@ -47,50 +48,54 @@ public class Solution202210 {
                 break;
             case 870:
                 System.out
-                        .println(Arrays.toString(advantageCount(new int[]{12, 24, 8, 32}, new int[]{13, 25, 32, 11})));
+                    .println(Arrays.toString(advantageCount(new int[] {12, 24, 8, 32}, new int[] {13, 25, 32, 11})));
                 break;
             case 1551:
                 System.out.println(minOperations(3));
                 break;
             case 952:
-                System.out.println(largestComponentSize(new int[]{4, 6, 15, 9}));
+                System.out.println(largestComponentSize(new int[] {4, 6, 15, 9}));
                 break;
             case 904:
-                System.out.println(totalFruit(new int[]{1, 2, 3, 2, 2}));
+                System.out.println(totalFruit(new int[] {1, 2, 3, 2, 2}));
                 break;
             case 1733:
-                System.out.println(minimumTeachings(2, new int[][]{{1}, {2}, {1, 2}}, new int[][]{{1, 2}, {1, 3}, {2, 3}}));
+                System.out
+                    .println(minimumTeachings(2, new int[][] {{1}, {2}, {1, 2}}, new int[][] {{1, 2}, {1, 3}, {2, 3}}));
                 break;
             case 957:
-                System.out.println(Arrays.toString(prisonAfterNDays(new int[]{0, 1, 0, 1, 1, 0, 0, 1}, 7)));
+                System.out.println(Arrays.toString(prisonAfterNDays(new int[] {0, 1, 0, 1, 1, 0, 0, 1}, 7)));
                 break;
             case 956:
                 System.out.println(tallestBillboard(
-                        new int[]{33, 30, 41, 34, 37, 29, 26, 31, 42, 33, 38, 27, 33, 31, 35, 900, 900, 900, 900, 900}));
+                    new int[] {33, 30, 41, 34, 37, 29, 26, 31, 42, 33, 38, 27, 33, 31, 35, 900, 900, 900, 900, 900}));
                 break;
             case 955:
-                System.out.println(minDeletionSize(new String[]{"123", "612", "156", "913"}));
+                System.out.println(minDeletionSize(new String[] {"123", "612", "156", "913"}));
                 break;
             case 959:
-                System.out.println(regionsBySlashes(new String[]{" /", "/ "}));
+                System.out.println(regionsBySlashes(new String[] {" /", "/ "}));
                 break;
             case 1552:
-                System.out.println(maxDistance(new int[]{1, 2, 3, 4, 5, 6}, 3));
+                System.out.println(maxDistance(new int[] {1, 2, 3, 4, 5, 6}, 3));
                 break;
             case 915:
-                System.out.println(partitionDisjoint(new int[]{5, 0, 3, 8, 6}));
+                System.out.println(partitionDisjoint(new int[] {5, 0, 3, 8, 6}));
                 break;
             case 1822:
-                System.out.println(arraySign(new int[]{5, 0, 3, 8, 6}));
+                System.out.println(arraySign(new int[] {5, 0, 3, 8, 6}));
                 break;
             case 862:
-                System.out.println(shortestSubarray(new int[]{2,-1,2},3));
+                System.out.println(shortestSubarray(new int[] {2, -1, 2}, 3));
+                break;
+            case 1755:
+                System.out.println(minAbsDifference(new int[] {9210,-5402,8022,-4660,-1719,-9686,3899,8543,-8813,2070,3791,3177,-775,-9400,-7036,-7050,-9843,2563,-1190,5216,-1089,2210,5775,1027,2729,4947,-6183,5850,1616,-5259,3605,-5142}, -10259));
                 break;
             case 1700:
-                System.out.println(countStudents(new int[]{1, 1, 1, 0, 0, 1}, new int[]{1, 0, 0, 0, 1, 1}));
+                System.out.println(countStudents(new int[] {1, 1, 1, 0, 0, 1}, new int[] {1, 0, 0, 0, 1, 1}));
                 break;
             case 1253:
-                System.out.println(reconstructMatrix(9, 2, new int[]{0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2}));
+                System.out.println(reconstructMatrix(9, 2, new int[] {0, 1, 2, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2}));
                 break;
             case 958:
                 TreeNode treeNode = new TreeNode(1, new TreeNode(3), null);
@@ -107,26 +112,81 @@ public class Solution202210 {
     }
 
     /**
+     * 1755. 最接近目标值得子序列值
+     */
+    public static int minAbsDifferenceResult = Integer.MAX_VALUE;
+    public static Set<Info> dpSet = new HashSet<>();
+
+    public static int minAbsDifference(int[] nums, int goal) {
+
+        minAbsDifferenceDfs(nums, goal, 0, 0);
+
+        return minAbsDifferenceResult == Integer.MAX_VALUE?0:minAbsDifferenceResult;
+    }
+
+    private static void minAbsDifferenceDfs(int[] nums, int goal, int index, int curSum) {
+        if (dpSet.contains(new Info(index, curSum))){
+            return;
+        }
+        if (Math.abs(curSum - goal) < minAbsDifferenceResult) {
+            minAbsDifferenceResult = Math.abs(curSum - goal);
+        }
+        if (index == nums.length) {
+            return;
+        }
+        dpSet.add(new Info(index, curSum));
+        int sum = curSum + nums[index];
+        // 取当前值
+        minAbsDifferenceDfs(nums, goal,index + 1,sum);
+        // 不取当前值
+        minAbsDifferenceDfs(nums, goal,index + 1,curSum);
+    }
+
+    public static class Info {
+        int x;
+        int y;
+        public Info(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Info info = (Info) o;
+            return x == info.x &&
+                    y == info.y;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y);
+        }
+    }
+
+
+    /**
      * 1822. 数组元素积的符号
      */
     public static int arraySign(int[] nums) {
         int navigationCount = 0;
         int zeroCount = 0;
         for (int num : nums) {
-            if (num<0){
+            if (num < 0) {
                 navigationCount++;
-            }else if (num ==0){
+            } else if (num == 0) {
                 zeroCount++;
             }
         }
 
-        if (zeroCount>0){
+        if (zeroCount > 0) {
             return 0;
         }
-        if (navigationCount!=0){
-            if (navigationCount%2 ==0){
+        if (navigationCount != 0) {
+            if (navigationCount % 2 == 0) {
                 return 1;
-            }else {
+            } else {
                 return -1;
             }
         }
@@ -161,6 +221,7 @@ public class Solution202210 {
     public static int[][] coordinates = {{-1, 0}, {1, 0}, {0, 1}, {0, -1}};
     // 用户存储边缘格子
     public static Deque<int[]> edges;
+
     /**
      * 934. 最短的桥
      */
@@ -174,7 +235,7 @@ public class Solution202210 {
         for (int i = 0; !findIsland && i < grid.length; i++) {
             for (int j = 0; !findIsland && j < grid[0].length; j++) {
                 if (findIsland = (grid[i][j] == 1)) {
-                    markIsland(grid,i, j);
+                    markIsland(grid, i, j);
                 }
             }
         }
@@ -186,11 +247,10 @@ public class Solution202210 {
                 int[] edge = edges.removeFirst();
                 for (int[] c : coordinates) { // 向edge的四个方向查看格子编号，并扩展岛屿边界
                     int nex = edge[0] + c[0], ney = edge[1] + c[1];
-                    if(isLegal(nex, ney,m,n) && grid[nex][ney] == 0) {
-                        edges.addLast(new int[]{nex, ney}); // 添加新的边界
+                    if (isLegal(nex, ney, m, n) && grid[nex][ney] == 0) {
+                        edges.addLast(new int[] {nex, ney}); // 添加新的边界
                         grid[nex][ney] = 2;
-                    }
-                    else if (isLegal(nex, ney,m,n) && grid[nex][ney] == 1) {
+                    } else if (isLegal(nex, ney, m, n) && grid[nex][ney] == 1) {
                         return result; // 与另一个岛屿相遇，则直接返回result
                     }
                 }
@@ -205,16 +265,16 @@ public class Solution202210 {
         }
         if (grid[row][column] == 0) {
             grid[row][column] = 2; // 将边界向外扩展1层岛屿（val=2)
-            edges.addLast(new int[]{row, column});
+            edges.addLast(new int[] {row, column});
             return;
         }
         grid[row][column] = 2; // 为岛屿打标记（val=2）
         for (int[] c : coordinates) {
-            markIsland(grid,row + c[0], column + c[1]); // 深度遍历某个格子的四个方向
+            markIsland(grid, row + c[0], column + c[1]); // 深度遍历某个格子的四个方向
         }
     }
 
-    public static boolean isLegal(int row, int column,int m,int n) {
+    public static boolean isLegal(int row, int column, int m, int n) {
         return row >= 0 && row < m && column >= 0 && column < n;
     }
 
@@ -229,8 +289,8 @@ public class Solution202210 {
             min[i] = Math.min(nums[i], min[i + 1]);
         }
         int leftMax = Integer.MIN_VALUE;
-        for (int i = 0; i < n-1; i++) {
-            if (nums[i]>leftMax){
+        for (int i = 0; i < n - 1; i++) {
+            if (nums[i] > leftMax) {
                 leftMax = nums[i];
             }
             if (leftMax <= min[i + 1]) {
@@ -240,7 +300,6 @@ public class Solution202210 {
         return -1;
 
     }
-
 
     /**
      * 959. 由斜杠划分区域
@@ -266,7 +325,7 @@ public class Solution202210 {
                 }
             }
         }
-        int[][] dic = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+        int[][] dic = new int[][] {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         for (int i = 0; i < n * num_three; i++) {
             for (int j = 0; j < n * num_three; j++) {
                 // 开始扩散
@@ -697,7 +756,7 @@ public class Solution202210 {
             return root1.val == root2.val;
         }
         return (flipEquiv(root1.left, root2.right) && flipEquiv(root1.right, root2.left)
-                || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
+            || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)) && root1.val == root2.val;
     }
 
     public static int maximumRequests(int n, int[][] requests) {
@@ -810,7 +869,7 @@ public class Solution202210 {
             if (o == null || getClass() != o.getClass()) {
                 return false;
             }
-            TallestBillboardInfo info = (TallestBillboardInfo) o;
+            TallestBillboardInfo info = (TallestBillboardInfo)o;
             return cur1 == info.cur1 && cur2 == info.cur2 && index == info.index;
         }
 
