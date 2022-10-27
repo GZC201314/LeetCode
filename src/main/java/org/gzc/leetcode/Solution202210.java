@@ -80,6 +80,9 @@ public class Solution202210 {
             case 915:
                 System.out.println(partitionDisjoint(new int[]{5, 0, 3, 8, 6}));
                 break;
+            case 1822:
+                System.out.println(arraySign(new int[]{5, 0, 3, 8, 6}));
+                break;
             case 862:
                 System.out.println(shortestSubarray(new int[]{2,-1,2},3));
                 break;
@@ -101,6 +104,33 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1822. 数组元素积的符号
+     */
+    public static int arraySign(int[] nums) {
+        int navigationCount = 0;
+        int zeroCount = 0;
+        for (int num : nums) {
+            if (num<0){
+                navigationCount++;
+            }else if (num ==0){
+                zeroCount++;
+            }
+        }
+
+        if (zeroCount>0){
+            return 0;
+        }
+        if (navigationCount!=0){
+            if (navigationCount%2 ==0){
+                return 1;
+            }else {
+                return -1;
+            }
+        }
+        return 1;
     }
 
     /**
