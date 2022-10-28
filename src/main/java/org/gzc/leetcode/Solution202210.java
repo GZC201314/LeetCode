@@ -89,7 +89,9 @@ public class Solution202210 {
                 System.out.println(shortestSubarray(new int[] {2, -1, 2}, 3));
                 break;
             case 1755:
-                System.out.println(minAbsDifference(new int[] {9210,-5402,8022,-4660,-1719,-9686,3899,8543,-8813,2070,3791,3177,-775,-9400,-7036,-7050,-9843,2563,-1190,5216,-1089,2210,5775,1027,2729,4947,-6183,5850,1616,-5259,3605,-5142}, -10259));
+                System.out.println(minAbsDifference(new int[] {9210, -5402, 8022, -4660, -1719, -9686, 3899, 8543,
+                    -8813, 2070, 3791, 3177, -775, -9400, -7036, -7050, -9843, 2563, -1190, 5216, -1089, 2210, 5775,
+                    1027, 2729, 4947, -6183, 5850, 1616, -5259, 3605, -5142}, -10259));
                 break;
             case 1700:
                 System.out.println(countStudents(new int[] {1, 1, 1, 0, 0, 1}, new int[] {1, 0, 0, 0, 1, 1}));
@@ -107,8 +109,36 @@ public class Solution202210 {
                 System.out.println(flipEquiv(node, node1));
                 break;
             default:
+                System.out.println(sumSubarrayMins(new int[]{11,81,94,43,3}));
                 break;
         }
+    }
+
+    public static int sumSubarrayMins(int[] arr) {
+        PriorityQueue<Integer> pq1 = new PriorityQueue<>((o1, o2)->o2-o1);
+        int result = 0;
+        int mod = 1000000001;
+        int n = arr.length;
+        int curSum = 0;
+        for (int i = n - 1; i >= 0; i--) {
+            while (!pq1.isEmpty()) {
+                int max = pq1.peek();
+                if (max > arr[i]) {
+                    pq1.poll();
+                    curSum -= max;
+                    curSum += arr[i];
+                    pq1.offer(arr[i]);
+                } else {
+                    break;
+                }
+            }
+            curSum += arr[i];
+            result += curSum;
+            result %=mod;
+            pq1.offer(arr[i]);
+        }
+        return result % mod;
+
     }
 
     /**
@@ -121,11 +151,11 @@ public class Solution202210 {
 
         minAbsDifferenceDfs(nums, goal, 0, 0);
 
-        return minAbsDifferenceResult == Integer.MAX_VALUE?0:minAbsDifferenceResult;
+        return minAbsDifferenceResult == Integer.MAX_VALUE ? 0 : minAbsDifferenceResult;
     }
 
     private static void minAbsDifferenceDfs(int[] nums, int goal, int index, int curSum) {
-        if (dpSet.contains(new Info(index, curSum))){
+        if (dpSet.contains(new Info(index, curSum))) {
             return;
         }
         if (Math.abs(curSum - goal) < minAbsDifferenceResult) {
@@ -137,14 +167,15 @@ public class Solution202210 {
         dpSet.add(new Info(index, curSum));
         int sum = curSum + nums[index];
         // 取当前值
-        minAbsDifferenceDfs(nums, goal,index + 1,sum);
+        minAbsDifferenceDfs(nums, goal, index + 1, sum);
         // 不取当前值
-        minAbsDifferenceDfs(nums, goal,index + 1,curSum);
+        minAbsDifferenceDfs(nums, goal, index + 1, curSum);
     }
 
     public static class Info {
         int x;
         int y;
+
         public Info(int x, int y) {
             this.x = x;
             this.y = y;
@@ -152,11 +183,12 @@ public class Solution202210 {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Info info = (Info) o;
-            return x == info.x &&
-                    y == info.y;
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            Info info = (Info)o;
+            return x == info.x && y == info.y;
         }
 
         @Override
@@ -164,7 +196,6 @@ public class Solution202210 {
             return Objects.hash(x, y);
         }
     }
-
 
     /**
      * 1822. 数组元素积的符号
