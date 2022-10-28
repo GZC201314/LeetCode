@@ -108,12 +108,17 @@ public class Solution202210 {
                 TreeNode node1 = new TreeNode(1, null, new TreeNode(3));
                 System.out.println(flipEquiv(node, node1));
                 break;
+                case 907:
+                    System.out.println(sumSubarrayMins(new int[]{11,81,94,43,3}));
+                    break;
             default:
-                System.out.println(sumSubarrayMins(new int[]{11,81,94,43,3}));
-                break;
+            break;
         }
     }
 
+    /**
+     * 907. 子数组的最小值之和
+     */
     public static int sumSubarrayMins(int[] arr) {
         PriorityQueue<Integer> pq1 = new PriorityQueue<>((o1, o2)->o2-o1);
         int result = 0;
