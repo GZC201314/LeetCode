@@ -85,6 +85,9 @@ public class Solution202210 {
             case 1822:
                 System.out.println(arraySign(new int[] {5, 0, 3, 8, 6}));
                 break;
+            case 481:
+                System.out.println(magicalString(6));
+                break;
             case 862:
                 System.out.println(shortestSubarray(new int[] {2, -1, 2}, 3));
                 break;
@@ -114,6 +117,29 @@ public class Solution202210 {
             default:
             break;
         }
+    }
+
+    /**
+     * 481. 神奇字符串
+     */
+    public static int magicalString(int n) {
+        char[] result = new char[n];
+        result[0] = '1';
+        int res = 0;
+        int left = 0;
+        int right = 0;
+        char lastChar = '2';
+        while (left < n){
+            lastChar = lastChar == '2'?'1':'2';
+            int count = Integer.parseInt(String.valueOf(result[right++]));
+            for (int i = 0; i < count; i++) {
+                result[left++]= lastChar;
+                if (lastChar == '1'){
+                    res+=count;
+                }
+            }
+        }
+        return res;
     }
 
     /**
