@@ -86,7 +86,7 @@ public class Solution202210 {
                 System.out.println(arraySign(new int[] {5, 0, 3, 8, 6}));
                 break;
             case 481:
-                System.out.println(magicalString(6));
+                System.out.println(magicalString(2));
                 break;
             case 862:
                 System.out.println(shortestSubarray(new int[] {2, -1, 2}, 3));
@@ -111,11 +111,11 @@ public class Solution202210 {
                 TreeNode node1 = new TreeNode(1, null, new TreeNode(3));
                 System.out.println(flipEquiv(node, node1));
                 break;
-                case 907:
-                    System.out.println(sumSubarrayMins(new int[]{11,81,94,43,3}));
-                    break;
+            case 907:
+                System.out.println(sumSubarrayMins(new int[] {11, 81, 94, 43, 3}));
+                break;
             default:
-            break;
+                break;
         }
     }
 
@@ -123,19 +123,26 @@ public class Solution202210 {
      * 481. 神奇字符串
      */
     public static int magicalString(int n) {
-        char[] result = new char[n];
-        result[0] = '1';
+        int[] result = new int[n];
+        result[0] = 1;
         int res = 0;
         int left = 0;
         int right = 0;
-        char lastChar = '2';
-        while (left < n){
-            lastChar = lastChar == '2'?'1':'2';
+        int lastChar = 0;
+        while (left < n) {
+            lastChar = (lastChar) % 2 + 1;
+            if (result[right] == 0) {
+                result[right] = lastChar;
+            }
             int count = Integer.parseInt(String.valueOf(result[right++]));
             for (int i = 0; i < count; i++) {
-                result[left++]= lastChar;
-                if (lastChar == '1'){
-                    res+=count;
+                if (left < n) {
+                    result[left++] = lastChar;
+                    if (lastChar == 1) {
+                        res++;
+                    }
+                }else {
+                    break;
                 }
             }
         }
@@ -146,7 +153,7 @@ public class Solution202210 {
      * 907. 子数组的最小值之和
      */
     public static int sumSubarrayMins(int[] arr) {
-        PriorityQueue<Integer> pq1 = new PriorityQueue<>((o1, o2)->o2-o1);
+        PriorityQueue<Integer> pq1 = new PriorityQueue<>((o1, o2) -> o2 - o1);
         int result = 0;
         int mod = 1000000001;
         int n = arr.length;
@@ -165,7 +172,7 @@ public class Solution202210 {
             }
             curSum += arr[i];
             result += curSum;
-            result %=mod;
+            result %= mod;
             pq1.offer(arr[i]);
         }
         return result % mod;
