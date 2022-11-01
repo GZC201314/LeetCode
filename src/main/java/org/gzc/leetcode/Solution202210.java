@@ -88,6 +88,9 @@ public class Solution202210 {
             case 481:
                 System.out.println(magicalString(2));
                 break;
+            case 1952:
+                System.out.println(isThree(9));
+                break;
             case 862:
                 System.out.println(shortestSubarray(new int[] {2, -1, 2}, 3));
                 break;
@@ -120,6 +123,18 @@ public class Solution202210 {
     }
 
     /**
+     * 1952. 三除数
+     */
+    public static boolean isThree(int n) {
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                return i * i == n;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 481. 神奇字符串
      */
     public static int magicalString(int n) {
@@ -141,7 +156,7 @@ public class Solution202210 {
                     if (lastChar == 1) {
                         res++;
                     }
-                }else {
+                } else {
                     break;
                 }
             }
