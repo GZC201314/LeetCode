@@ -85,6 +85,9 @@ public class Solution202210 {
             case 1822:
                 System.out.println(arraySign(new int[] {5, 0, 3, 8, 6}));
                 break;
+            case 1953:
+                System.out.println(numberOfWeeks(new int[] {1, 10, 7, 1, 7, 2, 10, 10, 355359359}));
+                break;
             case 481:
                 System.out.println(magicalString(2));
                 break;
@@ -120,6 +123,25 @@ public class Solution202210 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1953. 你可以工作的最大周数
+     */
+    public static long numberOfWeeks(int[] milestones) {
+        int n = milestones.length, max = -1;
+        if (n == 1){
+            return 1;
+        }
+        long sum = 0L;
+        for (int milestone : milestones) {
+            sum += milestone;
+            max = Math.max(max, milestone);
+        }
+        if (max > sum - max){
+            return 2 * (sum - max) + 1;
+        }
+        return sum;
     }
 
     /**
