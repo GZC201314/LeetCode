@@ -45,7 +45,7 @@ public class Solution202211 {
             // 正数部分
             String zheng = s.substring(0, i);
             String xiao = s.substring(i);
-            if (zheng.startsWith("0")&& Integer.parseInt(zheng)==0|| xiao.endsWith("0")){
+            if (zheng.startsWith("0")&& (Integer.parseInt(zheng)!=0|| zheng.length()>1 )|| xiao.endsWith("0")){
                 continue;
             }
             if (xiao.equals("")){
