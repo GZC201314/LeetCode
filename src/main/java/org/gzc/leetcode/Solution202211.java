@@ -48,7 +48,7 @@ public class Solution202211 {
             if (zheng.startsWith("0")&& (Integer.parseInt(zheng)!=0|| zheng.length()>1 )|| xiao.endsWith("0")){
                 continue;
             }
-            if (xiao.equals("")){
+            if ("".equals(xiao)){
                 result.add(zheng);
             }else {
                 result.add(zheng+"."+xiao);
