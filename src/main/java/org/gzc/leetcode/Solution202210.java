@@ -99,8 +99,59 @@ public class Solution202210 {
                 System.out.println(flipEquiv(node, node1));
                 break;
             default:
+                System.out.println(Arrays.toString(merge(new int[]{ 0, 0, 0}, 0, new int[]{2, 5, 6}, 3)));
+                System.out.println(Arrays.toString(merge(new int[][]{ {1,3},{2,4}})));
                 break;
         }
+    }
+
+    public static int[] merge (int[] nums1, int m, int[] nums2, int n) {
+        int index = nums1.length-1;
+        int index1 = m-1;
+        int index2 = n-1;
+        while (index2>=0){
+            if (index1 ==-1){
+                nums1[index--]= nums2[index2--];
+            }else {
+                if (nums1[index1]>nums2[index2]){
+                    nums1[index--]= nums1[index1--];
+                }else {
+                    nums1[index--]= nums2[index2--];
+                }
+            }
+        }
+        return nums1;
+    }
+
+    public static int[][] merge (int[][] arr) {
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((o1,o2)->{
+            if (o1[0]!=o2[0]){
+                return o1[0]-o2[0];
+            }else {
+                return o1[1]-o2[1];
+            }
+        });
+        for (int[] ints : arr) {
+            priorityQueue.offer(ints);
+        }
+        List<int[]> result = new ArrayList<>();
+        int[] lastLine = priorityQueue.peek();
+        while (!priorityQueue.isEmpty()){
+            int[] top = priorityQueue.poll();
+            if (lastLine[0]<=top[0] && top[0]<=lastLine[1]){
+                lastLine= new int[]{lastLine[0],Math.max(top[1],lastLine[1])};
+            }else {
+                result.add(lastLine);
+                lastLine = top;
+            }
+        }
+        result.add(lastLine);
+        int size = result.size();
+        int[][] ans = new int[size][2];
+        for (int i = 0; i < size; i++) {
+            ans[i] = result.get(i);
+        }
+        return ans;
     }
 
     /**
