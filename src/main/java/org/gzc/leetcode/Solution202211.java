@@ -26,7 +26,7 @@ public class Solution202211 {
      * 764. 最大加号标志
      */
     public static int orderOfLargestPlusSign(int n, int[][] mines) {
-        // dp[i][j] 表示以i,j为中心向四周扩展做小的距离
+        // dp[i][j] 表示以i,j为中心向四周扩展最小的距离
         int[][] dp = new int[n][n];
         for (int i = 0; i < n; i++) {
             Arrays.fill(dp[i], n);
