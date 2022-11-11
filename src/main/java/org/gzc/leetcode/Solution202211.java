@@ -17,12 +17,33 @@ public class Solution202211 {
             case 1704:
                 System.out.println(halvesAreAlike("book"));
                 break;
+            case 1104:
+                System.out.println(pathInZigZagTree(14));
+                break;
             case 764:
                 System.out.println(orderOfLargestPlusSign(5,new int[][]{{4,2}}));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 1104. 二叉树寻路
+     */
+    public static List<Integer> result = new ArrayList<>();
+    public static List<Integer> pathInZigZagTree(int label) {
+        result.add(label);
+        if (label == 1){
+            Collections.reverse(result);
+            return result;
+        }
+        String s = Integer.toBinaryString(label);
+        int level = s.length();
+        // 计算当前lable的父节点
+        int mirrorParent = label/2;
+        int parent = (int) ((Math.pow(2,level-2)+Math.pow(2,level-1)-1)-mirrorParent);
+        return pathInZigZagTree(parent);
     }
 
     /**
