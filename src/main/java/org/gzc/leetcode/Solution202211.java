@@ -14,12 +14,35 @@ public class Solution202211 {
             case 816:
                 System.out.println(ambiguousCoordinates("(0012)"));
                 break;
+            case 1704:
+                System.out.println(halvesAreAlike("book"));
+                break;
             case 764:
                 System.out.println(orderOfLargestPlusSign(5,new int[][]{{4,2}}));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 1704. 判断字符串的两半是否相似
+     */
+    public static boolean halvesAreAlike(String s) {
+        String words = "aeiouAEIOU";
+        int len = s.length();
+        int count=0;
+        int right = len/2;
+        int left = 0;
+        while(right<len){
+            if (words.contains(String.valueOf(s.charAt(left++)))){
+                count++;
+            }
+            if (words.contains(String.valueOf(s.charAt(right++)))){
+                count--;
+            }
+        }
+        return count==0;
     }
 
     /**
