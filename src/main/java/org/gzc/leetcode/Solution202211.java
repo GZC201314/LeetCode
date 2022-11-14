@@ -64,7 +64,7 @@ public class Solution202211 {
             dp[2][2] = dp[1][1]+1;
         }
         for (int i = 3; i < n; i++) {
-            dp[i][0] = dp[i - 1][0] + leavesArr[i] == 'r' ? 0 : 1;
+            dp[i][0] = dp[i - 1][0] + (leavesArr[i] == 'r' ? 0 : 1);
             dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + (leavesArr[i] == 'y' ? 0 : 1);
             dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + (leavesArr[i] == 'r' ? 0 : 1);
         }
