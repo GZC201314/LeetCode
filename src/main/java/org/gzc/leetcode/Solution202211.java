@@ -18,7 +18,7 @@ public class Solution202211 {
                 System.out.println(halvesAreAlike("book"));
                 break;
             case 19:
-                System.out.println(minimumOperations("rrryyyrryyyrr"));
+                System.out.println(minimumOperations("ryryyrryryrryrrrrrrrrrryyyyyyyyrrrryryyyyyrrrryrryrryyrrrryyryyyryyrryrryyyyyrrrryryryyrrrr"));
                 break;
             case 1104:
                 System.out.println(pathInZigZagTree(14));
@@ -37,25 +37,27 @@ public class Solution202211 {
     public static int minimumOperations(String leaves) {
         char[] leavesArr = leaves.toCharArray();
         int n = leavesArr.length;
+        char red = 'r';
+        char yellow = 'y';
         // dp[i][j]表示从0-i 其中第i枚状态为j的最小移动次数
         int[][] dp = new int[n][3];
         for (int i = 0; i < n; i++) {
             Arrays.fill(dp[i], i+1);
         }
-        if (leavesArr[0] == 'r') {
+        if (leavesArr[0] == red) {
             dp[0][0] = 0;
         } else {
             dp[0][0] = 1;
         }
-        if (leavesArr[1] == 'r') {
+        if (leavesArr[1] == red) {
             dp[1][0] = dp[0][0];
             dp[1][1] = Math.min(dp[0][0],dp[0][1])+1;
         } else {
             dp[1][0] =dp[0][0]+ 1;
             dp[1][1] = Math.min(dp[0][0],dp[0][1]);
         }
-        if (leavesArr[2] == 'r') {
-            dp[2][0] = dp[0][0];
+        if (leavesArr[2] == red) {
+            dp[2][0] = dp[1][0];
             dp[2][1] = Math.min(dp[1][0],dp[1][1])+1;
             dp[2][2] = dp[1][1];
         } else {
@@ -64,9 +66,9 @@ public class Solution202211 {
             dp[2][2] = dp[1][1]+1;
         }
         for (int i = 3; i < n; i++) {
-            dp[i][0] = dp[i - 1][0] + (leavesArr[i] == 'r' ? 0 : 1);
-            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + (leavesArr[i] == 'y' ? 0 : 1);
-            dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + (leavesArr[i] == 'r' ? 0 : 1);
+            dp[i][0] = dp[i - 1][0] + (leavesArr[i] == red ? 0 : 1);
+            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + (leavesArr[i] == yellow ? 0 : 1);
+            dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + (leavesArr[i] == red ? 0 : 1);
         }
         return dp[n - 1][2];
     }
