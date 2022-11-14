@@ -17,11 +17,14 @@ public class Solution202211 {
             case 1704:
                 System.out.println(halvesAreAlike("book"));
                 break;
+            case 19:
+                System.out.println(minimumOperations("rrryyyrryyyrr"));
+                break;
             case 1104:
                 System.out.println(pathInZigZagTree(14));
                 break;
             case 764:
-                System.out.println(orderOfLargestPlusSign(5,new int[][]{{4,2}}));
+                System.out.println(orderOfLargestPlusSign(5, new int[][] {{4, 2}}));
                 break;
             default:
                 break;
@@ -29,20 +32,61 @@ public class Solution202211 {
     }
 
     /**
+     * LCP 19. 秋叶收藏集
+     */
+    public static int minimumOperations(String leaves) {
+        char[] leavesArr = leaves.toCharArray();
+        int n = leavesArr.length;
+        // dp[i][j]表示从0-i 其中第i枚状态为j的最小移动次数
+        int[][] dp = new int[n][3];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(dp[i], i+1);
+        }
+        if (leavesArr[0] == 'r') {
+            dp[0][0] = 0;
+        } else {
+            dp[0][0] = 1;
+        }
+        if (leavesArr[1] == 'r') {
+            dp[1][0] = dp[0][0];
+            dp[1][1] = Math.min(dp[0][0],dp[0][1])+1;
+        } else {
+            dp[1][0] =dp[0][0]+ 1;
+            dp[1][1] = Math.min(dp[0][0],dp[0][1]);
+        }
+        if (leavesArr[2] == 'r') {
+            dp[2][0] = dp[0][0];
+            dp[2][1] = Math.min(dp[1][0],dp[1][1])+1;
+            dp[2][2] = dp[1][1];
+        } else {
+            dp[2][0] =dp[1][0]+ 1;
+            dp[2][1] = Math.min(dp[1][0],dp[1][1]);
+            dp[2][2] = dp[1][1]+1;
+        }
+        for (int i = 3; i < n; i++) {
+            dp[i][0] = dp[i - 1][0] + leavesArr[i] == 'r' ? 0 : 1;
+            dp[i][1] = Math.min(dp[i - 1][0], dp[i - 1][1]) + (leavesArr[i] == 'y' ? 0 : 1);
+            dp[i][2] = Math.min(dp[i - 1][1], dp[i - 1][2]) + (leavesArr[i] == 'r' ? 0 : 1);
+        }
+        return dp[n - 1][2];
+    }
+
+    /**
      * 1104. 二叉树寻路
      */
     public static List<Integer> result = new ArrayList<>();
+
     public static List<Integer> pathInZigZagTree(int label) {
         result.add(label);
-        if (label == 1){
+        if (label == 1) {
             Collections.reverse(result);
             return result;
         }
         String s = Integer.toBinaryString(label);
         int level = s.length();
         // 计算当前lable的父节点
-        int mirrorParent = label/2;
-        int parent = (int) ((Math.pow(2,level-2)+Math.pow(2,level-1)-1)-mirrorParent);
+        int mirrorParent = label / 2;
+        int parent = (int)((Math.pow(2, level - 2) + Math.pow(2, level - 1) - 1) - mirrorParent);
         return pathInZigZagTree(parent);
     }
 
@@ -52,18 +96,18 @@ public class Solution202211 {
     public static boolean halvesAreAlike(String s) {
         String words = "aeiouAEIOU";
         int len = s.length();
-        int count=0;
-        int right = len/2;
+        int count = 0;
+        int right = len / 2;
         int left = 0;
-        while(right<len){
-            if (words.contains(String.valueOf(s.charAt(left++)))){
+        while (right < len) {
+            if (words.contains(String.valueOf(s.charAt(left++)))) {
                 count++;
             }
-            if (words.contains(String.valueOf(s.charAt(right++)))){
+            if (words.contains(String.valueOf(s.charAt(right++)))) {
                 count--;
             }
         }
-        return count==0;
+        return count == 0;
     }
 
     /**
@@ -128,7 +172,7 @@ public class Solution202211 {
         for (int i = 1; i < n; i++) {
             for (String num1 : getNums(replace.substring(0, i))) {
                 for (String num2 : getNums(replace.substring(i, n))) {
-                    result.add("("+num1+","+num2+")");
+                    result.add("(" + num1 + "," + num2 + ")");
                 }
             }
         }
@@ -142,13 +186,13 @@ public class Solution202211 {
             // 正数部分
             String zheng = s.substring(0, i);
             String xiao = s.substring(i);
-            if (zheng.startsWith("0")&& (Integer.parseInt(zheng)!=0|| zheng.length()>1 )|| xiao.endsWith("0")){
+            if (zheng.startsWith("0") && (Integer.parseInt(zheng) != 0 || zheng.length() > 1) || xiao.endsWith("0")) {
                 continue;
             }
-            if ("".equals(xiao)){
+            if ("".equals(xiao)) {
                 result.add(zheng);
-            }else {
-                result.add(zheng+"."+xiao);
+            } else {
+                result.add(zheng + "." + xiao);
             }
         }
         return result;
