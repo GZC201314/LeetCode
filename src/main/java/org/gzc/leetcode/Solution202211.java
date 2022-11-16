@@ -23,6 +23,9 @@ public class Solution202211 {
             case 1104:
                 System.out.println(pathInZigZagTree(14));
                 break;
+            case 775:
+                System.out.println(isIdealPermutation(new int[]{4,1,2}));
+                break;
             case 764:
                 System.out.println(orderOfLargestPlusSign(5, new int[][] {{4, 2}}));
                 break;
@@ -31,6 +34,21 @@ public class Solution202211 {
         }
     }
 
+    /**
+     * 775. 全局倒置与局部倒置
+     */
+    public static boolean isIdealPermutation(int[] nums) {
+        int n = nums.length;
+        int max = nums[0];
+        for (int i = 2; i < n; i++) {
+
+            if (nums[i] < max){
+                return false;
+            }
+            max = Math.max(max,nums[i-1]);
+        }
+        return true;
+    }
     /**
      * LCP 19. 秋叶收藏集
      */
