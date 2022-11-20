@@ -23,6 +23,9 @@ public class Solution202211 {
             case 1104:
                 System.out.println(pathInZigZagTree(14));
                 break;
+            case 799:
+                System.out.println(champagneTower(14,2,3));
+                break;
             case 775:
                 System.out.println(isIdealPermutation(new int[]{4,1,2}));
                 break;
@@ -32,6 +35,24 @@ public class Solution202211 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 799. 香槟塔
+     */
+    public static double champagneTower(int poured, int query_row, int query_glass) {
+        double[][] dp = new double[query_row + 2][query_row + 2];
+        // 为了防止越界，下标（0,0）的酒杯我们存放在dp[1][1]的位置上
+        dp[1][1] = poured;
+        for (int row = 2; row <= query_row + 1; row++) {
+            for (int column = 1; column <= row; column++) {
+                dp[row][column] = Math.max(dp[row - 1][column - 1] - 1, 0) / 2 + Math.max(dp[row - 1][column] - 1, 0) / 2;
+                if (row == query_row+1 && column == query_glass+1){
+                    return Math.min(dp[query_row + 1][query_glass + 1], 1);
+                }
+            }
+        }
+        return Math.min(dp[query_row + 1][query_glass + 1], 1);
     }
 
     /**
