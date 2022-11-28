@@ -29,6 +29,9 @@ public class Solution202211 {
             case 775:
                 System.out.println(isIdealPermutation(new int[]{4,1,2}));
                 break;
+            case 813:
+                System.out.println(largestSumOfAverages(new int[]{4,1,2},2));
+                break;
             case 882:
                 System.out.println(reachableNodes(new int[][] {{0,1,10},{0,2,1},{1,2,2}},6,3 ));
                 break;
@@ -38,6 +41,29 @@ public class Solution202211 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 813. 最大平均值和的分组
+     */
+    public static double largestSumOfAverages(int[] nums, int k) {
+        int n = nums.length;
+        double[] prefix = new double[n + 1];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + nums[i];
+        }
+        double[][] dp = new double[n + 1][k + 1];
+        for (int i = 1; i <= n; i++) {
+            dp[i][1] = prefix[i] / i;
+        }
+        for (int j = 2; j <= k; j++) {
+            for (int i = j; i <= n; i++) {
+                for (int x = j - 1; x < i; x++) {
+                    dp[i][j] = Math.max(dp[i][j], dp[x][j - 1] + (prefix[i] - prefix[x]) / (i - x));
+                }
+            }
+        }
+        return dp[n][k];
     }
 
     /**
