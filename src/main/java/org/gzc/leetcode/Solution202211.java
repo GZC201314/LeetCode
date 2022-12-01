@@ -79,7 +79,7 @@ public class Solution202211 {
             adList[u].add(new int[]{v, nodes});
             adList[v].add(new int[]{u, nodes});
         }
-        Map<Integer, Integer> used = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> used = new HashMap<Integer, Integer>(16);
         Set<Integer> visited = new HashSet<Integer>();
         int reachableNodes = 0;
         PriorityQueue<int[]> pq = new PriorityQueue<int[]>((a, b) -> a[0] - b[0]);
