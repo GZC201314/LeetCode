@@ -19,11 +19,46 @@ public class Solution202212 {
             case 1769:
                 System.out.println(Arrays.toString(minOperations("001011")));
                 break;
+            case 1774:
+                System.out.println(closestCost(new int[]{3,10},new int[]{2,5},9));
+                break;
             default:
                 break;
         }
     }
 
+
+    /**
+     * 1774. 最接近目标价格的甜点成本
+     */
+    public static int closestCostRes = Integer.MAX_VALUE;
+    public static int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
+        for (int baseCost : baseCosts) {
+            closestCostDfs(toppingCosts,0,baseCost,target);
+        }
+        return closestCostRes;
+
+    }
+
+    private static void closestCostDfs(int[] toppingCosts, int i, int curCost, int target) {
+
+        if (Math.abs(closestCostRes-target) < curCost-target){
+            return;
+        }
+        if (Math.abs(closestCostRes-target) >= Math.abs(curCost-target)){
+            if(Math.abs(closestCostRes-target) > Math.abs(curCost-target)){
+                closestCostRes = curCost;
+            }else {
+                closestCostRes = Math.min(closestCostRes,curCost);
+            }
+        }
+        if (i == toppingCosts.length){
+            return;
+        }
+        closestCostDfs(toppingCosts,i+1,curCost+toppingCosts[i]*2,target);
+        closestCostDfs(toppingCosts,i+1,curCost+toppingCosts[i],target);
+        closestCostDfs(toppingCosts,i+1,curCost,target);
+    }
 
     /**
      * 1769. 移动所有球到每个盒子所需的最小操作数
