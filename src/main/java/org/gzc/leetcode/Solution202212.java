@@ -1,5 +1,6 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.SmallestInfiniteSet;
 import org.gzc.leetcode.model.TreeNode;
 
 import java.util.*;
@@ -18,6 +19,11 @@ public class Solution202212 {
                 break;
             case 106:
                 System.out.println(isBipartite(new int[][]{{1}, {0, 3}, { 3}, {1, 2}}));
+                break;
+            case 2336:
+                SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
+                smallestInfiniteSet.addBack(10);
+                System.out.println(smallestInfiniteSet.popSmallest());
                 break;
             case 1769:
                 System.out.println(Arrays.toString(minOperations("001011")));
