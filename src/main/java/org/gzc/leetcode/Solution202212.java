@@ -31,11 +31,31 @@ public class Solution202212 {
             case 1774:
                 System.out.println(closestCost(new int[]{3, 10}, new int[]{2, 5}, 9));
                 break;
+            case 1805:
+                System.out.println(numDifferentIntegers("a123bc34d8ef34"));
+                break;
             default:
                 break;
         }
     }
 
+    /**
+     * 1805. 字符串中不同整数的数目
+     */
+    public static int numDifferentIntegers(String word) {
+        String zero = "0";
+        String[] split = word.split("[a-z]+");
+        Set<String> set = new HashSet<>();
+        for (String s : split) {
+            if (!"".equals(s)){
+                while (s.startsWith(zero)){
+                    s = s.replaceFirst("0", "");
+                }
+                set.add(s);
+            }
+        }
+        return set.size();
+    }
 
     /**
      * 剑指Offer 106. 二分图
