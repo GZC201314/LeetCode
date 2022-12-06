@@ -18,7 +18,10 @@ public class Solution202212 {
                 System.out.println(maxDepth(new TreeNode(1)));
                 break;
             case 106:
-                System.out.println(isBipartite(new int[][]{{1}, {0, 3}, { 3}, {1, 2}}));
+                System.out.println(isBipartite(new int[][]{{1}, {0, 3}, {3}, {1, 2}}));
+                break;
+            case 4:
+                System.out.println(findNumberIn2DArray(new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}}, 5));
                 break;
             case 2336:
                 SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
@@ -40,6 +43,23 @@ public class Solution202212 {
     }
 
     /**
+     * 剑指Offer 04 二维数组中的查找
+     */
+    public static boolean findNumberIn2DArray(int[][] matrix, int target) {
+        int i = matrix.length - 1, j = 0;
+        while (i >= 0 && j < matrix[0].length) {
+            if (matrix[i][j] > target) {
+                i--;
+            } else if (matrix[i][j] < target) {
+                j++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 1805. 字符串中不同整数的数目
      */
     public static int numDifferentIntegers(String word) {
@@ -47,8 +67,8 @@ public class Solution202212 {
         String[] split = word.split("[a-z]+");
         Set<String> set = new HashSet<>();
         for (String s : split) {
-            if (!"".equals(s)){
-                while (s.startsWith(zero)){
+            if (!"".equals(s)) {
+                while (s.startsWith(zero)) {
                     s = s.replaceFirst("0", "");
                 }
                 set.add(s);
@@ -67,7 +87,7 @@ public class Solution202212 {
         for (int i = 0; i < n; i++) {
             Stack<Integer> stack = new Stack<>();
             stack.push(i);
-            if (valid[i] == 0){
+            if (valid[i] == 0) {
                 valid[i] = 1;
             }
             while (!stack.isEmpty()) {
