@@ -37,8 +37,26 @@ public class Solution202212 {
             case 1805:
                 System.out.println(numDifferentIntegers("a123bc34d8ef34"));
                 break;
+            case 1812:
+                System.out.println(squareIsWhite("a2"));
+                break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 1812. 判断国际象棋棋盘中一个格子的颜色
+     */
+    public static boolean squareIsWhite(String coordinates) {
+        char[] chars = coordinates.toCharArray();
+        int num1 = (chars[0]-'a'+1);
+        int num2 = chars[1]-'0';
+        // 第一个是黑色
+        if (num1%2==1){
+            return num2 % 2 == 0;
+        }else {
+            return num2 % 2 == 1;
         }
     }
 
