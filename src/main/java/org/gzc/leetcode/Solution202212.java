@@ -40,8 +40,38 @@ public class Solution202212 {
             case 1812:
                 System.out.println(squareIsWhite("a2"));
                 break;
+            case 744:
+                System.out.println(nextGreatestLetter("eeff".toCharArray(),'f'));
+                break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 744. 查找比目标字母大的最小字母
+     */
+    public static char nextGreatestLetter(char[] letters, char target) {
+        int left = 0;
+        int right = letters.length-1;
+        int mid = (left + right)/2;
+        while (left < right) {
+            if (letters[mid] < target){
+                left = mid+1;
+            }else{
+                right = mid-1;
+            }
+            mid = (left + right)/2;
+        }
+        if (letters[mid] <= target){
+            while (mid<letters.length){
+                if (letters[(++mid)%(letters.length)] > target){
+                    return letters[mid];
+                }
+            }
+            return letters[0];
+        }else{
+            return letters[(mid)%(letters.length)];
         }
     }
 
