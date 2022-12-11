@@ -34,6 +34,9 @@ public class Solution202212 {
             case 1774:
                 System.out.println(closestCost(new int[]{3, 10}, new int[]{2, 5}, 9));
                 break;
+            case 1827:
+                System.out.println(minOperations(new int[]{3, 10}));
+                break;
             case 1805:
                 System.out.println(numDifferentIntegers("a123bc34d8ef34"));
                 break;
@@ -46,6 +49,25 @@ public class Solution202212 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1827. 最小操作使数组递增
+     */
+    public static int minOperations(int[] nums) {
+        int n = nums.length;
+        int ans = 0;
+        int lastMax = nums[0];
+        for (int i = 1; i < n; i++) {
+            if (nums[i]>lastMax){
+                lastMax = nums[i];
+            }else {
+                ans += lastMax+1-nums[i];
+                lastMax = lastMax+1;
+            }
+        }
+        return ans;
     }
 
     /**
