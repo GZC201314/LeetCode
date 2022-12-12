@@ -43,12 +43,40 @@ public class Solution202212 {
             case 1812:
                 System.out.println(squareIsWhite("a2"));
                 break;
+            case 1781:
+                System.out.println(beautySum("aabcb"));
+                break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(),'f'));
                 break;
             default:
                 break;
         }
+    }
+
+
+    public static int beautySum(String s) {
+
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int[] countArr = new int[26];
+            int max = 0;
+            for (int j = i; j < n; j++) {
+                countArr[chars[j]-'a']++;
+                max = Math.max(max,countArr[chars[j]-'a']);
+                int min = n;
+                for (int k = 0; k < 26; k++) {
+                    if (countArr[k] >0){
+                        min = Math.min(min,countArr[k]);
+                    }
+                }
+                ans += (max-min);
+
+            }
+        }
+        return ans;
     }
 
 
