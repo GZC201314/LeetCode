@@ -28,6 +28,9 @@ public class Solution202212 {
             case 4:
                 System.out.println(findNumberIn2DArray(new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}}, 5));
                 break;
+            case 1697:
+                System.out.println(Arrays.toString(distanceLimitedPathsExist(3, new int[][]{{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 16}} , new int[][]{{0, 1, 2}, {0, 2, 5}})));
+                break;
             case 2336:
                 SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
                 smallestInfiniteSet.addBack(10);
@@ -311,11 +314,11 @@ public class Solution202212 {
         return res;
     }
 
-    public static int find(int[] uf, int x) {
-        if (uf[x] == x) {
-            return x;
+    public static int find(int[] uf, int index) {
+        if (uf[index] == index) {
+            return index;
         }
-        return uf[x] = find(uf, uf[x]);
+        return uf[index] = find(uf, uf[index]);
     }
 
     public static void merge(int[] uf, int x, int y) {
