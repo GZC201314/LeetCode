@@ -10,6 +10,11 @@ import java.util.*;
  */
 public class Solution202212 {
 
+    /**
+     * 1774. 最接近目标价格的甜点成本
+     */
+    public static int closestCostRes = Integer.MAX_VALUE;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
@@ -47,14 +52,16 @@ public class Solution202212 {
                 System.out.println(beautySum("aabcb"));
                 break;
             case 744:
-                System.out.println(nextGreatestLetter("eeff".toCharArray(),'f'));
+                System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
                 break;
             default:
                 break;
         }
     }
 
-
+    /**
+     * 1781.所有子字符串美丽值之和
+     */
     public static int beautySum(String s) {
 
         char[] chars = s.toCharArray();
@@ -64,21 +71,20 @@ public class Solution202212 {
             int[] countArr = new int[26];
             int max = 0;
             for (int j = i; j < n; j++) {
-                countArr[chars[j]-'a']++;
-                max = Math.max(max,countArr[chars[j]-'a']);
+                countArr[chars[j] - 'a']++;
+                max = Math.max(max, countArr[chars[j] - 'a']);
                 int min = n;
                 for (int k = 0; k < 26; k++) {
-                    if (countArr[k] >0){
-                        min = Math.min(min,countArr[k]);
+                    if (countArr[k] > 0) {
+                        min = Math.min(min, countArr[k]);
                     }
                 }
-                ans += (max-min);
+                ans += (max - min);
 
             }
         }
         return ans;
     }
-
 
     /**
      * 1827. 最小操作使数组递增
@@ -88,11 +94,11 @@ public class Solution202212 {
         int ans = 0;
         int lastMax = nums[0];
         for (int i = 1; i < n; i++) {
-            if (nums[i]>lastMax){
+            if (nums[i] > lastMax) {
                 lastMax = nums[i];
-            }else {
-                ans += lastMax+1-nums[i];
-                lastMax = lastMax+1;
+            } else {
+                ans += lastMax + 1 - nums[i];
+                lastMax = lastMax + 1;
             }
         }
         return ans;
@@ -103,25 +109,25 @@ public class Solution202212 {
      */
     public static char nextGreatestLetter(char[] letters, char target) {
         int left = 0;
-        int right = letters.length-1;
-        int mid = (left + right)/2;
+        int right = letters.length - 1;
+        int mid = (left + right) / 2;
         while (left < right) {
-            if (letters[mid] < target){
-                left = mid+1;
-            }else{
-                right = mid-1;
+            if (letters[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
             }
-            mid = (left + right)/2;
+            mid = (left + right) / 2;
         }
-        if (letters[mid] <= target){
-            while (mid<letters.length){
-                if (letters[(++mid)%(letters.length)] > target){
+        if (letters[mid] <= target) {
+            while (mid < letters.length) {
+                if (letters[(++mid) % (letters.length)] > target) {
                     return letters[mid];
                 }
             }
             return letters[0];
-        }else{
-            return letters[(mid)%(letters.length)];
+        } else {
+            return letters[(mid) % (letters.length)];
         }
     }
 
@@ -130,12 +136,12 @@ public class Solution202212 {
      */
     public static boolean squareIsWhite(String coordinates) {
         char[] chars = coordinates.toCharArray();
-        int num1 = (chars[0]-'a'+1);
-        int num2 = chars[1]-'0';
+        int num1 = (chars[0] - 'a' + 1);
+        int num2 = chars[1] - '0';
         // 第一个是黑色
-        if (num1%2==1){
+        if (num1 % 2 == 1) {
             return num2 % 2 == 0;
-        }else {
+        } else {
             return num2 % 2 == 1;
         }
     }
@@ -214,11 +220,6 @@ public class Solution202212 {
 
     }
 
-    /**
-     * 1774. 最接近目标价格的甜点成本
-     */
-    public static int closestCostRes = Integer.MAX_VALUE;
-
     public static int closestCost(int[] baseCosts, int[] toppingCosts, int target) {
         for (int baseCost : baseCosts) {
             closestCostDfs(toppingCosts, 0, baseCost, target);
@@ -282,6 +283,45 @@ public class Solution202212 {
             return 1;
         }
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+    /**
+     * 1697. 检查边长度限制的路径是否存在
+     */
+    public static boolean[] distanceLimitedPathsExist(int n, int[][] edgeList, int[][] queries) {
+        Arrays.sort(edgeList, Comparator.comparingInt(a -> a[2]));
+        Integer[] index = new Integer[queries.length];
+        for (int i = 0; i < queries.length; i++) {
+            index[i] = i;
+        }
+        Arrays.sort(index, Comparator.comparingInt(a -> queries[a][2]));
+        int[] uf = new int[n];
+        for (int i = 0; i < n; i++) {
+            uf[i] = i;
+        }
+        boolean[] res = new boolean[queries.length];
+        int k = 0;
+        for (int i : index) {
+            while (k < edgeList.length && edgeList[k][2] < queries[i][2]) {
+                merge(uf, edgeList[k][0], edgeList[k][1]);
+                k++;
+            }
+            res[i] = find(uf, queries[i][0]) == find(uf, queries[i][1]);
+        }
+        return res;
+    }
+
+    public static int find(int[] uf, int x) {
+        if (uf[x] == x) {
+            return x;
+        }
+        return uf[x] = find(uf, uf[x]);
+    }
+
+    public static void merge(int[] uf, int x, int y) {
+        x = find(uf, x);
+        y = find(uf, y);
+        uf[y] = x;
     }
 
 
