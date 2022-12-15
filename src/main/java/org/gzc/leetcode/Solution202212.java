@@ -54,12 +54,80 @@ public class Solution202212 {
             case 1781:
                 System.out.println(beautySum("aabcb"));
                 break;
+            case 1945:
+                System.out.println(getLucky("iiii",1));
+                break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 1945. 字符串转化后的各位字符之和
+     */
+    public static int getLucky(String s, int k) {
+        StringBuilder sb ;
+        Map<Character, Integer> map = new HashMap<>();
+        map.put('0',0);
+        map.put('1',1);
+        map.put('2',2);
+        map.put('3',3);
+        map.put('4',4);
+        map.put('5',5);
+        map.put('6',6);
+        map.put('7',7);
+        map.put('8',8);
+        map.put('9',9);
+        map.put('a',1);
+        map.put('b',2);
+        map.put('c',3);
+        map.put('d',4);
+        map.put('e',5);
+        map.put('f',6);
+        map.put('g',7);
+        map.put('h',8);
+        map.put('i',9);
+        map.put('j',10);
+        map.put('k',11);
+        map.put('l',12);
+        map.put('m',13);
+        map.put('n',14);
+        map.put('o',15);
+        map.put('p',16);
+        map.put('q',17);
+        map.put('r',18);
+        map.put('s',19);
+        map.put('t',20);
+        map.put('u',21);
+        map.put('v',22);
+        map.put('w',23);
+        map.put('x',24);
+        map.put('y',25);
+        map.put('z',26);
+        sb = new StringBuilder();
+        char[] sChars = s.toCharArray();
+        for (char sChar : sChars) {
+            sb.append(map.get(sChar));
+        }
+        s = sb.toString();
+        int sum = 0;
+        while (k>0){
+            if (s.length() ==1 && Character.isDigit(s.charAt(0))){
+                return Integer.parseInt(s);
+            }
+            char[] chars = s.toCharArray();
+            sum=0;
+            for (char aChar : chars) {
+                sum += map.get(aChar);
+            }
+            s = String.valueOf(sum);
+            k--;
+        }
+        return sum;
+
     }
 
     /**
