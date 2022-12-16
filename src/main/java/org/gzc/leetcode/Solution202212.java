@@ -45,6 +45,9 @@ public class Solution202212 {
             case 1827:
                 System.out.println(minOperations(new int[]{3, 10}));
                 break;
+            case 1785:
+                System.out.println(minElements(new int[]{3, 10},11,-7));
+                break;
             case 1805:
                 System.out.println(numDifferentIntegers("a123bc34d8ef34"));
                 break;
@@ -63,6 +66,18 @@ public class Solution202212 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1785. 构成特定和需要添加的最少元素
+     */
+    public static int minElements(int[] nums, int limit, int goal) {
+        long sum = 0;
+        for (int num : nums) {
+            sum += num;
+        }
+        long rest = Math.abs(goal-sum);
+        return (int)((rest+limit-1)/limit);
     }
 
     /**
