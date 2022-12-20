@@ -45,6 +45,9 @@ public class Solution202212 {
             case 1827:
                 System.out.println(minOperations(new int[]{3, 10}));
                 break;
+            case 1760:
+                System.out.println(minimumSize(new int[]{7, 17},2));
+                break;
             case 1785:
                 System.out.println(minElements(new int[]{3, 10},11,-7));
                 break;
@@ -66,6 +69,33 @@ public class Solution202212 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1760. 袋子里最小数目的球
+     */
+    public static int minimumSize(int[] nums, int maxOperations) {
+        int left = 1;
+        int right =0;
+        if (Arrays.stream(nums).max().isPresent()){
+            right = Arrays.stream(nums).max().getAsInt();
+        }
+        int ans = 0;
+        while (left <= right){
+            int mid = (left+right)/2;
+            long opt =0;
+            for (int num : nums) {
+                opt +=(num-1)/mid;
+            }
+            if(opt<=maxOperations){
+                ans = mid;
+                right = mid-1;
+            }else {
+                left = mid+1;
+            }
+        }
+        return ans;
     }
 
     /**
