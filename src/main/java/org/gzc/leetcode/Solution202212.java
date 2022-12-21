@@ -29,7 +29,7 @@ public class Solution202212 {
                 System.out.println(findNumberIn2DArray(new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}}, 5));
                 break;
             case 1697:
-                System.out.println(Arrays.toString(distanceLimitedPathsExist(3, new int[][]{{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 16}} , new int[][]{{0, 1, 2}, {0, 2, 5}})));
+                System.out.println(Arrays.toString(distanceLimitedPathsExist(3, new int[][]{{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 16}}, new int[][]{{0, 1, 2}, {0, 2, 5}})));
                 break;
             case 2336:
                 SmallestInfiniteSet smallestInfiniteSet = new SmallestInfiniteSet();
@@ -46,10 +46,10 @@ public class Solution202212 {
                 System.out.println(minOperations(new int[]{3, 10}));
                 break;
             case 1760:
-                System.out.println(minimumSize(new int[]{7, 17},2));
+                System.out.println(minimumSize(new int[]{7, 17}, 2));
                 break;
             case 1785:
-                System.out.println(minElements(new int[]{3, 10},11,-7));
+                System.out.println(minElements(new int[]{3, 10}, 11, -7));
                 break;
             case 1805:
                 System.out.println(numDifferentIntegers("a123bc34d8ef34"));
@@ -61,7 +61,10 @@ public class Solution202212 {
                 System.out.println(beautySum("aabcb"));
                 break;
             case 1945:
-                System.out.println(getLucky("iiii",1));
+                System.out.println(getLucky("iiii", 1));
+                break;
+            case 1753:
+                System.out.println(maximumScore(2, 4, 6));
                 break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
@@ -71,28 +74,53 @@ public class Solution202212 {
         }
     }
 
+    /**
+     * 1753. 移除石子的最大得分
+     */
+    public static int maximumScore(int a, int b, int c) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1, o2) -> o2 - o1);
+        pq.offer(a);
+        pq.offer(b);
+        pq.offer(c);
+        int ans = 0;
+        while (pq.size() >= 2) {
+            Integer max = pq.poll();
+            Integer minSe = pq.poll();
+            Integer peek = pq.isEmpty() ? 0 : pq.peek();
+            int rest = minSe - peek;
+            rest = rest == 0 ? 1 : rest;
+            if (max - rest > 0) {
+                pq.offer(max - rest);
+            }
+            if (minSe - rest > 0) {
+                pq.offer(minSe - rest);
+            }
+            ans += rest;
+        }
+        return ans;
+    }
 
     /**
      * 1760. 袋子里最小数目的球
      */
     public static int minimumSize(int[] nums, int maxOperations) {
         int left = 1;
-        int right =0;
-        if (Arrays.stream(nums).max().isPresent()){
+        int right = 0;
+        if (Arrays.stream(nums).max().isPresent()) {
             right = Arrays.stream(nums).max().getAsInt();
         }
         int ans = 0;
-        while (left <= right){
-            int mid = (left+right)/2;
-            long opt =0;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            long opt = 0;
             for (int num : nums) {
-                opt +=(num-1)/mid;
+                opt += (num - 1) / mid;
             }
-            if(opt<=maxOperations){
+            if (opt <= maxOperations) {
                 ans = mid;
-                right = mid-1;
-            }else {
-                left = mid+1;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
         return ans;
@@ -106,52 +134,52 @@ public class Solution202212 {
         for (int num : nums) {
             sum += num;
         }
-        long rest = Math.abs(goal-sum);
-        return (int)((rest+limit-1)/limit);
+        long rest = Math.abs(goal - sum);
+        return (int) ((rest + limit - 1) / limit);
     }
 
     /**
      * 1945. 字符串转化后的各位字符之和
      */
     public static int getLucky(String s, int k) {
-        StringBuilder sb ;
+        StringBuilder sb;
         Map<Character, Integer> map = new HashMap<>();
-        map.put('0',0);
-        map.put('1',1);
-        map.put('2',2);
-        map.put('3',3);
-        map.put('4',4);
-        map.put('5',5);
-        map.put('6',6);
-        map.put('7',7);
-        map.put('8',8);
-        map.put('9',9);
-        map.put('a',1);
-        map.put('b',2);
-        map.put('c',3);
-        map.put('d',4);
-        map.put('e',5);
-        map.put('f',6);
-        map.put('g',7);
-        map.put('h',8);
-        map.put('i',9);
-        map.put('j',10);
-        map.put('k',11);
-        map.put('l',12);
-        map.put('m',13);
-        map.put('n',14);
-        map.put('o',15);
-        map.put('p',16);
-        map.put('q',17);
-        map.put('r',18);
-        map.put('s',19);
-        map.put('t',20);
-        map.put('u',21);
-        map.put('v',22);
-        map.put('w',23);
-        map.put('x',24);
-        map.put('y',25);
-        map.put('z',26);
+        map.put('0', 0);
+        map.put('1', 1);
+        map.put('2', 2);
+        map.put('3', 3);
+        map.put('4', 4);
+        map.put('5', 5);
+        map.put('6', 6);
+        map.put('7', 7);
+        map.put('8', 8);
+        map.put('9', 9);
+        map.put('a', 1);
+        map.put('b', 2);
+        map.put('c', 3);
+        map.put('d', 4);
+        map.put('e', 5);
+        map.put('f', 6);
+        map.put('g', 7);
+        map.put('h', 8);
+        map.put('i', 9);
+        map.put('j', 10);
+        map.put('k', 11);
+        map.put('l', 12);
+        map.put('m', 13);
+        map.put('n', 14);
+        map.put('o', 15);
+        map.put('p', 16);
+        map.put('q', 17);
+        map.put('r', 18);
+        map.put('s', 19);
+        map.put('t', 20);
+        map.put('u', 21);
+        map.put('v', 22);
+        map.put('w', 23);
+        map.put('x', 24);
+        map.put('y', 25);
+        map.put('z', 26);
         sb = new StringBuilder();
         char[] sChars = s.toCharArray();
         for (char sChar : sChars) {
@@ -159,12 +187,12 @@ public class Solution202212 {
         }
         s = sb.toString();
         int sum = 0;
-        while (k>0){
-            if (s.length() ==1 && Character.isDigit(s.charAt(0))){
+        while (k > 0) {
+            if (s.length() == 1 && Character.isDigit(s.charAt(0))) {
                 return Integer.parseInt(s);
             }
             char[] chars = s.toCharArray();
-            sum=0;
+            sum = 0;
             for (char aChar : chars) {
                 sum += map.get(aChar);
             }
