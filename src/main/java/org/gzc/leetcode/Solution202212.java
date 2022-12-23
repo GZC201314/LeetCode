@@ -66,12 +66,30 @@ public class Solution202212 {
             case 1753:
                 System.out.println(maximumScore(2, 4, 6));
                 break;
+            case 2011:
+                System.out.println(finalValueAfterOperations(new String[]{"++X","X++","--X"}));
+                break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 2011. 执行操作后的变量值
+     */
+    public static int finalValueAfterOperations(String[] operations) {
+        int ans = 0;
+        for (String operation : operations) {
+            if (operation.contains("++")){
+                ans++;
+            }else {
+                ans--;
+            }
+        }
+        return ans;
     }
 
     /**
@@ -87,6 +105,7 @@ public class Solution202212 {
             Integer max = pq.poll();
             Integer minSe = pq.poll();
             Integer peek = pq.isEmpty() ? 0 : pq.peek();
+            assert minSe != null;
             int rest = minSe - peek;
             rest = rest == 0 ? 1 : rest;
             if (max - rest > 0) {
