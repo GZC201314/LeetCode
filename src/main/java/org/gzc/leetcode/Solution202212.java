@@ -66,6 +66,9 @@ public class Solution202212 {
             case 1753:
                 System.out.println(maximumScore(2, 4, 6));
                 break;
+            case 2027:
+                System.out.println(minimumMoves("XOOOOOX"));
+                break;
             case 2011:
                 System.out.println(finalValueAfterOperations(new String[]{"++X","X++","--X"}));
                 break;
@@ -75,6 +78,25 @@ public class Solution202212 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 2027. 转换字符串的最少操作次数
+     */
+    public static int minimumMoves(String s) {
+        char[] sChr = s.toCharArray();
+        int len = sChr.length;
+        int ans = 0;
+        int index = 0;
+        while (index < len){
+            if (sChr[index] == 'X'){
+                ans++;
+                index+=3;
+            }else {
+                index++;
+            }
+        }
+        return ans;
     }
 
     /**
