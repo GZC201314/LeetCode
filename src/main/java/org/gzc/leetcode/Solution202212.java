@@ -69,8 +69,11 @@ public class Solution202212 {
             case 2027:
                 System.out.println(minimumMoves("XOOOOOX"));
                 break;
+            case 1750:
+                System.out.println(minimumLength("bbbbbbbbbbbbbbbbbbbbbbbbbbbabbbbbbbbbbbbbbbccbcbcbccbbabbb"));
+                break;
             case 2011:
-                System.out.println(finalValueAfterOperations(new String[]{"++X","X++","--X"}));
+                System.out.println(finalValueAfterOperations(new String[]{"++X", "X++", "--X"}));
                 break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
@@ -81,6 +84,32 @@ public class Solution202212 {
     }
 
     /**
+     * 1750. 删除字符串两端相同字符后的最短长度
+     */
+    public static int minimumLength(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            char leftLastChr = s.charAt(left);
+            int leftLast = left;
+            while (left <= right &&s.charAt(left)==leftLastChr){
+                leftLastChr = s.charAt(left++);
+            }
+            char rightLastChr = s.charAt(right);
+            int rightLast = right;
+            while (left <= right &&s.charAt(right)==rightLastChr){
+                rightLastChr = s.charAt(right--);
+            }
+            if (leftLastChr != rightLastChr){
+                left = leftLast;
+                right = rightLast;
+                break;
+            }
+        }
+        return right-left+1;
+    }
+
+    /**
      * 2027. 转换字符串的最少操作次数
      */
     public static int minimumMoves(String s) {
@@ -88,11 +117,11 @@ public class Solution202212 {
         int len = sChr.length;
         int ans = 0;
         int index = 0;
-        while (index < len){
-            if (sChr[index] == 'X'){
+        while (index < len) {
+            if (sChr[index] == 'X') {
                 ans++;
-                index+=3;
-            }else {
+                index += 3;
+            } else {
                 index++;
             }
         }
@@ -105,9 +134,9 @@ public class Solution202212 {
     public static int finalValueAfterOperations(String[] operations) {
         int ans = 0;
         for (String operation : operations) {
-            if (operation.contains("++")){
+            if (operation.contains("++")) {
                 ans++;
-            }else {
+            } else {
                 ans--;
             }
         }
