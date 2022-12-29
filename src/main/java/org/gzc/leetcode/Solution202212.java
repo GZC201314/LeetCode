@@ -26,7 +26,7 @@ public class Solution202212 {
                 System.out.println(isBipartite(new int[][]{{1}, {0, 3}, {3}, {1, 2}}));
                 break;
             case 4:
-                System.out.println(findNumberIn2DArray(new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}}, 5));
+                System.out.println(findNumberIn2Array(new int[][]{{1, 4, 7, 11, 15}, {2, 5, 8, 12, 19}, {3, 6, 9, 16, 22}, {10, 13, 14, 17, 24}, {18, 21, 23, 26, 30}}, 5));
                 break;
             case 1697:
                 System.out.println(Arrays.toString(distanceLimitedPathsExist(3, new int[][]{{0, 1, 2}, {1, 2, 4}, {2, 0, 8}, {1, 0, 16}}, new int[][]{{0, 1, 2}, {0, 2, 5}})));
@@ -75,12 +75,58 @@ public class Solution202212 {
             case 2011:
                 System.out.println(finalValueAfterOperations(new String[]{"++X", "X++", "--X"}));
                 break;
+            case 2032:
+                System.out.println(twoOutOfThree(new int[]{1, 1, 2, 3}, new int[]{2, 3}, new int[]{3}));
+                break;
             case 744:
                 System.out.println(nextGreatestLetter("eeff".toCharArray(), 'f'));
                 break;
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 2032. 至少在两个数组中出现值
+     */
+    public static List<Integer> twoOutOfThree(int[] nums1, int[] nums2, int[] nums3) {
+        Set<Integer> set1 = new HashSet<>();
+        Set<Integer> set2 = new HashSet<>();
+        Set<Integer> set3 = new HashSet<>();
+        List<Integer> ans = new ArrayList<>();
+        for (int num : nums1) {
+            set1.add(num);
+        }
+
+        for (int num : nums2) {
+            set2.add(num);
+        }
+
+        for (int num : nums3) {
+            set3.add(num);
+        }
+        Set<Integer> allSet = new HashSet<>(set1);
+
+        for (Integer num : set2) {
+            if (allSet.contains(num)) {
+                ans.add(num);
+            } else {
+                allSet.add(num);
+            }
+        }
+        for (Integer num : set3) {
+            if (allSet.contains(num)) {
+                if (!ans.contains(num)){
+                    ans.add(num);
+                }
+            } else {
+                allSet.add(num);
+            }
+        }
+
+        return ans;
+
     }
 
     /**
@@ -92,21 +138,21 @@ public class Solution202212 {
         while (left < right) {
             char leftLastChr = s.charAt(left);
             int leftLast = left;
-            while (left <= right &&s.charAt(left)==leftLastChr){
+            while (left <= right && s.charAt(left) == leftLastChr) {
                 leftLastChr = s.charAt(left++);
             }
             char rightLastChr = s.charAt(right);
             int rightLast = right;
-            while (left <= right &&s.charAt(right)==rightLastChr){
+            while (left <= right && s.charAt(right) == rightLastChr) {
                 rightLastChr = s.charAt(right--);
             }
-            if (leftLastChr != rightLastChr){
+            if (leftLastChr != rightLastChr) {
                 left = leftLast;
                 right = rightLast;
                 break;
             }
         }
-        return right-left+1;
+        return right - left + 1;
     }
 
     /**
@@ -213,7 +259,7 @@ public class Solution202212 {
      */
     public static int getLucky(String s, int k) {
         StringBuilder sb;
-        Map<Character, Integer> map = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>(64);
         map.put('0', 0);
         map.put('1', 1);
         map.put('2', 2);
@@ -363,7 +409,7 @@ public class Solution202212 {
     /**
      * 剑指Offer 04 二维数组中的查找
      */
-    public static boolean findNumberIn2DArray(int[][] matrix, int target) {
+    public static boolean findNumberIn2Array(int[][] matrix, int target) {
         int i = matrix.length - 1, j = 0;
         while (i >= 0 && j < matrix[0].length) {
             if (matrix[i][j] > target) {
