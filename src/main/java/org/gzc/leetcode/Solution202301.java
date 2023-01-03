@@ -29,25 +29,23 @@ public class Solution202301 {
         long cur = 0;
         long preNum = Long.MIN_VALUE;
         for (char sChr : sChrs) {
-            if (Character.isDigit(sChr)){
-                cur = cur*10+(sChr - '0');
-            }else {
-                if (cur != 0){
-                    if (cur<=preNum){
+            if (Character.isDigit(sChr)) {
+                cur = cur * 10 + (sChr - '0');
+            } else {
+                if (cur != 0) {
+                    if (cur <= preNum) {
                         return false;
                     }
                     preNum = cur;
-                    cur =0;
+                    cur = 0;
                 }
             }
         }
-        if (cur != 0){
+        if (cur != 0) {
             return cur > preNum;
         }
         return true;
     }
-
-
 
 
 }
