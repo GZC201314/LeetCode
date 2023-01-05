@@ -16,6 +16,9 @@ public class Solution202301 {
             case 2042:
                 System.out.println(areNumbersAscending("sunset is at 7 50 pm overnight lows will be in the low 51 and 60 s"));
                 break;
+            case 1991:
+                System.out.println(findMiddleIndex(new int[]{2, 3, -1, 8, 4}));
+                break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
@@ -24,6 +27,30 @@ public class Solution202301 {
         }
     }
 
+    /**
+     * 1991. 找到数组的中间位置
+     */
+    public static int findMiddleIndex(int[] nums) {
+        int n = nums.length;
+        long[] preSum = new long[n];
+
+        preSum[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            preSum[i] = preSum[i-1]+nums[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            long leftSum = i-1>=0?preSum[i-1]:0;
+            long rightSum = n-i-1>0?preSum[n-1]-preSum[i]:0;
+            if (leftSum == rightSum){
+                return i;
+            }
+
+        }
+        return -1;
+
+
+    }
 
     /**
      * 1802. 有界数组中指定下标处的最大值
@@ -70,11 +97,10 @@ public class Solution202301 {
             if (leftSum + rightSum <= maxSum - mid) {
                 ans = Math.max(ans, mid);
                 left = mid + 1;
-                mid = left + (right - left) / 2;
             } else {
                 right = mid - 1;
-                mid = left + (right - left) / 2;
             }
+            mid = left + (right - left) / 2;
         }
         return ans;
 
