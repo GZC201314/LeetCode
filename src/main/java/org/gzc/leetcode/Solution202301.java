@@ -19,6 +19,9 @@ public class Solution202301 {
             case 1991:
                 System.out.println(findMiddleIndex(new int[]{2, 3, -1, 8, 4}));
                 break;
+            case 1806:
+                System.out.println(reinitializePermutation(4));
+                break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
@@ -26,6 +29,51 @@ public class Solution202301 {
                 break;
         }
     }
+
+    /**
+     * 1806. 还原排列的最少操作步数
+     * @param n
+     * @return
+     */
+    public static int reinitializePermutation(int n) {
+        int[] perm = new int[n];
+        int[] arr = new int[n];
+        int ans = 1;
+        for (int i = 0; i < n; i++) {
+            perm[i] = i;
+        }
+        mergeArr(n, perm, arr);
+        while (!validArr(perm)) {
+            mergeArr(n, perm, arr);
+            ans++;
+        }
+        return ans;
+
+    }
+
+    private static void mergeArr(int n, int[] perm, int[] arr) {
+        for (int i = 0; i < n; i++) {
+            if (i%2==1){
+                arr[i] = perm[n / 2 + (i - 1) / 2];
+            }else {
+                arr[i] = perm[i/2];
+            }
+        }
+        if (n >= 0) {
+            System.arraycopy(arr, 0, perm, 0, n);
+        }
+    }
+
+    private static boolean validArr(int[] perm) {
+        int length = perm.length;
+        for (int i = 0; i < length; i++) {
+            if (perm[i] != i) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * 1991. 找到数组的中间位置
@@ -36,13 +84,13 @@ public class Solution202301 {
 
         preSum[0] = nums[0];
         for (int i = 1; i < n; i++) {
-            preSum[i] = preSum[i-1]+nums[i];
+            preSum[i] = preSum[i - 1] + nums[i];
         }
 
         for (int i = 0; i < n; i++) {
-            long leftSum = i-1>=0?preSum[i-1]:0;
-            long rightSum = n-i-1>0?preSum[n-1]-preSum[i]:0;
-            if (leftSum == rightSum){
+            long leftSum = i - 1 >= 0 ? preSum[i - 1] : 0;
+            long rightSum = n - i - 1 > 0 ? preSum[n - 1] - preSum[i] : 0;
+            if (leftSum == rightSum) {
                 return i;
             }
 
