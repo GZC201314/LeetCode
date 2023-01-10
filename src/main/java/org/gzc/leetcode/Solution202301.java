@@ -1,6 +1,8 @@
 package org.gzc.leetcode;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * @author GZC
@@ -22,6 +24,9 @@ public class Solution202301 {
             case 1806:
                 System.out.println(reinitializePermutation(4));
                 break;
+            case 753:
+                System.out.println(crackSafe(4,3));
+                break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
@@ -29,6 +34,36 @@ public class Solution202301 {
                 break;
         }
     }
+
+    public static Set<Integer> seen = new HashSet<>();
+    public static StringBuffer ans = new StringBuffer();
+    public static int highest;
+    public static int k;
+
+    /**
+     * 753. 破解保险箱
+     */
+    public static String crackSafe(int n, int K) {
+        highest = (int) Math.pow(10, n - 1);
+        k = K;
+        dfs(0);
+        for (int i = 1; i < n; i++) {
+            ans.append('0');
+        }
+        return ans.toString();
+    }
+
+    public static void dfs(int node) {
+        for (int x = 0; x < k; ++x) {
+            int nei = node * 10 + x;
+            if (!seen.contains(nei)) {
+                seen.add(nei);
+                dfs(nei % highest);
+                ans.append(x);
+            }
+        }
+    }
+
 
     /**
      * 1806. 还原排列的最少操作步数
