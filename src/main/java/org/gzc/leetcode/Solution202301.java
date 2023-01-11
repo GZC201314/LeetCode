@@ -1,8 +1,6 @@
 package org.gzc.leetcode;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author GZC
@@ -24,6 +22,9 @@ public class Solution202301 {
             case 1806:
                 System.out.println(reinitializePermutation(4));
                 break;
+            case 2283:
+                System.out.println(digitCount("1210"));
+                break;
             case 753:
                 System.out.println(crackSafe(4,3));
                 break;
@@ -33,6 +34,25 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 2283. 判断一个数的数字计数是否等于数位的值
+     */
+    public static boolean digitCount(String num) {
+        Map<Integer, Integer> map = new HashMap<>();
+        char[] numArr = num.toCharArray();
+        for (char c : numArr) {
+            map.put(c-'0', map.getOrDefault(c-'0', 0) + 1);
+        }
+        int length = numArr.length;
+        for (int i = 0; i <length; i++) {
+            if ((numArr[i]-'0') != map.getOrDefault(i,0)){
+                return false;
+            }
+        }
+        return true;
+
     }
 
     public static Set<Integer> seen = new HashSet<>();
