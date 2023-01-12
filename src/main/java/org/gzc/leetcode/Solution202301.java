@@ -22,6 +22,18 @@ public class Solution202301 {
             case 1806:
                 System.out.println(reinitializePermutation(4));
                 break;
+            case 1807:
+                List<List<String>> knowledge = new ArrayList<>();
+                List<String> keyValue = new ArrayList<>();
+                keyValue.add("name");
+                keyValue.add("bob");
+                List<String> keyValue1 = new ArrayList<>();
+                keyValue1.add("age");
+                keyValue1.add("two");
+                knowledge.add(keyValue);
+                knowledge.add(keyValue1);
+                System.out.println(evaluate("(name)is(age)yearsold",knowledge));
+                break;
             case 2283:
                 System.out.println(digitCount("1210"));
                 break;
@@ -34,6 +46,43 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1807. 替换字符串中的括号内容
+     */
+    public static String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> map = new HashMap<>();
+        StringBuilder ans = new StringBuilder();
+        // 状态标记为，当前是否有出现（
+        boolean flag = false;
+        StringBuilder curKey= new StringBuilder();
+        // 把 knowledge 转换成Set
+        for (List<String> keyValue : knowledge) {
+            map.put(keyValue.get(0), keyValue.get(1));
+        }
+        char[] sChr = s.toCharArray();
+        for (char c : sChr) {
+            // 前面出现了（
+            if (flag){
+                if (c == ')'){
+                    String value = map.getOrDefault(curKey.toString(), "?");
+                    ans.append(value);
+                    curKey = new StringBuilder();
+                    flag = false;
+                }else {
+                    curKey.append(c);
+                }
+            }else {
+                if (c == '('){
+                    flag = true;
+                }else {
+                    ans.append(c);
+                }
+            }
+        }
+        return ans.toString();
     }
 
     /**
