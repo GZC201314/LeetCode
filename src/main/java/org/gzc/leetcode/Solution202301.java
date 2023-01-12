@@ -136,8 +136,6 @@ public class Solution202301 {
 
     /**
      * 1806. 还原排列的最少操作步数
-     * @param n
-     * @return
      */
     public static int reinitializePermutation(int n) {
         int[] perm = new int[n];
