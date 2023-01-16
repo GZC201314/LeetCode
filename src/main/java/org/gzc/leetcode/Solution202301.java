@@ -8,6 +8,11 @@ import java.util.*;
 public class Solution202301 {
 
 
+    public static Set<Integer> seen = new HashSet<>();
+    public static StringBuffer ans = new StringBuffer();
+    public static int highest;
+    public static int k;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
@@ -32,13 +37,16 @@ public class Solution202301 {
                 keyValue1.add("two");
                 knowledge.add(keyValue);
                 knowledge.add(keyValue1);
-                System.out.println(evaluate("(name)is(age)yearsold",knowledge));
+                System.out.println(evaluate("(name)is(age)yearsold", knowledge));
                 break;
             case 2283:
                 System.out.println(digitCount("1210"));
                 break;
+            case 1813:
+                System.out.println(areSentencesSimilar("My name is Haley","My Haley"));
+                break;
             case 753:
-                System.out.println(crackSafe(4,3));
+                System.out.println(crackSafe(4, 3));
                 break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
@@ -50,14 +58,33 @@ public class Solution202301 {
 
 
     /**
+     * 1813. 句子相似性Ⅲ
+     */
+    public static boolean areSentencesSimilar(String sentence1, String sentence2) {
+
+        String[] sentences1Arr = sentence1.split(" ");
+        String[] sentences2Arr = sentence2.split(" ");
+        int leftMatchCount = 0;
+        int rightMatchCount = 0;
+        while (leftMatchCount< sentences1Arr.length && leftMatchCount< sentences2Arr.length && sentences1Arr[leftMatchCount].equals(sentences2Arr[leftMatchCount])){
+            leftMatchCount++;
+        }
+        while (sentences1Arr.length-leftMatchCount>rightMatchCount && sentences2Arr.length-leftMatchCount>rightMatchCount && sentences1Arr[sentences1Arr.length-1-rightMatchCount].equals(sentences2Arr[sentences2Arr.length-1-rightMatchCount])){
+            rightMatchCount++;
+        }
+        return leftMatchCount+rightMatchCount == Math.min(sentences1Arr.length, sentences2Arr.length);
+
+    }
+
+    /**
      * 1807. 替换字符串中的括号内容
      */
     public static String evaluate(String s, List<List<String>> knowledge) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>(16);
         StringBuilder ans = new StringBuilder();
         // 状态标记为，当前是否有出现（
         boolean flag = false;
-        StringBuilder curKey= new StringBuilder();
+        StringBuilder curKey = new StringBuilder();
         // 把 knowledge 转换成Set
         for (List<String> keyValue : knowledge) {
             map.put(keyValue.get(0), keyValue.get(1));
@@ -65,19 +92,19 @@ public class Solution202301 {
         char[] sChr = s.toCharArray();
         for (char c : sChr) {
             // 前面出现了（
-            if (flag){
-                if (c == ')'){
+            if (flag) {
+                if (c == ')') {
                     String value = map.getOrDefault(curKey.toString(), "?");
                     ans.append(value);
                     curKey = new StringBuilder();
                     flag = false;
-                }else {
+                } else {
                     curKey.append(c);
                 }
-            }else {
-                if (c == '('){
+            } else {
+                if (c == '(') {
                     flag = true;
-                }else {
+                } else {
                     ans.append(c);
                 }
             }
@@ -92,22 +119,17 @@ public class Solution202301 {
         Map<Integer, Integer> map = new HashMap<>();
         char[] numArr = num.toCharArray();
         for (char c : numArr) {
-            map.put(c-'0', map.getOrDefault(c-'0', 0) + 1);
+            map.put(c - '0', map.getOrDefault(c - '0', 0) + 1);
         }
         int length = numArr.length;
-        for (int i = 0; i <length; i++) {
-            if ((numArr[i]-'0') != map.getOrDefault(i,0)){
+        for (int i = 0; i < length; i++) {
+            if ((numArr[i] - '0') != map.getOrDefault(i, 0)) {
                 return false;
             }
         }
         return true;
 
     }
-
-    public static Set<Integer> seen = new HashSet<>();
-    public static StringBuffer ans = new StringBuffer();
-    public static int highest;
-    public static int k;
 
     /**
      * 753. 破解保险箱
@@ -155,10 +177,10 @@ public class Solution202301 {
 
     private static void mergeArr(int n, int[] perm, int[] arr) {
         for (int i = 0; i < n; i++) {
-            if (i%2==1){
+            if (i % 2 == 1) {
                 arr[i] = perm[n / 2 + (i - 1) / 2];
-            }else {
-                arr[i] = perm[i/2];
+            } else {
+                arr[i] = perm[i / 2];
             }
         }
         if (n >= 0) {
