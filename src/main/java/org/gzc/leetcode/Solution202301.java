@@ -43,10 +43,13 @@ public class Solution202301 {
                 System.out.println(digitCount("1210"));
                 break;
             case 1813:
-                System.out.println(areSentencesSimilar("My name is Haley","My Haley"));
+                System.out.println(areSentencesSimilar("My name is Haley", "My Haley"));
                 break;
             case 753:
                 System.out.println(crackSafe(4, 3));
+                break;
+            case 1814:
+                System.out.println(countNicePairs(new int[]{42,11,1,97}));
                 break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
@@ -54,6 +57,33 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1814. 统计一个数组中好对子的数目
+     */
+    public static int mod = (int)1e9 + 7;
+    public static int countNicePairs(int[] nums) {
+        Map<Integer, Integer> mp = new HashMap<>(32);
+        int ans = 0;
+        for (int x : nums) {
+            int rev = countNicePairsRev(x);
+            ans = (ans + mp.getOrDefault(x - rev, 0)) % mod;
+            mp.put(x - rev, mp.getOrDefault(x - rev, 0) + 1);
+        }
+        return ans;
+    }
+
+
+    public static int countNicePairsRev(int num) {
+        int ans = 0;
+        while (num > 0) {
+            int i = num % 10;
+            ans *= 10;
+            ans += +i;
+            num /= 10;
+        }
+        return ans;
     }
 
 
@@ -66,13 +96,13 @@ public class Solution202301 {
         String[] sentences2Arr = sentence2.split(" ");
         int leftMatchCount = 0;
         int rightMatchCount = 0;
-        while (leftMatchCount< sentences1Arr.length && leftMatchCount< sentences2Arr.length && sentences1Arr[leftMatchCount].equals(sentences2Arr[leftMatchCount])){
+        while (leftMatchCount < sentences1Arr.length && leftMatchCount < sentences2Arr.length && sentences1Arr[leftMatchCount].equals(sentences2Arr[leftMatchCount])) {
             leftMatchCount++;
         }
-        while (sentences1Arr.length-leftMatchCount>rightMatchCount && sentences2Arr.length-leftMatchCount>rightMatchCount && sentences1Arr[sentences1Arr.length-1-rightMatchCount].equals(sentences2Arr[sentences2Arr.length-1-rightMatchCount])){
+        while (sentences1Arr.length - leftMatchCount > rightMatchCount && sentences2Arr.length - leftMatchCount > rightMatchCount && sentences1Arr[sentences1Arr.length - 1 - rightMatchCount].equals(sentences2Arr[sentences2Arr.length - 1 - rightMatchCount])) {
             rightMatchCount++;
         }
-        return leftMatchCount+rightMatchCount == Math.min(sentences1Arr.length, sentences2Arr.length);
+        return leftMatchCount + rightMatchCount == Math.min(sentences1Arr.length, sentences2Arr.length);
 
     }
 
