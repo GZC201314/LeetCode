@@ -48,6 +48,9 @@ public class Solution202301 {
             case 753:
                 System.out.println(crackSafe(4, 3));
                 break;
+            case 2002:
+                System.out.println(maxProduct("leetcodecom"));
+                break;
             case 1814:
                 System.out.println(countNicePairs(new int[]{42,11,1,97}));
                 break;
@@ -57,6 +60,73 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 2002. 两个回文子序列长度的最大乘积
+     */
+    public static int maxProduct(String s) {
+        int max = 1 << s.length();
+        //存储所有的回文子串的状态和长度
+        List<int[]> list = new ArrayList<>();
+        for (int i = 1; i < max; ++i) {
+            if (check(s, i)) {
+                list.add(new int[]{i, getNum1(i)});
+            }
+        }
+        int n = list.size();
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                //校验两个回文串有没有重复
+                if ((list.get(i)[0] & list.get(j)[0]) == 0) {
+                    res = Math.max(list.get(i)[1] * list.get(j)[1], res);
+                }
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param n 选择的情况
+     * @return 当前情况下回文串的长度
+     */
+    private static int getNum1(Integer n) {
+
+        String s = Integer.toBinaryString(n);
+        char[] chars = s.toCharArray();
+
+        int count = 0;
+        for (char aChar : chars) {
+            if (aChar == '1'){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * @param n 选择的情况
+     * @return 当前情况是否是回文子串
+     */
+    private static boolean check(String s, int n) {
+        StringBuilder ss = new StringBuilder();
+        int index = 0;
+        while (n != 0) {
+            if ((n & 1) == 1) {
+                ss.append(s.charAt(index));
+            }
+            n = n >> 1;
+            index++;
+        }
+        int len = ss.length();
+        for (int i = 0; i * 2 < len; i++) {
+            if (ss.charAt(i) != ss.charAt(len - 1 - i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
