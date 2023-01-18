@@ -234,9 +234,9 @@ public class Solution202301 {
     /**
      * 753. 破解保险箱
      */
-    public static String crackSafe(int n, int K) {
+    public static String crackSafe(int n, int k1) {
         highest = (int) Math.pow(10, n - 1);
-        k = K;
+        k = k1;
         dfs(0);
         for (int i = 1; i < n; i++) {
             ans.append('0');
