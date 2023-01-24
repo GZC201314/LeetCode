@@ -54,6 +54,9 @@ public class Solution202301 {
             case 1814:
                 System.out.println(countNicePairs(new int[]{42,11,1,97}));
                 break;
+            case 1828:
+                System.out.println(Arrays.toString(countPoints(new int[][]{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, new int[][]{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})));
+                break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
@@ -62,6 +65,26 @@ public class Solution202301 {
         }
     }
 
+
+    /**
+     * 1828. 统计一个圆中点的数目
+     */
+    public static int[] countPoints(int[][] points, int[][] queries) {
+        int n = queries.length;
+        int[] ans = new int[n];
+        for (int[] point : points) {
+            // 一个点可能在多个圆中
+            for (int i = 0; i < n; i++) {
+                int[] query = queries[i];
+                if (Math.pow(Math.abs(query[0]-point[0]),2)+Math.pow(Math.abs(query[1]-point[1]),2)<=Math.pow(query[2],2)){
+                    ans[i]++;
+                }
+            }
+
+        }
+        return ans;
+
+    }
 
     /**
      * 2002. 两个回文子序列长度的最大乘积
