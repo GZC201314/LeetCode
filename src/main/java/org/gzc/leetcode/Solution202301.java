@@ -54,6 +54,9 @@ public class Solution202301 {
             case 1814:
                 System.out.println(countNicePairs(new int[]{42,11,1,97}));
                 break;
+            case 1708:
+                System.out.println(bestSeqAtIndex(new int[]{65,70,56,75,60,68},new int[]{100,150,90,190,95,110}));
+                break;
             case 1828:
                 System.out.println(Arrays.toString(countPoints(new int[][]{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, new int[][]{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})));
                 break;
@@ -65,6 +68,53 @@ public class Solution202301 {
         }
     }
 
+    /**
+     * 1708. 马戏团人塔
+     */
+    public static int bestSeqAtIndex(int[] height, int[] weight) {
+        int len = height.length;
+        int[][] arr = new int[len][2];
+        for(int i = 0; i < len; i++){
+            arr[i][0] = height[i];
+            arr[i][1] = weight[i];
+        }
+
+        Arrays.sort(arr, (o1, o2) -> {
+            if(o1[0] == o2[0]){
+                return Integer.compare(o1[1], o2[1]);
+            }
+            return Integer.compare(o2[0], o1[0]);
+        });
+
+        int[][] dp = new int[len + 1][2];
+        dp[1] = arr[0];
+        int index = 1;
+        for(int i = 1; i < len; i++){
+            if(arr[i][1] < dp[index][1]){
+                dp[++index] = arr[i];
+            } else {
+                int pos = find(dp, arr[i], index);
+                dp[pos] = arr[i];
+            }
+        }
+
+        return index;
+    }
+
+    public static int find(int[][] dp, int[] person, int index){
+        int left = 1;
+        int right = index;
+        while(left < right){
+            int mid = (left + right) / 2;
+            if(dp[mid][1] <= person[1]){
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return right;
+    }
 
     /**
      * 1828. 统计一个圆中点的数目
@@ -80,10 +130,8 @@ public class Solution202301 {
                     ans[i]++;
                 }
             }
-
         }
         return ans;
-
     }
 
     /**
