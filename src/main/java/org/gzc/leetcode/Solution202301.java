@@ -42,6 +42,9 @@ public class Solution202301 {
             case 2283:
                 System.out.println(digitCount("1210"));
                 break;
+            case 801:
+                System.out.println(waysToStep(76));
+                break;
             case 1813:
                 System.out.println(areSentencesSimilar("My name is Haley", "My Haley"));
                 break;
@@ -67,6 +70,28 @@ public class Solution202301 {
                 break;
         }
     }
+
+    /**
+     * 801. 三步问题
+     */
+    public static int waysToStep(int n) {
+        long[] dp = new long[n+1];
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            if (i<=3){
+                if (i ==2){
+                    dp[i] =2;
+                }else {
+                    dp[i] = 4;
+                }
+            }else {
+                dp[i] = dp[i-1]+dp[i-2]+dp[i-3];
+            }
+        }
+        return (int) (dp[n]%1000000007);
+    }
+
+
 
     /**
      * 1708. 马戏团人塔
@@ -287,7 +312,7 @@ public class Solution202301 {
      * 2283. 判断一个数的数字计数是否等于数位的值
      */
     public static boolean digitCount(String num) {
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(16);
         char[] numArr = num.toCharArray();
         for (char c : numArr) {
             map.put(c - '0', map.getOrDefault(c - '0', 0) + 1);
