@@ -75,6 +75,9 @@ public class Solution202301 {
             case 1814:
                 System.out.println(countNicePairs(new int[]{42, 11, 1, 97}));
                 break;
+            case 803:
+                System.out.println(findMagicIndex(new int[]{2, 2, 2, 2}));
+                break;
             case 1708:
                 System.out.println(bestSeqAtIndex(new int[]{65, 70, 56, 75, 60, 68}, new int[]{100, 150, 90, 190, 95, 110}));
                 break;
@@ -87,6 +90,21 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 803. 魔术索引
+     */
+    public static int findMagicIndex(int[] nums) {
+        int ans = -1;
+        int length = nums.length;
+        for (int i = 0; i < length; i++) {
+            if (i == nums[i]) {
+                ans = i;
+                break;
+            }
+        }
+        return ans;
     }
 
     /**
