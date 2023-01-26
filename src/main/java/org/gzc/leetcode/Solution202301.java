@@ -19,6 +19,11 @@ public class Solution202301 {
     /**
      * 802. 迷路的机器人
      */
+    static List<List<Integer>> result = new ArrayList<>();
+
+    /**
+     * 802. 迷路的机器人
+     */
 
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
@@ -61,6 +66,9 @@ public class Solution202301 {
             case 753:
                 System.out.println(crackSafe(4, 3));
                 break;
+            case 1663:
+                System.out.println(getSmallestString(5, 73));
+                break;
             case 2002:
                 System.out.println(maxProduct("leetcodecom"));
                 break;
@@ -82,21 +90,37 @@ public class Solution202301 {
     }
 
     /**
-     * 802. 迷路的机器人
+     * 1663. 具有给定数值的最小字符串
      */
-    static List<List<Integer>> result = new ArrayList<>();
+    public static String getSmallestString(int n, int k) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append('a');
+        }
+        int rest = k - n;
+        for (int i = n - 1; i >= 0; i--) {
+            if (rest > 25) {
+                sb.replace(i, i + 1, "z");
+                rest -= 25;
+            } else {
+                sb.replace(i, i + 1, (char) ('a' + rest) + "");
+                break;
+            }
+        }
+        return sb.toString();
+    }
 
     public static List<List<Integer>> pathWithObstacles(int[][] obstacleGrid) {
         result.clear();
         if (obstacleGrid[0][0] == 1) {
             return result;
         }
-        pathWithObstaclesDfs(obstacleGrid, obstacleGrid.length-1, obstacleGrid[0].length-1);
+        pathWithObstaclesDfs(obstacleGrid, obstacleGrid.length - 1, obstacleGrid[0].length - 1);
         return result;
     }
 
     public static boolean pathWithObstaclesDfs(int[][] obstacleGrid, int i, int j) {
-        if (i==0 && j==0) {
+        if (i == 0 && j == 0) {
             add(i, j);
             return true;
         }
@@ -105,11 +129,11 @@ public class Solution202301 {
             return false;
         }
         obstacleGrid[i][j] = 2;
-        if (i>0 && pathWithObstaclesDfs(obstacleGrid, i-1, j)) {
+        if (i > 0 && pathWithObstaclesDfs(obstacleGrid, i - 1, j)) {
             add(i, j);
             return true;
         }
-        if (j>0 && pathWithObstaclesDfs(obstacleGrid, i, j-1)) {
+        if (j > 0 && pathWithObstaclesDfs(obstacleGrid, i, j - 1)) {
             add(i, j);
             return true;
         }
@@ -118,7 +142,7 @@ public class Solution202301 {
         return false;
     }
 
-    public static void add(int i, int j){
+    public static void add(int i, int j) {
         List<Integer> list = new ArrayList<>();
         list.add(i);
         list.add(j);
