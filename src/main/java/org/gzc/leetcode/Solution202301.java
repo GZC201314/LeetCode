@@ -72,6 +72,9 @@ public class Solution202301 {
             case 2002:
                 System.out.println(maxProduct("leetcodecom"));
                 break;
+            case 2309:
+                System.out.println(greatestLetter("AbCdEfGhIjK"));
+                break;
             case 1814:
                 System.out.println(countNicePairs(new int[]{42, 11, 1, 97}));
                 break;
@@ -90,6 +93,38 @@ public class Solution202301 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 2309. 兼具大小写的最好英文字母
+     */
+    public static String greatestLetter(String s) {
+        char ans = 0;
+        Set<Character> set = new HashSet<>();
+        char[] sChar = s.toCharArray();
+        for (char c : sChar) {
+            // 如果是小写字母
+            if (Character.isLowerCase(c)){
+                if (!set.contains(c)){
+                    char upperCase = Character.toUpperCase(c);
+                    if (set.contains(upperCase)){
+                        ans = ans<upperCase?upperCase:ans;
+                    }
+                    set.add(c);
+                }
+            }else {
+                if (!set.contains(c)){
+                    char lowerCase = Character.toLowerCase(c);
+                    if (set.contains(lowerCase)){
+                        ans = ans<c?c:ans;
+                    }
+                    set.add(c);
+                }
+            }
+        }
+        return ans==0?"":String.valueOf(ans);
+
     }
 
     /**
