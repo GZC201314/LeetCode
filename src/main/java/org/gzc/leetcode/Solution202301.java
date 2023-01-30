@@ -1,5 +1,9 @@
 package org.gzc.leetcode;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -25,7 +29,7 @@ public class Solution202301 {
      * 802. 迷路的机器人
      */
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
@@ -91,10 +95,50 @@ public class Solution202301 {
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
             default:
+                sort1("2019-1-10,,,2019-3-1");
+                sort(new int[]{1,2,3,4});
                 break;
         }
     }
 
+    public static void sort1(String str) throws ParseException {
+        List<String> dateList = new ArrayList<>();
+        String[] split = str.split(",");
+        Calendar rightNow = Calendar.getInstance();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (String s : split) {
+            if (!"".equals(s)){
+                Date parse = simpleDateFormat.parse(s);
+                rightNow.setTime(parse);
+                rightNow.add(Calendar.DAY_OF_YEAR,-90);
+                parse = rightNow.getTime();
+                simpleDateFormat.format(parse);
+                dateList.add(simpleDateFormat.format(parse));
+            }
+        }
+
+        System.out.println("空值占比为："+dateList.size()/(float)split.length);
+
+        System.out.println("日期格式化输出：" + String.join(" ",dateList));
+    }
+    public static void sort(int[] a){
+
+        Arrays.sort(a);
+        int left =0;
+        int right = a.length-1;
+        StringBuilder sb = new StringBuilder();
+        while (left<right){
+            sb.append(a[right--]).append(",").append(a[left++]).append(",");
+        }
+        try {
+            FileWriter fileWriter = new FileWriter("test.txt");
+            fileWriter.append(sb.subSequence(0,sb.length()-1));
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 2309. 兼具大小写的最好英文字母
