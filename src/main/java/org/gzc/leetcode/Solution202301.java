@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.ListNode;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
@@ -91,6 +93,11 @@ public class Solution202301 {
             case 1828:
                 System.out.println(Arrays.toString(countPoints(new int[][]{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, new int[][]{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})));
                 break;
+            case 1669:
+                ListNode list1 = new ListNode(0,new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4,new ListNode(5))))));
+                ListNode list2 = new ListNode(1000000,new ListNode(1000001,new ListNode(1000003)));
+                System.out.println(mergeInBetween(list1,3,4,list2));
+                break;
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
@@ -99,6 +106,45 @@ public class Solution202301 {
                 sort(new int[]{1,2,3,4});
                 break;
         }
+    }
+
+    /**
+     * 1669. 合并两个链表
+     */
+    public static ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
+
+        ListNode root = list1;
+        // 找到list2中的头和尾节点
+        ListNode list2Head = list2;
+        ListNode list1aHead = null;
+        ListNode list2Tail = null;
+        ListNode list1aTail = null;
+        while (list2!=null){
+            list2Tail = list2;
+            list2 = list2.next;
+        }
+        int index =0;
+        while (list1 != null){
+            index++;
+            if (index == a){
+                list1aHead = list1;
+            }
+            if (index == b){
+                list1aTail = list1.next== null?null: list1.next.next;
+                break;
+            }
+            list1 = list1.next;
+        }
+        if (list1aHead == null){
+            root = list2Head;
+        }else {
+            list1aHead.next = list2Head;
+        }
+        if (list1aTail != null){
+            assert list2Tail != null;
+            list2Tail.next = list1aTail;
+        }
+        return root;
     }
 
     public static void sort1(String str) throws ParseException {
