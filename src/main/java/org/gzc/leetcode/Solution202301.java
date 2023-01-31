@@ -78,6 +78,9 @@ public class Solution202301 {
             case 2002:
                 System.out.println(maxProduct("leetcodecom"));
                 break;
+            case 6:
+                System.out.println(convert("PAYPALISHIRING",4));
+                break;
             case 2309:
                 System.out.println(greatestLetter("AbCdEfGhIjK"));
                 break;
@@ -106,6 +109,52 @@ public class Solution202301 {
                 sort(new int[]{1,2,3,4});
                 break;
         }
+    }
+
+    /**
+     * 6. N 字形变换
+     */
+    public static String convert(String s, int numRows) {
+
+        List<List<Character>> lines = new ArrayList<>();
+        for (int i = 0; i < numRows; i++) {
+            lines.add(new ArrayList<>());
+        }
+        char[] sChar = s.toCharArray();
+        int index =0;
+        // 标记当前索引是递增还是递减
+        boolean flag = true;
+        for (char c : sChar) {
+            if (flag) {
+                if (index == numRows-1) {
+                    lines.get(index).add(c);
+                    index--;
+                    flag = false;
+                } else {
+                    lines.get(index).add(c);
+                    index++;
+                }
+            } else {
+                if (index == 0) {
+                    lines.get(index).add(c);
+                    index++;
+                    flag = true;
+                } else {
+                    lines.get(index).add(c);
+                    index--;
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder();
+        for (List<Character> line : lines) {
+            for (Character character : line) {
+                sb.append(character);
+            }
+        }
+        return sb.toString();
+
+
+
     }
 
     /**
