@@ -1,6 +1,7 @@
 package org.gzc.screw;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -21,7 +22,7 @@ import cn.smallbun.screw.core.process.ProcessConfig;
  * @author CL
  *
  */
-public class createDoc {
+public class CreateDoc {
 
     public static void main(String[] args) {
         // 数据源
@@ -48,7 +49,7 @@ public class createDoc {
                 .produceType(EngineTemplateType.freemarker).build();
 
         // 忽略表名
-        List<String> ignoreTableName = Arrays.asList("test");
+        List<String> ignoreTableName = Collections.singletonList("test");
         // 忽略表前缀
         List<String> ignorePrefix = Arrays.asList("test_", "test");
         // 忽略表后缀
