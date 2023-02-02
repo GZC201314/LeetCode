@@ -99,6 +99,9 @@ public class Solution202301 {
             case 1828:
                 System.out.println(Arrays.toString(countPoints(new int[][]{{1, 3}, {3, 3}, {5, 3}, {2, 2}}, new int[][]{{2, 3, 1}, {4, 3, 1}, {1, 1, 2}})));
                 break;
+            case 1129:
+                System.out.println(Arrays.toString(shortestAlternatingPaths(5,new int[][]{{1, 3}, {3, 3}, {4, 3}, {2, 2}}, new int[][]{{2, 3}, {4, 3}, {1,  2}})));
+                break;
             case 1669:
                 ListNode list1 = new ListNode(0, new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5))))));
                 ListNode list2 = new ListNode(1000000, new ListNode(1000001, new ListNode(1000003)));
@@ -112,6 +115,52 @@ public class Solution202301 {
                 sort(new int[]{1, 2, 3, 4});
                 break;
         }
+    }
+
+    /**
+     * 1129. 颜色交替的最短路径
+     */
+    public static int[] shortestAlternatingPaths(int n, int[][] redEdges, int[][] blueEdges) {
+        List<Integer>[][] next = new List[2][n];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < n; j++) {
+                next[i][j] = new ArrayList<Integer>();
+            }
+        }
+        for (int[] edge : redEdges) {
+            next[0][edge[0]].add(edge[1]);
+        }
+        for (int[] edge : blueEdges) {
+            next[1][edge[0]].add(edge[1]);
+        }
+        int[][] dist = new int[2][n]; // 两种类型的颜色最短路径的长度
+        for (int i = 0; i < 2; i++) {
+            Arrays.fill(dist[i], Integer.MAX_VALUE);
+        }
+        Queue<int[]> queue = new ArrayDeque<int[]>();
+        dist[0][0] = 0;
+        dist[1][0] = 0;
+        queue.offer(new int[]{0, 0});
+        queue.offer(new int[]{0, 1});
+        while (!queue.isEmpty()) {
+            int[] pair = queue.poll();
+            int x = pair[0], t = pair[1];
+            for (int y : next[1 - t][x]) {
+                if (dist[1 - t][y] != Integer.MAX_VALUE) {
+                    continue;
+                }
+                dist[1 - t][y] = dist[t][x] + 1;
+                queue.offer(new int[]{y, 1 - t});
+            }
+        }
+        int[] answer = new int[n];
+        for (int i = 0; i < n; i++) {
+            answer[i] = Math.min(dist[0][i], dist[1][i]);
+            if (answer[i] == Integer.MAX_VALUE) {
+                answer[i] = -1;
+            }
+        }
+        return answer;
     }
 
     /**
