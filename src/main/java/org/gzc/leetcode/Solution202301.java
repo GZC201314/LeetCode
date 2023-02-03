@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.ListNode;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,11 +111,49 @@ public class Solution202301 {
             case 1802:
                 System.out.println(maxValue(995610677, 934568761, 999009430));
                 break;
+            case 1145:
+                System.out.println(btreeGameWinningMove(new TreeNode(1,new TreeNode(2),new TreeNode(3)),3,1));
+                break;
             default:
                 sort1("2019-1-10,,,2019-3-1");
                 sort(new int[]{1, 2, 3, 4});
                 break;
         }
+    }
+
+    /**
+     * 1145. 二叉树着色游戏
+     */
+    public static int xlCount =0;
+    public static int xrCount =0;
+    public static boolean btreeGameWinningMove(TreeNode root, int n, int x) {
+        // 找到x左右子树的节点数，计算出父节点的另一支的节点数，如果三者中最大的节点数 return max > n-max;
+
+        btreeGameWinningMoveDfs(root,x);
+        int parentCount = n- xlCount-xrCount-1;
+        int max = Math.max(Math.max(xrCount, xlCount), parentCount);
+        return n-max<max;
+
+
+    }
+
+    /**
+     * 计算当前节点下的所有节点
+     */
+    public static int btreeGameWinningMoveDfs(TreeNode root,int x){
+        if (root == null){
+            return 0;
+        }
+        if (root.left == null && root.right == null){
+            return 1;
+        }
+        int lCount = btreeGameWinningMoveDfs(root.left, x);
+        int rCount = btreeGameWinningMoveDfs(root.right, x);
+        if (root.val == x){
+            xlCount = lCount;
+            xrCount = rCount;
+        }
+        return lCount + rCount+1;
     }
 
     /**
@@ -124,7 +163,7 @@ public class Solution202301 {
         List<Integer>[][] next = new List[2][n];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < n; j++) {
-                next[i][j] = new ArrayList<Integer>();
+                next[i][j] = new ArrayList<>();
             }
         }
         for (int[] edge : redEdges) {
@@ -133,11 +172,12 @@ public class Solution202301 {
         for (int[] edge : blueEdges) {
             next[1][edge[0]].add(edge[1]);
         }
-        int[][] dist = new int[2][n]; // 两种类型的颜色最短路径的长度
+        // 两种类型的颜色最短路径的长度
+        int[][] dist = new int[2][n];
         for (int i = 0; i < 2; i++) {
             Arrays.fill(dist[i], Integer.MAX_VALUE);
         }
-        Queue<int[]> queue = new ArrayDeque<int[]>();
+        Queue<int[]> queue = new ArrayDeque<>();
         dist[0][0] = 0;
         dist[1][0] = 0;
         queue.offer(new int[]{0, 0});
