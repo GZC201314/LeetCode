@@ -63,11 +63,10 @@ public class Solution202302 {
                 }else {
                     left++;
                 }
-                if (right-left>=3){
+                if (right - left >= 3) {
                     String key = stringListEntry.getKey();
-                    if(!ans.contains(key)){
-                        ans.add(key);
-                    }
+                    ans.add(key);
+                    break;
                 }
             }
 
