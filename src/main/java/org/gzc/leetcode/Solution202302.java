@@ -1,5 +1,7 @@
 package org.gzc.leetcode;
 
+import org.gzc.leetcode.model.AuthenticationManager;
+
 import java.text.ParseException;
 import java.util.*;
 
@@ -17,6 +19,12 @@ public class Solution202302 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 1797:
+                AuthenticationManager authenticationManager = new AuthenticationManager(10);
+                authenticationManager.generate("aaa",10);
+                authenticationManager.renew("bbb",12);
+                authenticationManager.countUnexpiredTokens(12);
+                break;
             case 1604:
                 System.out.println(alertNames(new String[]{"daniel", "daniel", "daniel", "luis", "luis", "luis", "luis"}, new String[]{"10:00", "10:40", "11:00", "09:00", "11:00", "13:00", "15:00"}));
                 break;
