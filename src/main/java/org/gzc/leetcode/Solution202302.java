@@ -34,6 +34,9 @@ public class Solution202302 {
             case 1234:
                 System.out.println(balancedString("QWER"));
                 break;
+            case 2351:
+                System.out.println(repeatedCharacter("QWER"));
+                break;
             case 1124:
                 System.out.println(longestwpi(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
@@ -42,6 +45,22 @@ public class Solution202302 {
         }
     }
 
+    /**
+     * 2351. 第一个出现两次的字母
+     */
+    public static char repeatedCharacter(String s) {
+
+        char ans = 0;
+        char[] chars = s.toCharArray();
+        Set<Character> set = new HashSet<>();
+        for (char aChar : chars) {
+            if (!set.add(aChar)){
+                ans =  aChar;
+                break;
+            }
+        }
+        return ans;
+    }
 
     /**
      * 1124. 表现良好的最长时间段
