@@ -40,6 +40,9 @@ public class Solution202302 {
             case 1124:
                 System.out.println(longestwpi(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 2341:
+                System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
+                break;
             default:
                 break;
         }
@@ -59,6 +62,22 @@ public class Solution202302 {
                 break;
             }
         }
+        return ans;
+    }
+
+    /**
+     * 2341.数组能形成多少数对
+     */
+    public static int[] numberOfPairs(int[] nums) {
+        int[] ans = new int[2];
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (!set.add(num)){
+                set.remove(num);
+                ans[0]++;
+            }
+        }
+        ans[1] = set.size();
         return ans;
     }
 
