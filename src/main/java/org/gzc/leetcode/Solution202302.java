@@ -40,6 +40,9 @@ public class Solution202302 {
             case 1124:
                 System.out.println(longestwpi(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 1139:
+                System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
+                break;
             case 2341:
                 System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
                 break;
@@ -57,8 +60,8 @@ public class Solution202302 {
         char[] chars = s.toCharArray();
         Set<Character> set = new HashSet<>();
         for (char aChar : chars) {
-            if (!set.add(aChar)){
-                ans =  aChar;
+            if (!set.add(aChar)) {
+                ans = aChar;
                 break;
             }
         }
@@ -72,7 +75,7 @@ public class Solution202302 {
         int[] ans = new int[2];
         Set<Integer> set = new HashSet<>();
         for (int num : nums) {
-            if (!set.add(num)){
+            if (!set.add(num)) {
                 set.remove(num);
                 ans[0]++;
             }
@@ -225,6 +228,77 @@ public class Solution202302 {
 
         }
         ans.sort(String::compareTo);
+        return ans;
+    }
+
+    /**
+     * 1139.最大的以 1 为边界的正方形
+     */
+    public static int largest1BorderedSquare(int[][] grid) {
+
+        int ans = 0;
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] hang = new int[m][n];
+        int[][] lie = new int[m][n];
+        // 初始化横向数组
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    if (j >= 1) {
+                        hang[i][j] = hang[i][j - 1] + 1;
+                    } else {
+                        hang[i][j] = 1;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[j][i] == 1) {
+                    if (j >= 1) {
+                        lie[j][i] = lie[j - 1][i] + 1;
+                    } else {
+                        lie[j][i] = 1;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    // 向上找连续的1
+                    int index = i;
+                    int topOne = 0;
+                    int leftOne = 0;
+                    while (index >= 0) {
+                        if (grid[index--][j] == 1) {
+                            topOne++;
+                        } else {
+                            break;
+                        }
+                    }
+                    index = j;
+                    while (index >= 0) {
+                        if (grid[i][index--] == 1) {
+                            leftOne++;
+                        } else {
+                            break;
+                        }
+                    }
+                    int min = Math.min(topOne, leftOne);
+                    for (int k = min; k >=0; k--) {
+
+                        if (Math.min(hang[i - k + 1][j], lie[i][j - k + 1]) >= k) {
+                            ans = Math.max(ans, k * k);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         return ans;
     }
 
