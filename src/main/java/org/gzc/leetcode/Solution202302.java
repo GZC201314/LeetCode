@@ -40,6 +40,9 @@ public class Solution202302 {
             case 1124:
                 System.out.println(longestwpi(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 1491:
+                System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
+                break;
             case 1139:
                 System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
                 break;
@@ -49,6 +52,22 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1491.去掉最低工资和最高工资后的工资平均值
+     */
+    public static double average(int[] salary) {
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
+        double sum = 0;
+        for (int i : salary) {
+            max = Math.max(i, max);
+            min = Math.min(i, min);
+            sum += i;
+        }
+        return (sum - min - max) / (salary.length - 2);
     }
 
     /**
@@ -288,7 +307,7 @@ public class Solution202302 {
                         }
                     }
                     int min = Math.min(topOne, leftOne);
-                    for (int k = min; k >=0; k--) {
+                    for (int k = min; k >= 0; k--) {
 
                         if (Math.min(hang[i - k + 1][j], lie[i][j - k + 1]) >= k) {
                             ans = Math.max(ans, k * k);
