@@ -46,6 +46,9 @@ public class Solution202302 {
             case 1139:
                 System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
                 break;
+            case 1792:
+                System.out.println(maxAverageRatio(new int[][]{{1,2},{3,5},{1,1}},4));
+                break;
             case 2341:
                 System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
                 break;
@@ -54,6 +57,39 @@ public class Solution202302 {
         }
     }
 
+
+    /**
+     * 1792. 最大平均通过率
+     */
+    public static double maxAverageRatio(int[][] classes, int extraStudents) {
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> {
+            long val1 = (long) (b[1] + 1) * b[1] * (a[1] - a[0]);
+            long val2 = (long) (a[1] + 1) * a[1] * (b[1] - b[0]);
+            if (val1 == val2) {
+                return 0;
+            }
+            return val1 < val2 ? 1 : -1;
+        });
+        for (int[] c : classes) {
+            pq.offer(new int[]{c[0], c[1]});
+        }
+
+        for (int i = 0; i < extraStudents; i++) {
+            int[] arr = pq.poll();
+            assert arr != null;
+            int pass = arr[0], total = arr[1];
+            pq.offer(new int[]{pass + 1, total + 1});
+        }
+
+        double res = 0;
+        for (int i = 0; i < classes.length; i++) {
+            int[] arr = pq.poll();
+            assert arr != null;
+            int pass = arr[0], total = arr[1];
+            res += 1.0 * pass / total;
+        }
+        return res / classes.length;
+    }
 
     /**
      * 1491.去掉最低工资和最高工资后的工资平均值
