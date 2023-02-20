@@ -47,16 +47,61 @@ public class Solution202302 {
                 System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
                 break;
             case 1792:
-                System.out.println(maxAverageRatio(new int[][]{{1,2},{3,5},{1,1}},4));
+                System.out.println(maxAverageRatio(new int[][]{{1, 2}, {3, 5}, {1, 1}}, 4));
                 break;
             case 2341:
                 System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
+                break;
+            case 2347:
+                System.out.println(bestHand(new int[]{13,2,3,1,9},new char[]{'a','a','a','a','a'}));
                 break;
             default:
                 break;
         }
     }
 
+
+    /**
+     * 2347. 最好的扑克手牌
+     */
+    public static String bestHand(int[] ranks, char[] suits) {
+        int[] count = new int[4];
+        for (char suit : suits) {
+            count[suit - 'a']++;
+        }
+        for (int i : count) {
+            if (i == 5) {
+                return "Flush";
+            }
+        }
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int rank : ranks) {
+
+            map.put(rank, map.getOrDefault(rank, 0) + 1);
+        }
+
+        boolean three = false;
+        boolean two = false;
+        Set<Map.Entry<Integer, Integer>> entries = map.entrySet();
+        for (Map.Entry<Integer, Integer> entry : entries) {
+            if (entry.getValue() >= 3) {
+                three = true;
+
+            }
+            if (entry.getValue() == 2) {
+                two = true;
+
+            }
+        }
+        if (three){
+            return "Three of a Kind";
+        }
+        if (two){
+            return "Pair";
+        }
+        return "High Card";
+    }
 
     /**
      * 1792. 最大平均通过率
