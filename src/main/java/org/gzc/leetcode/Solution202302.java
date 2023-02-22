@@ -55,6 +55,9 @@ public class Solution202302 {
             case 2341:
                 System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
                 break;
+            case 1140:
+                System.out.println(stoneGame2(new int[]{9, 9, 6, 0, 6, 6, 9}));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
@@ -63,6 +66,29 @@ public class Solution202302 {
         }
     }
 
+
+    /**
+     * 1140. 石子游戏||
+     *
+     * dp[i][j]表示剩余[i : len - 1]堆时，M = j的情况下，先取的人能获得的最多石子数
+     */
+    public static int stoneGame2(int[] piles) {
+        int len = piles.length, sum = 0;
+        int[][] dp = new int[len][len + 1];
+        for (int i = len - 1; i >= 0; i--) {
+            sum += piles[i];
+            for (int m = 1; m <= len; m++) {
+                if (i + 2 * m >= len) {
+                    dp[i][m] = sum;
+                } else {
+                    for (int x = 1; x <= 2 * m; x++) {
+                        dp[i][m] = Math.max(dp[i][m], sum - dp[i + x][Math.max(m, x)]);
+                    }
+                }
+            }
+        }
+        return dp[0][1];
+    }
 
     /**
      * 1901. 寻找峰值||
