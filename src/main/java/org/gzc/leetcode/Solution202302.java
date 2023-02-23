@@ -58,6 +58,9 @@ public class Solution202302 {
             case 1140:
                 System.out.println(stoneGame2(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 1238:
+                System.out.println(circularPermutation(2,3));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
@@ -67,6 +70,26 @@ public class Solution202302 {
     }
 
 
+    /**
+     * 1238.循环码排列
+     * 格雷码生成公式 i ^ (i >>1)
+     */
+    public static List<Integer> circularPermutation(int n, int start) {
+        int len = (int) Math.pow(2,n),j = 0;
+        int[] grey = new int[len];
+        for (int i = 0; i < len; i++) {
+            grey[i] = i ^(i >> 1);
+            if (grey[i] == start){
+                j = i;
+            }
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int i = j; i < len+j; i++) {
+            ans.add(grey[i%len]);
+        }
+        return ans;
+    }
     /**
      * 1140. 石子游戏||
      *
