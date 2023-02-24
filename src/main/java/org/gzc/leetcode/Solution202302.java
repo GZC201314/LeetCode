@@ -58,6 +58,9 @@ public class Solution202302 {
             case 1140:
                 System.out.println(stoneGame2(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 2357:
+                System.out.println(minimumOperations(new int[]{9, 9, 6, 0, 6, 6, 9}));
+                break;
             case 1238:
                 System.out.println(circularPermutation(2,3));
                 break;
@@ -69,6 +72,20 @@ public class Solution202302 {
         }
     }
 
+
+    /**
+     * 2357. 使数组中所有元素都等于零
+     */
+    public static int minimumOperations(int[] nums) {
+
+        Set<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            if (num > 0) {
+                set.add(num);
+            }
+        }
+        return set.size();
+    }
 
     /**
      * 1238.循环码排列
