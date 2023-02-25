@@ -64,6 +64,9 @@ public class Solution202302 {
             case 1238:
                 System.out.println(circularPermutation(2,3));
                 break;
+            case 1247:
+                System.out.println(minimumSwap("xxxx","yyyy"));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
@@ -72,6 +75,22 @@ public class Solution202302 {
         }
     }
 
+    /**
+     * 1247. 交换字符使得字符串相同
+     */
+    public static int minimumSwap(String s1, String s2) {
+        int[] cnt = new int[2];
+        int n = s1.length();
+        for (int i = 0; i < n; i++) {
+            char s1Char = s1.charAt(i);
+            char s2Char = s2.charAt(i);
+            if (s1Char != s2Char){
+                cnt[s1Char%2]++;
+            }
+        }
+        int sum = Arrays.stream(cnt).sum();
+        return sum%2!=0?-1:(sum/2+cnt[0]%2);
+    }
 
     /**
      * 2357. 使数组中所有元素都等于零
