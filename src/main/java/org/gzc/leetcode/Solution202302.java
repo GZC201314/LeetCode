@@ -67,12 +67,30 @@ public class Solution202302 {
             case 1247:
                 System.out.println(minimumSwap("xxxx","yyyy"));
                 break;
+            case 1689:
+                System.out.println(minPartitions("128"));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1689. 十-二进制数的最少数目
+     */
+    public static int minPartitions(String n) {
+        char[] nChar = n.toCharArray();
+        char max = '0';
+        for (char c : nChar) {
+            if (c>max){
+                max = c;
+            }
+        }
+        return Integer.parseInt(String.valueOf(max));
     }
 
     /**
