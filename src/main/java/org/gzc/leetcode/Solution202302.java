@@ -61,11 +61,14 @@ public class Solution202302 {
             case 2357:
                 System.out.println(minimumOperations(new int[]{9, 9, 6, 0, 6, 6, 9}));
                 break;
+            case 1144:
+                System.out.println(movesToMakeZigzag(new int[]{9, 6, 1, 6, 2}));
+                break;
             case 1238:
-                System.out.println(circularPermutation(2,3));
+                System.out.println(circularPermutation(2, 3));
                 break;
             case 1247:
-                System.out.println(minimumSwap("xxxx","yyyy"));
+                System.out.println(minimumSwap("xxxx", "yyyy"));
                 break;
             case 1689:
                 System.out.println(minPartitions("128"));
@@ -80,13 +83,35 @@ public class Solution202302 {
 
 
     /**
+     * 1144. 递减元素使数组呈锯齿状
+     */
+    public static int movesToMakeZigzag(int[] nums) {
+        return Math.min(help(nums, 0), help(nums, 1));
+    }
+
+    public static int help(int[] nums, int pos) {
+        int res = 0;
+        for (int i = pos; i < nums.length; i += 2) {
+            int a = 0;
+            if (i - 1 >= 0) {
+                a = Math.max(a, nums[i] - nums[i - 1] + 1);
+            }
+            if (i + 1 < nums.length) {
+                a = Math.max(a, nums[i] - nums[i + 1] + 1);
+            }
+            res += a;
+        }
+        return res;
+    }
+
+    /**
      * 1689. 十-二进制数的最少数目
      */
     public static int minPartitions(String n) {
         char[] nChar = n.toCharArray();
         char max = '0';
         for (char c : nChar) {
-            if (c>max){
+            if (c > max) {
                 max = c;
             }
         }
@@ -102,12 +127,12 @@ public class Solution202302 {
         for (int i = 0; i < n; i++) {
             char s1Char = s1.charAt(i);
             char s2Char = s2.charAt(i);
-            if (s1Char != s2Char){
-                cnt[s1Char%2]++;
+            if (s1Char != s2Char) {
+                cnt[s1Char % 2]++;
             }
         }
         int sum = Arrays.stream(cnt).sum();
-        return sum%2!=0?-1:(sum/2+cnt[0]%2);
+        return sum % 2 != 0 ? -1 : (sum / 2 + cnt[0] % 2);
     }
 
     /**
@@ -129,24 +154,25 @@ public class Solution202302 {
      * 格雷码生成公式 i ^ (i >>1)
      */
     public static List<Integer> circularPermutation(int n, int start) {
-        int len = (int) Math.pow(2,n),j = 0;
+        int len = (int) Math.pow(2, n), j = 0;
         int[] grey = new int[len];
         for (int i = 0; i < len; i++) {
-            grey[i] = i ^(i >> 1);
-            if (grey[i] == start){
+            grey[i] = i ^ (i >> 1);
+            if (grey[i] == start) {
                 j = i;
             }
         }
 
         List<Integer> ans = new ArrayList<>();
-        for (int i = j; i < len+j; i++) {
-            ans.add(grey[i%len]);
+        for (int i = j; i < len + j; i++) {
+            ans.add(grey[i % len]);
         }
         return ans;
     }
+
     /**
      * 1140. 石子游戏||
-     *
+     * <p>
      * dp[i][j]表示剩余[i : len - 1]堆时，M = j的情况下，先取的人能获得的最多石子数
      */
     public static int stoneGame2(int[] piles) {
