@@ -52,6 +52,9 @@ public class Solution202302 {
             case 1792:
                 System.out.println(maxAverageRatio(new int[][]{{1, 2}, {3, 5}, {1, 1}}, 4));
                 break;
+            case 2363:
+                System.out.println(mergeSimilarItems(new int[][]{{1, 2}, {3, 5}, {1, 1}}, new int[][]{{1, 2}, {3, 5}, {1, 1}}));
+                break;
             case 2341:
                 System.out.println(Arrays.toString(numberOfPairs(new int[]{9, 9, 6, 0, 6, 6, 9})));
                 break;
@@ -79,6 +82,30 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 2363. 合并相似的物品
+     */
+    public static List<List<Integer>> mergeSimilarItems(int[][] items1, int[][] items2) {
+        List<List<Integer>> ans = new ArrayList<>();
+        Map<Integer, Integer> map = new TreeMap<>();
+        for (int[] item : items1) {
+            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+        }
+        for (int[] item : items2) {
+            map.put(item[0], map.getOrDefault(item[0], 0) + item[1]);
+        }
+        Set<Integer> keySet = map.keySet();
+        for (Integer key : keySet) {
+            List<Integer> list = new ArrayList<>();
+            list.add(key);
+            list.add(map.get(key));
+            ans.add(list);
+        }
+        ans.sort(Comparator.comparingInt(t -> t.get(0)));
+        return ans;
     }
 
 
