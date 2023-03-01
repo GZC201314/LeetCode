@@ -49,6 +49,9 @@ public class Solution202302 {
             case 1901:
                 System.out.println(Arrays.toString(findPeakGrid(new int[][]{{1, 4}, {3, 2}})));
                 break;
+            case 2373:
+                System.out.println(Arrays.toString(largestLocal(new int[][]{{9, 9, 8, 1}, {5, 6, 2, 6}, {8, 2, 6, 4}, {6, 2, 2, 2}})));
+                break;
             case 1792:
                 System.out.println(maxAverageRatio(new int[][]{{1, 2}, {3, 5}, {1, 1}}, 4));
                 break;
@@ -82,6 +85,25 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 2373. 矩阵中的局部最大值
+     */
+    public static int[][] largestLocal(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+
+        int[][] ans = new int[m - 2][n - 2];
+        //把首个矩阵放到最大堆
+
+        for (int i = 1; i < m - 1; i++) {
+            for (int j = 1; j < n - 1; j++) {
+                ans[i - 1][j - 1] = Math.max(grid[i - 1][j - 1], Math.max(grid[i - 1][j], Math.max(grid[i - 1][j + 1], Math.max(grid[i][j - 1], Math.max(grid[i][j], Math.max(grid[i][j + 1], Math.max(grid[i + 1][j - 1], Math.max(grid[i + 1][j], grid[i + 1][j + 1]))))))));
+            }
+        }
+        return ans;
+
     }
 
 
