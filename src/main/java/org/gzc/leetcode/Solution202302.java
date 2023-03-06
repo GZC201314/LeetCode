@@ -79,12 +79,30 @@ public class Solution202302 {
             case 1689:
                 System.out.println(minPartitions("128"));
                 break;
+            case 1653:
+                System.out.println(minimumDeletions("aababbab"));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 1653. 使字符串平衡的最少删除次数
+     */
+    public static int minimumDeletions(String s) {
+        int dp = 0, bNum = 0;
+        for (char c : s.toCharArray()) {
+            if (c == 'b') {
+                ++bNum;
+            } else {
+                dp = Math.min(dp + 1, bNum);
+            }
+        }
+        return dp;
     }
 
     /**
