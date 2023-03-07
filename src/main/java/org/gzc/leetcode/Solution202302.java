@@ -82,6 +82,9 @@ public class Solution202302 {
             case 1653:
                 System.out.println(minimumDeletions("aababbab"));
                 break;
+            case 2451:
+                System.out.println(oddString(new String[]{"aaa", "bob", "ccc", "ddd"}));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
@@ -89,6 +92,35 @@ public class Solution202302 {
                 break;
         }
     }
+
+    /**
+     * 2451. 差值数组不同的字符串
+     */
+    public static String oddString(String[] words) {
+
+        int n = words[0].length();
+        int m = words.length;
+        for (int i = 0; i < n - 1; i++) {
+            int diff = words[0].charAt(i + 1) - words[0].charAt(i);
+            for (int j = 0; j < m; j++) {
+                int curDiff = words[j].charAt(i + 1) - words[j].charAt(i);
+                if (curDiff != diff) {
+                    if (j == 1) {
+                        // 判断第一个和第三个是不是一致
+                        for (int k = 0; k < n - 1; k++) {
+                            if (words[2].charAt(k + 1) - words[2].charAt(k) != words[0].charAt(k + 1) - words[0].charAt(k)) {
+                                return words[0];
+                            }
+                        }
+                    }
+                    return words[j];
+                }
+            }
+        }
+        return "";
+
+    }
+
 
     /**
      * 1653. 使字符串平衡的最少删除次数
