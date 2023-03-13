@@ -91,11 +91,38 @@ public class Solution202302 {
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
+            case 2383:
+                System.out.println(minNumberOfHours(5, 3, new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1}));
+                break;
             default:
                 break;
         }
     }
 
+
+    /**
+     * 2383. 赢得比赛需要的最少训练时长
+     */
+    public static int minNumberOfHours(int initialEnergy, int initialExperience, int[] energy, int[] experience) {
+        int needEnergy = 0;
+        int needExperience = 0;
+        int n = energy.length;
+        for (int i = 0; i < n; i++) {
+            if (initialEnergy > energy[i]) {
+                initialEnergy -= energy[i];
+            } else {
+                needEnergy += energy[i] - initialEnergy + 1;
+                initialEnergy = 1;
+            }
+            if (initialExperience > experience[i]) {
+                initialExperience += experience[i];
+            } else {
+                needExperience += experience[i] - initialExperience + 1;
+                initialExperience += experience[i]+(experience[i] - initialExperience + 1);
+            }
+        }
+        return needExperience + needEnergy;
+    }
 
     /**
      * 剑指 Offer 47. 礼物的最大价值
