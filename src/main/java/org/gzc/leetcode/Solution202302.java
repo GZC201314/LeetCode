@@ -94,11 +94,37 @@ public class Solution202302 {
             case 2383:
                 System.out.println(minNumberOfHours(5, 3, new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1}));
                 break;
+            case 1605:
+                System.out.println(Arrays.deepToString(restoreMatrix(new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1})));
+                break;
             default:
                 break;
         }
     }
 
+
+    /**
+     * 1605. 给定行和列的和求可行矩阵
+     */
+    public static int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int m = rowSum.length;
+        int n = colSum.length;
+        int[][] ans = new int[m][n];
+        int i =0;
+        int j=0;
+        while (i<m && j<n){
+            ans[i][j] = Math.min(rowSum[i],colSum[j]);
+            rowSum[i] -=ans[i][j];
+            colSum[j] -=ans[i][j];
+            if (rowSum[i] ==0){
+                i++;
+            }
+            if (colSum[j] ==0){
+                j++;
+            }
+        }
+        return ans;
+    }
 
     /**
      * 2383. 赢得比赛需要的最少训练时长
