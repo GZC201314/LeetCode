@@ -58,6 +58,9 @@ public class Solution202302 {
             case 1792:
                 System.out.println(maxAverageRatio(new int[][]{{1, 2}, {3, 5}, {1, 1}}, 4));
                 break;
+            case 1615:
+                System.out.println(maximalNetworkRank(4,new int[][]{{1, 2}, {0, 1}, {1, 3}}));
+                break;
             case 2363:
                 System.out.println(mergeSimilarItems(new int[][]{{1, 2}, {3, 5}, {1, 1}}, new int[][]{{1, 2}, {3, 5}, {1, 1}}));
                 break;
@@ -102,6 +105,29 @@ public class Solution202302 {
         }
     }
 
+
+    /**
+     * 1615.最大网络秩
+     */
+    public static int maximalNetworkRank(int n, int[][] roads) {
+        int[] ans = new int[n];
+        int max =0;
+        boolean[][] conn = new boolean[n][n];
+        for (int[] road : roads) {
+            ans[road[0]]++;
+            ans[road[1]]++;
+            conn[road[0]][road[1]] = true;
+            conn[road[1]][road[0]] = true;
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                max = Math.max(max,ans[i]+ans[j]-(conn[i][j]?1:0));
+            }
+        }
+
+        return max;
+    }
 
     /**
      * 1605. 给定行和列的和求可行矩阵
