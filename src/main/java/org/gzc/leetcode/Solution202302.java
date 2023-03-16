@@ -43,6 +43,9 @@ public class Solution202302 {
             case 1491:
                 System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
                 break;
+            case 68:
+                System.out.println(searchInsert(new int[]{1000, 3000, 4000, 5000},3000));
+                break;
             case 1139:
                 System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
                 break;
@@ -105,6 +108,26 @@ public class Solution202302 {
         }
     }
 
+
+    /**
+     * 剑指 Offer II 068查找插入位置
+     */
+    public static int searchInsert(int[] nums, int target) {
+        int left =0;
+        int right = nums.length-1;
+        int mid = left +(right-left)/2;
+        while (left<=right){
+            if (nums[mid]>target){
+                right = mid-1;
+            }else if (nums[mid]<target){
+                left = mid+1;
+            }else {
+                return mid;
+            }
+            mid = left +(right-left)/2;
+        }
+        return mid;
+    }
 
     /**
      * 1615.最大网络秩
