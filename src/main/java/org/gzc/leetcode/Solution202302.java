@@ -79,6 +79,9 @@ public class Solution202302 {
             case 1144:
                 System.out.println(movesToMakeZigzag(new int[]{9, 6, 1, 6, 2}));
                 break;
+            case 2455:
+                System.out.println(averageValue(new int[]{9, 6, 1, 6, 2}));
+                break;
             case 1238:
                 System.out.println(circularPermutation(2, 3));
                 break;
@@ -108,6 +111,21 @@ public class Solution202302 {
         }
     }
 
+    /**
+     * 2455. 可被三整除的偶数的平均值
+     */
+    public static int averageValue(int[] nums) {
+        long sum =0;
+        int count =0;
+        for (int num : nums) {
+            if (num % 6 ==0){
+                sum += num;
+                count++;
+            }
+        }
+        return count ==0?0:(int)sum/count;
+
+    }
 
     /**
      * 剑指 Offer II 068查找插入位置
@@ -466,7 +484,7 @@ public class Solution202302 {
             }
         }
 
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(16);
         for (int rank : ranks) {
 
             map.put(rank, map.getOrDefault(rank, 0) + 1);
