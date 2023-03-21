@@ -91,6 +91,9 @@ public class Solution202302 {
             case 1689:
                 System.out.println(minPartitions("128"));
                 break;
+            case 2469:
+                System.out.println(Arrays.toString(convertTemperature(0.0)));
+                break;
             case 1653:
                 System.out.println(minimumDeletions("aababbab"));
                 break;
@@ -109,6 +112,14 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 2469. 温度转换
+     */
+
+    public static double[] convertTemperature(double celsius) {
+        return new double[]{celsius+273.15,celsius*1.8+32};
     }
 
     /**
