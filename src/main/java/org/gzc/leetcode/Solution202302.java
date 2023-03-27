@@ -97,6 +97,9 @@ public class Solution202302 {
             case 1653:
                 System.out.println(minimumDeletions("aababbab"));
                 break;
+            case 1638:
+                System.out.println(countSubstrings("aba","baba"));
+                break;
             case 2451:
                 System.out.println(oddString(new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
@@ -112,6 +115,47 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 1638. 统计只差一个字符的子串数目
+     */
+    public static int countSubstrings(String s, String t) {
+        Map<String,Integer> map = new HashMap<>();
+        int ans =0;
+        int sLen = s.length();
+        int tLen = t.length();
+        for (int i = 0; i < sLen; i++) {
+            for (int j = i+1; j <= sLen; j++) {
+                String sSub = s.substring(i, j);
+                if (map.containsKey(sSub)){
+                    ans += map.get(sSub);
+                }else {
+                    int count =0;
+                    for (int k = 0; k <= tLen-sSub.length(); k++) {
+                        String tSub = t.substring(k, k + sSub.length());
+                        if (diffCount(sSub,tSub) ==1){
+                            count++;
+                        }
+                    }
+                    ans += count;
+                    map.put(sSub,count);
+                }
+            }
+        }
+        return ans;
+
+    }
+    public static int diffCount(String s,String t){
+        int len = s.length();
+        int ans =0;
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) != t.charAt(i)){
+                ans++;
+            }
+        }
+        return ans;
     }
 
     /**
