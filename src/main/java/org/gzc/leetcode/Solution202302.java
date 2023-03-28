@@ -106,6 +106,9 @@ public class Solution202302 {
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
+            case 70:
+                System.out.println(singleNonDuplicate(new int[]{1,2,2,3,3,4,4}));
+                break;
             case 2383:
                 System.out.println(minNumberOfHours(5, 3, new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1}));
                 break;
@@ -117,6 +120,36 @@ public class Solution202302 {
         }
     }
 
+    /**
+     * 剑指 Offer II 070 排序数组中只出现一次的数字
+     */
+    public static int singleNonDuplicate(int[] nums) {
+        int left =0;
+        int n = nums.length;
+        int right = n -1;
+        int mid = (right-left)/2+left;
+        while (left<right){
+            // 三种情况 中间元素和前一个元素相同，中间元素和后一个相同，中间元素和前后两个元素都不同
+            if (mid+1<n && nums[mid] == nums[mid+1]){
+                if (mid%2==0){
+                    left = mid+2;
+                }else {
+                    right = mid -1;
+                }
+            }else if (mid-1>=0 && nums[mid] == nums[mid-1]){
+                if (mid%2 == 0){
+                    right = mid -2;
+                }else {
+                    left = mid +1;
+                }
+            }else {
+                return nums[mid];
+
+            }
+            mid = (right-left)/2+left;
+        }
+        return nums[mid];
+    }
 
     /**
      * 1638. 统计只差一个字符的子串数目
