@@ -91,6 +91,9 @@ public class Solution202302 {
             case 1689:
                 System.out.println(minPartitions("128"));
                 break;
+            case 1641:
+                System.out.println(countVowelStrings(23));
+                break;
             case 2469:
                 System.out.println(Arrays.toString(convertTemperature(0.0)));
                 break;
@@ -118,6 +121,28 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1641. 统计字典序元音字符串的数目
+     */
+    public static int countVowelStrings(int n) {
+        int[][] dp = new int[n+1][5];
+        dp[1][0]=1;
+        dp[1][1]=1;
+        dp[1][2]=1;
+        dp[1][3]=1;
+        dp[1][4]=1;
+
+        for (int i = 2; i <= n; i++) {
+            dp[i][0] = dp[i-1][0];
+            dp[i][1] = dp[i-1][0]+dp[i-1][1];
+            dp[i][2] = dp[i][1] + dp[i-1][2];
+            dp[i][3] = dp[i][2] + dp[i-1][3];
+            dp[i][4] = dp[i][3] + dp[i-1][4];
+        }
+
+        return Arrays.stream(dp[n]).sum();
     }
 
     /**
