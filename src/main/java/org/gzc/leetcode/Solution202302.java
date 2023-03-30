@@ -64,6 +64,9 @@ public class Solution202302 {
             case 1615:
                 System.out.println(maximalNetworkRank(4,new int[][]{{1, 2}, {0, 1}, {1, 3}}));
                 break;
+            case 1637:
+                System.out.println(maxWidthOfVerticalArea(new int[][]{{1, 2}, {0, 1}, {1, 3}}));
+                break;
             case 2363:
                 System.out.println(mergeSimilarItems(new int[][]{{1, 2}, {3, 5}, {1, 1}}, new int[][]{{1, 2}, {3, 5}, {1, 1}}));
                 break;
@@ -121,6 +124,23 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1637. 两点之间不包含任何点的最宽垂直区域
+     */
+    public static int maxWidthOfVerticalArea(int[][] points) {
+        int n = points.length;
+        List<int[]> list = new ArrayList<>(Arrays.asList(points));
+        list.sort(Comparator.comparingInt(o -> o[0]));
+        int[] pre = list.get(0);
+        int max = 0;
+        for (int i = 1; i < n; i++) {
+            int[] point = list.get(i);
+            max = Math.max(max,point[0]-pre[0]);
+            pre = point;
+        }
+        return max;
     }
 
     /**
