@@ -109,6 +109,9 @@ public class Solution202302 {
             case 2451:
                 System.out.println(oddString(new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
+            case 2452:
+                System.out.println(twoEditWords(new String[]{"aaa", "bob", "ccc", "ddd"},new String[]{"aaa", "bob", "ccc", "ddd"}));
+                break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
@@ -124,6 +127,29 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 2452. 距离字典两次编辑以内的单词
+     */
+    public static List<String> twoEditWords(String[] queries, String[] dictionary) {
+        List<String> ans = new ArrayList<>();
+        for (String query : queries) {
+            for (String s : dictionary) {
+                int diffCount =0;
+                int length = s.length();
+                for (int i = 0; i < length; i++) {
+                    if (query.charAt(i)!=s.charAt(i)){
+                        diffCount++;
+                    }
+                }
+                if (diffCount<=2){
+                    ans.add(query);
+                }
+            }
+        }
+        return ans;
+
     }
 
     /**
