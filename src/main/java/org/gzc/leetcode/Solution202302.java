@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import org.gzc.leetcode.model.AuthenticationManager;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.text.ParseException;
 import java.util.*;
@@ -118,6 +119,9 @@ public class Solution202302 {
             case 70:
                 System.out.println(singleNonDuplicate(new int[]{1,2,2,3,3,4,4}));
                 break;
+            case 1026:
+                System.out.println(maxAncestorDiff(new TreeNode(3)));
+                break;
             case 2383:
                 System.out.println(minNumberOfHours(5, 3, new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1}));
                 break;
@@ -127,6 +131,52 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1026.节点与其祖先之间的最大差值
+     */
+    public static int maxAncestorDiffAns = 0;
+    public static Map<TreeNode,int[]> cache = new HashMap<>();
+    public static int maxAncestorDiff(TreeNode root) {
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+        while (!deque.isEmpty()){
+            TreeNode treeNode = deque.pollFirst();
+            if (treeNode.left!=null){
+                deque.add(treeNode.left);
+                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.left)[0])),Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.left)[1]));
+            }
+            if (treeNode.right!=null){
+                deque.add(treeNode.right);
+                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.right)[0])),Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.right)[1]));
+
+            }
+        }
+        return maxAncestorDiffAns;
+
+    }
+
+    // 返回当前树的最大值和最小值
+    public static int[] maxAncestorDiffDfs(TreeNode node){
+        if (node == null){
+            return new int[]{Integer.MIN_VALUE,Integer.MAX_VALUE};
+        }
+        if (node.left == null && node.right ==null){
+            cache.put(node,new int[]{node.val,node.val});
+            return new int[]{node.val,node.val};
+        }
+        if (cache.containsKey(node)){
+            return cache.get(node);
+        }
+        int[] leftMinMax = maxAncestorDiffDfs(node.left);
+        int[] rightMinMax = maxAncestorDiffDfs(node.right);
+
+        int min = Math.min(Math.min(node.val, leftMinMax[1]), rightMinMax[1]);
+        int max = Math.max(Math.max(node.val, leftMinMax[0]), rightMinMax[0]);
+
+        cache.put(node,new int[]{max,min});
+        return new int[]{max,min};
     }
 
     /**
