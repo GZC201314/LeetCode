@@ -119,6 +119,9 @@ public class Solution202302 {
             case 70:
                 System.out.println(singleNonDuplicate(new int[]{1,2,2,3,3,4,4}));
                 break;
+            case 2605:
+                System.out.println(minNumber(new int[]{1,2,2,3,3,4,4},new int[]{1,2,2,3,3,4,4}));
+                break;
             case 1043:
                 System.out.println(maxSumAfterPartitioning(new int[]{1,2,2,3,3,4,4},3));
                 break;
@@ -136,6 +139,33 @@ public class Solution202302 {
         }
     }
 
+    /**
+     * 2605.从两个数字数组里生成最小数字
+     */
+    public static int minNumber(int[] nums1, int[] nums2) {
+        TreeSet<Integer> num1Set = new TreeSet<>();
+        for (int num1 : nums1) {
+            num1Set.add(num1);
+        }
+        TreeSet<Integer> num2Set = new TreeSet<>();
+        for (int num2 : nums2) {
+            num2Set.add(num2);
+        }
+        for (Integer integer : num1Set) {
+            if (num2Set.contains(integer)){
+                return integer;
+            }
+        }
+        int num1 = num1Set.pollFirst();
+        int num2 = num2Set.pollFirst();
+        if (num1>num2){
+            return num2*10+num1;
+        }else {
+            return num1*10+num2;
+        }
+
+
+    }
 
     /**
      * 1043. 分隔数组以得到最大和
