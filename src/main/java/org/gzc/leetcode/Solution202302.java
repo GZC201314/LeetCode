@@ -13,6 +13,12 @@ public class Solution202302 {
 
 
     /**
+     * 1026.节点与其祖先之间的最大差值
+     */
+    public static int maxAncestorDiffAns = 0;
+    public static Map<TreeNode, int[]> cache = new HashMap<>();
+
+    /**
      * 802. 迷路的机器人
      */
 
@@ -45,7 +51,7 @@ public class Solution202302 {
                 System.out.println(average(new int[]{4000, 3000, 1000, 2000}));
                 break;
             case 68:
-                System.out.println(searchInsert(new int[]{1000, 3000, 4000, 5000},3000));
+                System.out.println(searchInsert(new int[]{1000, 3000, 4000, 5000}, 3000));
                 break;
             case 1139:
                 System.out.println(largest1BorderedSquare(new int[][]{{0, 1, 1, 1, 1, 0}, {1, 1, 0, 1, 1, 0}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1}, {1, 0, 1, 1, 1, 1}, {0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1}}));
@@ -63,7 +69,7 @@ public class Solution202302 {
                 System.out.println(maxAverageRatio(new int[][]{{1, 2}, {3, 5}, {1, 1}}, 4));
                 break;
             case 1615:
-                System.out.println(maximalNetworkRank(4,new int[][]{{1, 2}, {0, 1}, {1, 3}}));
+                System.out.println(maximalNetworkRank(4, new int[][]{{1, 2}, {0, 1}, {1, 3}}));
                 break;
             case 1637:
                 System.out.println(maxWidthOfVerticalArea(new int[][]{{1, 2}, {0, 1}, {1, 3}}));
@@ -105,25 +111,28 @@ public class Solution202302 {
                 System.out.println(minimumDeletions("aababbab"));
                 break;
             case 1638:
-                System.out.println(countSubstrings("aba","baba"));
+                System.out.println(countSubstrings("aba", "baba"));
                 break;
             case 2451:
                 System.out.println(oddString(new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
             case 2452:
-                System.out.println(twoEditWords(new String[]{"aaa", "bob", "ccc", "ddd"},new String[]{"aaa", "bob", "ccc", "ddd"}));
+                System.out.println(twoEditWords(new String[]{"aaa", "bob", "ccc", "ddd"}, new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
             case 2347:
                 System.out.println(bestHand(new int[]{13, 2, 3, 1, 9}, new char[]{'a', 'a', 'a', 'a', 'a'}));
                 break;
             case 70:
-                System.out.println(singleNonDuplicate(new int[]{1,2,2,3,3,4,4}));
+                System.out.println(singleNonDuplicate(new int[]{1, 2, 2, 3, 3, 4, 4}));
+                break;
+            case 2501:
+                System.out.println(longestSquareStreak(new int[]{57044, 68879, 916, 16512, 34776, 77929, 95685, 68153, 53877, 68617, 61264, 9172, 95471, 86374, 25292, 29948, 43434, 72108, 18536, 31149, 4871, 98887, 89004, 24718, 78079, 7433, 17954, 87036, 61732, 92976, 75756, 22963, 41305, 86318, 2642, 85551, 41664, 47274, 30273, 13649, 62700, 18784, 86619, 67061, 7742, 61448, 83406, 17828, 16384, 70815, 8431, 57596, 68118, 36095, 93523, 69623, 4603, 17368, 15193, 95191, 10133, 62694, 43974, 79584, 75489, 12104, 29073, 62700, 24320, 12330, 66491, 49740, 73184, 62854, 11648, 18196, 2475, 16624, 95444, 3745, 18076, 34719, 92759, 17190, 42969, 59774, 83083, 88130, 45304, 77588, 20928, 74712, 96631, 22665, 28183, 59984, 3663, 83781, 11902, 48445, 58424, 25315, 12874, 3960, 74187, 66127, 99769, 30927, 64001, 39377, 90658, 32484, 56058, 92466, 38484, 31137, 4672, 28168, 7825, 82423, 63338, 1065, 88473, 64371, 1414, 87734, 30799, 44383, 9626, 23589, 27125, 41538, 67024, 11753, 43086, 83809, 89273, 51545, 34671, 97600, 97124, 56601, 43953, 3426, 87357, 93958, 78617, 40820, 79406, 35356, 22773, 22331, 824, 13335, 87491, 45952, 64051, 4422, 32732, 54810, 58319, 80257, 8457, 38567, 23825, 90986, 53332, 80829, 42630, 84703, 92059, 71706, 82859, 10932, 44526, 75366, 94556, 63508, 97168, 93738, 50132, 97203, 37589, 25247, 91722, 78975, 46174, 18243, 31035, 35123, 68799, 90306, 37986, 54070, 74776, 81358, 68775, 58324, 89562, 2414, 25662, 89651, 32724, 1513, 7956, 99662, 43491, 87221, 78281, 18532, 85654, 27844, 94960, 12323, 69262, 77316, 1529, 96345, 54224, 31667, 11341, 74926, 81639, 22016, 15435, 21043, 75240, 44041, 41995, 63145, 31152, 11839, 44851, 41044, 25249, 85228, 32416, 19363, 59340, 92682, 8985, 34620, 19582, 34092, 44460, 75180, 30065, 87239, 82190, 65554, 21533, 17823, 4942, 74283, 85615, 98013, 77917, 91595, 13003, 47974, 71578, 90978, 85115, 90662, 24566, 94919, 12402, 16684, 367, 10186, 57090, 61947, 22330, 35424, 17835, 43363, 67607, 78103, 97290, 95214, 27559, 31675, 64594, 66189, 51482, 13368, 32055, 19302, 27842, 38091, 57168, 23314, 83867, 54887, 14179, 6793, 49643, 53522, 27599, 3919, 98308, 98405, 22269, 61504, 79522, 40657, 49053, 4709, 67769, 39429, 48828, 88834, 42535, 76393, 48147, 65246, 80079, 76512, 89293, 71234, 26528, 11235, 35342, 30643, 64679, 69718, 5338, 13441, 76133, 63183, 18984, 12510, 33658, 13884, 41050, 87905, 92799, 2178, 98761, 40606, 2992, 1268, 12352, 58325, 12272, 92713, 86555, 60458, 28896, 57882, 53824, 34237, 64917, 37947, 75421, 37784, 17352, 23495, 91134, 13002, 65928, 4803, 50925, 24483, 11272, 48590, 52836, 56399, 95390, 432, 58075, 338, 45148, 17047, 53132, 69305, 47917, 90444, 5875, 17277, 2599, 25016, 6913, 56469, 117, 4518, 1307, 53562, 53695, 50005, 80637, 19761, 99481, 48576, 41048, 7177, 74176, 99343, 97723, 16457, 80681, 12056, 3061, 89095, 82260, 58852, 33805, 20558, 45657, 18304, 269, 92630, 31192, 70905, 34505, 9195, 50200, 22082, 86326, 84806, 10492, 21917, 22761, 51636, 16320, 25925, 734, 45335, 8484, 25408, 92021, 17450, 93908, 85683, 29532, 58415, 37662, 24807, 32884, 30182, 46622, 90526, 23834, 25559, 93765, 91897, 92480, 77494, 10466, 91615, 1590, 68506, 57006, 88513, 89690, 86031, 78750, 10850, 98067, 78566, 64908, 36917, 96062, 62095, 40617, 71781, 77510, 76861, 64928, 73193, 76345, 97029, 89582, 37404, 95317, 80838, 52635, 54712, 65883, 18915, 83082, 70082, 17831, 73698, 8090, 42519, 48205, 12009, 59619, 1221, 1116, 26697, 47161, 39833, 37243, 24516, 68473, 88943, 53000, 34773, 6454, 19789, 92058, 94593, 32766, 82773, 7813, 58033, 13743, 81611, 53608, 77347, 18364, 38883, 14679, 67834, 27212, 45934, 55974, 37008, 65727, 53404, 83997, 72637, 44819, 57724, 54750, 72299, 67644, 28697, 45606, 19158, 39657, 78544, 25012, 97326, 65304, 95602, 8953, 82400, 31410, 7022, 64694, 15879, 49639, 52297, 99627, 90946, 58074, 8175, 39406, 34826, 31611, 95607, 54453, 28082, 53560, 19953, 41960, 99635, 23739, 83406, 89066, 46353, 43071, 52314, 61442, 83833, 67954, 42243, 28914, 97086, 58479, 90326, 3534, 73113, 20060, 69851, 92884, 66750, 4401, 70560, 50120, 96706, 59154, 4340, 92146, 88127, 65807, 71681, 22122, 22497, 66145, 55604, 85965, 38885, 66467, 21991, 78039, 29510, 41360, 3191, 2104, 10791, 73824, 7699, 80362, 27776, 51333, 2840, 56324, 48469, 3979, 49613, 44485, 82002, 40133}));
                 break;
             case 2605:
-                System.out.println(minNumber(new int[]{1,2,2,3,3,4,4},new int[]{1,2,2,3,3,4,4}));
+                System.out.println(minNumber(new int[]{1, 2, 2, 3, 3, 4, 4}, new int[]{1, 2, 2, 3, 3, 4, 4}));
                 break;
             case 1043:
-                System.out.println(maxSumAfterPartitioning(new int[]{1,2,2,3,3,4,4},3));
+                System.out.println(maxSumAfterPartitioning(new int[]{1, 2, 2, 3, 3, 4, 4}, 3));
                 break;
             case 1026:
                 System.out.println(maxAncestorDiff(new TreeNode(3)));
@@ -140,6 +149,30 @@ public class Solution202302 {
     }
 
     /**
+     * 2501. 数组中最长的方波
+     */
+    public static int longestSquareStreak(int[] nums) {
+        Arrays.sort(nums);
+        Set<Long> numSet = new HashSet<>();
+        for (int num : nums) {
+            numSet.add((long) num);
+        }
+        int ans = 0;
+        for (int num : nums) {
+            // 以这个为开头的最大序列
+            long cur = num;
+            int curCount = 0;
+            while (numSet.contains(cur)) {
+                curCount++;
+                cur = cur * cur;
+            }
+            ans = Math.max(ans, curCount);
+
+        }
+        return ans == 1 ? -1 : ans;
+    }
+
+    /**
      * 2605.从两个数字数组里生成最小数字
      */
     public static int minNumber(int[] nums1, int[] nums2) {
@@ -152,16 +185,16 @@ public class Solution202302 {
             num2Set.add(num2);
         }
         for (Integer integer : num1Set) {
-            if (num2Set.contains(integer)){
+            if (num2Set.contains(integer)) {
                 return integer;
             }
         }
         int num1 = num1Set.pollFirst();
         int num2 = num2Set.pollFirst();
-        if (num1>num2){
-            return num2*10+num1;
-        }else {
-            return num1*10+num2;
+        if (num1 > num2) {
+            return num2 * 10 + num1;
+        } else {
+            return num1 * 10 + num2;
         }
 
 
@@ -174,36 +207,31 @@ public class Solution202302 {
     public static int maxSumAfterPartitioning(int[] arr, int k) {
         int[] dp = new int[arr.length];
         dp[0] = arr[0];
-        for(int i = 1; i<k ;i ++){
-            dp[i] = arr[i] > dp[i-1]/i ? arr[i] * (i+1) : dp[i-1]/i*(i+1);
+        for (int i = 1; i < k; i++) {
+            dp[i] = arr[i] > dp[i - 1] / i ? arr[i] * (i + 1) : dp[i - 1] / i * (i + 1);
         }
-        for(int i = k; i<arr.length; i++){
+        for (int i = k; i < arr.length; i++) {
             int max = arr[i];
-            for(int j = i; j>i-k; j--){
-                max = Math.max(max,arr[j]);
-                dp[i] = Math.max(dp[i],dp[j-1]+max*(i-j+1));
+            for (int j = i; j > i - k; j--) {
+                max = Math.max(max, arr[j]);
+                dp[i] = Math.max(dp[i], dp[j - 1] + max * (i - j + 1));
             }
         }
-        return dp[arr.length-1];
+        return dp[arr.length - 1];
     }
 
-    /**
-     * 1026.节点与其祖先之间的最大差值
-     */
-    public static int maxAncestorDiffAns = 0;
-    public static Map<TreeNode,int[]> cache = new HashMap<>();
     public static int maxAncestorDiff(TreeNode root) {
         Deque<TreeNode> deque = new LinkedList<>();
         deque.add(root);
-        while (!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             TreeNode treeNode = deque.pollFirst();
-            if (treeNode.left!=null){
+            if (treeNode.left != null) {
                 deque.add(treeNode.left);
-                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.left)[0])),Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.left)[1]));
+                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val - maxAncestorDiffDfs(treeNode.left)[0])), Math.abs(treeNode.val - maxAncestorDiffDfs(treeNode.left)[1]));
             }
-            if (treeNode.right!=null){
+            if (treeNode.right != null) {
                 deque.add(treeNode.right);
-                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.right)[0])),Math.abs(treeNode.val-maxAncestorDiffDfs(treeNode.right)[1]));
+                maxAncestorDiffAns = Math.max(Math.max(maxAncestorDiffAns, Math.abs(treeNode.val - maxAncestorDiffDfs(treeNode.right)[0])), Math.abs(treeNode.val - maxAncestorDiffDfs(treeNode.right)[1]));
 
             }
         }
@@ -212,15 +240,15 @@ public class Solution202302 {
     }
 
     // 返回当前树的最大值和最小值
-    public static int[] maxAncestorDiffDfs(TreeNode node){
-        if (node == null){
-            return new int[]{Integer.MIN_VALUE,Integer.MAX_VALUE};
+    public static int[] maxAncestorDiffDfs(TreeNode node) {
+        if (node == null) {
+            return new int[]{Integer.MIN_VALUE, Integer.MAX_VALUE};
         }
-        if (node.left == null && node.right ==null){
-            cache.put(node,new int[]{node.val,node.val});
-            return new int[]{node.val,node.val};
+        if (node.left == null && node.right == null) {
+            cache.put(node, new int[]{node.val, node.val});
+            return new int[]{node.val, node.val};
         }
-        if (cache.containsKey(node)){
+        if (cache.containsKey(node)) {
             return cache.get(node);
         }
         int[] leftMinMax = maxAncestorDiffDfs(node.left);
@@ -229,8 +257,8 @@ public class Solution202302 {
         int min = Math.min(Math.min(node.val, leftMinMax[1]), rightMinMax[1]);
         int max = Math.max(Math.max(node.val, leftMinMax[0]), rightMinMax[0]);
 
-        cache.put(node,new int[]{max,min});
-        return new int[]{max,min};
+        cache.put(node, new int[]{max, min});
+        return new int[]{max, min};
     }
 
     /**
@@ -240,14 +268,14 @@ public class Solution202302 {
         List<String> ans = new ArrayList<>();
         for (String query : queries) {
             for (String s : dictionary) {
-                int diffCount =0;
+                int diffCount = 0;
                 int length = s.length();
                 for (int i = 0; i < length; i++) {
-                    if (query.charAt(i)!=s.charAt(i)){
+                    if (query.charAt(i) != s.charAt(i)) {
                         diffCount++;
                     }
                 }
-                if (diffCount<=2){
+                if (diffCount <= 2) {
                     ans.add(query);
                 }
             }
@@ -267,7 +295,7 @@ public class Solution202302 {
         int max = 0;
         for (int i = 1; i < n; i++) {
             int[] point = list.get(i);
-            max = Math.max(max,point[0]-pre[0]);
+            max = Math.max(max, point[0] - pre[0]);
             pre = point;
         }
         return max;
@@ -277,19 +305,19 @@ public class Solution202302 {
      * 1641. 统计字典序元音字符串的数目
      */
     public static int countVowelStrings(int n) {
-        int[][] dp = new int[n+1][5];
-        dp[1][0]=1;
-        dp[1][1]=1;
-        dp[1][2]=1;
-        dp[1][3]=1;
-        dp[1][4]=1;
+        int[][] dp = new int[n + 1][5];
+        dp[1][0] = 1;
+        dp[1][1] = 1;
+        dp[1][2] = 1;
+        dp[1][3] = 1;
+        dp[1][4] = 1;
 
         for (int i = 2; i <= n; i++) {
-            dp[i][0] = dp[i-1][0];
-            dp[i][1] = dp[i-1][0]+dp[i-1][1];
-            dp[i][2] = dp[i][1] + dp[i-1][2];
-            dp[i][3] = dp[i][2] + dp[i-1][3];
-            dp[i][4] = dp[i][3] + dp[i-1][4];
+            dp[i][0] = dp[i - 1][0];
+            dp[i][1] = dp[i - 1][0] + dp[i - 1][1];
+            dp[i][2] = dp[i][1] + dp[i - 1][2];
+            dp[i][3] = dp[i][2] + dp[i - 1][3];
+            dp[i][4] = dp[i][3] + dp[i - 1][4];
         }
 
         return Arrays.stream(dp[n]).sum();
@@ -299,29 +327,29 @@ public class Solution202302 {
      * 剑指 Offer II 070 排序数组中只出现一次的数字
      */
     public static int singleNonDuplicate(int[] nums) {
-        int left =0;
+        int left = 0;
         int n = nums.length;
-        int right = n -1;
-        int mid = (right-left)/2+left;
-        while (left<right){
+        int right = n - 1;
+        int mid = (right - left) / 2 + left;
+        while (left < right) {
             // 三种情况 中间元素和前一个元素相同，中间元素和后一个相同，中间元素和前后两个元素都不同
-            if (mid+1<n && nums[mid] == nums[mid+1]){
-                if (mid%2==0){
-                    left = mid+2;
-                }else {
-                    right = mid -1;
+            if (mid + 1 < n && nums[mid] == nums[mid + 1]) {
+                if (mid % 2 == 0) {
+                    left = mid + 2;
+                } else {
+                    right = mid - 1;
                 }
-            }else if (mid-1>=0 && nums[mid] == nums[mid-1]){
-                if (mid%2 == 0){
-                    right = mid -2;
-                }else {
-                    left = mid +1;
+            } else if (mid - 1 >= 0 && nums[mid] == nums[mid - 1]) {
+                if (mid % 2 == 0) {
+                    right = mid - 2;
+                } else {
+                    left = mid + 1;
                 }
-            }else {
+            } else {
                 return nums[mid];
 
             }
-            mid = (right-left)/2+left;
+            mid = (right - left) / 2 + left;
         }
         return nums[mid];
     }
@@ -330,36 +358,37 @@ public class Solution202302 {
      * 1638. 统计只差一个字符的子串数目
      */
     public static int countSubstrings(String s, String t) {
-        Map<String,Integer> map = new HashMap<>();
-        int ans =0;
+        Map<String, Integer> map = new HashMap<>();
+        int ans = 0;
         int sLen = s.length();
         int tLen = t.length();
         for (int i = 0; i < sLen; i++) {
-            for (int j = i+1; j <= sLen; j++) {
+            for (int j = i + 1; j <= sLen; j++) {
                 String sSub = s.substring(i, j);
-                if (map.containsKey(sSub)){
+                if (map.containsKey(sSub)) {
                     ans += map.get(sSub);
-                }else {
-                    int count =0;
-                    for (int k = 0; k <= tLen-sSub.length(); k++) {
+                } else {
+                    int count = 0;
+                    for (int k = 0; k <= tLen - sSub.length(); k++) {
                         String tSub = t.substring(k, k + sSub.length());
-                        if (diffCount(sSub,tSub) ==1){
+                        if (diffCount(sSub, tSub) == 1) {
                             count++;
                         }
                     }
                     ans += count;
-                    map.put(sSub,count);
+                    map.put(sSub, count);
                 }
             }
         }
         return ans;
 
     }
-    public static int diffCount(String s,String t){
+
+    public static int diffCount(String s, String t) {
         int len = s.length();
-        int ans =0;
+        int ans = 0;
         for (int i = 0; i < len; i++) {
-            if (s.charAt(i) != t.charAt(i)){
+            if (s.charAt(i) != t.charAt(i)) {
                 ans++;
             }
         }
@@ -371,22 +400,22 @@ public class Solution202302 {
      */
 
     public static double[] convertTemperature(double celsius) {
-        return new double[]{celsius+273.15,celsius*1.8+32};
+        return new double[]{celsius + 273.15, celsius * 1.8 + 32};
     }
 
     /**
      * 2455. 可被三整除的偶数的平均值
      */
     public static int averageValue(int[] nums) {
-        long sum =0;
-        int count =0;
+        long sum = 0;
+        int count = 0;
         for (int num : nums) {
-            if (num % 6 ==0){
+            if (num % 6 == 0) {
                 sum += num;
                 count++;
             }
         }
-        return count ==0?0:(int)sum/count;
+        return count == 0 ? 0 : (int) sum / count;
 
     }
 
@@ -394,18 +423,18 @@ public class Solution202302 {
      * 剑指 Offer II 068查找插入位置
      */
     public static int searchInsert(int[] nums, int target) {
-        int left =0;
-        int right = nums.length-1;
-        int mid = left +(right-left)/2;
-        while (left<=right){
-            if (nums[mid]>target){
-                right = mid-1;
-            }else if (nums[mid]<target){
-                left = mid+1;
-            }else {
+        int left = 0;
+        int right = nums.length - 1;
+        int mid = left + (right - left) / 2;
+        while (left <= right) {
+            if (nums[mid] > target) {
+                right = mid - 1;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
                 return mid;
             }
-            mid = left +(right-left)/2;
+            mid = left + (right - left) / 2;
         }
         return mid;
     }
@@ -415,7 +444,7 @@ public class Solution202302 {
      */
     public static int maximalNetworkRank(int n, int[][] roads) {
         int[] ans = new int[n];
-        int max =0;
+        int max = 0;
         boolean[][] conn = new boolean[n][n];
         for (int[] road : roads) {
             ans[road[0]]++;
@@ -425,8 +454,8 @@ public class Solution202302 {
         }
 
         for (int i = 0; i < n; i++) {
-            for (int j = i+1; j < n; j++) {
-                max = Math.max(max,ans[i]+ans[j]-(conn[i][j]?1:0));
+            for (int j = i + 1; j < n; j++) {
+                max = Math.max(max, ans[i] + ans[j] - (conn[i][j] ? 1 : 0));
             }
         }
 
@@ -440,16 +469,16 @@ public class Solution202302 {
         int m = rowSum.length;
         int n = colSum.length;
         int[][] ans = new int[m][n];
-        int i =0;
-        int j=0;
-        while (i<m && j<n){
-            ans[i][j] = Math.min(rowSum[i],colSum[j]);
-            rowSum[i] -=ans[i][j];
-            colSum[j] -=ans[i][j];
-            if (rowSum[i] ==0){
+        int i = 0;
+        int j = 0;
+        while (i < m && j < n) {
+            ans[i][j] = Math.min(rowSum[i], colSum[j]);
+            rowSum[i] -= ans[i][j];
+            colSum[j] -= ans[i][j];
+            if (rowSum[i] == 0) {
                 i++;
             }
-            if (colSum[j] ==0){
+            if (colSum[j] == 0) {
                 j++;
             }
         }
@@ -474,7 +503,7 @@ public class Solution202302 {
                 initialExperience += experience[i];
             } else {
                 needExperience += experience[i] - initialExperience + 1;
-                initialExperience += experience[i]+(experience[i] - initialExperience + 1);
+                initialExperience += experience[i] + (experience[i] - initialExperience + 1);
             }
         }
         return needExperience + needEnergy;
