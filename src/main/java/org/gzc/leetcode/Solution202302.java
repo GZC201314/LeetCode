@@ -131,6 +131,9 @@ public class Solution202302 {
             case 2605:
                 System.out.println(minNumber(new int[]{1, 2, 2, 3, 3, 4, 4}, new int[]{1, 2, 2, 3, 3, 4, 4}));
                 break;
+            case 2418:
+                System.out.println(Arrays.toString(sortPeople(new String[]{"Mary", "John", "Emma"}, new int[]{180, 165, 170})));
+                break;
             case 1043:
                 System.out.println(maxSumAfterPartitioning(new int[]{1, 2, 2, 3, 3, 4, 4}, 3));
                 break;
@@ -146,6 +149,31 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+
+    /**
+     * 2418. 按身高排序
+     */
+    public static String[] sortPeople(String[] names, int[] heights) {
+
+        int n = names.length;
+        List<String[]> index = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            String[] node = {names[i], String.valueOf(heights[i])};
+
+            index.add(node);
+        }
+        index.sort((item1, item2) -> {
+            int num1 = Integer.parseInt(item1[1]);
+            int num2 = Integer.parseInt(item2[1]);
+            return num2 - num1;
+        });
+        String[] ans = new String[n];
+        for (int i = 0; i < n; i++) {
+            ans[i] = index.get(i)[0];
+        }
+        return ans;
     }
 
     /**
