@@ -178,6 +178,46 @@ public class Solution202302 {
     }
 
     /**
+     * 2432.处理用时最长的那个任务的员工
+     */
+    public static int hardestWorker(int n, int[][] logs) {
+        int firstTime = 0;
+        int max =0;
+        int maxUser =0;
+        for (int[] log : logs) {
+            int takeTime = log[1] - firstTime;
+            if (takeTime>max){
+                max = takeTime;
+                maxUser = log[0];
+            }else if (takeTime == max){
+                maxUser = Math.min(maxUser,log[0]);
+            }
+            firstTime = log[1];
+        }
+        return maxUser;
+    }
+
+    /**
+     * 1048. 最长字符串链
+     */
+    public static int longestStrChain(String[] words) {
+        Arrays.sort(words, Comparator.comparingInt(String::length));
+        int ans = 0;
+        Map<String, Integer> f = new HashMap<>();
+        for (String s : words) {
+            int res = 0;
+            for (int i = 0; i < s.length(); i++) {
+                // 枚举去掉 s[i]
+                String t = s.substring(0, i) + s.substring(i + 1);
+                res = Math.max(res, f.getOrDefault(t, 0));
+            }
+            f.put(s, res + 1);
+            ans = Math.max(ans, res + 1);
+        }
+        return ans;
+    }
+
+    /**
      * 1031. 两个非重叠子数组的最大和
      */
     public static int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
