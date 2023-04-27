@@ -137,6 +137,9 @@ public class Solution202302 {
             case 1043:
                 System.out.println(maxSumAfterPartitioning(new int[]{1, 2, 2, 3, 3, 4, 4}, 3));
                 break;
+            case 1031:
+                System.out.println(maxSumTwoNoOverlap(new int[]{2,1,5,6,0,9,5,0,3,8}, 4,3));
+                break;
             case 1026:
                 System.out.println(maxAncestorDiff(new TreeNode(3)));
                 break;
@@ -149,6 +152,36 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1031. 两个非重叠子数组的最大和
+     */
+    public static int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
+        int n = nums.length;
+        int[] sum = new int[n+1];
+        int ans = Integer.MIN_VALUE;
+        sum[0] = 0;
+        for (int i = 0; i < n; i++) {
+            sum[i+1] = sum[i]+nums[i];
+        }
+        ans = getAns(firstLen, secondLen, n, sum, ans);
+        ans = getAns(secondLen, firstLen, n, sum, ans);
+        return ans;
+    }
+
+    private static int getAns(int firstLen, int secondLen, int n, int[] sum, int ans) {
+        for (int i = 0; i +firstLen< n; i++) {
+            int firstSum = sum[i+firstLen] - sum[i];
+                // 寻找下面的最大值
+                if (n-(i+firstLen)>=secondLen){
+                    for (int k = i+firstLen; k+secondLen <= n; k++) {
+                        int secondSum = sum[k+secondLen] - sum[k];
+                        ans = Math.max(ans,firstSum+secondSum);
+                    }
+                }
+        }
+        return ans;
     }
 
 
@@ -217,12 +250,16 @@ public class Solution202302 {
                 return integer;
             }
         }
-        int num1 = num1Set.pollFirst();
-        int num2 = num2Set.pollFirst();
-        if (num1 > num2) {
-            return num2 * 10 + num1;
-        } else {
-            return num1 * 10 + num2;
+        Integer num1 = num1Set.pollFirst();
+        Integer num2 = num2Set.pollFirst();
+        if (num1!=null && num2!=null){
+            if (num1 > num2) {
+                return num2 * 10 + num1;
+            } else {
+                return num1 * 10 + num2;
+            }
+        }else {
+            return 0;
         }
 
 
