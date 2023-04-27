@@ -116,6 +116,9 @@ public class Solution202302 {
             case 2451:
                 System.out.println(oddString(new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
+            case 1048:
+                System.out.println(longestStrChain(new String[]{"aaa", "bob", "ccc", "ddd"}));
+                break;
             case 2452:
                 System.out.println(twoEditWords(new String[]{"aaa", "bob", "ccc", "ddd"}, new String[]{"aaa", "bob", "ccc", "ddd"}));
                 break;
@@ -152,6 +155,26 @@ public class Solution202302 {
             default:
                 break;
         }
+    }
+
+    /**
+     * 1048. 最长字符串链
+     */
+    public static int longestStrChain(String[] words) {
+        Arrays.sort(words, Comparator.comparingInt(String::length));
+        int ans = 0;
+        Map<String, Integer> f = new HashMap<>();
+        for (String s : words) {
+            int res = 0;
+            for (int i = 0; i < s.length(); i++) {
+                // 枚举去掉 s[i]
+                String t = s.substring(0, i) + s.substring(i + 1);
+                res = Math.max(res, f.getOrDefault(t, 0));
+            }
+            f.put(s, res + 1);
+            ans = Math.max(ans, res + 1);
+        }
+        return ans;
     }
 
     /**
