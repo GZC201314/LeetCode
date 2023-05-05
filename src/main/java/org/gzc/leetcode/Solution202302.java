@@ -134,6 +134,9 @@ public class Solution202302 {
             case 2605:
                 System.out.println(minNumber(new int[]{1, 2, 2, 3, 3, 4, 4}, new int[]{1, 2, 2, 3, 3, 4, 4}));
                 break;
+            case 2432:
+                System.out.println(hardestWorker(70,new int[][]{{36,3},{1,5},{12,8},{25,9},{53,11},{29,12},{52,14}}));
+                break;
             case 2418:
                 System.out.println(Arrays.toString(sortPeople(new String[]{"Mary", "John", "Emma"}, new int[]{180, 165, 170})));
                 break;
@@ -197,25 +200,6 @@ public class Solution202302 {
         return maxUser;
     }
 
-    /**
-     * 1048. 最长字符串链
-     */
-    public static int longestStrChain(String[] words) {
-        Arrays.sort(words, Comparator.comparingInt(String::length));
-        int ans = 0;
-        Map<String, Integer> f = new HashMap<>();
-        for (String s : words) {
-            int res = 0;
-            for (int i = 0; i < s.length(); i++) {
-                // 枚举去掉 s[i]
-                String t = s.substring(0, i) + s.substring(i + 1);
-                res = Math.max(res, f.getOrDefault(t, 0));
-            }
-            f.put(s, res + 1);
-            ans = Math.max(ans, res + 1);
-        }
-        return ans;
-    }
 
     /**
      * 1031. 两个非重叠子数组的最大和
