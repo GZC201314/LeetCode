@@ -156,8 +156,76 @@ public class Solution202302 {
                 System.out.println(Arrays.deepToString(restoreMatrix(new int[]{1, 4, 3, 2}, new int[]{2, 6, 3, 1})));
                 break;
             default:
+                System.out.println(solve("123", "345"));
                 break;
         }
+    }
+
+    /**
+     * 大数乘法
+     */
+    public static String solve (String s, String t) {
+        if("0".equals(s)|| "0".equals(t)){
+            return "0";
+        }
+        // write code here
+        boolean sFlag = s.startsWith("-");
+        boolean tFlag = t.startsWith("-");
+        String sSub = s;
+        String tSub = t;
+        if (sFlag){
+            sSub = s.substring(1);
+        }
+        if (tFlag){
+            tSub = t.substring(1);
+        }
+        StringBuilder ans = new StringBuilder();
+        int index =0;
+        for (int i = sSub.length()-1; i >=0 ; i--) {
+            int jinwei =0;
+            int i1 = Integer.parseInt(sSub.charAt(i) + "");
+            StringBuilder sb = new StringBuilder();
+            for (int j = tSub.length()-1; j >=0 ; j--) {
+                int i2 = Integer.parseInt(tSub.charAt(j) + "");
+                int i3 = i1 * i2 + jinwei;
+                jinwei = i3/10;
+                sb.append(i3%10);
+            }
+            if (jinwei!=0){
+                sb.append(jinwei);
+            }
+            sb.reverse();
+            for (int j = 0; j < index; j++) {
+                sb.append('0');
+            }
+            index++;
+            int jinwei1 =0;
+            StringBuilder sb1 = new StringBuilder();
+            int max = Math.max(ans.length(), sb.length());
+            int c;
+            int c1;
+            for (int j = 0; j < max; j++) {
+
+                if (j<ans.length()){
+                    c = Integer.parseInt(ans.charAt(ans.length()-j-1)+"");
+                }else {
+                    c =0;
+                }
+                if (j<sb.length()){
+                    c1 = Integer.parseInt(sb.charAt(sb.length()-j-1)+"");
+                }else {
+                    c1 =0;
+                }
+                sb1.append((c + c1 + jinwei1)%10);
+                jinwei1 = (c + c1 + jinwei1) / 10;
+            }
+            if (jinwei1 != 0){
+                sb1.append(jinwei1);
+            }
+            ans = sb1.reverse();
+        }
+        return ans.toString();
+
     }
 
     /**
