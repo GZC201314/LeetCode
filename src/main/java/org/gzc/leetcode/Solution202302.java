@@ -110,6 +110,9 @@ public class Solution202302 {
             case 1653:
                 System.out.println(minimumDeletions("aababbab"));
                 break;
+            case 2437:
+                System.out.println(countTime("??:??"));
+                break;
             case 1638:
                 System.out.println(countSubstrings("aba", "baba"));
                 break;
@@ -135,7 +138,7 @@ public class Solution202302 {
                 System.out.println(minNumber(new int[]{1, 2, 2, 3, 3, 4, 4}, new int[]{1, 2, 2, 3, 3, 4, 4}));
                 break;
             case 2432:
-                System.out.println(hardestWorker(70,new int[][]{{36,3},{1,5},{12,8},{25,9},{53,11},{29,12},{52,14}}));
+                System.out.println(hardestWorker(70, new int[][]{{36, 3}, {1, 5}, {12, 8}, {25, 9}, {53, 11}, {29, 12}, {52, 14}}));
                 break;
             case 2418:
                 System.out.println(Arrays.toString(sortPeople(new String[]{"Mary", "John", "Emma"}, new int[]{180, 165, 170})));
@@ -144,7 +147,7 @@ public class Solution202302 {
                 System.out.println(maxSumAfterPartitioning(new int[]{1, 2, 2, 3, 3, 4, 4}, 3));
                 break;
             case 1031:
-                System.out.println(maxSumTwoNoOverlap(new int[]{2,1,5,6,0,9,5,0,3,8}, 4,3));
+                System.out.println(maxSumTwoNoOverlap(new int[]{2, 1, 5, 6, 0, 9, 5, 0, 3, 8}, 4, 3));
                 break;
             case 1026:
                 System.out.println(maxAncestorDiff(new TreeNode(3)));
@@ -162,10 +165,48 @@ public class Solution202302 {
     }
 
     /**
+     * 2437. 有效时间的数目
+     */
+    public static int countTime(String time) {
+
+        int count = 1;
+        // 初始情况总数为1
+        // 获取每一位时间字符
+        char hF = time.charAt(0);
+        char hS = time.charAt(1);
+        char mF = time.charAt(3);
+        char mS = time.charAt(4);
+        // 分情况讨论
+        if (hF == '?' && hS == '?') {
+            count *= 24;
+        } else if (hF == '?') {
+            if (hS - '0' > 3) {
+                count *= 2;
+            } else {
+                count *= 3;
+            }
+        } else if (hS == '?') {
+            if (hF - '0' > 1) {
+                count *= 4;
+            } else {
+                count *= 10;
+            }
+        }
+        if (mF == '?') {
+            count *= 6;
+        }
+        if (mS == '?') {
+            count *= 10;
+        }
+        return count;
+    }
+
+
+    /**
      * 大数乘法
      */
-    public static String solve (String s, String t) {
-        if("0".equals(s)|| "0".equals(t)){
+    public static String solve(String s, String t) {
+        if ("0".equals(s) || "0".equals(t)) {
             return "0";
         }
         // write code here
@@ -173,25 +214,25 @@ public class Solution202302 {
         boolean tFlag = t.startsWith("-");
         String sSub = s;
         String tSub = t;
-        if (sFlag){
+        if (sFlag) {
             sSub = s.substring(1);
         }
-        if (tFlag){
+        if (tFlag) {
             tSub = t.substring(1);
         }
         StringBuilder ans = new StringBuilder();
-        int index =0;
-        for (int i = sSub.length()-1; i >=0 ; i--) {
-            int jinwei =0;
+        int index = 0;
+        for (int i = sSub.length() - 1; i >= 0; i--) {
+            int jinwei = 0;
             int i1 = Integer.parseInt(sSub.charAt(i) + "");
             StringBuilder sb = new StringBuilder();
-            for (int j = tSub.length()-1; j >=0 ; j--) {
+            for (int j = tSub.length() - 1; j >= 0; j--) {
                 int i2 = Integer.parseInt(tSub.charAt(j) + "");
                 int i3 = i1 * i2 + jinwei;
-                jinwei = i3/10;
-                sb.append(i3%10);
+                jinwei = i3 / 10;
+                sb.append(i3 % 10);
             }
-            if (jinwei!=0){
+            if (jinwei != 0) {
                 sb.append(jinwei);
             }
             sb.reverse();
@@ -199,27 +240,27 @@ public class Solution202302 {
                 sb.append('0');
             }
             index++;
-            int jinwei1 =0;
+            int jinwei1 = 0;
             StringBuilder sb1 = new StringBuilder();
             int max = Math.max(ans.length(), sb.length());
             int c;
             int c1;
             for (int j = 0; j < max; j++) {
 
-                if (j<ans.length()){
-                    c = Integer.parseInt(ans.charAt(ans.length()-j-1)+"");
-                }else {
-                    c =0;
+                if (j < ans.length()) {
+                    c = Integer.parseInt(ans.charAt(ans.length() - j - 1) + "");
+                } else {
+                    c = 0;
                 }
-                if (j<sb.length()){
-                    c1 = Integer.parseInt(sb.charAt(sb.length()-j-1)+"");
-                }else {
-                    c1 =0;
+                if (j < sb.length()) {
+                    c1 = Integer.parseInt(sb.charAt(sb.length() - j - 1) + "");
+                } else {
+                    c1 = 0;
                 }
-                sb1.append((c + c1 + jinwei1)%10);
+                sb1.append((c + c1 + jinwei1) % 10);
                 jinwei1 = (c + c1 + jinwei1) / 10;
             }
-            if (jinwei1 != 0){
+            if (jinwei1 != 0) {
                 sb1.append(jinwei1);
             }
             ans = sb1.reverse();
@@ -253,15 +294,15 @@ public class Solution202302 {
      */
     public static int hardestWorker(int n, int[][] logs) {
         int firstTime = 0;
-        int max =0;
-        int maxUser =0;
+        int max = 0;
+        int maxUser = 0;
         for (int[] log : logs) {
             int takeTime = log[1] - firstTime;
-            if (takeTime>max){
+            if (takeTime > max) {
                 max = takeTime;
                 maxUser = log[0];
-            }else if (takeTime == max){
-                maxUser = Math.min(maxUser,log[0]);
+            } else if (takeTime == max) {
+                maxUser = Math.min(maxUser, log[0]);
             }
             firstTime = log[1];
         }
@@ -274,11 +315,11 @@ public class Solution202302 {
      */
     public static int maxSumTwoNoOverlap(int[] nums, int firstLen, int secondLen) {
         int n = nums.length;
-        int[] sum = new int[n+1];
+        int[] sum = new int[n + 1];
         int ans = Integer.MIN_VALUE;
         sum[0] = 0;
         for (int i = 0; i < n; i++) {
-            sum[i+1] = sum[i]+nums[i];
+            sum[i + 1] = sum[i] + nums[i];
         }
         ans = getAns(firstLen, secondLen, n, sum, ans);
         ans = getAns(secondLen, firstLen, n, sum, ans);
@@ -286,15 +327,15 @@ public class Solution202302 {
     }
 
     private static int getAns(int firstLen, int secondLen, int n, int[] sum, int ans) {
-        for (int i = 0; i +firstLen< n; i++) {
-            int firstSum = sum[i+firstLen] - sum[i];
-                // 寻找下面的最大值
-                if (n-(i+firstLen)>=secondLen){
-                    for (int k = i+firstLen; k+secondLen <= n; k++) {
-                        int secondSum = sum[k+secondLen] - sum[k];
-                        ans = Math.max(ans,firstSum+secondSum);
-                    }
+        for (int i = 0; i + firstLen < n; i++) {
+            int firstSum = sum[i + firstLen] - sum[i];
+            // 寻找下面的最大值
+            if (n - (i + firstLen) >= secondLen) {
+                for (int k = i + firstLen; k + secondLen <= n; k++) {
+                    int secondSum = sum[k + secondLen] - sum[k];
+                    ans = Math.max(ans, firstSum + secondSum);
                 }
+            }
         }
         return ans;
     }
@@ -367,13 +408,13 @@ public class Solution202302 {
         }
         Integer num1 = num1Set.pollFirst();
         Integer num2 = num2Set.pollFirst();
-        if (num1!=null && num2!=null){
+        if (num1 != null && num2 != null) {
             if (num1 > num2) {
                 return num2 * 10 + num1;
             } else {
                 return num1 * 10 + num2;
             }
-        }else {
+        } else {
             return 0;
         }
 
