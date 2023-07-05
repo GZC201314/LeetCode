@@ -21,6 +21,9 @@ public class Solution202305 {
             case 2679:
                 System.out.println(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}}));
                 break;
+            case 2600:
+                System.out.println(kItemsWithMaximumSum(3,2,3));
+                break;
             default:
                 break;
 
@@ -53,11 +56,10 @@ public class Solution202305 {
      */
     public static int matrixSum(int[][] nums) {
         int n = nums[0].length;
-        int m = nums.length;
         List<PriorityQueue<Integer>> priorityQueueList = new ArrayList<>();
-        for (int i = 0; i < m; i++) {
+        for (int[] ints : nums) {
             PriorityQueue<Integer> priorityQueue = new PriorityQueue<>((o1, o2) -> o2 - o1);
-            for (int num : nums[i]) {
+            for (int num : ints) {
                 priorityQueue.offer(num);
             }
             priorityQueueList.add(priorityQueue);
@@ -66,11 +68,29 @@ public class Solution202305 {
         for (int i = 0; i < n; i++) {
             int max = 0;
             for (PriorityQueue<Integer> priorityQueue : priorityQueueList) {
-                max = Math.max(max, priorityQueue.poll());
+                Integer num = priorityQueue.poll();
+                if (Objects.nonNull(num)) {
+                    max = Math.max(max, num);
+                }
             }
             ans += max;
         }
         return ans;
+    }
+
+    /**
+     * 2600. K件物品的最大值
+     * @param numOnes 1的个数
+     * @param numZeros 0的个数
+     * @param k 取值数
+     * @return 最大和
+     */
+    public static int kItemsWithMaximumSum(int numOnes, int numZeros, int k) {
+        int sum = numOnes + numZeros;
+        if (sum>=k){
+            return Math.min(numOnes,k);
+        }
+        return numOnes-(k-sum);
     }
 
 
