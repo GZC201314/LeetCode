@@ -12,6 +12,9 @@ public class Solution202305 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 16:
+                System.out.println(threeSumClosest(new int[]{4,0,5,-5,3,3,0,-4,-5},-2));
+                break;
             case 2460:
                 System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
                 break;
@@ -91,6 +94,48 @@ public class Solution202305 {
             return Math.min(numOnes,k);
         }
         return numOnes-(k-sum);
+    }
+
+    /**
+     * 16.最接近的三数之和
+     * @param nums 参数数组
+     * @param target 目标值
+     * @return 最接近目标值的三数和
+     */
+    public static int threeSumClosest(int[] nums, int target) {
+        int ans = Integer.MAX_VALUE;
+        Arrays.sort(nums);
+        int n = nums.length;
+        for (int i = 1; i < n-1; i++) {
+            int mid = nums[i];
+            int left = i-1;
+            int right = i+1;
+            int sum = mid+nums[left]+nums[right];
+
+            while (sum<=target && right<=n){
+                if (Math.abs(target-sum)<Math.abs(target-ans)){
+                    ans = sum;
+                }
+                right++;
+                if (right<n){
+                    sum = sum -nums[right-1]+nums[right];
+                }
+            }
+
+            while (sum>=target && left>=0){
+                if (Math.abs(target-sum)<Math.abs(target-ans)){
+                    ans = sum;
+                }
+                left--;
+                if (left>=0){
+                    sum = sum -nums[left+1]+nums[left];
+                }
+            }
+            if (Math.abs(target-sum)<Math.abs(target-ans)){
+                ans = sum;
+            }
+        }
+        return ans;
     }
 
 
