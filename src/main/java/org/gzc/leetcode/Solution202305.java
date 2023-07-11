@@ -13,7 +13,10 @@ public class Solution202305 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 16:
-                System.out.println(threeSumClosest(new int[]{4,0,5,-5,3,3,0,-4,-5},-2));
+                System.out.println(threeSumClosest(new int[]{4, 0, 5, -5, 3, 3, 0, -4, -5}, -2));
+                break;
+            case 1911:
+                System.out.println(maxAlternatingSum(new int[]{5, 6, 7, 8}));
                 break;
             case 2460:
                 System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
@@ -25,7 +28,7 @@ public class Solution202305 {
                 System.out.println(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}}));
                 break;
             case 2600:
-                System.out.println(kItemsWithMaximumSum(3,2,3));
+                System.out.println(kItemsWithMaximumSum(3, 2, 3));
                 break;
             default:
                 break;
@@ -83,22 +86,24 @@ public class Solution202305 {
 
     /**
      * 2600. K件物品的最大值
-     * @param numOnes 1的个数
+     *
+     * @param numOnes  1的个数
      * @param numZeros 0的个数
-     * @param k 取值数
+     * @param k        取值数
      * @return 最大和
      */
     public static int kItemsWithMaximumSum(int numOnes, int numZeros, int k) {
         int sum = numOnes + numZeros;
-        if (sum>=k){
-            return Math.min(numOnes,k);
+        if (sum >= k) {
+            return Math.min(numOnes, k);
         }
-        return numOnes-(k-sum);
+        return numOnes - (k - sum);
     }
 
     /**
      * 16.最接近的三数之和
-     * @param nums 参数数组
+     *
+     * @param nums   参数数组
      * @param target 目标值
      * @return 最接近目标值的三数和
      */
@@ -106,36 +111,57 @@ public class Solution202305 {
         int ans = Integer.MAX_VALUE;
         Arrays.sort(nums);
         int n = nums.length;
-        for (int i = 1; i < n-1; i++) {
+        for (int i = 1; i < n - 1; i++) {
             int mid = nums[i];
-            int left = i-1;
-            int right = i+1;
-            int sum = mid+nums[left]+nums[right];
+            int left = i - 1;
+            int right = i + 1;
+            int sum = mid + nums[left] + nums[right];
 
-            while (sum<=target && right<=n){
-                if (Math.abs(target-sum)<Math.abs(target-ans)){
+            while (sum <= target && right <= n) {
+                if (Math.abs(target - sum) < Math.abs(target - ans)) {
                     ans = sum;
                 }
                 right++;
-                if (right<n){
-                    sum = sum -nums[right-1]+nums[right];
+                if (right < n) {
+                    sum = sum - nums[right - 1] + nums[right];
                 }
             }
 
-            while (sum>=target && left>=0){
-                if (Math.abs(target-sum)<Math.abs(target-ans)){
+            while (sum >= target && left >= 0) {
+                if (Math.abs(target - sum) < Math.abs(target - ans)) {
                     ans = sum;
                 }
                 left--;
-                if (left>=0){
-                    sum = sum -nums[left+1]+nums[left];
+                if (left >= 0) {
+                    sum = sum - nums[left + 1] + nums[left];
                 }
             }
-            if (Math.abs(target-sum)<Math.abs(target-ans)){
+            if (Math.abs(target - sum) < Math.abs(target - ans)) {
                 ans = sum;
             }
         }
         return ans;
+    }
+
+    /**
+     * 1911.最大子序列交替和
+     *
+     * @param nums 参数数组
+     * @return 子序列最大交替和
+     */
+    public static long maxAlternatingSum(int[] nums) {
+
+        int n = nums.length;
+        long[][] dp = new long[n][2];
+        dp[0][0] = nums[0];
+        //dp[i][0]表示[0, i]范围内构造的长度为偶数的子序列的最大交替和，
+        // dp[i][1]表示[0, i]范围内构造的长度为奇数的子序列的最大交替和。
+        for (int i = 1; i < n; i++) {
+            dp[i][0] = Math.max(dp[i - 1][1] + nums[i], dp[i - 1][0]);
+            dp[i][1] = Math.max(dp[i - 1][0] - nums[i], dp[i - 1][1]);
+
+        }
+        return Math.max(dp[n - 1][0], dp[n - 1][1]);
     }
 
 
