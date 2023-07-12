@@ -29,6 +29,8 @@ public class Solution202305 {
                 break;
             case 2600:
                 System.out.println(kItemsWithMaximumSum(3, 2, 3));
+            case 2544:
+                System.out.println(alternateDigitSum(521));
                 break;
             default:
                 break;
@@ -162,6 +164,26 @@ public class Solution202305 {
 
         }
         return Math.max(dp[n - 1][0], dp[n - 1][1]);
+    }
+
+    /**
+     * 2544. 交替数字和
+     * @param n 参数
+     * @return 交替数字和
+     */
+    public static int alternateDigitSum(int n) {
+        Stack<Integer> stack = new Stack<>();
+        while (n>0){
+            stack.push(n%10);
+            n /=10;
+        }
+        int ans =0;
+        int flag = 1;
+        while (!stack.isEmpty()){
+            ans += (flag*stack.pop());
+            flag *=-1;
+        }
+        return ans;
     }
 
 
