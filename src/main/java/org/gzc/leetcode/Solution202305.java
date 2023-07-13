@@ -27,6 +27,9 @@ public class Solution202305 {
             case 2679:
                 System.out.println(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}}));
                 break;
+            case 931:
+                System.out.println(minFallingPathSum(new int[][]{{2, 1, 3}, {6, 5, 4}, {7, 8, 9}}));
+                break;
             case 2600:
                 System.out.println(kItemsWithMaximumSum(3, 2, 3));
             case 2544:
@@ -168,20 +171,51 @@ public class Solution202305 {
 
     /**
      * 2544. 交替数字和
+     *
      * @param n 参数
      * @return 交替数字和
      */
     public static int alternateDigitSum(int n) {
         Stack<Integer> stack = new Stack<>();
-        while (n>0){
-            stack.push(n%10);
-            n /=10;
+        while (n > 0) {
+            stack.push(n % 10);
+            n /= 10;
         }
-        int ans =0;
+        int ans = 0;
         int flag = 1;
-        while (!stack.isEmpty()){
-            ans += (flag*stack.pop());
-            flag *=-1;
+        while (!stack.isEmpty()) {
+            ans += (flag * stack.pop());
+            flag *= -1;
+        }
+        return ans;
+    }
+
+    /**
+     * 931.下降路径最小和
+     * @param matrix 参数矩阵
+     * @return 下降路径最小和
+     */
+    public static int minFallingPathSum(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        dp[0] = matrix[0];
+        for (int i = 1; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                // 计算三个方向的和
+                if (j == 0) {
+                    dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j + 1]) + matrix[i][j];
+                } else if (j == n - 1) {
+                    dp[i][j] = Math.min(dp[i - 1][j], dp[i - 1][j - 1]) + matrix[i][j];
+                } else {
+                    dp[i][j] = Math.min(dp[i - 1][j], Math.min(dp[i - 1][j - 1], dp[i - 1][j + 1])) + matrix[i][j];
+                }
+
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int num : dp[m - 1]) {
+            ans = Math.min(num,ans);
         }
         return ans;
     }
