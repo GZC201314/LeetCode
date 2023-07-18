@@ -18,6 +18,9 @@ public class Solution202305 {
             case 1911:
                 System.out.println(maxAlternatingSum(new int[]{5, 6, 7, 8}));
                 break;
+            case 1442:
+                System.out.println(countTriplets(new int[]{1, 1, 1, 1, 1}));
+                break;
             case 2460:
                 System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
                 break;
@@ -192,6 +195,7 @@ public class Solution202305 {
 
     /**
      * 931.下降路径最小和
+     *
      * @param matrix 参数矩阵
      * @return 下降路径最小和
      */
@@ -215,9 +219,40 @@ public class Solution202305 {
         }
         int ans = Integer.MAX_VALUE;
         for (int num : dp[m - 1]) {
-            ans = Math.min(num,ans);
+            ans = Math.min(num, ans);
         }
         return ans;
+    }
+
+    /**
+     * 1442. 形成两个异或相等数组的三元组数目
+     *
+     * @param arr 数字数组
+     * @return 异或相等数组个数
+     */
+    public static int countTriplets(int[] arr) {
+        int n = arr.length;
+        int[] xor = new int[n];
+        int cur = 0;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            cur = cur ^ arr[i];
+            xor[i] = cur;
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                for (int k = j; k < n; k++) {
+
+                    int a = xor[j - 1] ^ (i == 0 ? 0 : xor[i - 1]);
+                    int b = xor[k] ^ xor[j - 1];
+                    if (a == b) {
+                        ans++;
+                    }
+                }
+            }
+        }
+        return ans;
+
     }
 
 
