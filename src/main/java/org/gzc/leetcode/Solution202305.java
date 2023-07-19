@@ -33,6 +33,9 @@ public class Solution202305 {
             case 931:
                 System.out.println(minFallingPathSum(new int[][]{{2, 1, 3}, {6, 5, 4}, {7, 8, 9}}));
                 break;
+            case 874:
+                System.out.println(robotSim(new int[]{4, -1, 4, -2, 4}, new int[][]{{2, 4}}));
+                break;
             case 2600:
                 System.out.println(kItemsWithMaximumSum(3, 2, 3));
             case 2544:
@@ -253,6 +256,79 @@ public class Solution202305 {
         }
         return ans;
 
+    }
+
+    /**
+     * 874.模拟行走机器人
+     * @param commands 命令
+     * @param obstacles 障碍物矩阵
+     * @return 停靠点欧氏距离最大值
+     */
+    public static int robotSim(int[] commands, int[][] obstacles) {
+        Set<String> obstacleSet = new HashSet<>();
+        for (int[] obstacle : obstacles) {
+            obstacleSet.add(obstacle[0] + "#" + obstacle[1]);
+        }
+        // 方向 0 北 1 东 2 南 3 西
+        int cur = 0;
+        int x = 0;
+        int y = 0;
+        int max = 0;
+        for (int command : commands) {
+            if (command == -1) {
+                cur = (cur + 1) % 4;
+            } else if (command == -2) {
+                if (cur == 0) {
+                    cur = 3;
+                } else {
+                    cur--;
+                }
+            } else {
+                switch (cur) {
+                    case 0:
+                        for (int i = 0; i <= command; i++) {
+                            y++;
+                            if (obstacleSet.contains(x + "#" + y)) {
+                                break;
+                            }
+                        }
+                        max = (int) Math.max(max, Math.pow(x, 2) + Math.pow(--y, 2));
+                        break;
+                    case 1:
+                        for (int i = 0; i <= command; i++) {
+                            x++;
+                            if (obstacleSet.contains(x + "#" + y)) {
+                                break;
+                            }
+                        }
+                        max = (int) Math.max(max, Math.pow(--x, 2) + Math.pow(y, 2));
+                        break;
+                    case 2:
+                        for (int i = 0; i <= command; i++) {
+                            y--;
+                            if (obstacleSet.contains(x + "#" + y)) {
+                                break;
+                            }
+                        }
+                        max = (int) Math.max(max, Math.pow(x, 2) + Math.pow(++y, 2));
+                        break;
+                    case 3:
+                        for (int i = 0; i <= command; i++) {
+                            x--;
+                            if (obstacleSet.contains(x + "#" + y)) {
+                                break;
+                            }
+                        }
+                        max = (int) Math.max(max, Math.pow(++x, 2) + Math.pow(y, 2));
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        return max;
     }
 
 
