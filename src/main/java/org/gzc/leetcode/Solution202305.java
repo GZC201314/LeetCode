@@ -21,6 +21,9 @@ public class Solution202305 {
             case 1442:
                 System.out.println(countTriplets(new int[]{1, 1, 1, 1, 1}));
                 break;
+            case 918:
+                System.out.println(maxSubarraySumCircular(new int[]{1, 1, 1, 1, 1}));
+                break;
             case 2460:
                 System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
                 break;
@@ -329,6 +332,29 @@ public class Solution202305 {
         }
 
         return max;
+    }
+
+    /**
+     * 918. 环形子数组的最大和
+     * @param nums 参数数组
+     * @return 最大子数组和
+     */
+    public static int maxSubarraySumCircular(int[] nums) {
+        // 最大子数组和，不能为空
+        int maxS = Integer.MIN_VALUE;
+        // 最小子数组和，可以为空
+        int minS = 0;
+        int maxF = 0, minF = 0, sum = 0;
+        for (int x : nums) {
+            // 以 nums[i-1] 结尾的子数组选或不选（取 max）+ x = 以 x 结尾的最大子数组和
+            maxF = Math.max(maxF, 0) + x;
+            maxS = Math.max(maxS, maxF);
+            // 以 nums[i-1] 结尾的子数组选或不选（取 min）+ x = 以 x 结尾的最小子数组和
+            minF = Math.min(minF, 0) + x;
+            minS = Math.min(minS, minF);
+            sum += x;
+        }
+        return sum == minS ? maxS : Math.max(maxS, sum - minS);
     }
 
 
