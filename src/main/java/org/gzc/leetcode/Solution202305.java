@@ -21,6 +21,9 @@ public class Solution202305 {
             case 1442:
                 System.out.println(countTriplets(new int[]{1, 1, 1, 1, 1}));
                 break;
+            case 2208:
+                System.out.println(halveArray(new int[]{3, 8, 20}));
+                break;
             case 918:
                 System.out.println(maxSubarraySumCircular(new int[]{1, 1, 1, 1, 1}));
                 break;
@@ -263,7 +266,8 @@ public class Solution202305 {
 
     /**
      * 874.模拟行走机器人
-     * @param commands 命令
+     *
+     * @param commands  命令
      * @param obstacles 障碍物矩阵
      * @return 停靠点欧氏距离最大值
      */
@@ -336,6 +340,7 @@ public class Solution202305 {
 
     /**
      * 918. 环形子数组的最大和
+     *
      * @param nums 参数数组
      * @return 最大子数组和
      */
@@ -355,6 +360,36 @@ public class Solution202305 {
             sum += x;
         }
         return sum == minS ? maxS : Math.max(maxS, sum - minS);
+    }
+
+    /**
+     * 2208. 将数组和减半的最少操作次数
+     *
+     * @param nums 参数数组
+     * @return 最少操作次数
+     */
+    public static int halveArray(int[] nums) {
+        PriorityQueue<Double> priorityQueue = new PriorityQueue<>(Comparator.reverseOrder());
+        double sum = 0;
+        double curSum = 0;
+        int ans = 0;
+        for (int num : nums) {
+            sum += num;
+            priorityQueue.offer((double) num);
+        }
+        while (curSum * 2 < sum) {
+            if (priorityQueue.isEmpty()) {
+                return ans;
+            }
+            double max = priorityQueue.poll();
+            curSum += max / 2;
+            ans++;
+            priorityQueue.offer(max / 2);
+
+        }
+        return ans;
+
+
     }
 
 
