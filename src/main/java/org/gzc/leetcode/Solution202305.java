@@ -1,11 +1,14 @@
 package org.gzc.leetcode;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.text.ParseException;
 import java.util.*;
 
 /**
  * @author GZC
  */
+@Slf4j
 public class Solution202305 {
 
     public static void main(String[] args) throws ParseException {
@@ -13,41 +16,43 @@ public class Solution202305 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 16:
-                System.out.println(threeSumClosest(new int[]{4, 0, 5, -5, 3, 3, 0, -4, -5}, -2));
+                log.info(String.valueOf(threeSumClosest(new int[]{4, 0, 5, -5, 3, 3, 0, -4, -5}, -2)));
                 break;
             case 1911:
-                System.out.println(maxAlternatingSum(new int[]{5, 6, 7, 8}));
+                log.info(String.valueOf(maxAlternatingSum(new int[]{5, 6, 7, 8})));
                 break;
             case 1442:
-                System.out.println(countTriplets(new int[]{1, 1, 1, 1, 1}));
+                log.info(String.valueOf(countTriplets(new int[]{1, 1, 1, 1, 1})));
                 break;
             case 2208:
-                System.out.println(halveArray(new int[]{3, 8, 20}));
+                log.info(String.valueOf(halveArray(new int[]{3, 8, 20})));
                 break;
             case 918:
-                System.out.println(maxSubarraySumCircular(new int[]{1, 1, 1, 1, 1}));
+                log.info(String.valueOf(maxSubarraySumCircular(new int[]{1, 1, 1, 1, 1})));
                 break;
             case 2460:
-                System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
+                log.info(Arrays.toString(applyOperations(new int[]{1, 2, 3})));
                 break;
             case 2461:
-                System.out.println(Arrays.toString(applyOperations(new int[]{1, 2, 3})) + " ");
+                log.info(Arrays.toString(applyOperations(new int[]{1, 2, 3})) + " ");
                 break;
             case 2679:
-                System.out.println(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}}));
+                log.info(String.valueOf(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}})));
                 break;
             case 931:
-                System.out.println(minFallingPathSum(new int[][]{{2, 1, 3}, {6, 5, 4}, {7, 8, 9}}));
+                log.info(String.valueOf(minFallingPathSum(new int[][]{{2, 1, 3}, {6, 5, 4}, {7, 8, 9}})));
                 break;
             case 874:
-                System.out.println(robotSim(new int[]{4, -1, 4, -2, 4}, new int[][]{{2, 4}}));
+                log.info(String.valueOf(robotSim(new int[]{4, -1, 4, -2, 4}, new int[][]{{2, 4}})));
                 break;
             case 2600:
-                System.out.println(kItemsWithMaximumSum(3, 2, 3));
+                log.info(String.valueOf(kItemsWithMaximumSum(3, 2, 3)));
+                break;
             case 2544:
-                System.out.println(alternateDigitSum(521));
+                log.info(String.valueOf(alternateDigitSum(521)));
                 break;
             default:
+                log.info(String.valueOf(Double.MIN_VALUE));
                 break;
 
         }
@@ -188,7 +193,7 @@ public class Solution202305 {
      * @return 交替数字和
      */
     public static int alternateDigitSum(int n) {
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         while (n > 0) {
             stack.push(n % 10);
             n /= 10;

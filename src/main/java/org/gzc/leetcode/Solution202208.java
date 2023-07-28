@@ -1,5 +1,6 @@
 package org.gzc.leetcode;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.StopWatch;
 import org.gzc.leetcode.model.*;
 import org.gzc.leetcode.model.Node;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 /**
  * @author GZC
  */
+@Slf4j
 public class Solution202208 {
 
     /**
@@ -34,13 +36,13 @@ public class Solution202208 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 503:
-                System.out.println(Arrays.toString(nextGreaterElements(new int[] {1, 2, 3, 4, 3})));
+                log.info(Arrays.toString(nextGreaterElements(new int[] {1, 2, 3, 4, 3})));
                 break;
             case 1403:
-                System.out.println(minSubsequence(new int[] {4, 4, 6, 7, 7}));
+                log.info(String.valueOf(minSubsequence(new int[] {4, 4, 6, 7, 7})));
                 break;
             case 623:
-                System.out.println(addOneRow(new TreeNode(4), 1, 3));
+                log.info(String.valueOf(addOneRow(new TreeNode(4), 1, 3)));
                 break;
             case 841:
                 List<List<Integer>> lists = new ArrayList<>();
@@ -55,7 +57,7 @@ public class Solution202208 {
                 list3.add(1);
                 list3.add(1);
                 lists.add(list3);
-                System.out.println(canVisitAllRooms(lists));
+                log.info(String.valueOf(canVisitAllRooms(lists)));
                 break;
             case 554:
                 List<List<Integer>> lists1 = new ArrayList<>();
@@ -70,7 +72,7 @@ public class Solution202208 {
                 list6.add(1);
                 list6.add(1);
                 lists1.add(list6);
-                System.out.println(leastBricks(lists1));
+                log.info(String.valueOf(leastBricks(lists1)));
                 break;
             case 123:
                 morris(new Node(5, new Node(4), new Node(2)));
@@ -79,99 +81,97 @@ public class Solution202208 {
                 preOrderMorris(new Node(5, null, new Node(2)));
                 break;
             case 507:
-                System.out.println(checkPerfectNumber(28));
+                log.info(String.valueOf(checkPerfectNumber(28)));
                 break;
             case 1884:
-                System.out.println(twoEggDrop(28));
+                log.info(String.valueOf(twoEggDrop(28)));
                 break;
             case 517:
-                System.out.println(findMinMoves(new int[] {3, 4, 5}));
+                log.info(String.valueOf(findMinMoves(new int[] {3, 4, 5})));
                 break;
             case 666:
                 goodNote(new int[] {3, 4, 5});
                 break;
             case 888:
-                System.out.println(getValue("-1+4*(-2*3)"));
+                log.info(String.valueOf(getValue("-1+4*(-2*3)")));
                 break;
             case 640:
-                System.out.println(solveEquation("3x+6=2x"));
+                log.info(solveEquation("3x+6=2x"));
                 break;
             case 1302:
-                System.out.println(deepestLeavesSum(new TreeNode(1)));
+                log.info(String.valueOf(deepestLeavesSum(new TreeNode(1))));
                 break;
             case 33:
-                System.out.println(verifyPostorder(new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(verifyPostorder(new int[] {4, 6, 7, 5})));
                 break;
             case 793:
-                System.out.println(preimageSizeFZF(5));
+                log.info(String.valueOf(preimageSizeFZF(5)));
                 break;
             case 1450:
-                System.out.println(busyStudent(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}, 4));
+                log.info(String.valueOf(busyStudent(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}, 4)));
                 break;
             case 2344:
-                System.out.println(minOperations(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(minOperations(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5})));
                 break;
             case 1818:
-                System.out.println(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(minAbsoluteSumDiff(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5})));
                 break;
             case 1460:
-                System.out.println(canBeEqual(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(canBeEqual(new int[] {4, 6, 7, 5}, new int[] {4, 6, 7, 5})));
                 break;
 
             case 508:
-                System.out
-                    .println(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
+                log.info(Arrays.toString(findFrequentTreeSum(new TreeNode(5, new TreeNode(2), new TreeNode(-3)))));
                 break;
             case 655:
-                System.out.println(printTree(new TreeNode(1, new TreeNode(2), null)));
+                log.info(String.valueOf(printTree(new TreeNode(1, new TreeNode(2), null))));
                 break;
             case 1569:
-                System.out.println(numOfWays(new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(numOfWays(new int[] {4, 6, 7, 5})));
                 break;
             case 413:
-                System.out.println(numberOfArithmeticSlices(new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(numberOfArithmeticSlices(new int[] {4, 6, 7, 5})));
                 break;
             case 396:
-                System.out.println(maxRotateFunction(new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(maxRotateFunction(new int[] {4, 6, 7, 5})));
                 break;
             case 403:
-                System.out.println(canCross(new int[] {4, 6, 7, 5}));
+                log.info(String.valueOf(canCross(new int[] {4, 6, 7, 5})));
                 break;
             case 410:
-                System.out.println(splitArray(new int[] {4, 6, 7, 5},6));
+                log.info(String.valueOf(splitArray(new int[] {4, 6, 7, 5},6)));
                 break;
             case 1470:
-                System.out.println(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
+                log.info(Arrays.toString(shuffle(new int[] {4, 6, 7, 5}, 2)));
                 break;
             case 851:
-                System.out.println(
+                log.info(
                     Arrays.toString(loudAndRich(new int[][] {{1, 0}, {2, 1}, {3, 1}, {3, 7}, {4, 3}, {5, 3}, {6, 3}},
                         new int[] {3, 2, 5, 4, 6, 1, 7, 0})));
                 break;
             case 1553:
-                System.out.println(minDays(10));
+                log.info(String.valueOf(minDays(10)));
             case 1314:
-                System.out.println(getSplitNumount(120));
+                log.info(String.valueOf(getSplitNumount(120)));
                 break;
             case 397:
-                System.out.println(integerReplacement(2147483647));
-                // System.out.println(integerReplacement(1000000));
+                log.info(String.valueOf(integerReplacement(2147483647)));
+                // log.info(integerReplacement(1000000));
                 break;
             case 1328:
-                System.out.println(breakPalindrome("aba"));
+                log.info(breakPalindrome("aba"));
                 break;
             case 1608:
-                System.out.println(specialArray(new int[]{1,3,9,5,11,2,11,0,4,2}));
+                log.info(String.valueOf(specialArray(new int[]{1,3,9,5,11,2,11,0,4,2})));
                 break;
             case 57:
-                System.out.println(Arrays.deepToString(findContinuousSequence(15)));
+                log.info(Arrays.deepToString(findContinuousSequence(15)));
                 break;
             case 1042:
-                System.out
-                    .println(Arrays.toString(gardenNoAdj(4, new int[][] {{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
+                log.info(Arrays.toString(gardenNoAdj(4, new int[][] {{1, 2}, {3, 4}, {3, 2}, {4, 2}, {1, 4}})));
                 break;
             default:
-                System.out.println(matchString("aaab", "a*b"));
+                log.info(String.valueOf(matchString("aaab", "a*b")));
                 break;
         }
 
@@ -257,7 +257,7 @@ public class Solution202208 {
     /**
      * 403. 青蛙过河
      */
-    public static Map<CanCrossInfo, Boolean> mapDb;
+    protected static Map<CanCrossInfo, Boolean> mapDb;
 
     public static boolean canCross(int[] stones) {
         // 如果第一步都跳不过
@@ -711,12 +711,12 @@ public class Solution202208 {
         stopWatch.start();
         int sum = getSplitNumountHandler(1, num);
         stopWatch.stop();
-        System.out.println("优化前的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum);
+        log.info("优化前的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum);
         stopWatch.reset();
         stopWatch.start();
         int sum1 = getSplitNumountHandler1(1, num, dp);
         stopWatch.stop();
-        System.out.println("优化后的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum1);
+        log.info("优化后的版本花费时间是：" + stopWatch.getTime(TimeUnit.MILLISECONDS) + " 结果是:" + sum1);
         return getSplitNumountHandler1(1, num, dp);
     }
 
@@ -1041,15 +1041,11 @@ public class Solution202208 {
         int leftMax = Integer.MIN_VALUE;
         int rightMin = Integer.MAX_VALUE;
 
-        if (subPostOrderLeft.length > 0) {
-            for (int node : subPostOrderLeft) {
-                leftMax = Math.max(leftMax, node);
-            }
+        for (int node : subPostOrderLeft) {
+            leftMax = Math.max(leftMax, node);
         }
-        if (subPostOrderRight.length > 0) {
-            for (int node : subPostOrderRight) {
-                rightMin = Math.min(rightMin, node);
-            }
+        for (int node : subPostOrderRight) {
+            rightMin = Math.min(rightMin, node);
         }
 
         return verifyPostorderHandle(postorder, inorder, posti, posti + rootInorderIndex - ini - 1, ini,
@@ -1348,7 +1344,7 @@ public class Solution202208 {
                 }
                 // 第一次访问cur
                 if (mostRight.right == null) {
-                    System.out.println(cur.val);
+                    log.info(String.valueOf(cur.val));
                     mostRight.right = cur;
                     cur = cur.left;
                     continue;
@@ -1357,7 +1353,7 @@ public class Solution202208 {
                     mostRight.right = null;
                 }
             } else {
-                System.out.println(cur.val);
+                log.info(String.valueOf(cur.val));
             }
             cur = cur.right;
         }
@@ -1439,8 +1435,8 @@ public class Solution202208 {
         int n = nices.length;
         dp = new int[n + 1];
         used = new int[n];
-        System.out.println(handle(nices, 0));
-        System.out.println(Arrays.toString(dp));
+        log.info(String.valueOf(handle(nices, 0)));
+        log.info(Arrays.toString(dp));
     }
 
     public static int handle(int[] nums, int index) {
