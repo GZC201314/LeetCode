@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.ListNode;
 
 import java.text.ParseException;
 import java.util.*;
@@ -50,6 +51,13 @@ public class Solution202305 {
                 break;
             case 2544:
                 log.info(String.valueOf(alternateDigitSum(521)));
+                break;
+            case 143:
+                ListNode head = new ListNode(1);
+                head.next = new ListNode(2);
+                head.next.next = new ListNode(3);
+                head.next.next.next = new ListNode(4);
+                reorderList(head);
                 break;
             default:
                 log.info(String.valueOf(Double.MIN_VALUE));
@@ -393,8 +401,42 @@ public class Solution202305 {
 
         }
         return ans;
+    }
 
+    /**
+     * 143. 重排链表
+     *
+     * @param head 链表
+     */
+    public static void reorderList(ListNode head) {
+        if (head.next == null) {
+            return;
+        }
+        // 快慢指针找到中点
+        ListNode fast = head.next;
+        ListNode slow = head;
+        Deque<ListNode> stack = new ArrayDeque<>();
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        log.info("中点的Listnode是，{}", slow);
 
+        ListNode mid = slow.next;
+        ListNode temMid = slow.next;
+        slow.next = null;
+        while (temMid != null) {
+            stack.push(temMid);
+            temMid = temMid.next;
+        }
+        ListNode temHead = head;
+        while (!stack.isEmpty()) {
+            ListNode pop = stack.pop();
+            pop.next = temHead.next;
+            temHead.next = pop;
+            temHead = pop.next;
+        }
+        log.info(String.valueOf(head));
     }
 
 
