@@ -40,6 +40,9 @@ public class Solution202305 {
             case 2679:
                 log.info(String.valueOf(matrixSum(new int[][]{{7, 2, 1}, {6, 4, 2}, {6, 5, 3}, {3, 2, 1}})));
                 break;
+            case 2352:
+                log.info(String.valueOf(equalPairs(new int[][]{{3, 2, 1}, {1, 7, 6}, {2, 7, 7}})));
+                break;
             case 931:
                 log.info(String.valueOf(minFallingPathSum(new int[][]{{2, 1, 3}, {6, 5, 4}, {7, 8, 9}})));
                 break;
@@ -64,6 +67,41 @@ public class Solution202305 {
                 break;
 
         }
+    }
+
+    /**
+     * 2352. 相等行列对
+     * @param grid nxn矩阵
+     * @return 相等行列对个数
+     */
+    public static int equalPairs(int[][] grid) {
+        int n = grid.length;
+        //遍历列
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            int[] row = new int[n];
+            for (int j = 0; j < n; j++) {
+                row[j] = grid[j][i];
+            }
+            for (int[] col : grid) {
+
+                if (checkEqualArr(row, col)) {
+                    ans++;
+                }
+            }
+        }
+        return ans;
+
+    }
+
+    private static boolean checkEqualArr(int[] row, int[] col) {
+        int n = row.length;
+        for (int i = 0; i < n; i++) {
+            if (row[i] != col[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -422,7 +460,6 @@ public class Solution202305 {
         }
         log.info("中点的Listnode是，{}", slow);
 
-        ListNode mid = slow.next;
         ListNode temMid = slow.next;
         slow.next = null;
         while (temMid != null) {
