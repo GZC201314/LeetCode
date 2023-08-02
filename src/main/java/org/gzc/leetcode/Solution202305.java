@@ -80,7 +80,6 @@ public class Solution202305 {
      */
     public static int flipgame(int[] fronts, int[] backs) {
         int n = fronts.length;
-
         int ans = Integer.MAX_VALUE;
         Map<Integer, List<Integer>> indexMap = new HashMap<>();
 
