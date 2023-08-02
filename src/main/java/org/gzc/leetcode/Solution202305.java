@@ -28,6 +28,9 @@ public class Solution202305 {
             case 2208:
                 log.info(String.valueOf(halveArray(new int[]{3, 8, 20})));
                 break;
+            case 822:
+                log.info(String.valueOf(flipgame(new int[]{1,1},new int[]{1,2})));
+                break;
             case 918:
                 log.info(String.valueOf(maxSubarraySumCircular(new int[]{1, 1, 1, 1, 1})));
                 break;
@@ -67,6 +70,66 @@ public class Solution202305 {
                 break;
 
         }
+    }
+
+    /**
+     * 822.翻转卡片游戏
+     * @param fronts 卡片正面
+     * @param backs 卡片反面
+     * @return 最小的可选卡片
+     */
+    public static int flipgame(int[] fronts, int[] backs) {
+        int n = fronts.length;
+
+        int ans = Integer.MAX_VALUE;
+        Map<Integer, List<Integer>> indexMap = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            List<Integer> idxList = indexMap.get(fronts[i]);
+            if (idxList == null) {
+                idxList = new ArrayList<>();
+                idxList.add(i);
+                indexMap.put(fronts[i], idxList);
+            } else {
+                idxList.add(i);
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (fronts[i] != backs[i]) {
+                //不翻面
+                ans = getAns(backs, backs, ans, indexMap, i);
+                // 翻面
+                ans = getAns(fronts, backs, ans, indexMap, i);
+            }
+        }
+        return ans==Integer.MAX_VALUE?0:ans;
+
+    }
+
+    private static int getAns(int[] fronts, int[] backs, int ans, Map<Integer, List<Integer>> indexMap, int i) {
+        if (!indexMap.containsKey(fronts[i])) {
+            ans = Math.min(ans, fronts[i]);
+        } else {
+            List<Integer> indexs = indexMap.get(fronts[i]);
+            if (check(backs, i, indexs,fronts[i])) {
+                ans = Math.min(ans, fronts[i]);
+            }
+        }
+        return ans;
+    }
+
+    private static boolean check(int[] backs, int i, List<Integer> indexs,int cur) {
+        boolean check = true;
+        for (Integer index : indexs) {
+            if (index == i){
+                continue;
+            }
+            if (backs[index] == cur) {
+                check = false;
+                break;
+            }
+        }
+        return check;
     }
 
     /**
