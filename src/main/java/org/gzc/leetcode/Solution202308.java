@@ -19,6 +19,8 @@ public class Solution202308 {
             case 722:
                 log.info(String.valueOf(removeComments(new String[]{"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"})));
                 break;
+            case 1749:
+                log.info(String.valueOf(maxAbsoluteSum(new int[]{2,-5,1,-4,3,-2})));
             default:
                 break;
 
@@ -27,6 +29,7 @@ public class Solution202308 {
 
     /**
      * 722. 删除注释
+     *
      * @param source 源代码
      * @return
      */
@@ -34,7 +37,7 @@ public class Solution202308 {
 
         if/*
 
-        */(source.length==0){
+         */ (source.length == 0) {
 
         }
         List<String> ans = new ArrayList<>();
@@ -55,7 +58,7 @@ public class Solution202308 {
                 code = code.substring(multiIndex1 + 2).trim();
                 if (!"".equals(code)) {
                     flag = isFlag(ans, false, code);
-                }else {
+                } else {
                     flag = false;
                 }
             }
@@ -117,6 +120,22 @@ public class Solution202308 {
             }
         }
         return flag;
+    }
+
+    /**
+     * 1749. 任意子数组和的绝对值的最大值
+     * @param nums 整数数组
+     * @return 子数组和的绝对值的最大值
+     */
+    public static int maxAbsoluteSum(int[] nums) {
+        int min = 0, max = 0, res = Math.abs(nums[0]);
+        for (int i = 1; i < nums.length; ++i) {
+            nums[i] += nums[i - 1];
+            max = Math.max(nums[i - 1], max);
+            min = Math.min(nums[i - 1], min);
+            res = Math.max(res, Math.max(Math.abs(nums[i] - max), Math.abs(nums[i] - min)));
+        }
+        return res;
     }
 
 }
