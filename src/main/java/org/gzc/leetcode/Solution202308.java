@@ -1,10 +1,11 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gzc.leetcode.model.ListNode;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author GZC
@@ -20,7 +21,11 @@ public class Solution202308 {
                 log.info(String.valueOf(removeComments(new String[]{"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"})));
                 break;
             case 1749:
-                log.info(String.valueOf(maxAbsoluteSum(new int[]{2,-5,1,-4,3,-2})));
+                log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
+                break;
+            case 1281:
+                log.info(String.valueOf(subtractProductAndSum(123)));
+                break;
             default:
                 break;
 
@@ -28,18 +33,30 @@ public class Solution202308 {
     }
 
     /**
+     * 1281. 整数的各位积和之差
+     * @param n 整数
+     * @return 整数的各位积和之差
+     */
+    public static int subtractProductAndSum(int n) {
+        int curMul = 1;
+        int curSum = 0;
+        while (n != 0) {
+            int bit = n % 10;
+            n /= 10;
+            curMul *= bit;
+            curSum += bit;
+        }
+        return curMul - curSum;
+    }
+
+    /**
      * 722. 删除注释
      *
      * @param source 源代码
-     * @return
+     * @return 去除注释的代码
      */
     public static List<String> removeComments(String[] source) {
 
-        if/*
-
-         */ (source.length == 0) {
-
-        }
         List<String> ans = new ArrayList<>();
         boolean flag = false;
         for (String code : source) {
@@ -124,6 +141,7 @@ public class Solution202308 {
 
     /**
      * 1749. 任意子数组和的绝对值的最大值
+     *
      * @param nums 整数数组
      * @return 子数组和的绝对值的最大值
      */
