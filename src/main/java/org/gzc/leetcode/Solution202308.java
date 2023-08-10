@@ -26,10 +26,40 @@ public class Solution202308 {
             case 1281:
                 log.info(String.valueOf(subtractProductAndSum(123)));
                 break;
+            case 2525:
+                log.info(categorizeBox(12, 120, 1200, 200));
+                break;
             default:
                 break;
 
         }
+    }
+
+
+    /**
+     * 2525. 根据规则将箱子分类
+     * @param length 长度
+     * @param width 宽度
+     * @param height 高度
+     * @param mass 质量
+     * @return 箱子分类
+     */
+    public static String categorizeBox(int length, int width, int height, int mass) {
+        boolean isHeavy = mass>=100;
+        boolean isBulky = (length>=10000||width>=10000||height>=10000)||((long) length *width*height)>=1000000000;
+        if (isBulky && isHeavy){
+            return "Both";
+        }
+        if (isBulky){
+            return "Bulky";
+        }else if (isHeavy){
+            return "Heavy";
+        }else {
+            return "Neither";
+        }
+
+
+
     }
 
     /**
