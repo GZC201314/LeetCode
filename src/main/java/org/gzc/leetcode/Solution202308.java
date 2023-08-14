@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.TreeNode;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -26,6 +27,11 @@ public class Solution202308 {
             case 1281:
                 log.info(String.valueOf(subtractProductAndSum(123)));
                 break;
+            case 617:
+                TreeNode root1 = new TreeNode(1,new TreeNode(3,new TreeNode(5,null,null),null),new TreeNode(2));
+                TreeNode root2 = new TreeNode(2,new TreeNode(1,null,new TreeNode(4)),new TreeNode(3,null,new TreeNode(7)));
+                log.info(String.valueOf(Solution.levelOrder(mergeTrees(root1,root2))));
+                break;
             case 2525:
                 log.info(categorizeBox(12, 120, 1200, 200));
                 break;
@@ -33,6 +39,28 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+
+    /**
+     * 617. 合并二叉树
+     * @param root1 二叉树1
+     * @param root2 二叉树2
+     * @return 合并的二叉树
+     */
+    public static TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+
+        if (root1 == null){
+            return root2;
+        }
+        if (root2 == null){
+            return root1;
+        }
+        TreeNode root = new TreeNode(root1.val+ root2.val);
+        root.left = mergeTrees(root1.left,root2.left);
+        root.right = mergeTrees(root1.right,root2.right);
+        return root;
+
     }
 
 
