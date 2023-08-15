@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.gzc.leetcode.model.TreeNode;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author GZC
@@ -27,10 +25,13 @@ public class Solution202308 {
             case 1281:
                 log.info(String.valueOf(subtractProductAndSum(123)));
                 break;
+            case 833:
+                log.info(findReplaceString("abcd", new int[]{0, 2}, new String[]{"a", "cd"}, new String[]{"eee", "ffff"}));
+                break;
             case 617:
-                TreeNode root1 = new TreeNode(1,new TreeNode(3,new TreeNode(5,null,null),null),new TreeNode(2));
-                TreeNode root2 = new TreeNode(2,new TreeNode(1,null,new TreeNode(4)),new TreeNode(3,null,new TreeNode(7)));
-                log.info(String.valueOf(Solution.levelOrder(mergeTrees(root1,root2))));
+                TreeNode root1 = new TreeNode(1, new TreeNode(3, new TreeNode(5, null, null), null), new TreeNode(2));
+                TreeNode root2 = new TreeNode(2, new TreeNode(1, null, new TreeNode(4)), new TreeNode(3, null, new TreeNode(7)));
+                log.info(String.valueOf(Solution.levelOrder(mergeTrees(root1, root2))));
                 break;
             case 2525:
                 log.info(categorizeBox(12, 120, 1200, 200));
@@ -43,22 +44,75 @@ public class Solution202308 {
 
 
     /**
+     * 833.字符串中的查找与替换
+     * @param s 原始字符串
+     * @param indices 替换的索引
+     * @param sources 原字符串
+     * @param targets 目标字符串
+     * @return 替换后的字符串
+     */
+    public static String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
+        int n = targets.length;
+        int len = s.length();
+        Map<Integer,Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < indices.length; i++) {
+            indexMap.put(indices[i],i);
+        }
+        Arrays.sort(indices);
+        char[] chars = s.toCharArray();
+        List<String> strArr = new ArrayList<>();
+        for (char aChar : chars) {
+            strArr.add(aChar+"");
+        }
+        for (int i = n - 1; i >= 0; i--) {
+            int index = indices[i];
+            int indexOld = index;
+            Integer integer = indexMap.get(index);
+            String source = sources[integer];
+            String target = targets[integer];
+            char[] sourceArr = source.toCharArray();
+            boolean isMatch = true;
+            for (char c : sourceArr) {
+                if (index < len) {
+                    if (chars[index++] != c) {
+                        isMatch = false;
+                        break;
+                    }
+                }
+            }
+            if (isMatch) {
+                int length = source.length();
+                for (int j = 0; j < length; j++) {
+                    strArr.remove(indexOld);
+                }
+                char[] tarArr = target.toCharArray();
+                int tarLen = tarArr.length;
+                for (int j = tarLen - 1; j >= 0; j--) {
+                    strArr.add(indexOld, tarArr[j]+"");
+                }
+            }
+        }
+        return String.join("", strArr);
+    }
+
+    /**
      * 617. 合并二叉树
+     *
      * @param root1 二叉树1
      * @param root2 二叉树2
      * @return 合并的二叉树
      */
     public static TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
 
-        if (root1 == null){
+        if (root1 == null) {
             return root2;
         }
-        if (root2 == null){
+        if (root2 == null) {
             return root1;
         }
-        TreeNode root = new TreeNode(root1.val+ root2.val);
-        root.left = mergeTrees(root1.left,root2.left);
-        root.right = mergeTrees(root1.right,root2.right);
+        TreeNode root = new TreeNode(root1.val + root2.val);
+        root.left = mergeTrees(root1.left, root2.left);
+        root.right = mergeTrees(root1.right, root2.right);
         return root;
 
     }
@@ -66,29 +120,31 @@ public class Solution202308 {
 
     /**
      * 2525. 根据规则将箱子分类
+     *
      * @param length 长度
-     * @param width 宽度
+     * @param width  宽度
      * @param height 高度
-     * @param mass 质量
+     * @param mass   质量
      * @return 箱子分类
      */
     public static String categorizeBox(int length, int width, int height, int mass) {
-        boolean isHeavy = mass>=100;
-        boolean isBulky = (length>=10000||width>=10000||height>=10000)||((long) length *width*height)>=1000000000;
-        if (isBulky && isHeavy){
+        boolean isHeavy = mass >= 100;
+        boolean isBulky = (length >= 10000 || width >= 10000 || height >= 10000) || ((long) length * width * height) >= 1000000000;
+        if (isBulky && isHeavy) {
             return "Both";
         }
-        if (isBulky){
+        if (isBulky) {
             return "Bulky";
-        }else if (isHeavy){
+        } else if (isHeavy) {
             return "Heavy";
-        }else {
+        } else {
             return "Neither";
         }
     }
 
     /**
      * 1281. 整数的各位积和之差
+     *
      * @param n 整数
      * @return 整数的各位积和之差
      */
