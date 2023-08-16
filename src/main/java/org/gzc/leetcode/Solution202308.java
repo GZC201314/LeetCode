@@ -22,6 +22,9 @@ public class Solution202308 {
             case 1749:
                 log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
                 break;
+            case 2682:
+                log.info(Arrays.toString(circularGameLosers(4, 4)));
+                break;
             case 1281:
                 log.info(String.valueOf(subtractProductAndSum(123)));
                 break;
@@ -44,8 +47,44 @@ public class Solution202308 {
 
 
     /**
+     * 2682. 找出转圈游戏输家
+     * @param n 人数
+     * @param k k值
+     * @return 失败的人数
+     */
+    public static int[] circularGameLosers(int n, int k) {
+        int[] dp = new int[n];
+        int i = 1;
+        int cur =0;
+        dp[0] =1;
+        while (true) {
+            cur = (cur + i*k)%n;
+            if (dp[cur] ==1){
+                break;
+            }
+            dp[cur]++;
+            i++;
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        for (int j = 0; j < n; j++) {
+            if (dp[j] == 0){
+                ans.add(j+1);
+            }
+        }
+        int[] result = new int[ans.size()];
+        int idx =0;
+        for (Integer count : ans) {
+            result[idx++] = count;
+        }
+        return result;
+    }
+
+
+    /**
      * 833.字符串中的查找与替换
-     * @param s 原始字符串
+     *
+     * @param s       原始字符串
      * @param indices 替换的索引
      * @param sources 原字符串
      * @param targets 目标字符串
@@ -54,15 +93,15 @@ public class Solution202308 {
     public static String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
         int n = targets.length;
         int len = s.length();
-        Map<Integer,Integer> indexMap = new HashMap<>();
+        Map<Integer, Integer> indexMap = new HashMap<>();
         for (int i = 0; i < indices.length; i++) {
-            indexMap.put(indices[i],i);
+            indexMap.put(indices[i], i);
         }
         Arrays.sort(indices);
         char[] chars = s.toCharArray();
         List<String> strArr = new ArrayList<>();
         for (char aChar : chars) {
-            strArr.add(aChar+"");
+            strArr.add(aChar + "");
         }
         for (int i = n - 1; i >= 0; i--) {
             int index = indices[i];
@@ -88,7 +127,7 @@ public class Solution202308 {
                 char[] tarArr = target.toCharArray();
                 int tarLen = tarArr.length;
                 for (int j = tarLen - 1; j >= 0; j--) {
-                    strArr.add(indexOld, tarArr[j]+"");
+                    strArr.add(indexOld, tarArr[j] + "");
                 }
             }
         }
