@@ -22,6 +22,9 @@ public class Solution202308 {
             case 1749:
                 log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
                 break;
+            case 38:
+                log.info(Arrays.toString(dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73})));
+                break;
             case 2682:
                 log.info(Arrays.toString(circularGameLosers(4, 4)));
                 break;
@@ -45,9 +48,40 @@ public class Solution202308 {
         }
     }
 
+    /**
+     * LCR 038. 每日温度
+     *
+     * @param temperatures 历史温度
+     * @return 检测到最大温度的天数
+     */
+    public static int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] ans = new int[n];
+        int max;
+        for (int i = 0; i < n-1; i++) {
+            max = temperatures[i];
+            int cacheI = i+1;
+            if (max<temperatures[cacheI]){
+                ans[i] = 1;
+                continue;
+            }
+            while (cacheI<n && temperatures[cacheI]<=max){
+                cacheI++;
+            }
+            if (cacheI != n){
+                ans[i] = cacheI-i;
+            }
+        }
+
+        return ans;
+
+
+    }
+
 
     /**
      * 2682. 找出转圈游戏输家
+     *
      * @param n 人数
      * @param k k值
      * @return 失败的人数
@@ -55,11 +89,11 @@ public class Solution202308 {
     public static int[] circularGameLosers(int n, int k) {
         int[] dp = new int[n];
         int i = 1;
-        int cur =0;
-        dp[0] =1;
+        int cur = 0;
+        dp[0] = 1;
         while (true) {
-            cur = (cur + i*k)%n;
-            if (dp[cur] ==1){
+            cur = (cur + i * k) % n;
+            if (dp[cur] == 1) {
                 break;
             }
             dp[cur]++;
@@ -68,12 +102,12 @@ public class Solution202308 {
 
         List<Integer> ans = new ArrayList<>();
         for (int j = 0; j < n; j++) {
-            if (dp[j] == 0){
-                ans.add(j+1);
+            if (dp[j] == 0) {
+                ans.add(j + 1);
             }
         }
         int[] result = new int[ans.size()];
-        int idx =0;
+        int idx = 0;
         for (Integer count : ans) {
             result[idx++] = count;
         }
