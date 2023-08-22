@@ -22,6 +22,9 @@ public class Solution202308 {
             case 1749:
                 log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
                 break;
+            case 849:
+                log.info(String.valueOf(maxDistToClosest(new int[]{0,1})));
+                break;
             case 38:
                 log.info(Arrays.toString(dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73})));
                 break;
@@ -46,6 +49,36 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+
+    /**
+     * 849. 到最近的人的最大距离
+     * @param seats 座位数组
+     * @return 距离最近的人的最大距离的座位
+     */
+    public static int maxDistToClosest(int[] seats) {
+        int ans = 1;
+        int n = seats.length;
+        int idx =0;
+        if (seats[0] ==0){
+            while (idx<n && seats[idx] ==0){
+                idx++;
+            }
+            ans = idx;
+        }
+        for (int i = idx; i < n; i++) {
+            while (i<n && seats[i] ==0){
+                i++;
+            }
+            if (i<n){
+                ans = Math.max(ans,(i-idx)/2);
+                idx =i;
+            }else {
+                ans = Math.max(ans,i-idx-1);
+            }
+        }
+        return ans;
     }
 
     /**
