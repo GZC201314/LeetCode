@@ -23,7 +23,7 @@ public class Solution202308 {
                 log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
                 break;
             case 849:
-                log.info(String.valueOf(maxDistToClosest(new int[]{0,1})));
+                log.info(String.valueOf(maxDistToClosest(new int[]{0, 1})));
                 break;
             case 38:
                 log.info(Arrays.toString(dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73})));
@@ -33,6 +33,9 @@ public class Solution202308 {
                 break;
             case 1281:
                 log.info(String.valueOf(subtractProductAndSum(123)));
+                break;
+            case 2704:
+                log.info(removeTrailingZeros("123"));
                 break;
             case 833:
                 log.info(findReplaceString("abcd", new int[]{0, 2}, new String[]{"a", "cd"}, new String[]{"eee", "ffff"}));
@@ -51,31 +54,48 @@ public class Solution202308 {
         }
     }
 
+    /**
+     * 2710. 移除字符串中的尾随零
+     *
+     * @param num 数字字符串
+     * @return 去除后缀零的字符串
+     */
+    public static String removeTrailingZeros(String num) {
+        int n = num.length();
+        int index = n - 1;
+        while (num.charAt(index) == '0') {
+            index--;
+        }
+
+        return num.substring(0, index + 1);
+    }
+
 
     /**
      * 849. 到最近的人的最大距离
+     *
      * @param seats 座位数组
      * @return 距离最近的人的最大距离的座位
      */
     public static int maxDistToClosest(int[] seats) {
         int ans = 1;
         int n = seats.length;
-        int idx =0;
-        if (seats[0] ==0){
-            while (idx<n && seats[idx] ==0){
+        int idx = 0;
+        if (seats[0] == 0) {
+            while (idx < n && seats[idx] == 0) {
                 idx++;
             }
             ans = idx;
         }
         for (int i = idx; i < n; i++) {
-            while (i<n && seats[i] ==0){
+            while (i < n && seats[i] == 0) {
                 i++;
             }
-            if (i<n){
-                ans = Math.max(ans,(i-idx)/2);
-                idx =i;
-            }else {
-                ans = Math.max(ans,i-idx-1);
+            if (i < n) {
+                ans = Math.max(ans, (i - idx) / 2);
+                idx = i;
+            } else {
+                ans = Math.max(ans, i - idx - 1);
             }
         }
         return ans;
@@ -91,24 +111,21 @@ public class Solution202308 {
         int n = temperatures.length;
         int[] ans = new int[n];
         int max;
-        for (int i = 0; i < n-1; i++) {
+        for (int i = 0; i < n - 1; i++) {
             max = temperatures[i];
-            int cacheI = i+1;
-            if (max<temperatures[cacheI]){
+            int cacheI = i + 1;
+            if (max < temperatures[cacheI]) {
                 ans[i] = 1;
                 continue;
             }
-            while (cacheI<n && temperatures[cacheI]<=max){
+            while (cacheI < n && temperatures[cacheI] <= max) {
                 cacheI++;
             }
-            if (cacheI != n){
-                ans[i] = cacheI-i;
+            if (cacheI != n) {
+                ans[i] = cacheI - i;
             }
         }
-
         return ans;
-
-
     }
 
 
@@ -160,7 +177,7 @@ public class Solution202308 {
     public static String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
         int n = targets.length;
         int len = s.length();
-        Map<Integer, Integer> indexMap = new HashMap<>();
+        Map<Integer, Integer> indexMap = new HashMap<>(n);
         for (int i = 0; i < indices.length; i++) {
             indexMap.put(indices[i], i);
         }
