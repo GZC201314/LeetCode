@@ -25,6 +25,9 @@ public class Solution202308 {
             case 849:
                 log.info(String.valueOf(maxDistToClosest(new int[]{0, 1})));
                 break;
+            case 2766:
+                log.info(String.valueOf(relocateMarbles(new int[]{1,6,7,8},new int[]{1,7,2},new int[]{2,9,5})));
+                break;
             case 38:
                 log.info(Arrays.toString(dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73})));
                 break;
@@ -52,6 +55,30 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+
+    /**
+     * 2766. 重新放置石块
+     * @param nums 有石子的索引
+     * @param moveFrom 移出的索引
+     * @param moveTo 移入的索引
+     * @return 有石子的索引
+     */
+    public static List<Integer> relocateMarbles(int[] nums, int[] moveFrom, int[] moveTo) {
+        Set<Integer> ans = new HashSet<>();
+        for (int num : nums) {
+            ans.add(num);
+        }
+        int n = moveFrom.length;
+        for (int i = 0; i < n; i++) {
+            ans.remove(moveFrom[i]);
+            ans.add(moveTo[i]);
+        }
+        List<Integer> answer = new ArrayList<>(ans);
+        answer.sort(Comparator.comparingInt(o -> o));
+        return answer;
+
     }
 
     /**
