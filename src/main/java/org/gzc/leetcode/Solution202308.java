@@ -75,6 +75,7 @@ public class Solution202308 {
         }
         for (int i = 1; i <= cars; i++) {
             int[] poll = priorityQueue.poll();
+            assert poll != null;
             poll[1] += 1;
             max = Math.max(max, (long) poll[0] *poll[1]*poll[1]);
             priorityQueue.offer(poll);
