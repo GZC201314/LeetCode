@@ -51,12 +51,36 @@ public class Solution202308 {
             case 2525:
                 log.info(categorizeBox(12, 120, 1200, 200));
                 break;
+            case 2594:
+                log.info(String.valueOf(repairCars(new int[]{4,2,3,1},10)));
+                break;
             default:
                 break;
 
         }
     }
 
+
+    /**
+     * 2594. 修车的最少时间
+     * @param ranks 修理工能力数组
+     * @param cars 需要修的汽车个数
+     * @return 最少的修理时间
+     */
+    public static long repairCars(int[] ranks, int cars) {
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((arr1,arr2)-> arr1[0]*arr1[1]*arr1[1]-arr2[0]*arr2[1]*arr2[1]+2*arr1[0]*arr1[1]-2*arr2[0]*arr2[1] + arr1[0]-arr2[0]);
+        long max = 0;
+        for (int rank : ranks) {
+            priorityQueue.offer(new int[]{rank,0});
+        }
+        for (int i = 1; i <= cars; i++) {
+            int[] poll = priorityQueue.poll();
+            poll[1] += 1;
+            max = Math.max(max, (long) poll[0] *poll[1]*poll[1]);
+            priorityQueue.offer(poll);
+        }
+        return max;
+    }
 
     /**
      * 2766. 重新放置石块
