@@ -54,10 +54,41 @@ public class Solution202308 {
             case 2594:
                 log.info(String.valueOf(repairCars(new int[]{4,2,3,1},10)));
                 break;
+            case 2554:
+                log.info(String.valueOf(maxCount(new int[]{4,2,3,1},10,10)));
+                break;
             default:
                 break;
 
         }
+    }
+
+
+    /**
+     * 2554. 从一个范围内选择最多整数 I
+     * @param banned 数组
+     * @param n n
+     * @param maxSum 最大和
+     * @return 个数
+     */
+    public static int maxCount(int[] banned, int n, int maxSum) {
+        Set<Integer> set = new HashSet<>();
+        for (int i : banned) {
+            set.add(i);
+        }
+        long ans =0;
+        int count =0;
+        for (int i = 1; i <= n; i++) {
+            if (!set.contains(i)){
+                if (ans+i<=maxSum){
+                    ans+=i;
+                    count++;
+                }else {
+                    break;
+                }
+            }
+        }
+        return count;
     }
 
 
