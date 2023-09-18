@@ -26,7 +26,7 @@ public class Solution202308 {
                 log.info(String.valueOf(maxDistToClosest(new int[]{0, 1})));
                 break;
             case 2766:
-                log.info(String.valueOf(relocateMarbles(new int[]{1,6,7,8},new int[]{1,7,2},new int[]{2,9,5})));
+                log.info(String.valueOf(relocateMarbles(new int[]{1, 6, 7, 8}, new int[]{1, 7, 2}, new int[]{2, 9, 5})));
                 break;
             case 38:
                 log.info(Arrays.toString(dailyTemperatures(new int[]{73, 74, 75, 71, 69, 72, 76, 73})));
@@ -52,22 +52,60 @@ public class Solution202308 {
                 log.info(categorizeBox(12, 120, 1200, 200));
                 break;
             case 2594:
-                log.info(String.valueOf(repairCars(new int[]{4,2,3,1},10)));
+                log.info(String.valueOf(repairCars(new int[]{4, 2, 3, 1}, 10)));
                 break;
             case 2554:
-                log.info(String.valueOf(maxCount(new int[]{4,2,3,1},10,10)));
+                log.info(String.valueOf(maxCount(new int[]{4, 2, 3, 1}, 10, 10)));
                 break;
+            case 1278:
+                log.info(String.valueOf(countSquares(new int[][]{{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}})));
             default:
                 break;
 
         }
     }
 
+    /**
+     * 1278. 统计全为 1 的正方形子矩阵
+     *
+     * @param matrix 0,1数字矩阵
+     * @return 全为1的数字矩阵的个数
+     * 转移方程 dp[i][j] = min(dp[i-1][j],dp[i-1][j-1],dp[i][j-1])+1
+     */
+    public static int countSquares(int[][] matrix) {
+        int ans = 0;
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int[][] dp = new int[m][n];
+        for (int[] ints : matrix) {
+            ans += ints[0];
+        }
+        dp[0] = matrix[0];
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = matrix[i][0];
+        }
+        if (dp[0][0] ==1){
+            ans--;
+        }
+        ans += Arrays.stream(matrix[0]).sum();
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                if (matrix[i][j] == 1) {
+                    dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i][j - 1]), dp[i - 1][j - 1]) + 1;
+                    ans += dp[i][j];
+                }
+            }
+        }
+        return ans;
+
+    }
+
 
     /**
      * 2554. 从一个范围内选择最多整数 I
+     *
      * @param banned 数组
-     * @param n n
+     * @param n      n
      * @param maxSum 最大和
      * @return 个数
      */
@@ -76,14 +114,14 @@ public class Solution202308 {
         for (int i : banned) {
             set.add(i);
         }
-        long ans =0;
-        int count =0;
+        long ans = 0;
+        int count = 0;
         for (int i = 1; i <= n; i++) {
-            if (!set.contains(i)){
-                if (ans+i<=maxSum){
-                    ans+=i;
+            if (!set.contains(i)) {
+                if (ans + i <= maxSum) {
+                    ans += i;
                     count++;
-                }else {
+                } else {
                     break;
                 }
             }
@@ -94,21 +132,22 @@ public class Solution202308 {
 
     /**
      * 2594. 修车的最少时间
+     *
      * @param ranks 修理工能力数组
-     * @param cars 需要修的汽车个数
+     * @param cars  需要修的汽车个数
      * @return 最少的修理时间
      */
     public static long repairCars(int[] ranks, int cars) {
-        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((arr1,arr2)-> arr1[0]*arr1[1]*arr1[1]-arr2[0]*arr2[1]*arr2[1]+2*arr1[0]*arr1[1]-2*arr2[0]*arr2[1] + arr1[0]-arr2[0]);
+        PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((arr1, arr2) -> arr1[0] * arr1[1] * arr1[1] - arr2[0] * arr2[1] * arr2[1] + 2 * arr1[0] * arr1[1] - 2 * arr2[0] * arr2[1] + arr1[0] - arr2[0]);
         long max = 0;
         for (int rank : ranks) {
-            priorityQueue.offer(new int[]{rank,0});
+            priorityQueue.offer(new int[]{rank, 0});
         }
         for (int i = 1; i <= cars; i++) {
             int[] poll = priorityQueue.poll();
             assert poll != null;
             poll[1] += 1;
-            max = Math.max(max, (long) poll[0] *poll[1]*poll[1]);
+            max = Math.max(max, (long) poll[0] * poll[1] * poll[1]);
             priorityQueue.offer(poll);
         }
         return max;
@@ -116,9 +155,10 @@ public class Solution202308 {
 
     /**
      * 2766. 重新放置石块
-     * @param nums 有石子的索引
+     *
+     * @param nums     有石子的索引
      * @param moveFrom 移出的索引
-     * @param moveTo 移入的索引
+     * @param moveTo   移入的索引
      * @return 有石子的索引
      */
     public static List<Integer> relocateMarbles(int[] nums, int[] moveFrom, int[] moveTo) {
