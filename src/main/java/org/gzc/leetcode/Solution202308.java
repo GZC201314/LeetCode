@@ -60,10 +60,24 @@ public class Solution202308 {
             case 1278:
                 log.info(String.valueOf(countSquares(new int[][]{{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}})));
             default:
+                log.info(Arrays.toString(swapNumbers(new int[]{100, 2})));
                 break;
 
         }
     }
+
+    /**
+     * 面试题 16.01 交换数字
+     * @param numbers 待交换的数字
+     * @return 交换后的数字
+     */
+    public static int[] swapNumbers(int[] numbers) {
+        numbers[0] = numbers[0]^numbers[1];
+        numbers[1] = numbers[0]^numbers[1];
+        numbers[0] = numbers[0]^numbers[1];
+        return numbers;
+    }
+
 
     /**
      * 1278. 统计全为 1 的正方形子矩阵
