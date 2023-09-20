@@ -54,6 +54,9 @@ public class Solution202308 {
             case 2594:
                 log.info(String.valueOf(repairCars(new int[]{4, 2, 3, 1}, 10)));
                 break;
+            case 6:
+                log.info(String.valueOf(minCount(new int[]{4, 2, 3, 1})));
+                break;
             case 2554:
                 log.info(String.valueOf(maxCount(new int[]{4, 2, 3, 1}, 10, 10)));
                 break;
@@ -64,6 +67,19 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+    /**
+     * LCP 06 拿硬币
+     * @param coins
+     * @return
+     */
+    public static int minCount(int[] coins) {
+        int ans =0;
+        for (int coin : coins) {
+            ans+= (coin/2+coin%2);
+        }
+        return ans;
     }
 
     /**
