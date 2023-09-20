@@ -43,6 +43,9 @@ public class Solution202308 {
             case 833:
                 log.info(findReplaceString("abcd", new int[]{0, 2}, new String[]{"a", "cd"}, new String[]{"eee", "ffff"}));
                 break;
+            case 929:
+                log.info(String.valueOf(numUniqueEmails(new String[]{"ae@example.com", "a.e@example.com"})));
+                break;
             case 617:
                 TreeNode root1 = new TreeNode(1, new TreeNode(3, new TreeNode(5, null, null), null), new TreeNode(2));
                 TreeNode root2 = new TreeNode(2, new TreeNode(1, null, new TreeNode(4)), new TreeNode(3, null, new TreeNode(7)));
@@ -70,27 +73,54 @@ public class Solution202308 {
     }
 
     /**
+     * 929. 独特的电子邮件地址
+     *
+     * @param emails 邮箱
+     * @return 有效邮箱
+     */
+    public static int numUniqueEmails(String[] emails) {
+        Set<String> emailSet = new HashSet<>();
+        for (String email : emails) {
+            String[] split = email.split("@");
+            StringBuilder sb = new StringBuilder();
+            char[] chars = split[0].toCharArray();
+            for (char aChar : chars) {
+                if (aChar == '+') {
+                    break;
+                } else if (aChar != '.') {
+                    sb.append(aChar);
+                }
+            }
+            emailSet.add(sb.toString()+"@"+split[1]);
+        }
+        return emailSet.size();
+
+    }
+
+    /**
      * LCP 06 拿硬币
-     * @param coins
-     * @return
+     *
+     * @param coins 金币堆
+     * @return 大小拿取次数
      */
     public static int minCount(int[] coins) {
-        int ans =0;
+        int ans = 0;
         for (int coin : coins) {
-            ans+= (coin/2+coin%2);
+            ans += (coin / 2 + coin % 2);
         }
         return ans;
     }
 
     /**
      * 面试题 16.01 交换数字
+     *
      * @param numbers 待交换的数字
      * @return 交换后的数字
      */
     public static int[] swapNumbers(int[] numbers) {
-        numbers[0] = numbers[0]^numbers[1];
-        numbers[1] = numbers[0]^numbers[1];
-        numbers[0] = numbers[0]^numbers[1];
+        numbers[0] = numbers[0] ^ numbers[1];
+        numbers[1] = numbers[0] ^ numbers[1];
+        numbers[0] = numbers[0] ^ numbers[1];
 
         return numbers;
     }
@@ -115,7 +145,7 @@ public class Solution202308 {
         for (int i = 0; i < m; i++) {
             dp[i][0] = matrix[i][0];
         }
-        if (dp[0][0] ==1){
+        if (dp[0][0] == 1) {
             ans--;
         }
         ans += Arrays.stream(matrix[0]).sum();
