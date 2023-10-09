@@ -54,6 +54,9 @@ public class Solution202308 {
             case 2525:
                 log.info(categorizeBox(12, 120, 1200, 200));
                 break;
+            case 2578:
+                log.info(String.valueOf(splitNum(12)));
+                break;
             case 2594:
                 log.info(String.valueOf(repairCars(new int[]{4, 2, 3, 1}, 10)));
                 break;
@@ -70,6 +73,32 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+    /**
+     * 2578.最小和分割
+     * @param num 数字
+     * @return 最小和
+     */
+    public static int splitNum(int num) {
+        List<Integer> numCount = new ArrayList<>();
+        while (num>0){
+            numCount.add(num%10);
+            num /=10;
+        }
+        numCount.sort(Comparator.comparingInt(o -> o));
+        int first = 0;
+        int second = 0;
+        boolean flag = false;
+        for (Integer numBit : numCount) {
+            if (flag){
+                first = first*10+numBit;
+            }else {
+                second = second*10+numBit;
+            }
+            flag = !flag;
+        }
+        return first+second;
     }
 
     /**
@@ -91,7 +120,7 @@ public class Solution202308 {
                     sb.append(aChar);
                 }
             }
-            emailSet.add(sb.toString()+"@"+split[1]);
+            emailSet.add(sb+"@"+split[1]);
         }
         return emailSet.size();
 
