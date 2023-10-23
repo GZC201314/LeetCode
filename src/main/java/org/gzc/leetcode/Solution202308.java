@@ -57,6 +57,9 @@ public class Solution202308 {
             case 2578:
                 log.info(String.valueOf(splitNum(12)));
                 break;
+            case 2678:
+                log.info(String.valueOf(countSeniors(new String[]{"7868190130M7522", "5303914400F9211", "9273338290F4010"})));
+                break;
             case 2594:
                 log.info(String.valueOf(repairCars(new int[]{4, 2, 3, 1}, 10)));
                 break;
@@ -73,6 +76,24 @@ public class Solution202308 {
                 break;
 
         }
+    }
+
+
+    /**
+     * 2678. 老人的数量
+     * @param details 乘客信息
+     * @return 老人的个数
+     */
+    public static int countSeniors(String[] details) {
+        int count = 0;
+        for (String detail : details) {
+            String ageStr = detail.substring(11, 13);
+            int age = Integer.parseInt(ageStr);
+            if (age>60){
+                count++;
+            }
+        }
+        return count;
     }
 
     /**
