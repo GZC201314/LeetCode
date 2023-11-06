@@ -1,21 +1,25 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gzc.leetcode.model.TreeNode;
 
 import java.text.ParseException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @author GZC
  */
 @Slf4j
-public class solution202311 {
+public class Solution202311 {
 
     public static void main(String[] args) throws ParseException {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 318:
+                log.info(String.valueOf(maxProduct(new String[]{"a1", "aa1", "aaa", "aaaa1"})));
+                break;
             default:
                 log.info(String.valueOf(maxProduct(new String[]{"a", "aa", "aaa", "aaaa"})));
                 break;
@@ -30,7 +34,7 @@ public class solution202311 {
      */
     public static int maxProduct(String[] words) {
         // 用于记录掩码对应的字符串的长度
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new HashMap<>(64);
         for (String w : words) {
             // 用t的低26位表示该字符串26个字母是否出现过
             int t = 0;
