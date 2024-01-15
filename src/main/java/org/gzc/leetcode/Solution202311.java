@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.ListNode;
 
 import java.text.ParseException;
 import java.util.HashMap;
@@ -19,6 +20,10 @@ public class Solution202311 {
         switch (questionNum) {
             case 318:
                 log.info(String.valueOf(maxProduct(new String[]{"a1", "aa1", "aaa", "aaaa1"})));
+                break;
+            case 82:
+                ListNode head = new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(3,new ListNode(4,new ListNode(4,new ListNode(5)))))));
+                log.info(String.valueOf(deleteDuplicates(head)));
                 break;
             default:
                 log.info(String.valueOf(maxProduct(new String[]{"a", "aa", "aaa", "aaaa"})));
@@ -57,6 +62,31 @@ public class Solution202311 {
             }
         }
         return ans;
+    }
+
+
+    public static ListNode deleteDuplicates(ListNode head) {
+        if (head == null){
+            return null;
+        }
+        ListNode start = head;
+        if (head.next == null){
+            return head;
+        }
+        ListNode end = head.next;
+
+        while (end != null){
+            if (start.val != end.val){
+                start.next = end;
+                start = end;
+                end = end.next;
+            }else {
+                end = end.next;
+            }
+        }
+        start.next = null;
+        return head;
+
     }
 
 
