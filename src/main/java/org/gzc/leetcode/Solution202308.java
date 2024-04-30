@@ -16,6 +16,9 @@ public class Solution202308 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 722:
+                log.info(String.valueOf(removeComments(new String[]{"/*Test program */", "int main()", "{ ", "  // variable declaration ", "int a, b, c;", "/* This is a test", "   multiline  ", "   comment for ", "   testing */", "a = b + c;", "}"})));
+                break;
             case 1749:
                 log.info(String.valueOf(maxAbsoluteSum(new int[]{2, -5, 1, -4, 3, -2})));
                 break;
@@ -68,6 +71,9 @@ public class Solution202308 {
                 break;
             case 1278:
                 log.info(String.valueOf(countSquares(new int[][]{{0, 1, 1, 1}, {1, 1, 1, 1}, {0, 1, 1, 1}})));
+            case 2304:
+                log.info(String.valueOf(minPathCost(new int[][]{{5,3},{4,0},{2,1}},new int[][]{{9,8},{1,5},{10,12},{18,6},{2,4},{14,3}})));
+                break;
             default:
                 log.info(Arrays.toString(swapNumbers(new int[]{100, 2})));
                 break;
@@ -77,16 +83,46 @@ public class Solution202308 {
 
 
     /**
+     * 2304. 网格中的最小路径代价
+     * @param grid 图
+     * @param moveCost 代价值
+     * @return 最小路径代价
+     */
+    public static int minPathCost(int[][] grid, int[][] moveCost) {
+        int m = grid.length, n = grid[0].length;
+        int[][] f = new int[m][n];
+        f[m - 1] = grid[m - 1];
+        for (int i = m - 2; i >= 0; i--) {
+            for (int j = 0; j < n; j++) {
+                f[i][j] = Integer.MAX_VALUE;
+                // 移动到下一行的第 k 列
+                for (int k = 0; k < n; k++) {
+                    f[i][j] = Math.min(f[i][j], f[i + 1][k] + moveCost[grid[i][j]][k]);
+                }
+                f[i][j] += grid[i][j];
+            }
+        }
+        int ans = Integer.MAX_VALUE;
+        for (int res : f[0]) {
+            ans = Math.min(ans, res);
+        }
+        return ans;
+    }
+
+
+
+
+    /**
      * 2678. 老人的数量
      * @param details 乘客信息
      * @return 老人的个数
      */
-    public static int countSeniors(String[] details) {
+    public static int countSeniors (String[]details){
         int count = 0;
         for (String detail : details) {
             String ageStr = detail.substring(11, 13);
             int age = Integer.parseInt(ageStr);
-            if (age>60){
+            if (age > 60) {
                 count++;
             }
         }
@@ -98,25 +134,25 @@ public class Solution202308 {
      * @param num 数字
      * @return 最小和
      */
-    public static int splitNum(int num) {
+    public static int splitNum ( int num){
         List<Integer> numCount = new ArrayList<>();
-        while (num>0){
-            numCount.add(num%10);
-            num /=10;
+        while (num > 0) {
+            numCount.add(num % 10);
+            num /= 10;
         }
         numCount.sort(Comparator.comparingInt(o -> o));
         int first = 0;
         int second = 0;
         boolean flag = false;
         for (Integer numBit : numCount) {
-            if (flag){
-                first = first*10+numBit;
-            }else {
-                second = second*10+numBit;
+            if (flag) {
+                first = first * 10 + numBit;
+            } else {
+                second = second * 10 + numBit;
             }
             flag = !flag;
         }
-        return first+second;
+        return first + second;
     }
 
     /**
@@ -125,7 +161,7 @@ public class Solution202308 {
      * @param emails 邮箱
      * @return 有效邮箱
      */
-    public static int numUniqueEmails(String[] emails) {
+    public static int numUniqueEmails (String[]emails){
         Set<String> emailSet = new HashSet<>();
         for (String email : emails) {
             String[] split = email.split("@");
@@ -138,7 +174,7 @@ public class Solution202308 {
                     sb.append(aChar);
                 }
             }
-            emailSet.add(sb+"@"+split[1]);
+            emailSet.add(sb + "@" + split[1]);
         }
         return emailSet.size();
 
@@ -150,7 +186,7 @@ public class Solution202308 {
      * @param coins 金币堆
      * @return 大小拿取次数
      */
-    public static int minCount(int[] coins) {
+    public static int minCount ( int[] coins){
         int ans = 0;
         for (int coin : coins) {
             ans += (coin / 2 + coin % 2);
@@ -164,7 +200,7 @@ public class Solution202308 {
      * @param numbers 待交换的数字
      * @return 交换后的数字
      */
-    public static int[] swapNumbers(int[] numbers) {
+    public static int[] swapNumbers ( int[] numbers){
         numbers[0] = numbers[0] ^ numbers[1];
         numbers[1] = numbers[0] ^ numbers[1];
         numbers[0] = numbers[0] ^ numbers[1];
@@ -180,7 +216,7 @@ public class Solution202308 {
      * @return 全为1的数字矩阵的个数
      * 转移方程 dp[i][j] = min(dp[i-1][j],dp[i-1][j-1],dp[i][j-1])+1
      */
-    public static int countSquares(int[][] matrix) {
+    public static int countSquares ( int[][] matrix){
         int ans = 0;
         int m = matrix.length;
         int n = matrix[0].length;
@@ -217,7 +253,7 @@ public class Solution202308 {
      * @param maxSum 最大和
      * @return 个数
      */
-    public static int maxCount(int[] banned, int n, int maxSum) {
+    public static int maxCount ( int[] banned, int n, int maxSum){
         Set<Integer> set = new HashSet<>();
         for (int i : banned) {
             set.add(i);
@@ -245,7 +281,7 @@ public class Solution202308 {
      * @param cars  需要修的汽车个数
      * @return 最少的修理时间
      */
-    public static long repairCars(int[] ranks, int cars) {
+    public static long repairCars ( int[] ranks, int cars){
         PriorityQueue<int[]> priorityQueue = new PriorityQueue<>((arr1, arr2) -> arr1[0] * arr1[1] * arr1[1] - arr2[0] * arr2[1] * arr2[1] + 2 * arr1[0] * arr1[1] - 2 * arr2[0] * arr2[1] + arr1[0] - arr2[0]);
         long max = 0;
         for (int rank : ranks) {
@@ -269,7 +305,7 @@ public class Solution202308 {
      * @param moveTo   移入的索引
      * @return 有石子的索引
      */
-    public static List<Integer> relocateMarbles(int[] nums, int[] moveFrom, int[] moveTo) {
+    public static List<Integer> relocateMarbles ( int[] nums, int[] moveFrom, int[] moveTo){
         Set<Integer> ans = new HashSet<>();
         for (int num : nums) {
             ans.add(num);
@@ -291,7 +327,7 @@ public class Solution202308 {
      * @param num 数字字符串
      * @return 去除后缀零的字符串
      */
-    public static String removeTrailingZeros(String num) {
+    public static String removeTrailingZeros (String num){
         int n = num.length();
         int index = n - 1;
         while (num.charAt(index) == '0') {
@@ -308,7 +344,7 @@ public class Solution202308 {
      * @param seats 座位数组
      * @return 距离最近的人的最大距离的座位
      */
-    public static int maxDistToClosest(int[] seats) {
+    public static int maxDistToClosest ( int[] seats){
         int ans = 1;
         int n = seats.length;
         int idx = 0;
@@ -338,7 +374,7 @@ public class Solution202308 {
      * @param temperatures 历史温度
      * @return 检测到最大温度的天数
      */
-    public static int[] dailyTemperatures(int[] temperatures) {
+    public static int[] dailyTemperatures ( int[] temperatures){
         int n = temperatures.length;
         int[] ans = new int[n];
         int max;
@@ -367,7 +403,7 @@ public class Solution202308 {
      * @param k k值
      * @return 失败的人数
      */
-    public static int[] circularGameLosers(int n, int k) {
+    public static int[] circularGameLosers ( int n, int k){
         int[] dp = new int[n];
         int i = 1;
         int cur = 0;
@@ -405,7 +441,7 @@ public class Solution202308 {
      * @param targets 目标字符串
      * @return 替换后的字符串
      */
-    public static String findReplaceString(String s, int[] indices, String[] sources, String[] targets) {
+    public static String findReplaceString (String s,int[] indices, String[] sources, String[]targets){
         int n = targets.length;
         int len = s.length();
         Map<Integer, Integer> indexMap = new HashMap<>(n);
@@ -416,7 +452,7 @@ public class Solution202308 {
         char[] chars = s.toCharArray();
         List<String> strArr = new ArrayList<>();
         for (char aChar : chars) {
-            strArr.add(String.valueOf(aChar));
+            strArr.add(aChar + "");
         }
         for (int i = n - 1; i >= 0; i--) {
             int index = indices[i];
@@ -442,7 +478,7 @@ public class Solution202308 {
                 char[] tarArr = target.toCharArray();
                 int tarLen = tarArr.length;
                 for (int j = tarLen - 1; j >= 0; j--) {
-                    strArr.add(indexOld, String.valueOf(tarArr[j]));
+                    strArr.add(indexOld, tarArr[j] + "");
                 }
             }
         }
@@ -456,7 +492,7 @@ public class Solution202308 {
      * @param root2 二叉树2
      * @return 合并的二叉树
      */
-    public static TreeNode mergeTrees(TreeNode root1, TreeNode root2) {
+    public static TreeNode mergeTrees (TreeNode root1, TreeNode root2){
 
         if (root1 == null) {
             return root2;
@@ -481,7 +517,7 @@ public class Solution202308 {
      * @param mass   质量
      * @return 箱子分类
      */
-    public static String categorizeBox(int length, int width, int height, int mass) {
+    public static String categorizeBox ( int length, int width, int height, int mass){
         boolean isHeavy = mass >= 100;
         boolean isBulky = (length >= 10000 || width >= 10000 || height >= 10000) || ((long) length * width * height) >= 1000000000;
         if (isBulky && isHeavy) {
@@ -502,7 +538,7 @@ public class Solution202308 {
      * @param n 整数
      * @return 整数的各位积和之差
      */
-    public static int subtractProductAndSum(int n) {
+    public static int subtractProductAndSum ( int n){
         int curMul = 1;
         int curSum = 0;
         while (n != 0) {
@@ -514,6 +550,95 @@ public class Solution202308 {
         return curMul - curSum;
     }
 
+    /**
+     * 722. 删除注释
+     *
+     * @param source 源代码
+     * @return 去除注释的代码
+     */
+    public static List<String> removeComments (String[]source){
+
+        List<String> ans = new ArrayList<>();
+        boolean flag = false;
+        for (String code : source) {
+            flag = isFlag(ans, flag, code);
+        }
+        return ans;
+    }
+
+    private static boolean isFlag (List < String > ans,boolean flag, String code){
+        int multiIndex = code.indexOf("/*");
+        int multiIndex1 = code.indexOf("*/");
+        int singleIndex = code.indexOf("//");
+        if (flag) {
+            //存在多行注释的结尾
+            if (multiIndex1 != -1) {
+                code = code.substring(multiIndex1 + 2).trim();
+                if (!"".equals(code)) {
+                    flag = isFlag(ans, false, code);
+                } else {
+                    flag = false;
+                }
+            }
+        } else {
+            if (singleIndex != -1) {
+                // 只有单行注释
+                if (multiIndex == -1) {
+                    code = code.substring(0, singleIndex).trim();
+                    if (!"".equals(code)) {
+                        ans.add(code);
+                    }
+                } else {
+                    //存在单行注释和多行注释,单行注释在前面
+                    if (singleIndex < multiIndex) {
+                        code = code.substring(0, singleIndex);
+                        if (!"".equals(code)) {
+                            ans.add(code);
+                        }
+                    } else {
+                        //存在单行注释和多行注释,多行注释在前面
+                        // 存在多行注释的结尾
+                        if (multiIndex1 != -1) {
+                            // /**/XX//XX
+                            if (singleIndex > multiIndex1) {
+                                code = code.substring(multiIndex1 + 2).trim();
+                                // XX//XX
+                                flag = isFlag(ans, flag, code);
+                            }
+                        } else {
+                            //存在单行注释和多行注释,多行注释在前面
+                            //不存在多行注释的结尾
+                            // /*XX//XX
+                            code = code.substring(0, multiIndex).trim();
+                            isFlag(ans, false, code);
+                            flag = true;
+                        }
+                    }
+                }
+            } else if (multiIndex != -1) {
+                //只有多行注释
+                // 存在多行注释的结尾
+                if (multiIndex1 != -1) {
+                    // /**/XXXX
+                    code = code.substring(multiIndex1 + 2).trim();
+                    // XX//XX
+                    flag = isFlag(ans, flag, code);
+                } else {
+                    //存在单行注释和多行注释,多行注释在前面
+                    //不存在多行注释的结尾
+                    // /*XX//XX
+                    code = code.substring(0, multiIndex).trim();
+                    isFlag(ans, false, code);
+                    flag = true;
+                }
+            } else {
+                if (!"".equals(code)) {
+                    ans.add(code);
+                }
+            }
+        }
+        return flag;
+    }
 
     /**
      * 1749. 任意子数组和的绝对值的最大值
@@ -521,7 +646,7 @@ public class Solution202308 {
      * @param nums 整数数组
      * @return 子数组和的绝对值的最大值
      */
-    public static int maxAbsoluteSum(int[] nums) {
+    public static int maxAbsoluteSum ( int[] nums){
         int min = 0, max = 0, res = Math.abs(nums[0]);
         for (int i = 1; i < nums.length; ++i) {
             nums[i] += nums[i - 1];
