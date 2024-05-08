@@ -1,11 +1,8 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gzc.leetcode.model.ListNode;
 
 import java.text.ParseException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
