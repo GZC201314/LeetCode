@@ -19,7 +19,7 @@ public class Solution202405 {
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
             case 2105:
-                log.info(String.valueOf(minimumRefill(new int[]{923,65,50,788,446,122,987,355,528,590,69,107,656,676,454,604,213,299,969,239,341,940,690,195,884,135,499,38,440,857,404,266,786,915,564,246,271,977,775,978,166,636,494,284,435,630,584,590,401,167}, 1455, 1343)));
+                log.info(String.valueOf(minimumRefill(new int[]{274,179,789,417,293,336,133,334,569,355,813,217,80,933,961,271,294,933,49,980,685,470,186,11,157,889,299,493,215,807,588,464,218,248,391,817,32,606,740,941,505,533,289,306,490}, 996, 1172)));
                 break;
             default:
 
@@ -71,27 +71,33 @@ public class Solution202405 {
         int curCapacityB = capacityB;
         int curPosA = 0;
         int curPosB = n - 1;
+        int indexA =0;
+        int indexB =0;
         while (curPosA < curPosB) {
-            while ((curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB]) && curPosA < curPosB) {
-                if (curCapacityA >= plants[curPosA]) {
-                    curCapacityA -= plants[curPosA];
-                    curPosA++;
-                }
-                if (curCapacityB >= plants[curPosB]) {
-                    curCapacityB -= plants[curPosB];
-                    curPosB--;
-                }
-            }
-            if (curPosA == curPosB) {
-                if (!(curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB])) {
-                    ans++;
-                }
-            } else if (curPosA < curPosB) {
-                curCapacityA = capacityA;
-                curCapacityB = capacityB;
-                ans += 2;
-            }
 
+            if (curCapacityA >= plants[curPosA]) {
+                curCapacityA -= plants[curPosA];
+            }else {
+                ans++;
+                curCapacityA = capacityA-plants[curPosA];
+                log.warn("Alice第{}次灌水，Alice当前的位置是{},当前元素是{}",++indexA,curPosA,plants[curPosA]);
+            }
+            curPosA++;
+            if (curCapacityB >= plants[curPosB]) {
+                curCapacityB -= plants[curPosB];
+
+            }else {
+                ans++;
+                curCapacityB = capacityB-plants[curPosB];
+                log.warn("Bob第{}次灌水，Bob当前的位置是{},当前元素是{}",++indexB,curPosB,plants[curPosB]);
+            }
+            curPosB--;
+        }
+
+        if (curPosA == curPosB) {
+            if (!(curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB])) {
+                ans++;
+            }
         }
         return ans;
     }
