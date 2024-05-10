@@ -18,8 +18,11 @@ public class Solution202405 {
             case 2079:
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
+            case 2960:
+                log.info(String.valueOf(countTestedDevices(new int[]{0,1,2})));
+                break;
             case 2105:
-                log.info(String.valueOf(minimumRefill(new int[]{274,179,789,417,293,336,133,334,569,355,813,217,80,933,961,271,294,933,49,980,685,470,186,11,157,889,299,493,215,807,588,464,218,248,391,817,32,606,740,941,505,533,289,306,490}, 996, 1172)));
+                log.info(String.valueOf(minimumRefill(new int[]{274, 179, 789, 417, 293, 336, 133, 334, 569, 355, 813, 217, 80, 933, 961, 271, 294, 933, 49, 980, 685, 470, 186, 11, 157, 889, 299, 493, 215, 807, 588, 464, 218, 248, 391, 817, 32, 606, 740, 941, 505, 533, 289, 306, 490}, 996, 1172)));
                 break;
             default:
 
@@ -71,25 +74,25 @@ public class Solution202405 {
         int curCapacityB = capacityB;
         int curPosA = 0;
         int curPosB = n - 1;
-        int indexA =0;
-        int indexB =0;
+        int indexA = 0;
+        int indexB = 0;
         while (curPosA < curPosB) {
 
             if (curCapacityA >= plants[curPosA]) {
                 curCapacityA -= plants[curPosA];
-            }else {
+            } else {
                 ans++;
-                curCapacityA = capacityA-plants[curPosA];
-                log.warn("Alice第{}次灌水，Alice当前的位置是{},当前元素是{}",++indexA,curPosA,plants[curPosA]);
+                curCapacityA = capacityA - plants[curPosA];
+                log.warn("Alice第{}次灌水，Alice当前的位置是{},当前元素是{}", ++indexA, curPosA, plants[curPosA]);
             }
             curPosA++;
             if (curCapacityB >= plants[curPosB]) {
                 curCapacityB -= plants[curPosB];
 
-            }else {
+            } else {
                 ans++;
-                curCapacityB = capacityB-plants[curPosB];
-                log.warn("Bob第{}次灌水，Bob当前的位置是{},当前元素是{}",++indexB,curPosB,plants[curPosB]);
+                curCapacityB = capacityB - plants[curPosB];
+                log.warn("Bob第{}次灌水，Bob当前的位置是{},当前元素是{}", ++indexB, curPosB, plants[curPosB]);
             }
             curPosB--;
         }
@@ -100,6 +103,21 @@ public class Solution202405 {
             }
         }
         return ans;
+    }
+
+    /**
+     * 2960. 统计已测试设备
+     * @param batteryPercentages 电池容量
+     * @return 测试的电池个数
+     */
+    public static int countTestedDevices(int[] batteryPercentages) {
+        int sum = 0;
+        for (int batteryPercentage : batteryPercentages) {
+            if (batteryPercentage - sum > 0) {
+                sum++;
+            }
+        }
+        return sum;
     }
 
 }
