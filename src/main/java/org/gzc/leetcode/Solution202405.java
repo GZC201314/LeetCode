@@ -102,10 +102,9 @@ public class Solution202405 {
             curPosB--;
         }
 
-        if (curPosA == curPosB) {
-            if (!(curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB])) {
+        if (curPosA == curPosB && (!(curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB]))) {
                 ans++;
-            }
+
         }
         return ans;
     }
@@ -136,18 +135,9 @@ public class Solution202405 {
         // 统计腐烂的橘子和好的橘子
         List<int[]> badOranges = new ArrayList<>();
         int freshOrange = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (grid[i][j] == 1) {
-                    freshOrange++;
-                } else if (grid[i][j] == 2) {
-                    badOranges.add(new int[]{i, j});
-                }
-            }
-        }
+        freshOrange = statiscOrange(grid, m, n, badOranges, freshOrange);
         int ans = 0;
         while (!badOranges.isEmpty()) {
-            int newBadCount = 0;
             List<int[]> newBadOranges = new ArrayList<>();
             for (int[] badOrange : badOranges) {
                 for (int[] dir : dirs) {
@@ -156,12 +146,11 @@ public class Solution202405 {
                     if (newX >= 0 && newX < m && newY >= 0 && newY < n && grid[newX][newY] == 1) {
                         grid[newX][newY] = 2;
                         freshOrange--;
-                        newBadCount++;
                         newBadOranges.add(new int[]{newX, newY});
                     }
                 }
             }
-            if (newBadCount == 0) {
+            if (newBadOranges.isEmpty()) {
                 break;
             }
             ans++;
@@ -171,6 +160,23 @@ public class Solution202405 {
 
         return freshOrange == 0 ? ans : -1;
 
+    }
+
+    /**
+     * 994. 腐烂的橘子
+     *
+     */
+    private static int statiscOrange(int[][] grid, int m, int n, List<int[]> badOranges, int freshOrange) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 1) {
+                    freshOrange++;
+                } else if (grid[i][j] == 2) {
+                    badOranges.add(new int[]{i, j});
+                }
+            }
+        }
+        return freshOrange;
     }
 
 }
