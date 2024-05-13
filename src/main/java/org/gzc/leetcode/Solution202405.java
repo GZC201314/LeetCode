@@ -23,8 +23,11 @@ public class Solution202405 {
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
                 break;
+            case 2960:
+                log.info(String.valueOf(countTestedDevices(new int[]{0,1,2})));
+                break;
             case 2105:
-                log.info(String.valueOf(minimumRefill(new int[]{274, 179, 789, 417, 293, 336, 133, 334, 569, 355, 813, 217, 80, 933, 961, 271, 294, 933, 49, 980, 685, 470, 186, 11, 157, 889, 299, 493, 215, 807, 588, 464, 218, 248, 391, 817, 32, 606, 740, 941, 505, 533, 289, 306, 490}, 996, 1172)));
+                log.info(String.valueOf(minimumRefill(new int[]{274,179,789,417,293,336,133,334,569,355,813,217,80,933,961,271,294,933,49,980,685,470,186,11,157,889,299,493,215,807,588,464,218,248,391,817,32,606,740,941,505,533,289,306,490}, 996, 1172)));
                 break;
             default:
 
@@ -105,6 +108,21 @@ public class Solution202405 {
             }
         }
         return ans;
+    }
+
+    /**
+     * 2960. 统计已测试设备
+     * @param batteryPercentages 电池容量
+     * @return 测试的电池个数
+     */
+    public static int countTestedDevices(int[] batteryPercentages) {
+        int sum = 0;
+        for (int batteryPercentage : batteryPercentages) {
+            if (batteryPercentage - sum > 0) {
+                sum++;
+            }
+        }
+        return sum;
     }
 
     /**
