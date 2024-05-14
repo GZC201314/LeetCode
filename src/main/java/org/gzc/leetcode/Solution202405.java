@@ -15,6 +15,9 @@ public class Solution202405 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 1684:
+                log.info(String.valueOf(countConsistentStrings("cad", new String[]{"cc", "acd", "b", "ba", "bac", "bad", "ac", "d"})));
+                break;
             case 2079:
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
@@ -22,13 +25,13 @@ public class Solution202405 {
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
                 break;
             case 2960:
-                log.info(String.valueOf(countTestedDevices(new int[]{0,1,2})));
+                log.info(String.valueOf(countTestedDevices(new int[]{0, 1, 2})));
                 break;
             case 2244:
-                log.info(String.valueOf(minimumRounds(new int[]{2,3,3})));
+                log.info(String.valueOf(minimumRounds(new int[]{2, 3, 3})));
                 break;
             case 2105:
-                log.info(String.valueOf(minimumRefill(new int[]{274,179,789,417,293,336,133,334,569,355,813,217,80,933,961,271,294,933,49,980,685,470,186,11,157,889,299,493,215,807,588,464,218,248,391,817,32,606,740,941,505,533,289,306,490}, 996, 1172)));
+                log.info(String.valueOf(minimumRefill(new int[]{274, 179, 789, 417, 293, 336, 133, 334, 569, 355, 813, 217, 80, 933, 961, 271, 294, 933, 49, 980, 685, 470, 186, 11, 157, 889, 299, 493, 215, 807, 588, 464, 218, 248, 391, 817, 32, 606, 740, 941, 505, 533, 289, 306, 490}, 996, 1172)));
                 break;
             default:
 
@@ -104,7 +107,7 @@ public class Solution202405 {
         }
 
         if (curPosA == curPosB && (!(curCapacityA >= plants[curPosA] || curCapacityB >= plants[curPosB]))) {
-                ans++;
+            ans++;
 
         }
         return ans;
@@ -112,6 +115,7 @@ public class Solution202405 {
 
     /**
      * 2960. 统计已测试设备
+     *
      * @param batteryPercentages 电池容量
      * @return 测试的电池个数
      */
@@ -165,7 +169,6 @@ public class Solution202405 {
 
     /**
      * 994. 腐烂的橘子
-     *
      */
     private static int statiscOrange(int[][] grid, int m, int n, List<int[]> badOranges, int freshOrange) {
         for (int i = 0; i < m; i++) {
@@ -182,7 +185,6 @@ public class Solution202405 {
 
     /**
      * 2244. 完成所有任务需要的最少轮数
-     *
      */
     public static int minimumRounds(int[] tasks) {
         Map<Integer, Integer> map = new HashMap<>();
@@ -191,15 +193,40 @@ public class Solution202405 {
         }
         int ans = 0;
         for (Map.Entry<Integer, Integer> taskCount : map.entrySet()) {
-            if (taskCount.getValue() ==1){
+            if (taskCount.getValue() == 1) {
                 return -1;
             }
             ans += taskCount.getValue() / 3;
-            if (taskCount.getValue() % 3 != 0){
+            if (taskCount.getValue() % 3 != 0) {
                 ans++;
             }
         }
         return ans;
+    }
+
+    /**
+     * 1684. 统计一致字符串的数目
+     */
+    public static int countConsistentStrings(String allowed, String[] words) {
+        int bitArr = 0;
+        int ans = 0;
+        for (int i = 0; i < allowed.length(); i++) {
+            bitArr |= (1 << (allowed.charAt(i) - 'a'));
+        }
+        for (String word : words) {
+            boolean flag = true;
+            for (int i = 0; i < word.length(); i++) {
+                if ((bitArr & (1 << (word.charAt(i) - 'a'))) == 0) {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag) {
+                ans++;
+            }
+        }
+        return ans;
+
     }
 
 }
