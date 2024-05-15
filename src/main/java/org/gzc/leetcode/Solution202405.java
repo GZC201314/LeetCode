@@ -24,6 +24,9 @@ public class Solution202405 {
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
                 break;
+            case 2589:
+                log.info(String.valueOf(findMinimumTime(new int[][]{{1, 3, 2}, {2, 5, 3}, {5, 6, 2}})));
+                break;
             case 2960:
                 log.info(String.valueOf(countTestedDevices(new int[]{0, 1, 2})));
                 break;
@@ -228,5 +231,35 @@ public class Solution202405 {
         return ans;
 
     }
+
+    /**
+     * 2589. 完成所有任务的最少时间
+     */
+    public static int findMinimumTime(int[][] tasks) {
+        Arrays.sort(tasks, Comparator.comparingInt(a -> a[1]));
+        int maxIndex = tasks[tasks.length - 1][1];
+        boolean[] run = new boolean[maxIndex + 1];
+        int ans = 0;
+        for (int[] task : tasks) {
+            int start = task[0];
+            int end = task[1];
+            int dur = task[2];
+            for (int i = start; i < end; i++) {
+                if (run[i]) {
+                    dur--;
+                }
+            }
+
+            for (int i = end; dur > 0; i--) {
+                if (!run[i]) {
+                    run[i] = true;
+                    dur--;
+                    ans++;
+                }
+            }
+        }
+        return ans;
+    }
+
 
 }
