@@ -274,13 +274,17 @@ public class Solution202405 {
             dp[i][0] = difficulty[i];
             dp[i][1] = profit[i];
         }
+        // 任务复杂度按照从小到大排列，工人能力从小到大排列
         Arrays.sort(dp, Comparator.comparingInt(a -> a[0]));
+        Arrays.sort(worker);
         int ans = 0;
+        int max = 0;
+        int index =0;
         for (int w : worker) {
-            int max = 0;
-            for (int[] diffAndPro : dp) {
-                if (diffAndPro[0] <= w) {
-                    max = Math.max(max, diffAndPro[1]);
+            while (index<n){
+                if (dp[index][0] <= w) {
+                    max = Math.max(max, dp[index][1]);
+                    index++;
                 } else {
                     break;
                 }
