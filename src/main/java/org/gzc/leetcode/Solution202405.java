@@ -21,6 +21,9 @@ public class Solution202405 {
             case 2079:
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
+            case 826:
+                log.info(String.valueOf(maxProfitAssignment(new int[]{2,4,6,8,10}, new int[]{10,20,30,40,50}, new int[]{4,5,6,7})));
+                break;
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
                 break;
@@ -261,5 +264,31 @@ public class Solution202405 {
         return ans;
     }
 
+    /**
+     * 826.安排工作以达到最大收益
+     */
+    public static int maxProfitAssignment(int[] difficulty, int[] profit, int[] worker) {
+        int n = difficulty.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            dp[i][0] = difficulty[i];
+            dp[i][1] = profit[i];
+        }
+        Arrays.sort(dp, Comparator.comparingInt(a -> a[0]));
+        int ans = 0;
+        for (int w : worker) {
+            int max = 0;
+            for (int[] diffAndPro : dp) {
+                if (diffAndPro[0] <= w) {
+                    max = Math.max(max, diffAndPro[1]);
+                } else {
+                    break;
+                }
+            }
+            ans += max;
+        }
+        return ans;
+
+    }
 
 }
