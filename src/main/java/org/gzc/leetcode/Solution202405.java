@@ -22,7 +22,7 @@ public class Solution202405 {
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
             case 826:
-                log.info(String.valueOf(maxProfitAssignment(new int[]{2,4,6,8,10}, new int[]{10,20,30,40,50}, new int[]{4,5,6,7})));
+                log.info(String.valueOf(maxProfitAssignment(new int[]{2, 4, 6, 8, 10}, new int[]{10, 20, 30, 40, 50}, new int[]{4, 5, 6, 7})));
                 break;
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
@@ -38,6 +38,9 @@ public class Solution202405 {
                 break;
             case 2105:
                 log.info(String.valueOf(minimumRefill(new int[]{274, 179, 789, 417, 293, 336, 133, 334, 569, 355, 813, 217, 80, 933, 961, 271, 294, 933, 49, 980, 685, 470, 186, 11, 157, 889, 299, 493, 215, 807, 588, 464, 218, 248, 391, 817, 32, 606, 740, 941, 505, 533, 289, 306, 490}, 996, 1172)));
+                break;
+            case 2220:
+                log.info(String.valueOf(minBitFlips(7, 10)));
                 break;
             default:
 
@@ -279,9 +282,9 @@ public class Solution202405 {
         Arrays.sort(worker);
         int ans = 0;
         int max = 0;
-        int index =0;
+        int index = 0;
         for (int w : worker) {
-            while (index<n){
+            while (index < n) {
                 if (dp[index][0] <= w) {
                     max = Math.max(max, dp[index][1]);
                     index++;
@@ -295,4 +298,18 @@ public class Solution202405 {
 
     }
 
+    /**
+     * 2220. 转换数字的最少位翻转次数
+     */
+    public static int minBitFlips(int start, int goal) {
+        int ans = 0;
+        while (start != 0 || goal != 0) {
+            if ((start & 1) != (goal & 1)) {
+                ans++;
+            }
+            start >>= 1;
+            goal >>= 1;
+        }
+        return ans;
+    }
 }
