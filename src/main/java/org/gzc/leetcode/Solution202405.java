@@ -22,7 +22,7 @@ public class Solution202405 {
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
             case 826:
-                log.info(String.valueOf(maxProfitAssignment(new int[]{2, 4, 6, 8, 10}, new int[]{10, 20, 30, 40, 50}, new int[]{4, 5, 6, 7})));
+                log.info(String.valueOf(maxProfitAssignment(new int[]{2,4,6,8,10}, new int[]{10,20,30,40,50}, new int[]{4,5,6,7})));
                 break;
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
@@ -39,6 +39,8 @@ public class Solution202405 {
             case 2105:
                 log.info(String.valueOf(minimumRefill(new int[]{274, 179, 789, 417, 293, 336, 133, 334, 569, 355, 813, 217, 80, 933, 961, 271, 294, 933, 49, 980, 685, 470, 186, 11, 157, 889, 299, 493, 215, 807, 588, 464, 218, 248, 391, 817, 32, 606, 740, 941, 505, 533, 289, 306, 490}, 996, 1172)));
                 break;
+            case 1542:
+                log.info(String.valueOf(longestAwesome("123321")));
             case 2220:
                 log.info(String.valueOf(minBitFlips(7, 10)));
                 break;
@@ -282,9 +284,9 @@ public class Solution202405 {
         Arrays.sort(worker);
         int ans = 0;
         int max = 0;
-        int index = 0;
+        int index =0;
         for (int w : worker) {
-            while (index < n) {
+            while (index<n){
                 if (dp[index][0] <= w) {
                     max = Math.max(max, dp[index][1]);
                     index++;
@@ -312,4 +314,50 @@ public class Solution202405 {
         }
         return ans;
     }
+
+    /**
+     * 1542. 找出最长的超赞子字符串
+     */
+    public static int longestAwesome(String s) {
+        int length = s.length();
+        int[][] numCountDp = new int[length+1][10];
+        int[] numCount = new int[10];
+        for (int i = 0; i < length; i++) {
+            numCount[s.charAt(i)-'0']++;
+            numCountDp[i+1]= Arrays.copyOfRange(numCount,0,10);
+        }
+        int max =1;
+        for (int i = 0; i <= length; i++) {
+            for (int j = i+1; j <= length; j++) {
+                int[] preSum = computePreSum(numCountDp, i, j);
+                // 判断能不能生成回文数
+                int len = j - i;
+                if (len>max){
+                    int count =0;
+                    for (int i1 : preSum) {
+                        if (i1%2 !=0){
+                            count++;
+                        }
+                    }
+                    if ((len%2 == 0 && count ==0)||(len%2 == 1 && count ==1)){
+                        max = Math.max(max,len);
+                    }
+                }
+
+            }
+        }
+        return max;
+    }
+
+    private static int[] computePreSum(int[][] numCountDp, int i, int j) {
+        int[] left = numCountDp[i];
+        int[] right = numCountDp[j];
+        int length = left.length;
+        int[] ans = new int[length];
+        for (int k = 0; k < length; k++) {
+            ans[k] = right[k] -left[k];
+        }
+        return ans;
+    }
+
 }
