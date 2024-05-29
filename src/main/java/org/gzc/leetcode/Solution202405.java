@@ -22,7 +22,7 @@ public class Solution202405 {
                 log.info(String.valueOf(wateringPlants(new int[]{1, 1, 1, 4, 2, 3}, 4)));
                 break;
             case 826:
-                log.info(String.valueOf(maxProfitAssignment(new int[]{2,4,6,8,10}, new int[]{10,20,30,40,50}, new int[]{4,5,6,7})));
+                log.info(String.valueOf(maxProfitAssignment(new int[]{2, 4, 6, 8, 10}, new int[]{10, 20, 30, 40, 50}, new int[]{4, 5, 6, 7})));
                 break;
             case 994:
                 log.info(String.valueOf(orangesRotting(new int[][]{{0, 2}})));
@@ -288,9 +288,9 @@ public class Solution202405 {
         Arrays.sort(worker);
         int ans = 0;
         int max = 0;
-        int index =0;
+        int index = 0;
         for (int w : worker) {
-            while (index<n){
+            while (index < n) {
                 if (dp[index][0] <= w) {
                     max = Math.max(max, dp[index][1]);
                     index++;
@@ -324,15 +324,15 @@ public class Solution202405 {
      */
     public static int longestAwesome(String s) {
         int length = s.length();
-        int[][] numCountDp = new int[length+1][10];
+        int[][] numCountDp = new int[length + 1][10];
         int[] numCount = new int[10];
         for (int i = 0; i < length; i++) {
-            numCount[s.charAt(i)-'0']++;
-            numCountDp[i+1]= Arrays.copyOfRange(numCount,0,10);
+            numCount[s.charAt(i) - '0']++;
+            numCountDp[i + 1] = Arrays.copyOfRange(numCount, 0, 10);
         }
-        int max =1;
+        int max = 1;
         for (int i = 0; i <= length; i++) {
-            for (int j = i+1; j <= length; j++) {
+            for (int j = i + 1; j <= length; j++) {
                 max = getMax(numCountDp, max, i, j);
 
             }
@@ -344,14 +344,14 @@ public class Solution202405 {
         int[] preSum = computePreSum(numCountDp, i, j);
         // 判断能不能生成回文数
         int len = j - i;
-        if (len> max){
-            int count =0;
+        if (len > max) {
+            int count = 0;
             for (int i1 : preSum) {
-                if (i1%2 !=0){
+                if (i1 % 2 != 0) {
                     count++;
                 }
             }
-            if ((len%2 == 0 && count ==0)||(len%2 == 1 && count ==1)){
+            if ((len % 2 == 0 && count == 0) || (len % 2 == 1 && count == 1)) {
                 max = len;
             }
         }
@@ -364,36 +364,35 @@ public class Solution202405 {
         int length = left.length;
         int[] ans = new int[length];
         for (int k = 0; k < length; k++) {
-            ans[k] = right[k] -left[k];
+            ans[k] = right[k] - left[k];
         }
         return ans;
     }
 
-/**
- * 2981.找出出现至少三次的最长特殊子字符串 I
- *
- */
+    /**
+     * 2981.找出出现至少三次的最长特殊子字符串 I
+     */
     public static int maximumLength(String s) {
 
         char[] charArray = s.toCharArray();
         int lastChar = 0;
         int curChar = 0;
-        Map<String,Integer> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         for (int i = 0; i < charArray.length; i++) {
-            if (charArray[lastChar] != charArray[i]){
+            if (charArray[lastChar] != charArray[i]) {
                 // 特殊字符的长度
                 handle(s, lastChar, map, i);
-                lastChar =i;
+                lastChar = i;
             }
-            curChar =i;
+            curChar = i;
         }
-        if (charArray[lastChar] == charArray[curChar]){
-            handle(s, lastChar, map, curChar+1);
+        if (charArray[lastChar] == charArray[curChar]) {
+            handle(s, lastChar, map, curChar + 1);
         }
         int ans = -1;
         for (Map.Entry<String, Integer> stringIntegerEntry : map.entrySet()) {
-            if (stringIntegerEntry.getValue()>=3){
-                ans = Math.max(ans,stringIntegerEntry.getKey().length());
+            if (stringIntegerEntry.getValue() >= 3) {
+                ans = Math.max(ans, stringIntegerEntry.getKey().length());
             }
         }
         return ans;
@@ -401,12 +400,12 @@ public class Solution202405 {
 
     private static void handle(String s, int lastChar, Map<String, Integer> map, int curChar) {
         int length = curChar - lastChar;
-        map.put(s.substring(lastChar, curChar), map.getOrDefault(s.substring(lastChar, curChar),0)+1);
-        if (length-1>0){
-            map.put(s.substring(lastChar, curChar -1), map.getOrDefault(s.substring(lastChar, curChar -1),0)+2);
+        map.put(s.substring(lastChar, curChar), map.getOrDefault(s.substring(lastChar, curChar), 0) + 1);
+        if (length - 1 > 0) {
+            map.put(s.substring(lastChar, curChar - 1), map.getOrDefault(s.substring(lastChar, curChar - 1), 0) + 2);
         }
-        if (length-2>0){
-            map.put(s.substring(lastChar, curChar -2), map.getOrDefault(s.substring(lastChar, curChar -2),0)+3);
+        if (length - 2 > 0) {
+            map.put(s.substring(lastChar, curChar - 2), map.getOrDefault(s.substring(lastChar, curChar - 2), 0) + 3);
         }
     }
 
