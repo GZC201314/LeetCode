@@ -33,6 +33,9 @@ public class Solution202405 {
             case 2960:
                 log.info(String.valueOf(countTestedDevices(new int[]{0, 1, 2})));
                 break;
+            case 2981:
+                log.info(String.valueOf(maximumLength("abcaba")));
+                break;
             case 2244:
                 log.info(String.valueOf(minimumRounds(new int[]{2, 3, 3})));
                 break;
@@ -41,6 +44,7 @@ public class Solution202405 {
                 break;
             case 1542:
                 log.info(String.valueOf(longestAwesome("123321")));
+                break;
             case 2220:
                 log.info(String.valueOf(minBitFlips(7, 10)));
                 break;
@@ -329,21 +333,26 @@ public class Solution202405 {
         int max =1;
         for (int i = 0; i <= length; i++) {
             for (int j = i+1; j <= length; j++) {
-                int[] preSum = computePreSum(numCountDp, i, j);
-                // 判断能不能生成回文数
-                int len = j - i;
-                if (len>max){
-                    int count =0;
-                    for (int i1 : preSum) {
-                        if (i1%2 !=0){
-                            count++;
-                        }
-                    }
-                    if ((len%2 == 0 && count ==0)||(len%2 == 1 && count ==1)){
-                        max = Math.max(max,len);
-                    }
-                }
+                max = getMax(numCountDp, max, i, j);
 
+            }
+        }
+        return max;
+    }
+
+    private static int getMax(int[][] numCountDp, int max, int i, int j) {
+        int[] preSum = computePreSum(numCountDp, i, j);
+        // 判断能不能生成回文数
+        int len = j - i;
+        if (len> max){
+            int count =0;
+            for (int i1 : preSum) {
+                if (i1%2 !=0){
+                    count++;
+                }
+            }
+            if ((len%2 == 0 && count ==0)||(len%2 == 1 && count ==1)){
+                max = len;
             }
         }
         return max;
@@ -358,6 +367,47 @@ public class Solution202405 {
             ans[k] = right[k] -left[k];
         }
         return ans;
+    }
+
+/**
+ * 2981.找出出现至少三次的最长特殊子字符串 I
+ *
+ */
+    public static int maximumLength(String s) {
+
+        char[] charArray = s.toCharArray();
+        int lastChar = 0;
+        int curChar = 0;
+        Map<String,Integer> map = new HashMap<>();
+        for (int i = 0; i < charArray.length; i++) {
+            if (charArray[lastChar] != charArray[i]){
+                // 特殊字符的长度
+                handle(s, lastChar, map, i);
+                lastChar =i;
+            }
+            curChar =i;
+        }
+        if (charArray[lastChar] == charArray[curChar]){
+            handle(s, lastChar, map, curChar+1);
+        }
+        int ans = -1;
+        for (Map.Entry<String, Integer> stringIntegerEntry : map.entrySet()) {
+            if (stringIntegerEntry.getValue()>=3){
+                ans = Math.max(ans,stringIntegerEntry.getKey().length());
+            }
+        }
+        return ans;
+    }
+
+    private static void handle(String s, int lastChar, Map<String, Integer> map, int curChar) {
+        int length = curChar - lastChar;
+        map.put(s.substring(lastChar, curChar), map.getOrDefault(s.substring(lastChar, curChar),0)+1);
+        if (length-1>0){
+            map.put(s.substring(lastChar, curChar -1), map.getOrDefault(s.substring(lastChar, curChar -1),0)+2);
+        }
+        if (length-2>0){
+            map.put(s.substring(lastChar, curChar -2), map.getOrDefault(s.substring(lastChar, curChar -2),0)+3);
+        }
     }
 
 }
