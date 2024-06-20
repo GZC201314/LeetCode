@@ -18,6 +18,9 @@ public class Solution202406 {
             case 3121:
                 log.info(String.valueOf(numberOfSpecialChars("cCceDC")));
                 break;
+            case 3111:
+                log.info(String.valueOf(minRectanglesToCoverPoints(new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}},2)));
+                break;
             default:
                 break;
 
@@ -40,18 +43,34 @@ public class Solution202406 {
                 if (existChar.contains(Character.toUpperCase(c))) {
                     ansSet.remove(c);
                 }
-                existChar.add(c);
             } else {
                 // 大写字母
-                if (existChar.contains(Character.toLowerCase(c))) {
-                    if (!existChar.contains(c)) {
-                        ansSet.add(Character.toLowerCase(c));
-                    }
+                if (existChar.contains(Character.toLowerCase(c)) && (!existChar.contains(c))) {
+                    ansSet.add(Character.toLowerCase(c));
+
                 }
-                existChar.add(c);
             }
+            existChar.add(c);
         }
         return ansSet.size();
+    }
+
+    /**
+     * 3111.覆盖所有点的最少矩形数目
+     */
+    public static int minRectanglesToCoverPoints(int[][] points, int w) {
+        Arrays.sort(points, Comparator.comparingInt(o -> o[0]));
+        int n = points.length;
+        int len = points[0][0] + w;
+        int ans = 1;
+        for (int i = 1; i < n; i++) {
+            if (len >= points[i][0]) {
+                continue;
+            }
+            len = points[i][0] + w;
+            ans++;
+        }
+        return ans;
     }
 
 
