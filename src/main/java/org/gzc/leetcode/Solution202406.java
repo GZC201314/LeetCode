@@ -15,6 +15,9 @@ public class Solution202406 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 1763:
+                log.info(String.valueOf(longestNiceSubstring("DBb")));
+                break;
             case 3121:
                 log.info(String.valueOf(numberOfSpecialChars("cCceDC")));
                 break;
@@ -71,6 +74,46 @@ public class Solution202406 {
             ans++;
         }
         return ans;
+    }
+
+    /**
+     * 1763.最长的美好子字符串
+     */
+    public static String longestNiceSubstring(String s) {
+        int n = s.length();
+        String ans = "";
+        for (int i = 0; i < n; i++) {
+            for (int j = i+1; j < n; j++) {
+                String substring = s.substring(i, j+1);
+                Set<Character> validChars = new HashSet<>();
+                Set<Character> existChars = new HashSet<>();
+
+                for (char c : substring.toCharArray()) {
+                    if (Character.isLowerCase(c)) {
+                        if (existChars.contains(Character.toUpperCase(c))) {
+                            validChars.remove(Character.toUpperCase(c));
+                        }else {
+                            validChars.add(c);
+                        }
+                        existChars.add(c);
+                    } else {
+                        if (existChars.contains(Character.toLowerCase(c))){
+                            validChars.remove(Character.toLowerCase(c));
+                        }else {
+                            validChars.add(c);
+                        }
+                        existChars.add(c);
+                    }
+                }
+                if (validChars.isEmpty()){
+                    ans = ans.length() < substring.length() ? substring : ans;
+                }
+
+
+            }
+        }
+        return ans ;
+
     }
 
 
