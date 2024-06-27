@@ -24,8 +24,11 @@ public class Solution202406 {
             case 2734:
                 log.info(smallestString("cbabc"));
                 break;
+            case 503:
+                log.info(String.valueOf(reverseBits(-2)));
+                break;
             case 3111:
-                log.info(String.valueOf(minRectanglesToCoverPoints(new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}},2)));
+                log.info(String.valueOf(minRectanglesToCoverPoints(new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}}, 2)));
                 break;
             default:
                 break;
@@ -86,8 +89,8 @@ public class Solution202406 {
         int n = s.length();
         String ans = "";
         for (int i = 0; i < n; i++) {
-            for (int j = i+1; j < n; j++) {
-                String substring = s.substring(i, j+1);
+            for (int j = i + 1; j < n; j++) {
+                String substring = s.substring(i, j + 1);
                 Set<Character> validChars = new HashSet<>();
                 Set<Character> existChars = new HashSet<>();
 
@@ -95,27 +98,27 @@ public class Solution202406 {
                     if (Character.isLowerCase(c)) {
                         if (existChars.contains(Character.toUpperCase(c))) {
                             validChars.remove(Character.toUpperCase(c));
-                        }else {
+                        } else {
                             validChars.add(c);
                         }
                         existChars.add(c);
                     } else {
-                        if (existChars.contains(Character.toLowerCase(c))){
+                        if (existChars.contains(Character.toLowerCase(c))) {
                             validChars.remove(Character.toLowerCase(c));
-                        }else {
+                        } else {
                             validChars.add(c);
                         }
                         existChars.add(c);
                     }
                 }
-                if (validChars.isEmpty()){
+                if (validChars.isEmpty()) {
                     ans = ans.length() < substring.length() ? substring : ans;
                 }
 
 
             }
         }
-        return ans ;
+        return ans;
 
     }
 
@@ -124,23 +127,53 @@ public class Solution202406 {
      */
     public static String smallestString(String s) {
         char[] chars = s.toCharArray();
-        int i =0;
+        int i = 0;
         boolean flag = false;
         for (i = 0; i < chars.length; i++) {
-            if (chars[i] != 'a'){
+            if (chars[i] != 'a') {
                 // 找到第一个不为a的字符
                 flag = true;
-                while (i < chars.length  && chars[i] != 'a'){
+                while (i < chars.length && chars[i] != 'a') {
                     chars[i] = (char) (chars[i] - 1);
                     i++;
                 }
                 break;
             }
         }
-        if (i == chars.length && !flag){
-            chars[i-1] = 'z';
+        if (i == chars.length && !flag) {
+            chars[i - 1] = 'z';
         }
         return String.valueOf(chars);
+
+    }
+
+    /**
+     * 面试题 05.03 翻转数位
+     */
+    public static int reverseBits(int num) {
+        int ans = 0;
+        // 状态矩阵 dp[i][0] 表示0->没有零转化的连续1的个数 dp[i][1]表示0->有零转化的连续1的个数
+        int[][] dp = new int[32][2];
+        if ((num & 1) == 1) {
+            dp[0][0] = 1;
+        } else {
+            dp[0][0] = 0;
+        }
+        dp[0][1] = 1;
+        for (int i = 1; i < 32; i++) {
+            int bit = (num >> i) & 1;
+            if (bit == 1) {
+                dp[i][0] = dp[i - 1][0] + 1;
+                dp[i][1] = dp[i - 1][1] + 1;
+            } else {
+                dp[i][0] = 0;
+                dp[i][1] = dp[i - 1][0] + 1;
+                ans = Math.max(Math.max(ans, dp[i][1]), dp[i - 1][1]);
+            }
+        }
+        ans = Math.max(Math.max(ans, dp[31][0]), dp[31][1]);
+
+        return ans;
 
     }
 
