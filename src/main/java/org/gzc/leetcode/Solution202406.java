@@ -21,6 +21,9 @@ public class Solution202406 {
             case 3121:
                 log.info(String.valueOf(numberOfSpecialChars("cCceDC")));
                 break;
+            case 2734:
+                log.info(smallestString("cbabc"));
+                break;
             case 3111:
                 log.info(String.valueOf(minRectanglesToCoverPoints(new int[][]{{0, 0}, {1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}, {6, 6}},2)));
                 break;
@@ -113,6 +116,31 @@ public class Solution202406 {
             }
         }
         return ans ;
+
+    }
+
+    /**
+     * 2734.执行子串操作后的字典序最小字符串
+     */
+    public static String smallestString(String s) {
+        char[] chars = s.toCharArray();
+        int i =0;
+        boolean flag = false;
+        for (i = 0; i < chars.length; i++) {
+            if (chars[i] != 'a'){
+                // 找到第一个不为a的字符
+                flag = true;
+                while (i < chars.length  && chars[i] != 'a'){
+                    chars[i] = (char) (chars[i] - 1);
+                    i++;
+                }
+                break;
+            }
+        }
+        if (i == chars.length && !flag){
+            chars[i-1] = 'z';
+        }
+        return String.valueOf(chars);
 
     }
 
