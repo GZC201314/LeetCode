@@ -28,6 +28,9 @@ public class Solution202406 {
             case 3186:
                 log.info(String.valueOf(maximumTotalDamage(new int[]{3, 4, 8, 10, 8, 8, 3})));
                 break;
+            case 283:
+                moveZeroes(new int[]{3, 4, 8, 10, 8, 8, 3});
+                break;
             case 406:
                 int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
                 log.info(Arrays.toString(reconstructQueue1(people)));
@@ -296,6 +299,24 @@ public class Solution202406 {
             ans[right - 1] = new int[]{hi, ki};
         }
         return ans;
+    }
+
+    /**
+     * 283.移动零
+     */
+    public static void moveZeroes(int[] nums) {
+        // 不为零的分界线
+        int left = 0;
+        // 寻找不为零的指针
+        int right = 0;
+        for (right = 0; right < nums.length; right++) {
+            if (nums[right] != 0){
+                nums[left++] = nums[right];
+            }
+        }
+        while (left < nums.length){
+            nums[left++] = 0;
+        }
     }
 
 }
