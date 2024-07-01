@@ -24,6 +24,13 @@ public class Solution202406 {
             case 2734:
                 log.info(smallestString("cbabc"));
                 break;
+            case 3186:
+                log.info(String.valueOf(maximumTotalDamage(new int[]{3, 4, 8, 10, 8, 8, 3})));
+                break;
+            case 406:
+                int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+                log.info(Arrays.toString(reconstructQueue(people)));
+                break;
             case 503:
                 log.info(String.valueOf(reverseBits(-2)));
                 break;
@@ -127,7 +134,7 @@ public class Solution202406 {
      */
     public static String smallestString(String s) {
         char[] chars = s.toCharArray();
-        int i = 0;
+        int i;
         boolean flag = false;
         for (i = 0; i < chars.length; i++) {
             if (chars[i] != 'a') {
@@ -177,5 +184,85 @@ public class Solution202406 {
 
     }
 
+    /**
+     * 3186.施咒的最大总伤害
+     */
+    public static long maximumTotalDamage(int[] power) {
+        // 排序
+        Arrays.sort(power);
+        // 统计个数
+        Map<Integer, Integer> map = new HashMap<>();
+        // 去重
+        List<Integer> single = new ArrayList<>();
+        for (int i : power) {
+            Integer count = map.getOrDefault(i, 0);
+            if (count == 0) {
+                single.add(i);
+            }
+            map.put(i, count + 1);
+        }
+        long[][] dp = new long[map.size()][2];
+        // dp[i][0] 当前节点不选的情况下，0->i-1个节点的伤害
+        // dp[i][1] 当前节点选的情况下，0->i-1个节点的伤害
+        // 转移方程
+        dp[0][0] = (long) single.get(0) * map.get(single.get(0));
+        for (int i = 1; i < single.size(); i++) {
+            // 转移方程，向左找，第一个帮助情况的值
+            int tmpI = i;
+            while (tmpI >= 0) {
+                if (single.get(tmpI) >= single.get(i) - 2) {
+                    tmpI--;
+                } else {
+                    break;
+                }
+            }
+            if (tmpI >= 0) {
+                if (single.get(tmpI) == single.get(i) - 2){
+                    dp[i][0] = Math.max(dp[tmpI][0], dp[tmpI + 1][1]) + (long) single.get(i) * map.get(single.get(i));
+                }else {
+                    dp[i][0] = Math.max(dp[tmpI][0], dp[tmpI][1]) + (long) single.get(i) * map.get(single.get(i));
+                }
+            } else {
+                dp[i][0] = (long) single.get(i) * map.get(single.get(i));
+            }
+            dp[i][1] = Math.max(dp[i - 1][0], dp[i - 1][1]);
+        }
+        return Math.max(dp[single.size() - 1][0], dp[single.size() - 1][1]);
+    }
+
+    /**
+     * 406.根据身高重建队列
+     */
+    public static int[][] reconstructQueue(int[][] people) {
+        Arrays.sort(people, (o1, o2) -> {
+            if (o1[1] == o2[1]) {
+                return o2[0] - o1[0];
+            }
+            return o1[1] - o2[1];
+        });
+        List<int[]> ans = new ArrayList<>();
+        for (int[] person : people) {
+            if (person[1] == 0) {
+                ans.add(0,person);
+            } else {
+                int count = person[1];
+                int size = ans.size();
+                for (int j = 0; j < size; j++) {
+                    if (ans.get(j)[0] >= person[0]) {
+                        count--;
+                        if (count == 0) {
+                            ans.add(j+1, person);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < ans.size(); i++) {
+            people[i] = ans.get(i);
+        }
+
+        return people;
+    }
 
 }
