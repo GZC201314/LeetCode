@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.MyTree;
 
 import java.text.ParseException;
 import java.util.*;
@@ -29,6 +30,7 @@ public class Solution202406 {
                 break;
             case 406:
                 int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+                log.info(Arrays.toString(reconstructQueue1(people)));
                 log.info(Arrays.toString(reconstructQueue(people)));
                 break;
             case 503:
@@ -263,6 +265,37 @@ public class Solution202406 {
         }
 
         return people;
+    }
+
+    public static int[][] reconstructQueue1(int[][] people) {
+        final int n = people.length;
+
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = people[i][0] << 11 | (n - people[i][1]);
+        }
+        Arrays.sort(nums);
+
+        MyTree tree = new MyTree(n);
+        int mask = (1 << 11) - 1;
+        int[][] ans = new int[n][];
+        for (int num : nums) {
+            int hi = num >> 11;
+            int ki = n - (num & mask);
+            int left = 1;
+            int right = n;
+            while (left < right) {
+                int mid = (left + right) >> 1;
+                if (tree.query(mid) > ki) {
+                    right = mid;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            tree.remove(right);
+            ans[right - 1] = new int[]{hi, ki};
+        }
+        return ans;
     }
 
 }
