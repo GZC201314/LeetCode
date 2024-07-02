@@ -6,6 +6,7 @@ import org.gzc.leetcode.model.MyTree;
 import java.text.ParseException;
 import java.util.*;
 
+
 /**
  * @author GZC
  */
@@ -25,6 +26,9 @@ public class Solution202406 {
             case 2734:
                 log.info(smallestString("cbabc"));
                 break;
+            case 784:
+                log.info(String.valueOf(letterCasePermutation("3z4")));
+                break;
             case 3186:
                 log.info(String.valueOf(maximumTotalDamage(new int[]{3, 4, 8, 10, 8, 8, 3})));
                 break;
@@ -32,7 +36,7 @@ public class Solution202406 {
                 moveZeroes(new int[]{3, 4, 8, 10, 8, 8, 3});
                 break;
             case 406:
-                int[][] people = {{7,0},{4,4},{7,1},{5,0},{6,1},{5,2}};
+                int[][] people = {{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}};
                 log.info(Arrays.toString(reconstructQueue1(people)));
                 log.info(Arrays.toString(reconstructQueue(people)));
                 break;
@@ -222,9 +226,9 @@ public class Solution202406 {
                 }
             }
             if (tmpI >= 0) {
-                if (single.get(tmpI) == single.get(i) - 2){
+                if (single.get(tmpI) == single.get(i) - 2) {
                     dp[i][0] = Math.max(dp[tmpI][0], dp[tmpI + 1][1]) + (long) single.get(i) * map.get(single.get(i));
-                }else {
+                } else {
                     dp[i][0] = Math.max(dp[tmpI][0], dp[tmpI][1]) + (long) single.get(i) * map.get(single.get(i));
                 }
             } else {
@@ -248,7 +252,7 @@ public class Solution202406 {
         List<int[]> ans = new ArrayList<>();
         for (int[] person : people) {
             if (person[1] == 0) {
-                ans.add(0,person);
+                ans.add(0, person);
             } else {
                 int count = person[1];
                 int size = ans.size();
@@ -256,7 +260,7 @@ public class Solution202406 {
                     if (ans.get(j)[0] >= person[0]) {
                         count--;
                         if (count == 0) {
-                            ans.add(j+1, person);
+                            ans.add(j + 1, person);
                             break;
                         }
                     }
@@ -310,12 +314,38 @@ public class Solution202406 {
         // 寻找不为零的指针
         int right = 0;
         for (right = 0; right < nums.length; right++) {
-            if (nums[right] != 0){
+            if (nums[right] != 0) {
                 nums[left++] = nums[right];
             }
         }
-        while (left < nums.length){
+        while (left < nums.length) {
             nums[left++] = 0;
+        }
+    }
+
+    /**
+     * 784.字母大小写全排列
+     */
+    public static List<String> letterCasePermutation(String s) {
+        List<String> ans = new ArrayList<>();
+        if (s.length() == 0) {
+            return ans;
+        }
+        char[] chars = s.toCharArray();
+        dfsLetterCasePermutation(chars, 0, ans, "");
+        return ans;
+    }
+
+    private static void dfsLetterCasePermutation(char[] chars, int i, List<String> ans, String base) {
+        if (i == chars.length) {
+            ans.add(base);
+            return;
+        }
+        if (chars[i] >= '0' && chars[i] <= '9') {
+            dfsLetterCasePermutation(chars, i + 1, ans, base + chars[i]);
+        } else {
+            dfsLetterCasePermutation(chars, i + 1, ans, base + Character.toLowerCase(chars[i]));
+            dfsLetterCasePermutation(chars, i + 1, ans, base + Character.toUpperCase(chars[i]));
         }
     }
 
