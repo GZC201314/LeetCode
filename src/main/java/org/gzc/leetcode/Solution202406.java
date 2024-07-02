@@ -331,21 +331,21 @@ public class Solution202406 {
         if (s.length() == 0) {
             return ans;
         }
-        char[] chars = s.toCharArray();
-        dfsLetterCasePermutation(chars, 0, ans, "");
+        dfsLetterCasePermutation(s, 0, ans, "");
         return ans;
     }
 
-    private static void dfsLetterCasePermutation(char[] chars, int i, List<String> ans, String base) {
-        if (i == chars.length) {
+    private static void dfsLetterCasePermutation(String s, int i, List<String> ans, String base) {
+        if (i == s.length()) {
             ans.add(base);
             return;
         }
-        if (chars[i] >= '0' && chars[i] <= '9') {
-            dfsLetterCasePermutation(chars, i + 1, ans, base + chars[i]);
+        char c = s.charAt(i);
+        if (c >= '0' && c <= '9') {
+            dfsLetterCasePermutation(s, i + 1, ans, base +c);
         } else {
-            dfsLetterCasePermutation(chars, i + 1, ans, base + Character.toLowerCase(chars[i]));
-            dfsLetterCasePermutation(chars, i + 1, ans, base + Character.toUpperCase(chars[i]));
+            dfsLetterCasePermutation(s, i + 1, ans, base + Character.toLowerCase(c));
+            dfsLetterCasePermutation(s, i + 1, ans, base + Character.toUpperCase(c));
         }
     }
 
