@@ -1,7 +1,6 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gzc.leetcode.model.MyTree;
 
 import java.text.ParseException;
 import java.util.*;
@@ -18,7 +17,10 @@ public class Solution202407 {
         int questionNum = input.nextInt();
         switch (questionNum) {
             case 673:
-                log.info(String.valueOf(findNumberOfLIS(new int[]{1, 3, 5, 4, 7})));
+                log.info(String.valueOf(findnumberoflis(new int[]{1, 3, 5, 4, 7})));
+                break;
+            case 3099:
+                log.info(String.valueOf(sumOfTheDigitsOfHarshadNumber(18)));
                 break;
             default:
                 break;
@@ -29,10 +31,9 @@ public class Solution202407 {
     }
 
     /**
-     *
      * 673.最长递增子序列的个数
      */
-    public static int findNumberOfLIS(int[] nums) {
+    public static int findnumberoflis(int[] nums) {
         int n = nums.length;
         int max = 0;
         int res = 0;
@@ -68,4 +69,22 @@ public class Solution202407 {
         }
         return res;
     }
+
+    /**
+     * 3099.哈沙德数
+     */
+    public static int sumOfTheDigitsOfHarshadNumber(int x) {
+        int sum = 0;
+        int temp = x;
+        while (temp > 0) {
+            sum += temp % 10;
+            temp /= 10;
+        }
+        assert sum != 0;
+        if(x % sum == 0){
+            return sum;
+        }
+        return -1;
+    }
+
 }
