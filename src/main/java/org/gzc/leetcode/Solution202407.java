@@ -22,6 +22,9 @@ public class Solution202407 {
             case 3099:
                 log.info(String.valueOf(sumOfTheDigitsOfHarshadNumber(18)));
                 break;
+            case 486:
+                log.info(String.valueOf(predictTheWinner(new int[]{2, 4, 55, 6, 8})));
+                break;
             default:
                 break;
 
@@ -81,10 +84,79 @@ public class Solution202407 {
             temp /= 10;
         }
         assert sum != 0;
-        if(x % sum == 0){
+        if (x % sum == 0) {
             return sum;
         }
         return -1;
     }
+
+    /**
+     *
+     * 486. 预测赢家
+     */
+    public static boolean predictTheWinner(int[] nums) {
+
+        // 1,5,2
+        int[] max = dfsPredictTheWinner(nums, 0, nums.length - 1, true, new int[]{0, 0});
+        return max[0] >= max[1];
+    }
+
+    private static int[] dfsPredictTheWinner(int[] nums, int start, int end, boolean p1First, int[] max) {
+        if (p1First) {
+            if (start == end) {
+                return new int[]{nums[start] + max[0], max[1]};
+            } else if (start == end - 1) {
+                if (nums[start] > nums[end]) {
+                    return new int[]{nums[start] + max[0], nums[end] + max[1]};
+                } else {
+                    return new int[]{nums[end] + max[0], nums[start] + max[1]};
+                }
+            } else {
+
+                // 两种情况，选择左边和右边
+                int[] right = dfsPredictTheWinner(nums, start, end - 1, false, new int[]{max[0] + nums[end], max[1]});
+                int[] left = dfsPredictTheWinner(nums, start + 1, end, false, new int[]{max[0] + nums[start], max[1]});
+                if (right[0] > left[0]) {
+                    return right;
+                } else if (right[0] == left[0]) {
+                    if (right[1] > left[1]) {
+                        return left;
+                    } else {
+                        return right;
+                    }
+                }
+                return left;
+
+            }
+        } else {
+            // 后手，需要绝对理性
+            if (start == end) {
+                return new int[]{max[0], max[1] + nums[start]};
+            } else if (start == end - 1) {
+                if (nums[start] <= nums[end]) {
+                    return new int[]{nums[start] + max[0], nums[end] + max[1]};
+                } else {
+                    return new int[]{nums[end] + max[0], nums[start] + max[1]};
+                }
+            } else {
+                // 两种情况，选择左边和右边
+                int[] right = dfsPredictTheWinner(nums, start, end - 1, true, new int[]{max[0], max[1] + nums[end]});
+                int[] left = dfsPredictTheWinner(nums, start + 1, end, true, new int[]{max[0], max[1] + nums[start]});
+
+                if (right[0] > left[0]) {
+                    return left;
+                } else if (right[0] == left[0]) {
+                    if (right[1] <= left[1]) {
+                        return left;
+                    } else {
+                        return right;
+                    }
+                }
+                return right;
+            }
+        }
+    }
+
+
 
 }
