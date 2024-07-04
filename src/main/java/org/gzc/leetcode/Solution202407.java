@@ -25,6 +25,9 @@ public class Solution202407 {
             case 486:
                 log.info(String.valueOf(predictTheWinner(new int[]{2, 4, 55, 6, 8})));
                 break;
+            case 494:
+                log.info(String.valueOf(findTargetSumWays(new int[]{1, 1, 1, 1, 1},3)));
+                break;
             default:
                 break;
 
@@ -155,6 +158,28 @@ public class Solution202407 {
                 return right;
             }
         }
+    }
+
+
+    /**
+     * 494.目标和
+     */
+    public static int findTargetSumWays(int[] nums, int target) {
+        int[] res = new int[1];
+        dfsFindTargetSumWays(nums, target, 0, 0, res);
+        return res[0];
+
+    }
+
+    public static void dfsFindTargetSumWays(int[] nums, int target, int index, int sum, int[] res) {
+        if (index == nums.length) {
+            if (sum == target) {
+                res[0]++;
+            }
+            return;
+        }
+        dfsFindTargetSumWays(nums, target, index + 1, sum + nums[index], res);
+        dfsFindTargetSumWays(nums, target, index + 1, sum - nums[index], res);
     }
 
 
