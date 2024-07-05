@@ -31,6 +31,9 @@ public class Solution202407 {
             case 494:
                 log.info(String.valueOf(findTargetSumWays(new int[]{1, 1, 1, 1, 1},3)));
                 break;
+            case 322:
+                log.info(String.valueOf(coinChange(new int[]{1, 2, 5}, 11)));
+                break;
             default:
                 break;
 
@@ -210,6 +213,33 @@ public class Solution202407 {
             }
         }
         return matrix;
+
+    }
+
+
+    /**
+     * 322.零钱兑换
+     */
+    public static int coinChange(int[] coins, int amount) {
+
+        int[] dp = new int[amount + 1];
+        int min = Integer.MAX_VALUE;
+        for (int coin : coins) {
+            min = Math.min(min, coin);
+        }
+        dp[0] = 0;
+        for (int i = min; i <= amount; i++) {
+            dp[i] = Integer.MAX_VALUE;
+            for (int coin : coins) {
+                if (coin <= i){
+                    if (dp[i - coin] == Integer.MAX_VALUE) {
+                        continue;
+                    }
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
 
     }
 
