@@ -19,6 +19,9 @@ public class Solution202407 {
             case 673:
                 log.info(String.valueOf(findnumberoflis(new int[]{1, 3, 5, 4, 7})));
                 break;
+            case 3033:
+                log.info(Arrays.deepToString(modifiedMatrix(new int[][]{{1, 3, 5, 4, 7}})));
+                break;
             case 3099:
                 log.info(String.valueOf(sumOfTheDigitsOfHarshadNumber(18)));
                 break;
@@ -180,6 +183,34 @@ public class Solution202407 {
         }
         dfsFindTargetSumWays(nums, target, index + 1, sum + nums[index], res);
         dfsFindTargetSumWays(nums, target, index + 1, sum - nums[index], res);
+    }
+
+
+    /**
+     *
+     * 3033.修改矩阵
+     */
+    public static int[][] modifiedMatrix(int[][] matrix) {
+        // 记录矩阵中-1的位置
+        int m = matrix.length;
+        int n = matrix[0].length;
+        for (int i = 0; i < n; i++) {
+            List<int[]> indexs = new ArrayList<>();
+            int max = 0;
+            for (int j = 0; j < m; j++) {
+                max = Math.max(max, matrix[j][i]);
+                if (matrix[j][i] == -1){
+                    indexs.add(new int[]{j, i});
+                }
+            }
+            if (!indexs.isEmpty()){
+                for (int[] index : indexs) {
+                    matrix[index[0]][index[1]] = max;
+                }
+            }
+        }
+        return matrix;
+
     }
 
 
