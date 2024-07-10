@@ -34,6 +34,12 @@ public class Solution202407 {
             case 322:
                 log.info(String.valueOf(coinChange(new int[]{1, 2, 5}, 11)));
                 break;
+            case 3039:
+                log.info(lastNonEmptyString("abcd"));
+                break;
+            case 2998:
+                log.info(String.valueOf(minimumOperationsToMakeEqual(1,18)));
+                break;
             default:
                 break;
 
@@ -243,6 +249,100 @@ public class Solution202407 {
 
     }
 
+    /**
+     * 3039.进行操作使字符串为空
+     */
+    public static String lastNonEmptyString(String s) {
+        int length = s.length();
+        int[][] map = new int[26][2];
+        int[] charArr = new int[26];
+        for (int i = 0; i < length; i++) {
+            char ch = s.charAt(i);
+            charArr[ch - 'a']++;
+            map[ch - 'a'][0] = ch;
+            map[ch - 'a'][1] = i;
+        }
+        // 获得个数最大的字符
+        int max = 0;
+        List<Character> maxChars = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            if (charArr[i] > max){
+                max = charArr[i];
+                maxChars.clear();
+                maxChars.add((char) (i + 'a'));
+            }else if (charArr[i] == max){
+                maxChars.add((char) (i + 'a'));
+            }
+        }
+        List<int[]> indexs = new ArrayList<>();
+        for (Character maxChar : maxChars) {
+            indexs.add(map[maxChar - 'a']);
+        }
+        indexs.sort(Comparator.comparingInt(o -> o[1]));
+        StringBuilder sb = new StringBuilder();
+        for (int[] index : indexs) {
+            sb.append(s.charAt(index[1]));
+        }
+        return sb.toString();
+    }
 
+    /**
+     * 2998.使 X 和 Y 相等的最少操作次数
+     */
+    public static int minimumOperationsToMakeEqual(int x, int y) {
+        if (x == y){
+            return 0;
+        }
+        Queue<Integer> queue = new ArrayDeque<>();
+        queue.offer(x);
+        int loop = 0;
+        Set<Integer> visited = new HashSet<>();
+        visited.add(x);
+        while (!queue.isEmpty()){
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                Integer cur = queue.poll();
+                if (cur %11 ==0){
+                    int newNum = cur / 11;
+                    if (newNum == y){
+                        return loop+1;
+                    }
+                    if (!visited.contains(newNum)){
+                        visited.add(newNum);
+                        queue.offer(newNum);
+                    }
+                }
+                if (cur % 5 == 0){
+                    int newNum = cur / 5;
+                    if (newNum == y){
+                        return loop+1;
+                    }
+                    if (!visited.contains(newNum)){
+                        visited.add(newNum);
+                        queue.offer(newNum);
+                    }
+                }
+                int newNum = cur - 1;
+                if (newNum == y){
+                    return loop+1;
+                }
+                if (!visited.contains(newNum)){
+                    queue.offer(newNum);
+                    visited.add(newNum);
+                }
+                newNum = cur + 1;
+                if (newNum == y){
+                    return loop+1;
+                }
+                if (!visited.contains(newNum)){
+                    visited.add(newNum);
+                    queue.offer(newNum);
+                }
+            }
+            loop++;
+        }
+
+        return -1;
+    }
 
 }
