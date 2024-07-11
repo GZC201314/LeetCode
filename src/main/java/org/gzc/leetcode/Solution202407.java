@@ -28,6 +28,9 @@ public class Solution202407 {
             case 486:
                 log.info(String.valueOf(predictTheWinner(new int[]{2, 4, 55, 6, 8})));
                 break;
+            case 978:
+                log.info(String.valueOf(maxTurbulenceSize(new int[]{9, 4, 2, 10, 7, 8, 8, 1, 9})));
+                break;
             case 1010:
                 log.info(String.valueOf(numPairsDivisibleBy60(new int[]{174, 188, 377, 437, 54, 498, 455, 239, 183, 347, 59, 199, 52, 488, 147, 82})));
                 break;
@@ -406,7 +409,6 @@ public class Solution202407 {
     }
 
     /**
-     *
      * 1006. 笨阶乘
      */
     public static int clumsy(int n) {
@@ -474,6 +476,37 @@ public class Solution202407 {
             optNum2 = 1;
         }
         return optNum1 >= optNum2;
+    }
+
+    /**
+     * 978. 最长湍流子数组
+     */
+    public static int maxTurbulenceSize(int[] arr) {
+        int n = arr.length;
+        int ans = 1;
+        // 9,4,2,10,7,8,8,1,9
+        int[][] dp = new int[n][2];
+        // dp[i][0] 表示以 i 结尾的最后小于的湍流最大个数
+        // dp[i][1] 表示以 i 结尾的最后大于的湍流最大个数
+        dp[0][0] = 1;
+        dp[0][1] = 1;
+        for (int i = 1; i < n; i++) {
+            if (arr[i] > arr[i - 1]) {
+                dp[i][0] = dp[i - 1][1] + 1;
+                dp[i][1] = 1;
+                ans = Math.max(ans, dp[i][0]);
+            } else if (arr[i] < arr[i - 1]) {
+                dp[i][0] = 1;
+                dp[i][1] = dp[i - 1][0] + 1;
+                ans = Math.max(ans, dp[i][1]);
+            } else {
+                dp[i][0] = 1;
+                dp[i][1] = 1;
+            }
+        }
+        return ans;
+
+
     }
 
 
