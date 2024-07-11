@@ -46,6 +46,9 @@ public class Solution202407 {
             case 2998:
                 log.info(String.valueOf(minimumOperationsToMakeEqual(1, 18)));
                 break;
+            case 1006:
+                log.info(String.valueOf(clumsy(10)));
+                break;
             default:
                 break;
 
@@ -397,9 +400,80 @@ public class Solution202407 {
             int count = map.getOrDefault(i % 60, 0);
             ans += count;
             int needSum = (60 - (i % 60)) % 60;
-            map.put(needSum, map.getOrDefault(needSum,0) + 1);
+            map.put(needSum, map.getOrDefault(needSum, 0) + 1);
         }
         return ans;
+    }
+
+    /**
+     *
+     * 1006. 笨阶乘
+     */
+    public static int clumsy(int n) {
+        Deque<Integer> numStack = new LinkedList<>();
+        Deque<Character> optStack = new LinkedList<>();
+        optStack.push('#');
+        char[] opts = {'*', '/', '+', '-'};
+        for (int i = n; i > 0; i--) {
+            numStack.push(i);
+            assert !optStack.isEmpty();
+            char opt1 = optStack.peek();
+            char opt2 = opts[(n - i) % 4];
+            while (checkPriority(opt1, opt2)) {
+                opt1 = optStack.pop();
+                cal(numStack, opt1);
+                assert !optStack.isEmpty();
+                opt1 = optStack.peek();
+            }
+            if (i > 1) {
+                optStack.push(opt2);
+            }
+        }
+        while (optStack.size() > 1) {
+            char opt = optStack.pop();
+            cal(numStack, opt);
+        }
+        return numStack.pop();
+
+    }
+
+    private static void cal(Deque<Integer> numStack, char opt1) {
+        Integer num2 = numStack.pop();
+        Integer num1 = numStack.pop();
+        switch (opt1) {
+            case '*':
+                numStack.push(num1 * num2);
+                break;
+            case '/':
+                numStack.push(num1 / num2);
+                break;
+            case '+':
+                numStack.push(num1 + num2);
+                break;
+            case '-':
+                numStack.push(num1 - num2);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private static boolean checkPriority(char opt1, char opt2) {
+        int optNum1 = 0;
+        int optNum2 = 0;
+        if (opt1 == '*' || opt1 == '/') {
+            optNum1 = 2;
+        }
+        if (opt1 == '+' || opt1 == '-') {
+            optNum1 = 1;
+        }
+        if (opt2 == '*' || opt2 == '/') {
+            optNum2 = 2;
+        }
+        if (opt2 == '+' || opt2 == '-') {
+            optNum2 = 1;
+        }
+        return optNum1 >= optNum2;
     }
 
 
