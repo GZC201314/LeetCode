@@ -28,6 +28,9 @@ public class Solution202407 {
             case 486:
                 log.info(String.valueOf(predictTheWinner(new int[]{2, 4, 55, 6, 8})));
                 break;
+            case 1010:
+                log.info(String.valueOf(numPairsDivisibleBy60(new int[]{174, 188, 377, 437, 54, 498, 455, 239, 183, 347, 59, 199, 52, 488, 147, 82})));
+                break;
             case 494:
                 log.info(String.valueOf(findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3)));
                 break;
@@ -303,6 +306,7 @@ public class Solution202407 {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 Integer cur = queue.poll();
+                assert cur != null;
                 if (cur % 11 == 0) {
                     int newNum = cur / 11;
                     if (newNum == y) {
@@ -381,6 +385,21 @@ public class Solution202407 {
         }
         return curDay + 1 <= days;
 
+    }
+
+    /**
+     * 1010. 总持续时间可被 60 整除的歌曲
+     */
+    public static int numPairsDivisibleBy60(int[] time) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int ans = 0;
+        for (int i : time) {
+            int count = map.getOrDefault(i % 60, 0);
+            ans += count;
+            int needSum = (60 - (i % 60)) % 60;
+            map.put(needSum, map.getOrDefault(needSum,0) + 1);
+        }
+        return ans;
     }
 
 
