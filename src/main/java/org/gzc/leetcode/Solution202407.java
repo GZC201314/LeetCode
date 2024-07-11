@@ -29,7 +29,10 @@ public class Solution202407 {
                 log.info(String.valueOf(predictTheWinner(new int[]{2, 4, 55, 6, 8})));
                 break;
             case 494:
-                log.info(String.valueOf(findTargetSumWays(new int[]{1, 1, 1, 1, 1},3)));
+                log.info(String.valueOf(findTargetSumWays(new int[]{1, 1, 1, 1, 1}, 3)));
+                break;
+            case 1011:
+                log.info(String.valueOf(shipWithinDays(new int[]{3, 2, 2, 4, 1, 4}, 3)));
                 break;
             case 322:
                 log.info(String.valueOf(coinChange(new int[]{1, 2, 5}, 11)));
@@ -38,7 +41,7 @@ public class Solution202407 {
                 log.info(lastNonEmptyString("abcd"));
                 break;
             case 2998:
-                log.info(String.valueOf(minimumOperationsToMakeEqual(1,18)));
+                log.info(String.valueOf(minimumOperationsToMakeEqual(1, 18)));
                 break;
             default:
                 break;
@@ -106,7 +109,6 @@ public class Solution202407 {
     }
 
     /**
-     *
      * 486. 预测赢家
      */
     public static boolean predictTheWinner(int[] nums) {
@@ -196,7 +198,6 @@ public class Solution202407 {
 
 
     /**
-     *
      * 3033.修改矩阵
      */
     public static int[][] modifiedMatrix(int[][] matrix) {
@@ -208,11 +209,11 @@ public class Solution202407 {
             int max = 0;
             for (int j = 0; j < m; j++) {
                 max = Math.max(max, matrix[j][i]);
-                if (matrix[j][i] == -1){
+                if (matrix[j][i] == -1) {
                     indexs.add(new int[]{j, i});
                 }
             }
-            if (!indexs.isEmpty()){
+            if (!indexs.isEmpty()) {
                 for (int[] index : indexs) {
                     matrix[index[0]][index[1]] = max;
                 }
@@ -237,7 +238,7 @@ public class Solution202407 {
         for (int i = min; i <= amount; i++) {
             dp[i] = Integer.MAX_VALUE;
             for (int coin : coins) {
-                if (coin <= i){
+                if (coin <= i) {
                     if (dp[i - coin] == Integer.MAX_VALUE) {
                         continue;
                     }
@@ -266,11 +267,11 @@ public class Solution202407 {
         int max = 0;
         List<Character> maxChars = new ArrayList<>();
         for (int i = 0; i < 26; i++) {
-            if (charArr[i] > max){
+            if (charArr[i] > max) {
                 max = charArr[i];
                 maxChars.clear();
                 maxChars.add((char) (i + 'a'));
-            }else if (charArr[i] == max){
+            } else if (charArr[i] == max) {
                 maxChars.add((char) (i + 'a'));
             }
         }
@@ -290,7 +291,7 @@ public class Solution202407 {
      * 2998.使 X 和 Y 相等的最少操作次数
      */
     public static int minimumOperationsToMakeEqual(int x, int y) {
-        if (x == y){
+        if (x == y) {
             return 0;
         }
         Queue<Integer> queue = new ArrayDeque<>();
@@ -298,51 +299,89 @@ public class Solution202407 {
         int loop = 0;
         Set<Integer> visited = new HashSet<>();
         visited.add(x);
-        while (!queue.isEmpty()){
+        while (!queue.isEmpty()) {
             int size = queue.size();
             for (int i = 0; i < size; i++) {
                 Integer cur = queue.poll();
-                if (cur %11 ==0){
+                if (cur % 11 == 0) {
                     int newNum = cur / 11;
-                    if (newNum == y){
-                        return loop+1;
+                    if (newNum == y) {
+                        return loop + 1;
                     }
-                    if (!visited.contains(newNum)){
+                    if (!visited.contains(newNum)) {
                         visited.add(newNum);
                         queue.offer(newNum);
                     }
                 }
-                if (cur % 5 == 0){
+                if (cur % 5 == 0) {
                     int newNum = cur / 5;
-                    if (newNum == y){
-                        return loop+1;
+                    if (newNum == y) {
+                        return loop + 1;
                     }
-                    if (!visited.contains(newNum)){
+                    if (!visited.contains(newNum)) {
                         visited.add(newNum);
                         queue.offer(newNum);
                     }
                 }
                 int newNum = cur - 1;
-                if (newNum == y){
-                    return loop+1;
+                if (newNum == y) {
+                    return loop + 1;
                 }
-                if (!visited.contains(newNum)){
+                if (!visited.contains(newNum)) {
                     queue.offer(newNum);
                     visited.add(newNum);
                 }
                 newNum = cur + 1;
-                if (newNum == y){
-                    return loop+1;
+                if (newNum == y) {
+                    return loop + 1;
                 }
-                if (!visited.contains(newNum)){
+                if (!visited.contains(newNum)) {
                     visited.add(newNum);
                     queue.offer(newNum);
                 }
             }
             loop++;
         }
-
         return -1;
     }
+
+    /**
+     * 1011.在 D 天内送达包裹的能力
+     */
+    public static int shipWithinDays(int[] weights, int days) {
+        int max = 0;
+        int sum = 0;
+        for (int weight : weights) {
+            max = Math.max(max, weight);
+            sum += weight;
+        }
+        int left = max;
+        int right = sum;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (validShipWithinDays(weights, days, mid)) {
+                right = mid;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return left;
+    }
+
+    private static boolean validShipWithinDays(int[] weights, int days, int mid) {
+        int curDay = 0;
+        int sum = 0;
+        for (int weight : weights) {
+            if (sum + weight > mid) {
+                curDay++;
+                sum = weight;
+            } else {
+                sum += weight;
+            }
+        }
+        return curDay + 1 <= days;
+
+    }
+
 
 }
