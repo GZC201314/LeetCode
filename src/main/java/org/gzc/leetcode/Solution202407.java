@@ -40,6 +40,9 @@ public class Solution202407 {
             case 1011:
                 log.info(String.valueOf(shipWithinDays(new int[]{3, 2, 2, 4, 1, 4}, 3)));
                 break;
+            case 974:
+                log.info(String.valueOf(subarraysDivByK(new int[]{4, 5, 0, -2, -3, 1}, 5)));
+                break;
             case 322:
                 log.info(String.valueOf(coinChange(new int[]{1, 2, 5}, 11)));
                 break;
@@ -505,9 +508,25 @@ public class Solution202407 {
             }
         }
         return ans;
-
-
     }
 
+    /**
+     *
+     * 974. 和可被 K 整除的子数组
+     */
+    public static int subarraysDivByK(int[] nums, int k) {
+        Map<Integer, Integer> record = new HashMap<Integer, Integer>();
+        record.put(0, 1);
+        int presum = 0, ans = 0;
+        for (int elem : nums) {
+            presum += elem;
+            // 注意 Java 取模的特殊性，当被除数为负数时取模结果为负数，需要纠正
+            int modulus = (presum % k + k) % k;
+            int same = record.getOrDefault(modulus, 0);
+            ans += same;
+            record.put(modulus, same + 1);
+        }
+        return ans;
+    }
 
 }
