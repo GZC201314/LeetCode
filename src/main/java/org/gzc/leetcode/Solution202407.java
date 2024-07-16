@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.UnionFind;
 
 import java.text.ParseException;
 import java.util.*;
@@ -54,6 +55,12 @@ public class Solution202407 {
                 break;
             case 1006:
                 log.info(String.valueOf(clumsy(10)));
+                break;
+            case 721:
+                log.info(Arrays.deepToString(new List[]{accountsMerge(new ArrayList<>(Arrays.asList(
+                        new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john00@mail.com")),
+                        new ArrayList<>(Arrays.asList("John", "johnnybravo@mail.com")),
+                        new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john_newyork@mail.com")))))}));
                 break;
             default:
                 break;
@@ -515,18 +522,67 @@ public class Solution202407 {
      * 974. 和可被 K 整除的子数组
      */
     public static int subarraysDivByK(int[] nums, int k) {
-        Map<Integer, Integer> record = new HashMap<Integer, Integer>();
-        record.put(0, 1);
-        int presum = 0, ans = 0;
+        Map<Integer, Integer> count = new HashMap<>();
+        count.put(0, 1);
+        int preSum = 0;
+        int ans = 0;
         for (int elem : nums) {
-            presum += elem;
+            preSum += elem;
             // 注意 Java 取模的特殊性，当被除数为负数时取模结果为负数，需要纠正
-            int modulus = (presum % k + k) % k;
-            int same = record.getOrDefault(modulus, 0);
+            int modulus = (preSum % k + k) % k;
+            int same = count.getOrDefault(modulus, 0);
             ans += same;
-            record.put(modulus, same + 1);
+            count.put(modulus, same + 1);
         }
         return ans;
+    }
+
+    /**
+     * 721. 账户合并
+     */
+    public static List<List<String>> accountsMerge(List<List<String>> accounts) {
+        // 获取所有的邮箱，以及邮箱和用户对应的映射
+        Map<String, String> emailToName = new HashMap<>();
+        Map<String,Integer> emailToIndex = new HashMap<>();
+        int emailIndex = 0;
+        for (List<String> account : accounts) {
+            String name = account.get(0);
+            int size = account.size();
+            for (int i = 1; i < size; i++) {
+                String firstMail = account.get(i);
+                if (!emailToIndex.containsKey(firstMail)){
+                    emailToIndex.put(firstMail,emailIndex++);
+                    emailToName.put(firstMail,name);
+                }
+            }
+        }
+        // 构建并查集
+        UnionFind unionFind = new UnionFind(emailIndex);
+        for (List<String> account : accounts) {
+            String firstMail = account.get(1);
+            int size = account.size();
+            for (int i = 2; i < size; i++) {
+                unionFind.union(emailToIndex.get(firstMail),emailToIndex.get(account.get(i)),1);
+            }
+        }
+        Map<Integer, List<String>> indexToEmails = new HashMap<>();
+        emailToIndex.keySet().forEach(email -> {
+            int index = unionFind.find(emailToIndex.get(email));
+            List<String> emails = indexToEmails.getOrDefault(index, new ArrayList<>());
+            emails.add(email);
+            indexToEmails.put(index, emails);
+        });
+        List<List<String>> ans = new ArrayList<>();
+        for (Map.Entry<Integer, List<String>> emils : indexToEmails.entrySet()) {
+            List<String> emailArr = emils.getValue();
+            Collections.sort(emailArr);
+            List<String> ansItem = new ArrayList<>();
+            ansItem.add(emailToName.get(emailArr.get(0)));
+            ansItem.addAll(emailArr);
+            ans.add(ansItem);
+        }
+        return ans;
+
     }
 
 }
