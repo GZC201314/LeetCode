@@ -518,7 +518,6 @@ public class Solution202407 {
     }
 
     /**
-     *
      * 974. 和可被 K 整除的子数组
      */
     public static int subarraysDivByK(int[] nums, int k) {
@@ -543,16 +542,16 @@ public class Solution202407 {
     public static List<List<String>> accountsMerge(List<List<String>> accounts) {
         // 获取所有的邮箱，以及邮箱和用户对应的映射
         Map<String, String> emailToName = new HashMap<>();
-        Map<String,Integer> emailToIndex = new HashMap<>();
+        Map<String, Integer> emailToIndex = new HashMap<>();
         int emailIndex = 0;
         for (List<String> account : accounts) {
             String name = account.get(0);
             int size = account.size();
             for (int i = 1; i < size; i++) {
                 String firstMail = account.get(i);
-                if (!emailToIndex.containsKey(firstMail)){
-                    emailToIndex.put(firstMail,emailIndex++);
-                    emailToName.put(firstMail,name);
+                if (!emailToIndex.containsKey(firstMail)) {
+                    emailToIndex.put(firstMail, emailIndex++);
+                    emailToName.put(firstMail, name);
                 }
             }
         }
@@ -562,7 +561,7 @@ public class Solution202407 {
             String firstMail = account.get(1);
             int size = account.size();
             for (int i = 2; i < size; i++) {
-                unionFind.union(emailToIndex.get(firstMail),emailToIndex.get(account.get(i)),1);
+                unionFind.union(emailToIndex.get(firstMail), emailToIndex.get(account.get(i)), 1);
             }
         }
         Map<Integer, List<String>> indexToEmails = new HashMap<>();
@@ -583,6 +582,45 @@ public class Solution202407 {
         }
         return ans;
 
+    }
+
+    /**
+     * 884.两句话中的不常见单词
+     */
+    public String[] uncommonFromSentences(String s1, String s2) {
+        String[] s1Arr = s1.split(" ");
+        String[] s2Arr = s2.split(" ");
+        List<String> ans = new LinkedList<>();
+        Map<String, Integer> count = new HashMap<>();
+        Set<String> count1Set = new HashSet<>();
+        Set<String> count2Set = new HashSet<>();
+        Set<String> str1Set = new HashSet<>();
+        Set<String> str2Set = new HashSet<>();
+        for (String s : s1Arr) {
+            if (!str1Set.add(s)){
+                count1Set.remove(s);
+            }else {
+                count1Set.add(s);
+            }
+        }
+        for (String s : s2Arr) {
+            if (!str2Set.add(s)){
+                count2Set.remove(s);
+            }else {
+                count2Set.add(s);
+            }
+        }
+        for (String s : count1Set) {
+            if (!str2Set.contains(s)) {
+                ans.add(s);
+            }
+        }
+        for (String s : count2Set) {
+            if (!str1Set.contains(s)) {
+                ans.add(s);
+            }
+        }
+        return ans.toArray(new String[0]);
     }
 
 }
