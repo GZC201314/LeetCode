@@ -50,6 +50,12 @@ public class Solution202407 {
             case 3039:
                 log.info(lastNonEmptyString("abcd"));
                 break;
+            case 884:
+                log.info(Arrays.toString(uncommonFromSentences("abcd","abc d")));
+                break;
+            case 3112:
+                log.info(Arrays.toString(minimumTime(3,new int[][]{{0,1,2},{1,2,1},{0,2,4}},new int[]{1,1,5})));
+                break;
             case 2998:
                 log.info(String.valueOf(minimumOperationsToMakeEqual(1, 18)));
                 break;
@@ -587,11 +593,10 @@ public class Solution202407 {
     /**
      * 884.两句话中的不常见单词
      */
-    public String[] uncommonFromSentences(String s1, String s2) {
+    public static String[] uncommonFromSentences(String s1, String s2) {
         String[] s1Arr = s1.split(" ");
         String[] s2Arr = s2.split(" ");
         List<String> ans = new LinkedList<>();
-        Map<String, Integer> count = new HashMap<>();
         Set<String> count1Set = new HashSet<>();
         Set<String> count2Set = new HashSet<>();
         Set<String> str1Set = new HashSet<>();
@@ -621,6 +626,45 @@ public class Solution202407 {
             }
         }
         return ans.toArray(new String[0]);
+    }
+
+    /**
+     * 3112.访问消失节点的最少时间
+     */
+    public static int[] minimumTime(int n, int[][] edges, int[] disappear) {
+        List<int[]>[] adj = new List[n];
+        for (int i = 0; i < n; i++) {
+            adj[i] = new ArrayList<>();
+        }
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int length = edge[2];
+            adj[u].add(new int[]{v, length});
+            adj[v].add(new int[]{u, length});
+        }
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+        pq.offer(new int[]{0, 0});
+        int[] answer = new int[n];
+        Arrays.fill(answer, -1);
+        answer[0] = 0;
+        while (!pq.isEmpty()) {
+            int[] arr = pq.poll();
+            int t = arr[0];
+            int u = arr[1];
+            if (t != answer[u]) {
+                continue;
+            }
+            for (int[] next : adj[u]) {
+                int v = next[0];
+                int length = next[1];
+                if (t + length < disappear[v] && (answer[v] == -1 || t + length < answer[v])) {
+                    pq.offer(new int[]{t + length, v});
+                    answer[v] = t + length;
+                }
+            }
+        }
+        return answer;
     }
 
 }
