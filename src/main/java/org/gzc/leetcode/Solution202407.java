@@ -47,14 +47,17 @@ public class Solution202407 {
             case 322:
                 log.info(String.valueOf(coinChange(new int[]{1, 2, 5}, 11)));
                 break;
+            case 491:
+                log.info(String.valueOf(findSubsequences(new int[]{4, 6, 7, 7})));
+                break;
             case 3039:
                 log.info(lastNonEmptyString("abcd"));
                 break;
             case 884:
-                log.info(Arrays.toString(uncommonFromSentences("abcd","abc d")));
+                log.info(Arrays.toString(uncommonFromSentences("abcd", "abc d")));
                 break;
             case 3112:
-                log.info(Arrays.toString(minimumTime(3,new int[][]{{0,1,2},{1,2,1},{0,2,4}},new int[]{1,1,5})));
+                log.info(Arrays.toString(minimumTime(3, new int[][]{{0, 1, 2}, {1, 2, 1}, {0, 2, 4}}, new int[]{1, 1, 5})));
                 break;
             case 2998:
                 log.info(String.valueOf(minimumOperationsToMakeEqual(1, 18)));
@@ -602,16 +605,16 @@ public class Solution202407 {
         Set<String> str1Set = new HashSet<>();
         Set<String> str2Set = new HashSet<>();
         for (String s : s1Arr) {
-            if (!str1Set.add(s)){
+            if (!str1Set.add(s)) {
                 count1Set.remove(s);
-            }else {
+            } else {
                 count1Set.add(s);
             }
         }
         for (String s : s2Arr) {
-            if (!str2Set.add(s)){
+            if (!str2Set.add(s)) {
                 count2Set.remove(s);
-            }else {
+            } else {
                 count2Set.add(s);
             }
         }
@@ -665,6 +668,42 @@ public class Solution202407 {
             }
         }
         return answer;
+    }
+
+    // 定义全局变量保存结果
+    private static List<List<Integer>> res = new ArrayList<>();
+
+    /**
+     * 491. 非递减子序列
+     */
+    public static List<List<Integer>> findSubsequences(int[] nums) {
+        // idx 初始化为 -1，开始 dfs 搜索。
+        dfsFindSubsequences(nums, -1, new ArrayList<>());
+        return res;
+    }
+
+    private static void dfsFindSubsequences(int[] nums, int idx, List<Integer> curList) {
+        // 只要当前的递增序列长度大于 1，就加入到结果 res 中，然后继续搜索递增序列的下一个值。
+        if (curList.size() > 1) {
+            res.add(new ArrayList<>(curList));
+        }
+
+        // 在 [idx + 1, nums.length - 1] 范围内遍历搜索递增序列的下一个值。
+        // 借助 set 对 [idx + 1, nums.length - 1] 范围内的数去重。
+        Set<Integer> set = new HashSet<>();
+        for (int i = idx + 1; i < nums.length; i++) {
+            // 1. 如果 set 中已经有与 nums[i] 相同的值了，说明加上 nums[i] 后的所有可能的递增序列之前已经被搜过一遍了，因此停止继续搜索。
+            if (set.contains(nums[i])) {
+                continue;
+            }
+            set.add(nums[i]);
+            // 2. 如果 nums[i] >= nums[idx] 的话，说明出现了新的递增序列，因此继续 dfs 搜索（因为 curList 在这里是复用的，因此别忘了 remove 哦）
+            if (idx == -1 || nums[i] >= nums[idx]) {
+                curList.add(nums[i]);
+                dfsFindSubsequences(nums, i, curList);
+                curList.remove(curList.size() - 1);
+            }
+        }
     }
 
 }
