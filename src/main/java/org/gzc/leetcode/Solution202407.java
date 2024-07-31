@@ -41,6 +41,9 @@ public class Solution202407 {
             case 1011:
                 log.info(String.valueOf(shipWithinDays(new int[]{3, 2, 2, 4, 1, 4}, 3)));
                 break;
+            case 2859:
+                log.info(String.valueOf(sumIndicesWithKSetBits(Arrays.asList(5, 10, 1, 5, 2), 1)));
+                break;
             case 974:
                 log.info(String.valueOf(subarraysDivByK(new int[]{4, 5, 0, -2, -3, 1}, 5)));
                 break;
@@ -69,10 +72,7 @@ public class Solution202407 {
                 log.info(String.valueOf(clumsy(10)));
                 break;
             case 721:
-                log.info(Arrays.deepToString(new List[]{accountsMerge(new ArrayList<>(Arrays.asList(
-                        new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john00@mail.com")),
-                        new ArrayList<>(Arrays.asList("John", "johnnybravo@mail.com")),
-                        new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john_newyork@mail.com")))))}));
+                log.info(Arrays.deepToString(new List[]{accountsMerge(new ArrayList<>(Arrays.asList(new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john00@mail.com")), new ArrayList<>(Arrays.asList("John", "johnnybravo@mail.com")), new ArrayList<>(Arrays.asList("John", "johnsmith@mail.com", "john_newyork@mail.com")))))}));
                 break;
             default:
                 break;
@@ -728,7 +728,7 @@ public class Solution202407 {
                 }
             }
         }
-        // 以0开头的操作和以1开头的操作是互斥的
+        // 以0 开头的操作和以1 开头的操作是互斥的
         int head1 = len - head0;
         int ans = Math.min(head0, head1);
         // 进行移位操作
@@ -747,6 +747,28 @@ public class Solution202407 {
                 }
             }
             ans = Math.min(ans, Math.min(head0, head1));
+        }
+        return ans;
+    }
+
+
+    /**
+     * 2859. 计算 K 置位下标对应元素的和
+     */
+    public static int sumIndicesWithKSetBits(List<Integer> nums, int k) {
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++) {
+            int count = 0;
+            int num = i;
+            while (num > 0) {
+                if (num % 2 == 1) {
+                    count++;
+                }
+                num = num >> 1;
+            }
+            if (count == k) {
+                ans += nums.get(i);
+            }
         }
         return ans;
     }
