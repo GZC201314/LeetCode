@@ -50,6 +50,9 @@ public class Solution202407 {
             case 491:
                 log.info(String.valueOf(findSubsequences(new int[]{4, 6, 7, 7})));
                 break;
+            case 1888:
+                log.info(String.valueOf(minFlips("111000")));
+                break;
             case 3039:
                 log.info(lastNonEmptyString("abcd"));
                 break;
@@ -704,6 +707,48 @@ public class Solution202407 {
                 curList.remove(curList.size() - 1);
             }
         }
+    }
+
+    /**
+     * 1888. 使二进制字符串字符交替的最少反转次数
+     */
+    public static int minFlips(String s) {
+        int len = s.length();
+        boolean isEven = (len % 2 == 1);
+        // 不进行类型1操作，直接进行类型2操作，以0开头需要的最小次数
+        int head0 = 0;
+        for (int i = 0; i < len; i++) {
+            if (i % 2 == 0) {
+                if (s.charAt(i) == '1') {
+                    head0++;
+                }
+            } else {
+                if (s.charAt(i) == '0') {
+                    head0++;
+                }
+            }
+        }
+        // 以0开头的操作和以1开头的操作是互斥的
+        int head1 = len - head0;
+        int ans = Math.min(head0, head1);
+        // 进行移位操作
+        for (int i = 0; i < len; i++) {
+            if (s.charAt(i) == '1') {
+                int subLen = head0 - 1;
+                if (!isEven) {
+                    subLen++;
+                }
+                head1 = subLen;
+                head0 = len - head1;
+            } else {
+                if (isEven) {
+                    head1 = head0 + 1;
+                    head0 = len - head1;
+                }
+            }
+            ans = Math.min(ans, Math.min(head0, head1));
+        }
+        return ans;
     }
 
 }
