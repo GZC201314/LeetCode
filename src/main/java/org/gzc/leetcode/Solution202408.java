@@ -1,10 +1,10 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
-import org.gzc.leetcode.model.UnionFind;
 
-import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 /**
@@ -17,6 +17,9 @@ public class Solution202408 {
         Scanner input = new Scanner(System.in);
         int questionNum = input.nextInt();
         switch (questionNum) {
+            case 2207:
+                log.info(String.valueOf(maximumSubsequenceCount("aabb", "ab")));
+                break;
             default:
                 break;
 
@@ -25,15 +28,18 @@ public class Solution202408 {
 
     }
 
-
-    public long maximumSubsequenceCount(String text, String pattern) {
+    /**
+     * 2207. 字符串中最多数目的子序列
+     */
+    public static long maximumSubsequenceCount(String text, String pattern) {
         List<Integer> list1 = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
         char[] charArray = text.toCharArray();
         for (int i = 0; i < charArray.length; i++) {
             if (charArray[i] == pattern.charAt(0)) {
                 list1.add(i);
-            } else {
+            }
+            if (charArray[i] == pattern.charAt(1)) {
                 list2.add(i);
             }
         }
@@ -44,6 +50,7 @@ public class Solution202408 {
                 if (index < list2.get(i)) {
                     ans += list2.size()-i;
                     curIndex = i;
+                    break;
                 }
             }
         }
