@@ -20,6 +20,9 @@ public class Solution202408 {
             case 2207:
                 log.info(String.valueOf(maximumSubsequenceCount("aabb", "ab")));
                 break;
+            case 1954:
+                log.info(String.valueOf(minimumPerimeter(13)));
+                break;
             default:
                 break;
 
@@ -43,19 +46,30 @@ public class Solution202408 {
                 list2.add(i);
             }
         }
-        long ans =0;
+        long ans = 0;
         int curIndex = 0;
         for (Integer index : list1) {
             for (int i = curIndex; i < list2.size(); i++) {
                 if (index < list2.get(i)) {
-                    ans += list2.size()-i;
+                    ans += list2.size() - i;
                     curIndex = i;
                     break;
                 }
             }
         }
-        return ans+ Math.max(list1.size(),list2.size());
+        return ans + Math.max(list1.size(), list2.size());
+    }
 
+    /**
+     * 1954. 收集足够苹果的最小花园周长
+     */
+    public static long minimumPerimeter(long neededApples) {
+        // 前n个花园的苹果的个数 appleNum = 2i*(i+1)*(2i+1)
+        long i = 0;
+        while (2 * i * (i + 1) * (2 * i + 1) < neededApples) {
+            i++;
+        }
+        return (i * 2) * 4;
     }
 
 
