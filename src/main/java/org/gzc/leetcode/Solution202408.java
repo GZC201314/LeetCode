@@ -23,6 +23,9 @@ public class Solution202408 {
             case 1954:
                 log.info(String.valueOf(minimumPerimeter(13)));
                 break;
+            case 3129:
+                log.info(String.valueOf(numberOfStableArrays(1, 2, 1)));
+                break;
             default:
                 break;
 
@@ -70,6 +73,28 @@ public class Solution202408 {
             i++;
         }
         return (i * 2) * 4;
+    }
+
+    /**
+     * 3129. 找出所有稳定的二进制数组 I
+     */
+    public static int numberOfStableArrays(int zero, int one, int limit) {
+        final int mod = 1_000_000_007;
+        int[][][] f = new int[zero + 1][one + 1][2];
+        for (int i = 1; i <= Math.min(limit, zero); i++) {
+            f[i][0][0] = 1;
+        }
+        for (int j = 1; j <= Math.min(limit, one); j++) {
+            f[0][j][1] = 1;
+        }
+        for (int i = 1; i <= zero; i++) {
+            for (int j = 1; j <= one; j++) {
+                // + mod 保证答案非负
+                f[i][j][0] = (int) (((long) f[i - 1][j][0] + f[i - 1][j][1] + (i > limit ? mod - f[i - limit - 1][j][1] : 0)) % mod);
+                f[i][j][1] = (int) (((long) f[i][j - 1][0] + f[i][j - 1][1] + (j > limit ? mod - f[i][j - limit - 1][0] : 0)) % mod);
+            }
+        }
+        return (f[zero][one][0] + f[zero][one][1]) % mod;
     }
 
 
