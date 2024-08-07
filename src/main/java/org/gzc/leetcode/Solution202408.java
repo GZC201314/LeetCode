@@ -1,10 +1,9 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.TreeNode;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 /**
@@ -25,6 +24,11 @@ public class Solution202408 {
                 break;
             case 3129:
                 log.info(String.valueOf(numberOfStableArrays(1, 2, 1)));
+                break;
+            case 2385:
+                TreeNode root = new TreeNode(1);
+                root.left = new TreeNode(2,null,new TreeNode(3,null,new TreeNode(4,null,new TreeNode(5))));
+                log.info(String.valueOf(amountOfTime(root,1)));
                 break;
             default:
                 break;
@@ -95,6 +99,89 @@ public class Solution202408 {
             }
         }
         return (f[zero][one][0] + f[zero][one][1]) % mod;
+    }
+
+    /**
+     * 2385. 感染二叉树需要的总时间
+     */
+    public static int amountOfTime(TreeNode root, int start) {
+        Map<TreeNode, TreeNode> parentNode = new HashMap<>();
+        Set<TreeNode> used = new HashSet<>();
+        // 广度优先遍历
+        TreeNode startNode = null;
+        Deque<TreeNode> deque = new LinkedList<>();
+        deque.add(root);
+
+        if (root.val == start){
+            startNode = root;
+            used.add(startNode);
+        }
+        int count = 0;
+        while (!deque.isEmpty()){
+            int size = deque.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode parent = deque.pollLast();
+
+                TreeNode left = parent.left;
+                TreeNode right = parent.right;
+                if (left != null){
+                    count++;
+                    parentNode.put(left,parent);
+                    deque.push(left);
+                    if (left.val == start){
+                        used.add(left);
+                        startNode = left;
+                    }
+                }
+                if (right != null){
+                    count++;
+                    parentNode.put(right,parent);
+                    deque.push(right);
+                    if (right.val == start){
+                        used.add(right);
+                        startNode = right;
+                    }
+                }
+            }
+        }
+        // 开始感染
+        int curCount = 0;
+        int minutes = 0;
+        Deque<TreeNode> sideNode = new LinkedList<>();
+        sideNode.push(startNode);
+        while (curCount < count){
+            int size = sideNode.size();
+            minutes++;
+            for (int i = 0; i < size; i++) {
+                // 找到子孙和父节点开始感染
+                // 父节点
+                TreeNode treeNode = sideNode.pollLast();
+                TreeNode parent = parentNode.get(treeNode);
+                if (parent != null && !used.contains(parent)){
+                    sideNode.push(parent);
+                    used.add(parent);
+                    curCount++;
+                }
+                assert treeNode != null;
+                TreeNode left = treeNode.left;
+                if (left!=null && !used.contains(left)){
+                    sideNode.push(left);
+                    used.add(left);
+                    curCount++;
+                }
+                TreeNode right = treeNode.right;
+                if (right != null && !used.contains(right)){
+                    sideNode.push(right);
+                    used.add(right);
+                    curCount++;
+                }
+
+            }
+        }
+        return minutes;
+
+
+
     }
 
 
