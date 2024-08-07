@@ -122,6 +122,7 @@ public class Solution202408 {
             for (int i = 0; i < size; i++) {
                 TreeNode parent = deque.pollLast();
 
+                assert parent != null;
                 TreeNode left = parent.left;
                 TreeNode right = parent.right;
                 if (left != null){
