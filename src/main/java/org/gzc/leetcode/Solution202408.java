@@ -1,6 +1,7 @@
 package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
+import org.gzc.leetcode.model.MagicDictionary;
 import org.gzc.leetcode.model.TreeNode;
 
 import java.util.*;
@@ -27,8 +28,11 @@ public class Solution202408 {
                 break;
             case 2385:
                 TreeNode root = new TreeNode(1);
-                root.left = new TreeNode(2,null,new TreeNode(3,null,new TreeNode(4,null,new TreeNode(5))));
-                log.info(String.valueOf(amountOfTime(root,1)));
+                root.left = new TreeNode(2, null, new TreeNode(3, null, new TreeNode(4, null, new TreeNode(5))));
+                log.info(String.valueOf(amountOfTime(root, 1)));
+                break;
+            case 2155:
+                log.info(String.valueOf(maxScoreIndices(new int[]{0, 0, 0})));
                 break;
             default:
                 break;
@@ -37,6 +41,47 @@ public class Solution202408 {
 
 
     }
+
+    /**
+     * 2155. 分组得分最高的所有下标
+     */
+    public static List<Integer> maxScoreIndices(int[] nums) {
+        int[] zeroOne = new int[2];
+        int ans = 0;
+        Map<Integer, List<Integer>> count = new HashMap<>();
+        for (int num : nums) {
+            if (num == 0) {
+                zeroOne[0]++;
+            } else {
+                zeroOne[1]++;
+            }
+        }
+        ans = zeroOne[1];
+        count.put(zeroOne[1], new ArrayList<>(Arrays.asList(0)));
+
+
+        int[] curCount = new int[2];
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0) {
+                curCount[0]++;
+            } else {
+                curCount[1]++;
+            }
+            int score = curCount[0] + zeroOne[1] - curCount[1];
+            if (score > ans) {
+                List<Integer> cur = new ArrayList<>();
+                cur.add(i + 1);
+                count.put(score, cur);
+                ans = score;
+            } else if (score == ans) {
+                List<Integer> cur = count.get(score);
+                cur.add(i + 1);
+            }
+
+        }
+        return count.get(ans);
+    }
+
 
     /**
      * 2207. 字符串中最多数目的子序列
@@ -112,12 +157,12 @@ public class Solution202408 {
         Deque<TreeNode> deque = new LinkedList<>();
         deque.add(root);
 
-        if (root.val == start){
+        if (root.val == start) {
             startNode = root;
             used.add(startNode);
         }
         int count = 0;
-        while (!deque.isEmpty()){
+        while (!deque.isEmpty()) {
             int size = deque.size();
             for (int i = 0; i < size; i++) {
                 TreeNode parent = deque.pollLast();
@@ -125,20 +170,20 @@ public class Solution202408 {
                 assert parent != null;
                 TreeNode left = parent.left;
                 TreeNode right = parent.right;
-                if (left != null){
+                if (left != null) {
                     count++;
-                    parentNode.put(left,parent);
+                    parentNode.put(left, parent);
                     deque.push(left);
-                    if (left.val == start){
+                    if (left.val == start) {
                         used.add(left);
                         startNode = left;
                     }
                 }
-                if (right != null){
+                if (right != null) {
                     count++;
-                    parentNode.put(right,parent);
+                    parentNode.put(right, parent);
                     deque.push(right);
-                    if (right.val == start){
+                    if (right.val == start) {
                         used.add(right);
                         startNode = right;
                     }
@@ -150,7 +195,7 @@ public class Solution202408 {
         int minutes = 0;
         Deque<TreeNode> sideNode = new LinkedList<>();
         sideNode.push(startNode);
-        while (curCount < count){
+        while (curCount < count) {
             int size = sideNode.size();
             minutes++;
             for (int i = 0; i < size; i++) {
@@ -158,20 +203,20 @@ public class Solution202408 {
                 // 父节点
                 TreeNode treeNode = sideNode.pollLast();
                 TreeNode parent = parentNode.get(treeNode);
-                if (parent != null && !used.contains(parent)){
+                if (parent != null && !used.contains(parent)) {
                     sideNode.push(parent);
                     used.add(parent);
                     curCount++;
                 }
                 assert treeNode != null;
                 TreeNode left = treeNode.left;
-                if (left!=null && !used.contains(left)){
+                if (left != null && !used.contains(left)) {
                     sideNode.push(left);
                     used.add(left);
                     curCount++;
                 }
                 TreeNode right = treeNode.right;
-                if (right != null && !used.contains(right)){
+                if (right != null && !used.contains(right)) {
                     sideNode.push(right);
                     used.add(right);
                     curCount++;
@@ -180,7 +225,6 @@ public class Solution202408 {
             }
         }
         return minutes;
-
 
 
     }
