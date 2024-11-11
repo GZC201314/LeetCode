@@ -34,11 +34,12 @@ public class Solution202411 {
         long res = 0;
         Map<Integer, Integer> map = new HashMap<>();
         for (int i = 0; i < n; i++) {
-            if (map.containsKey(nums[i] - i)) {
-                res += map.get(nums[i] - i);
-                map.put(nums[i] - i, map.get(nums[i] - i) + 1);
+            int count = nums[i] - i;
+            if (map.containsKey(count)) {
+                res += map.get(count);
+                map.put(count, map.get(count) + 1);
             } else {
-                map.put(nums[i] - i, 1);
+                map.put(count, 1);
             }
         }
         return ((long) n * (n - 1)) / 2 - res;
