@@ -21,6 +21,9 @@ public class Solution202411 {
             case 491:
                 log.info(String.valueOf(findSubsequences(new int[]{4, 6, 7, 7})));
                 break;
+            case 529:
+                log.info(Arrays.deepToString(updateBoard(new char[][]{{'E', 'E', 'E', 'E', 'E'}, {'E', 'E', 'M', 'E', 'E'}, {'E', 'E', 'E', 'E', 'E'}, {'E', 'E', 'E', 'E', 'E'}}, new int[]{3, 0})));
+                break;
             default:
                 break;
 
@@ -80,8 +83,72 @@ public class Solution202411 {
         }
     }
 
-}
+    /**
+     *
+     * 529.扫雷游戏
+     */
+    public static char[][] updateBoard(char[][] board, int[] click) {
 
+        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
+        if (board[click[0]][click[1]] == 'M'){
+            board[click[0]][click[1]] = 'X';
+            return board;
+        }
+        dfsOpen(board, click[0], click[1], dirs);
+        return board;
+    }
+
+    // 递归打开覆盖的地图
+    private static void dfsOpen(char[][] board, int x, int y, int[][] dirs) {
+        if (x < 0 || x >= board.length || y < 0 || y >= board[0].length) {
+            return;
+        }
+        // 如果当前块已经打开了
+        if (board[x][y] != 'E' && board[x][y] != 'M') {
+            return;
+        }
+        getDisPlay(board, x, y, dirs);
+        if (board[x][y] == 'B'){
+            for (int[] dir : dirs) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if (newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length) {
+                    dfsOpen(board, newX, newY, dirs);
+                }
+            }
+        }
+
+
+    }
+
+    private static void getDisPlay(char[][] board, int x, int y, int[][] dirs) {
+        // 如果是地雷的话，更新board为X
+        if (board[x][y] == 'M') {
+            board[x][y] = 'X';
+            return;
+        }
+        //如果是空方格的话 遍历周围8个格子
+        if (board[x][y] == 'E') {
+            int cnt = 0;
+            for (int[] dir : dirs) {
+                int newX = x + dir[0];
+                int newY = y + dir[1];
+                if (newX >= 0 && newX < board.length && newY >= 0 && newY < board[0].length) {
+                    // 如果是地雷就加一
+                    if (board[newX][newY] == 'M' || board[newX][newY] == 'X') {
+                        cnt++;
+                    }
+                }
+            }
+            if (cnt > 0) {
+                board[x][y] = (char) (cnt + '0');
+            } else {
+                board[x][y] = 'B';
+            }
+        }
+    }
+
+}
 
 
 
