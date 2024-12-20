@@ -22,6 +22,9 @@ public class Solution202412 {
             case 424:
                 log.info(String.valueOf(characterReplacement("EOEMQLLQTRQDDCOERARHGAAARRBKCCMFTDAQOLOKARBIJBISTGNKBQGKKTALSQNFSABASNOPBMMGDIOETPTDICRBOMBAAHINTFLH", 7)));
                 break;
+            case 438:
+                log.info(String.valueOf(findAnagrams("abab", "ab")));
+                break;
             default:
                 break;
 
@@ -108,11 +111,11 @@ public class Solution202412 {
         int left = 0;
         int right = 0;
         int length = s.length();
-        int sameMax =0;
+        int sameMax = 0;
         char[] charArray = s.toCharArray();
         int[] counter = new int[26];
         while (right < length) {
-            counter[charArray[right]-'A']++;
+            counter[charArray[right] - 'A']++;
             sameMax = Math.max(sameMax, counter[charArray[right] - 'A']);
             right++;
             if (right - left - sameMax > k) {
@@ -121,6 +124,36 @@ public class Solution202412 {
             }
         }
         return right - left;
+    }
+
+    /**
+     * 438. 找到字符串中所有字母异位词
+     */
+    public static List<Integer> findAnagrams(String s, String p) {
+        List<Integer> ans = new ArrayList<>();
+        int[] pCount = new int[26];
+        for (int i = 0; i < p.length(); i++) {
+            pCount[p.charAt(i) - 'a']++;
+        }
+        int[] curCount = new int[26];
+        int left = 0;
+        int right = 0;
+        while (right < s.length()) {
+            if (right - left <= p.length()) {
+                curCount[s.charAt(right) - 'a']++;
+                right++;
+                if (right - left == p.length()) {
+                    if (Arrays.equals(pCount, curCount)) {
+                        ans.add(left);
+                    }
+                    curCount[s.charAt(left++) - 'a']--;
+                }
+            } else if (right - left > p.length()) {
+                curCount[s.charAt(left) - 'a']--;
+                left++;
+            }
+        }
+        return ans;
     }
 
 }
