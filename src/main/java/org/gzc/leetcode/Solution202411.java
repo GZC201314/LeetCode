@@ -24,6 +24,10 @@ public class Solution202411 {
             case 529:
                 log.info(Arrays.deepToString(updateBoard(new char[][]{{'E', 'E', 'E', 'E', 'E'}, {'E', 'E', 'M', 'E', 'E'}, {'E', 'E', 'E', 'E', 'E'}, {'E', 'E', 'E', 'E', 'E'}}, new int[]{3, 0})));
                 break;
+            case 419:
+                char[][] board = {{'X', '.', '.', 'X'}, {'.', '.', '.', 'X'}, {'.', '.', '.', 'X'}};
+                log.info(String.valueOf(countBattleships(board)));
+
             default:
                 break;
 
@@ -84,13 +88,12 @@ public class Solution202411 {
     }
 
     /**
-     *
      * 529.扫雷游戏
      */
     public static char[][] updateBoard(char[][] board, int[] click) {
 
         int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}, {1, 1}, {1, -1}, {-1, 1}, {-1, -1}};
-        if (board[click[0]][click[1]] == 'M'){
+        if (board[click[0]][click[1]] == 'M') {
             board[click[0]][click[1]] = 'X';
             return board;
         }
@@ -108,7 +111,7 @@ public class Solution202411 {
             return;
         }
         getDisPlay(board, x, y, dirs);
-        if (board[x][y] == 'B'){
+        if (board[x][y] == 'B') {
             for (int[] dir : dirs) {
                 int newX = x + dir[0];
                 int newY = y + dir[1];
@@ -148,7 +151,58 @@ public class Solution202411 {
         }
     }
 
+    /**
+     * 419. 棋盘上的战舰
+     */
+    public static int countBattleships(char[][] board) {
+        int res = 0;
+        int m = board.length;
+        int n = board[0].length;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'X') {
+                    res++;
+                    // 扩展设置成‘.'
+                    // 1. 横向扩展
+                    // 1.1 向左扩展
+                    int tempJ = j;
+                    while (tempJ >= 0 && board[i][tempJ] == 'X') {
+                        board[i][tempJ] = '.';
+                        tempJ--;
+                    }
+                    // 1.2 向右扩展
+                    board[i][j] = 'X';
+                    tempJ = j;
+                    while (tempJ < n && board[i][tempJ] == 'X') {
+                        board[i][tempJ] = '.';
+                        tempJ++;
+                    }
+
+                    // 2. 纵向扩展
+                    // 2.1 向上扩展
+                    board[i][j] = 'X';
+                    int tempI = i;
+                    while (tempI >= 0 && board[tempI][j] == 'X') {
+                        board[tempI][j] = '.';
+                        tempI--;
+                    }
+                    // 2.2 向下扩展
+                    board[i][j] = 'X';
+                    tempI = i;
+                    while (tempI < m && board[tempI][j] == 'X') {
+                        board[tempI][j] = '.';
+                        tempI++;
+                    }
+                    j = tempJ;
+
+                }
+            }
+        }
+
+        return res;
+    }
 }
+
 
 
 
