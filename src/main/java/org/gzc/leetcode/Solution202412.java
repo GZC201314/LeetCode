@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.security.auth.callback.CallbackHandler;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -27,6 +28,12 @@ public class Solution202412 {
                 break;
             case 567:
                 log.info(String.valueOf(checkInclusion("ab", "eidboaoo")));
+                break;
+            case 658:
+                int[] arr = {1, 2, 3, 4, 5};
+                int k = 4;
+                int x = 3;
+                log.info(String.valueOf(findClosestElements(arr, k, x)));
                 break;
             default:
                 break;
@@ -160,7 +167,6 @@ public class Solution202412 {
     }
 
     /**
-     *
      * 567. 字符串的排列
      */
     public static boolean checkInclusion(String s1, String s2) {
@@ -187,6 +193,39 @@ public class Solution202412 {
 
         return false;
 
+    }
+
+    /**
+     * 658. 找到 K 个最接近的元素
+     */
+    public static List<Integer> findClosestElements(int[] arr, int k, int x) {
+        List<Integer> ans = new ArrayList<>();
+        List<Integer> curAns = new ArrayList<>();
+        int left = 0;
+        int min = Integer.MAX_VALUE;
+        int count = 0;
+        int right = 0;
+        while (right < arr.length) {
+            if (right - left < k) {
+                int abs = Math.abs(arr[right] - x);
+                count += abs;
+                curAns.add(arr[right]);
+                right++;
+            } else {
+                if (min > count) {
+                    ans = new ArrayList<>(curAns);
+                    min = count;
+                }
+                count -= Math.abs(curAns.get(0) - x);
+                curAns.remove(0);
+                left++;
+
+            }
+        }
+        if (min > count) {
+            ans = new ArrayList<>(curAns);
+        }
+        return ans;
     }
 
 
