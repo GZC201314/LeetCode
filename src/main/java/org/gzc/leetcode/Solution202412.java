@@ -2,9 +2,7 @@ package org.gzc.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.security.auth.callback.CallbackHandler;
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 /**
@@ -37,6 +35,9 @@ public class Solution202412 {
                 break;
             case 718:
                 log.info(String.valueOf(findLength(new int[]{1, 2, 3, 2, 1}, new int[]{3, 2, 1, 4, 7})));
+                break;
+            case 837:
+                log.info(String.valueOf(new21Game(1, 10, 20)));
                 break;
             default:
                 break;
@@ -261,6 +262,41 @@ public class Solution202412 {
         }
         return max;
     }
+
+    /**
+     * 837. 新21点
+     */
+    public static double new21Game(int n, int k, int maxPts) {
+        // 如果 k 为 0 或 n 大于等于 k + maxPts，爱丽丝必然能得分不超过 n
+        if (k == 0 || n >= k + maxPts) {
+            return 1.0;
+        }
+        // 动态规划数组，用于存储每个得分的概率
+        double[] dp = new double[n + 1];
+        dp[0] = 1.0; // 初始情况下，得分为 0 的概率是 1
+
+        double windowSum = 1.0; // 窗口内的概率和
+        double result = 0.0; // 最终结果
+        // 从 1 分开始计算到 n 分的概率
+        for (int i = 1; i <= n; i++) {
+            // 当前分数的概率来源于前 maxPts 个分数的概率之和
+            dp[i] = windowSum / maxPts;
+            // 如果当前分数在 [k, n] 范围内，则将其概率加到结果中
+            if (i >= k) {
+                result += dp[i];
+            }
+            // 更新窗口和：将当前分数的概率加入窗口
+            if (i < k) {
+                windowSum += dp[i];
+            }
+            // 如果窗口大小超过 maxPts，移除窗口外的分数的概率
+            if (i >= maxPts) {
+                windowSum -= dp[i - maxPts];
+            }
+        }
+        return result;
+    }
+
 
 
 }
